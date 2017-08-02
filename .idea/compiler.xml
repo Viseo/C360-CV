@@ -8,12 +8,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="C360-CV (1)" />
         <module name="cv-backend" />
+        <module name="cv-frontend" />
         <module name="spring-petclinic-client (1)" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
       <module name="C360-CV" target="1.8" />
       <module name="cv-backend" target="1.8" />
+      <module name="cv-frontend" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
