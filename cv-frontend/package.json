@@ -1,8 +1,7 @@
 {
-  "name": "cv-fronted",
+  "name": "cv-frontend",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "Julien Bordeneuve <julien.bordeneuve@parts-advisor.com>",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",

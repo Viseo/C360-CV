@@ -69,7 +69,6 @@
     line-height: 5em;
     text-align: center;
   }
-
   .download-all{
     width:10em;
     height:2em;

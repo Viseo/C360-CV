@@ -433,30 +433,29 @@
         if(this.checkSubmitConnexion()) {
           let mail = document.getElementById("EmaillogInForm").value;
           let password = document.getElementById("Mot de passelogInForm").value;
-          let data = {
-            mail: mail,
-            password: password
-          };
 
+          axios.get('http://cv360-dev.lan:8061/api/login', {
+            params: {
+              mail: mail,
+              password: password
+            }
+          })
+          .then((response) => {
+            if (response) {
+              window.location.href = '/mycv';
+            }
+            else {
+              this.connexionFailed = true;
+            }
+          })
+          .catch((error) => {
+            console.log(error, "pouf");
+          });
 
-
-//          axios.post('http://cv360-dev.lan:8081/login', data)
-//            .then((response) => {
-//              if (response) {
-//                window.location.href = '/mycv';
-//              }
-//              else {
-//                this.connexionFailed = true;
-//              }
-//            })
-//            .catch((error) => {
-//              console.log(error,data);
-//            });
-
-          let xhr = new XMLHttpRequest();
-          xhr.open('POST', 'http://localhost:8081/login',true);
-          xhr.setRequestHeader("Content-type", "application/json");
-          xhr.send(data);
+//          let xhr = new XMLHttpRequest();
+//          xhr.open('GET', 'http://cv360-dev.lan:8061/api/login',true);
+//          xhr.setRequestHeader("Content-type", "application/json");
+//          xhr.send(data);
         }
         else{
             alert("Remplir tous les champs");
