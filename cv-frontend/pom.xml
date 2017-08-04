@@ -11,7 +11,7 @@
   </parent>
 
   <artifactId>cv-frontend</artifactId>
-  <name>C360 :: CV - Fronted</name>
+  <name>C360 :: CV - Frontend</name>
 
   <properties>
     <node.version>v8.2.1</node.version>

@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS USERS(
   id  SERIAL PRIMARY KEY,
   first_name VARCHAR(125),
   last_name VARCHAR(125),
-  mail VARCHAR,
+  mail  VARCHAR(125),
   login VARCHAR(7) NOT NULL,
   birth_date DATE,
   hobbies VARCHAR(50),

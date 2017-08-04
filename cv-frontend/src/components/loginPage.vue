@@ -441,7 +441,10 @@
             }
           })
           .then((response) => {
+//            console.log(response, 'coucou')
+
             if (response) {
+//              alert('okok')
               window.location.href = '/mycv';
             }
             else {
@@ -467,18 +470,18 @@
           let code = document.getElementById("Code de loginsignInForm").value;
           let name = document.getElementById("NomsignInForm").value;
           let firstName = document.getElementById("PrénomsignInForm").value;
-          let password = document.getElementById("EmailsignInForm").value;
-          let mail = document.getElementById("Mot de passesignInForm").value;
+          let password = document.getElementById("Mot de passesignInForm").value;
+          let mail = document.getElementById("EmailsignInForm").value;
 
           let data = {
-            code:code,
+            login:code,
             lastName:name,
             firstName:firstName,
             password:password,
             mail:mail
           };
 
-          axios.post('/register',data)
+          axios.post('/api/register', data)
             .then((response)=>{
               if(response){
                 console.log("registered");
