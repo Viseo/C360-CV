@@ -24,7 +24,14 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public UserDto exist(String mail, String password) {
 
-        return userToDtoConverter.convert(accountDAO.findByCredential(mail, password));
+        UsersEntity usersEntity = accountDAO.findByCredential(mail, password);
+
+        if (null != usersEntity){
+            return userToDtoConverter.convert(usersEntity);
+        }
+
+
+        return new UserDto(mail,password);
     }
 
     @Override

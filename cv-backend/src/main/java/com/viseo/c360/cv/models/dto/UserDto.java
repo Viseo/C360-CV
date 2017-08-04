@@ -5,6 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 
 public class UserDto {
+    public UserDto(String mail, String password) {
+        this.mail = mail;
+        this.password = password;
+    }
 
     @JsonProperty(value = "login")
     private String login;
