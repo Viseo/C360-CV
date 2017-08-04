@@ -73,7 +73,6 @@
   };
 
   axios.get('/api/getUser', {
-
     })
     .then(function (response) {
       initInfoPerso=response;
@@ -90,9 +89,7 @@
     {id: 4, name : "Viseo Technologies",beginDate:"08/08/2016",endDate:"01/02/2017",client: 'Samsung', domain:'TELECOMS', description: '', type: 'Mission',keyword:[]},
     {id: 5, name : "Chez moi",beginDate:"06/05/2017",endDate:"",client: '',  domain:'',description: 'Multitudine resistente multitudine capesseret est.', type: 'Séminaire',keyword:[]},
     {id: 6, name : "Viseo Technologies",beginDate:"08/08/2016",endDate:"01/02/2017",client: 'Dell', domain:'DISTRIBUTION', description: 'Multitudine resistente multitudine capesseret est.', type: 'Mission',keyword:[]}
-
   ];
-
 
   export default {
     components: {
@@ -272,7 +269,6 @@
     background-color: #A8A8A8;
     opacity: 0.7;
   }
-
 
   .closePDF {
     z-index:11;

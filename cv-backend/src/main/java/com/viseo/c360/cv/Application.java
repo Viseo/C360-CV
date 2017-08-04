@@ -3,6 +3,7 @@
  */
 package com.viseo.c360.cv;
 
+import com.viseo.c360.cv.converters.UserToDtoConverter;
 import com.viseo.c360.cv.converters.UserToEntityConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -21,6 +22,11 @@ public class Application {
     @Bean
     public UserToEntityConverter userToEntityConverter() {
         return new UserToEntityConverter();
+    }
+
+    @Bean
+    public UserToDtoConverter userToDtoConverter() {
+        return new UserToDtoConverter();
     }
 
     public static void main(String[] args) {

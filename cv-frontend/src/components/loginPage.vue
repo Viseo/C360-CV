@@ -440,7 +440,6 @@
             }
           })
           .then((response) => {
-//            console.log(response, 'coucou')
 
             if (response) {
 //              alert('okok')

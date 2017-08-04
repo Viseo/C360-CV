@@ -5,7 +5,6 @@
 package com.viseo.c360.cv.controllers;
 
 import com.viseo.c360.cv.models.dto.UserDto;
-import com.viseo.c360.cv.models.entities.UsersEntity;
 import com.viseo.c360.cv.services.AccountService;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +25,14 @@ public class AccountController {
     private AccountService accountService;
 
     @RequestMapping("/login")
-    public UsersEntity login(@RequestParam(value="mail")     @NotEmpty String mail,
-                             @RequestParam(value="password") @NotEmpty String password) {
+    public UserDto login(@RequestParam(value = "mail") @NotEmpty String mail,
+                         @RequestParam(value = "password") @NotEmpty String password) {
 
         return this.accountService.exist(mail, password);
     }
 
     @RequestMapping(path = "/register", method = POST)
-    public UsersEntity register(@RequestBody @Valid UserDto user) {
+    public UserDto register(@RequestBody @Valid UserDto user) {
 
         return this.accountService.add(user);
     }

@@ -29,7 +29,7 @@
   import listCollab from "./adminPageComponents/listCollab.vue"
   import curriPDF from './PDF/curriculumPDF.vue'
   import axios from 'axios'
-
+  // TODO : Unmock dataset
   let collab = [
     {name:"Naulin",firstName:"Thomas",experience:2, poste:"Sénior",picture:"../../static/ReverseFlash_wallapaper.png",
       telephone: '0154879565', email:'thomas.naulin@viseo.com', hobbies: 'pictor',languages:'Anglais', clients:["Orange","Alten"],skills:["Mobile","Web"]},

@@ -1,5 +1,6 @@
 package com.viseo.c360.cv.services;
 
+import com.viseo.c360.cv.converters.UserToDtoConverter;
 import com.viseo.c360.cv.converters.UserToEntityConverter;
 import com.viseo.c360.cv.models.dto.UserDto;
 import com.viseo.c360.cv.models.entities.UsersEntity;
@@ -17,16 +18,20 @@ public class AccountServiceImpl implements AccountService{
     @Autowired
     private UserToEntityConverter userToEntityConverter;
 
-    @Override
-    public UsersEntity exist(String mail, String password) {
+    @Autowired
+    private UserToDtoConverter userToDtoConverter;
 
-        return accountDAO.findByCredential(mail, password);
+    @Override
+    public UserDto exist(String mail, String password) {
+
+        return userToDtoConverter.convert(accountDAO.findByCredential(mail, password));
     }
 
     @Override
-    public UsersEntity add(UserDto user) {
+    public UserDto add(UserDto user) {
 
+        UsersEntity usersEntity = userToEntityConverter.convert(user);
 
-        return accountDAO.save(userToEntityConverter.convert(user));
+        return userToDtoConverter.convert(accountDAO.save(usersEntity));
     }
 }
