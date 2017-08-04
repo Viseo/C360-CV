@@ -3,7 +3,7 @@
     <div v-bind:style="styleHead"><i v-bind:style = "stylePicT" class="fa fa-address-card-o fa-lg" aria-hidden="true"></i> {{title}}</div>
     <div v-bind:style="styleDiv2">
       <a>
-        <img id="photoP" v-bind:src = "photoProfileSrc" v-on:mouseover="changePhoto" v-bind:style="stylePh" aria-hidden="true">
+        <img id="photoP" v-bind:src = "picture" v-on:mouseover="changePhoto" v-bind:style="stylePh" aria-hidden="true">
         <input type="file" id="inputFile" accept="image/*" name="picture" @change="updateInfoUser" style="color: transparent; display: none">
       </a>
       <span id="textChange" v-bind:style = "styleSp" v-on:mouseout="initPhoto">Modifier</span>

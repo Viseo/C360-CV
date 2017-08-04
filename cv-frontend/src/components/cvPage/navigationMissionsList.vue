@@ -13,8 +13,7 @@
         <div id="containerMissions" style="height:23.5vh;width:75vw;overflow:hidden;">
           <div id="listAnimate" v-bind:style="styleAnimatingList">
             <transition-group name="list-complete" tag="p">
-                 <span v-bind:style="getStyleMission(item)" v-for="(item,index) in missions" v-bind:key="item" @click="getInfoMission(item)"
-                       v-on:mouseover="borderColorToHover" v-on:mouseleave="borderColorToDefault"
+                 <span v-bind:style="block==index?styleObjectChecked:styleObject" v-for="(item,index) in missions" v-bind:key="item" @click="getInfoMission(item)"
                        class="list-complete-item missionItem">
                     <div v-bind:style="styleTitle">{{ item.name!=""?item.name:"Nouvelle Mission" }}</div>
                     <div v-bind:style="styleDate">{{ item.beginDate }} to {{ item.endDate!=""?item.endDate:"now" }}</div>
@@ -22,8 +21,7 @@
                        v-bind:class="trash":style="styleTrash"></i>
                  </span>
             </transition-group>
-            <div v-bind:style="styleObject" id="add-mission" class="missionItem list-complete-item" v-on:click="addMission"
-                 v-on:mouseover="borderColorToHover" v-on:mouseleave="borderColorToDefault">
+            <div v-bind:style="styleObject" id="add-mission" class="missionItem list-complete-item" v-on:click="addMission">
               <i class="fa fa-plus fa-2x"></i>
               <div v-bind:style="styleDate">Ajouter une nouvelle Mission</div>
             </div>
@@ -38,6 +36,7 @@
   import { bus } from '../../EventBus';
 
   var styleMissionBox = {
+    color: 'white',
     width: "11.5vw",
     height:"4vh",
     "padding-top": "3vh",
@@ -47,7 +46,20 @@
     "border-radius":"10px",
     "float":"left",
     position:"relative",
-    "background-color":"#EEE"
+    "background-image":'linear-gradient(to bottom, #3498db, #2980b9)'
+  };
+  var styleMissionBoxChecked = {
+    color: 'white',
+    width: "11.5vw",
+    height:"4vh",
+    "padding-top": "3vh",
+    "padding-bottom": "8vh",
+    margin: "0.5vw",
+    "text-align": "center",
+    "border-radius":"10px",
+    "float":"left",
+    position:"relative",
+    "background-image":'linear-gradient(to bottom, #487692, #265471)',
   };
 
   var styleMissionBoxTitle = {
@@ -56,7 +68,7 @@
   };
 
   var styleMissionBoxDate = {
-    color:"grey",
+    color:"white",
     "padding-top": "1.5vh",
     "font-size" : "1.8vh"
   };
@@ -80,7 +92,7 @@
     position:"absolute",
     "left":"10vw",
     "bottom":"1vh",
-    color:"black"
+    color:"white"
   };
 
   var styleAnimatingList = {
@@ -103,6 +115,7 @@
     data:function(){
       return {
         styleObject: styleMissionBox,
+        styleObjectChecked: styleMissionBoxChecked,
         styleTitle: styleMissionBoxTitle,
         styleDate: styleMissionBoxDate,
         styleChevron : styleChevron,
@@ -120,7 +133,7 @@
         e.target.style.color="red";
       },
       trashToBlack(e){
-        e.target.style.color="black";
+        e.target.style.color="white";
       },
       borderColorToHover(e){
         if(e.target.classList.value.includes("missionItem"))e.target.style.border = "1px solid orange";
@@ -231,6 +244,7 @@
       getStyleMission(item){
           if(this.block==item.id){
               return {
+                color: 'white',
                 width: "11.5vw",
                 height:"4vh",
                 "padding-top": "3vh",
@@ -240,8 +254,7 @@
                 "border-radius":"10px",
                 "float":"left",
                 position:"relative",
-                "background-color":"#EEE",
-                border: "1px solid orange"
+                "background-image":"linear-gradient(to bottom, #3498db, #2980b9)",
               };
           }
           else{
@@ -268,6 +281,14 @@
   .list-complete-enter, .list-complete-leave-to {
     opacity: 0;
     transform: translateY(30px);
+  }
+
+  .missionItem:hover{
+    transform: scale(1.07);
+  }
+
+  .fa-trash{
+    color: white;
   }
 
 </style>

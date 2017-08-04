@@ -3,8 +3,10 @@
     <div class="title"><span>Collaborateurs</span></div>
     <div class="all-collabs">
       <div v-for="(item,index) in collaborators">
-        <thumbnail :name="item.name" :firstName="item.firstName" :poste="item.poste"
-                   :experience="item.experience" :picture="item.picture"></thumbnail>
+        <thumbnail :name="item.name" :firstName="item.firstName" :fonction="item.poste"
+                   :email="item.email" :telephone="item.telephone" :birth="item.birth"
+                   :hobbies="item.hobbies" :languages="item.languages"
+                   :experience="item.experience" :picture="item.picture" @showPDF="showPDF" @downloadPDF="downloadPDF"></thumbnail>
       </div>
     </div>
     <div class="zone-download-all">
@@ -21,7 +23,12 @@
       thumbnail:thumbnail
     },
     methods:{
-
+      showPDF(infoUser){
+          this.$emit('showPDF', infoUser);
+      },
+      downloadPDF(infoUser){
+        this.$emit('downloadPDF', infoUser);
+      }
     },
     data: function () {
       return {

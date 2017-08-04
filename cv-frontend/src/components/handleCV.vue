@@ -31,7 +31,7 @@
   import banner from "./banner.vue"
   import formulaire from "./cvPage/personnalInformation.vue"
   import registerMission from './cvPage/registerMission.vue'
-  import curriPDF from './cvPage/curriculumPDF.vue'
+  import curriPDF from './PDF/curriculumPDF.vue'
   import { bus } from '../EventBus.js';
   import saveOrDownload from './cvPage/downloadPDF.vue'
   import axios from 'axios'
@@ -61,7 +61,7 @@
   let initInfoPerso = {
     name: 'DARMET',
     firstName: 'Henri',
-    birth: '19975-02-02',
+    birth: '1975-02-02',
     fonction: 'Responsable Practice Web & Java',
     experience: '30 ans',
     email: 'henri.darmet@viseo.com',
@@ -72,7 +72,7 @@
     age: '50',
   };
 
-  axios.get('/getUser', {
+  axios.get('/api/getUser', {
 
     })
     .then(function (response) {

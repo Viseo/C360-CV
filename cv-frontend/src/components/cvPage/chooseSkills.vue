@@ -42,9 +42,9 @@
     ["Android","Ios","React Native","Xamarin"],
     ["Axure","Balsamiq","Jira","Taiga","Photoshop"],
     ["Cycle en V", "Kanban", "Lean", "Lean startup", "Less", "Rup", "Scrum", "Safe"],
-    ["Angular", "Bootstrap", "CSS", "Html", "Java", "Javascript", "Python"],
+    ["Angular", "Bootstrap", "CSS", "Html", "Java", "Javascript", "Python","SVG"],
     ["Apache Derb", "Microsoft Access", "Microsoft SQL Server", "MySQL", "Oracle Database", "PostgreSQL"],
-    ["Bootstrap", "Cake PHP", "Google Guava", "Hibernate", "JUnit", "JQuery", "Node.js", "Laravel", "Phalcon", "PHPUnit", "Spring", "Symfony", "Zend"]
+    ["Bootstrap", "Cake PHP", "Google Guava", "Hibernate", "JUnit", "JQuery", "Node.js", "Laravel", "Phalcon", "PHPUnit", "Spring", "Symfony", "Zend","Vue.js"]
   ];
 
   const categories = [
@@ -64,9 +64,9 @@
           ["Android","Ios","React Native","Xamarin"],
           ["Axure","Balsamiq","Jira","Taiga","Photoshop"],
           ["Cycle en V", "Kanban", "Lean", "Lean startup", "Less", "Rup", "Scrum", "Safe"],
-          ["Angular", "Bootstrap", "CSS", "Html", "Java", "Javascript", "Python"],
+          ["Angular", "Bootstrap", "CSS", "Html", "Java", "Javascript", "Python","SVG"],
           ["Apache Derb", "Microsoft Access", "Microsoft SQL Server", "MySQL", "Oracle Database", "PostgreSQL"],
-          ["Bootstrap", "Cake PHP", "Google Guava", "Hibernate", "JUnit", "JQuery", "Node.js", "Laravel", "Phalcon", "PHPUnit", "Spring", "Symfony", "Zend"]
+          ["Bootstrap", "Cake PHP", "Google Guava", "Hibernate", "JUnit", "JQuery", "Node.js", "Laravel", "Phalcon", "PHPUnit", "Spring", "Symfony", "Zend","Vue.js"]
         ],
         categories : categories,
         colors : colors,
