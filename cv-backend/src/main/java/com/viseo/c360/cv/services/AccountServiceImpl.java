@@ -26,7 +26,6 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public UsersEntity add(UserDto user) {
 
-
         return accountDAO.save(userToEntityConverter.convert(user));
     }
 }
