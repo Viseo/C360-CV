@@ -235,8 +235,9 @@
   }
 
   .mission{
-    margin-left: 0.5%;
-    width: 82%;
+    /*margin-left: 0.5%;*/
+    /*flex-basis: 75%;*/
+    flex-grow: 3;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -246,7 +247,8 @@
   }
 
   .infoUser{
-    width: 18%;
+    /*flex-basis: 23%;*/
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
   }

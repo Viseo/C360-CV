@@ -1,25 +1,25 @@
 <template>
     <div class="display">
         <banner></banner>
-        <div class="content" v-bind:style="styleContent">
-            <div class="topcontent" v-bind:style="styleTopContent">
-                <div id="Inscription" v-bind:style="styleInscription" v-on:click="inscriptionClick"><p>Inscription</p></div>
-                <div id="Connexion" v-bind:style="styleConnexion" v-on:click="connexionClick"><p>Connexion</p></div>
+        <div class="content" :style="styleContent">
+            <div class="topcontent" :style="styleTopContent">
+                <div id="Inscription" :style="styleInscription" @click="inscriptionClick"><p>Inscription</p></div>
+                <div id="Connexion" :style="styleConnexion" @click="connexionClick"><p>Connexion</p></div>
             </div>
             <div id="InscriptionContent" v-show="chosenForm==='inscription'">
                 <formhome
-                  v-bind:listitems="signInForm"
-                  v-bind:styl="style"
-                  v-on:login="register"
-                  v-on:check="inputManager">
+                  :listitems="signInForm"
+                  :styl="style"
+                  @login="register"
+                  @check="inputManager">
                 </formhome>
             </div>
-            <div id="ConnexionContent" v-bind:style="styleConnexionContent" v-show="chosenForm==='connexion'">
+            <div id="ConnexionContent" :style="styleConnexionContent" v-show="chosenForm==='connexion'">
                 <formhome
-                  v-bind:listitems="logInForm"
-                  v-bind:styl="style"
-                  v-on:login="login"
-                  v-on:check="inputManager">
+                  :listitems="logInForm"
+                  :styl="style"
+                  @login="login"
+                  @check="inputManager">
                 </formhome>
               <div id="connexion-failed" v-if="connexionFailed">Utilisateur inconnu</div>
             </div>
@@ -395,8 +395,10 @@
       },
       checkSubmitRegister : function(){
           let a=0;
+          console.log('test')
           for(let i in this.formChecked.signIn){
             if(this.formChecked.signIn[i]===false){
+                console.log(this.formChecked.signIn[i])
               a++;
             }
           }
@@ -511,6 +513,5 @@
     text-align:center;
     color:rgb(255,10,50);
      margin-bottom: 1em;
-
   }
 </style>
