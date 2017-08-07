@@ -4,6 +4,7 @@ INSERT INTO users (first_name, last_name, mail, login, birth_date, hobbies, tele
   ('Geoffrey','Ehrmann','geoffrey.ehrmann@viseo.com','GEH1524','10/25/1994','pizzas','0678451223',''),
   ('Farah','Touati','farah.touati@viseo.com','FTO5968','08/28/1994','lecture','0695157535','');
 
+
 INSERT INTO languages (label) VALUES
   ('Anglais'),
   ('Espagnol'),

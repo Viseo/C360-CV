@@ -202,7 +202,6 @@
 
         this.chosenForm==='connexion'?this.chosenForm='inscription':{};
       },
-
       connexionClick : function(){
         let inscription=document.getElementById("Inscription");
         let connexion=document.getElementById("Connexion");
@@ -215,7 +214,6 @@
 
         this.chosenForm==='inscription'?this.chosenForm='connexion':{};
       },
-
       inputManager : function(label,form){
         if(label==="Code de login")
         {
@@ -395,7 +393,6 @@
       },
       checkSubmitRegister : function(){
           let a=0;
-          console.log('test')
           for(let i in this.formChecked.signIn){
             if(this.formChecked.signIn[i]===false){
                 console.log(this.formChecked.signIn[i])
@@ -442,29 +439,22 @@
             }
           })
           .then((response) => {
-//            console.log(response, 'coucou')
 
-            if (response) {
-//              alert('okok')
+            if (response.data.login) {
               window.location.href = '/mycv';
             }
             else {
-              this.connexionFailed = true;
+              alert("Login Failed.");
             }
           })
           .catch((error) => {
-            console.log(error, "pouf");
+            console.log(error);
           });
 
-//          let xhr = new XMLHttpRequest();
-//          xhr.open('GET', 'http://cv360-dev.lan:8061/api/login',true);
-//          xhr.setRequestHeader("Content-type", "application/json");
-//          xhr.send(data);
         }
         else{
             alert("Remplir tous les champs");
         }
-
       },
       register: function(){
         if(this.checkSubmitRegister()){
@@ -482,13 +472,21 @@
             mail:mail
           };
 
-          axios.post('/api/register', data)
+          axios.post('/api/testRegister', data)
             .then((response)=>{
-              if(response){
-                console.log("registered");
+              console.log(response);
+              if(response.data!=""){
+                  alert("Un compte existe déjà pour cette adresse E-Mail.");
               }
               else{
-                console.log("this person already has an account");
+                axios.post('/api/register', data)
+                  .then((done)=>{
+                    alert("Inscription Effectuée");
+                    window.location.href = '/';
+                  })
+                  .catch((error)=>{
+                    console.log(error);
+                  });
               }
             })
             .catch((error)=>{

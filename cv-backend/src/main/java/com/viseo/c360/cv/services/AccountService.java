@@ -8,4 +8,6 @@ public interface AccountService {
     UsersEntity exist(String mail, String password);
 
     UsersEntity add(UserDto user);
+
+    UsersEntity mailExist(String mail);
 }
