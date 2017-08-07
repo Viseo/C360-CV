@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+import java.util.List;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
@@ -36,5 +39,10 @@ public class AccountController {
     public UsersEntity register(@RequestBody @Valid UserDto user) {
 
         return this.accountService.add(user);
+    }
+
+    @RequestMapping(path = "/getUsers", method = GET)
+    public List<UserDto> getAll(){
+        return this.accountService.getAll();
     }
 }

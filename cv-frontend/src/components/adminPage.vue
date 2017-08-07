@@ -3,7 +3,7 @@
       <banner></banner>
       <div style="text-align: center">
           <div class="zone-search-collab">
-            <input v-model="currentSearch" id="search-collab" list="browsers" v-on:input="searchCollab">
+            <input v-model="currentSearch" id="search-collab" list="browsers" v-on:input="searchCollab" v-on:keypress.enter="getAll">
             <datalist id="browsers">
               <option v-for="item in defaultCollab" v-bind:value="item.firstName + ' '+item.name" ></option>
             </datalist>
@@ -187,6 +187,23 @@
           this.filterClients=cli;
 
           this.searchCollab();
+      },
+      getAll(){
+          let user = document.getElementById('search-collab').value;
+          console.log(user)
+          axios.get('/api/getUsers',{
+              param:{user}
+          })
+          .then((response)=>{
+            if(response){
+              console.log("users");
+            }else{
+              console.log("failed");
+            }
+          })
+          .catch((error)=>{
+            console.log(error,"et oui! ");
+          });
       }
     }
   }

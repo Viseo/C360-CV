@@ -11,7 +11,7 @@ public interface MissionService {
 
     MissionDto add(MissionDto missionDto);
 
-    MissionDto getById(int userId);
+    MissionDto getById(int userId, int missionId);
 
     Boolean delete(int userId, int missionId);
 
