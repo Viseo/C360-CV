@@ -72,16 +72,6 @@
     age: '50',
   };
 
-  axios.get('/api/getUser', {
-
-    })
-    .then(function (response) {
-      initInfoPerso=response;
-    })
-    .catch(function (error) {
-      console.log("Error loading user \n" + error );
-    });
-
   var missions = [
     {id: 0, name : "Orange Business Suite",beginDate:"06/05/2015",endDate:"06/06/2015",client: 'Woodix', domain:'FINANCE', description: 'Multitudine resistente multitudine capesseret est.', type: 'Séminaire',keyword:["Android","HTML5", "CSS","Javascript"]},
     {id: 1, name : "Viseo Intern",beginDate:"06/05/2016",endDate:"06/06/2016",client: '', domain:'', description: '', type: 'Mission',keyword:["Android","Agile"]},
@@ -128,12 +118,37 @@
       date.getDate() < 10 ? thisDay = '0' + date.getDate() : thisDay = date.getDate();
       date.getMonth() + 1 < 10 ? thisMonth = '0' + parseInt(date.getMonth() + 1) : thisMonth = parseInt(date.getMonth() + 1);
       this.today = date.getFullYear() + '-' + thisMonth + '-' + thisDay;
+
+      let id = this.$session.get("id");
+      axios.get('http://cv360-dev.lan:8061/api/getUser', {
+        params: {
+          id:id
+        }
+      })
+        .then((response)=>{
+          this.infoUser={
+            name: response.data.lastName,
+            firstName: response.data.firstName,
+            birth: response.data.date_birth,
+            fonction: "",
+            experience: "",
+            email: response.data.mail,
+            telephone: response.data.telephone,
+            hobbies: response.data.hobbies,
+            languages: "",
+            picture: ""
+          };
+        })
+        .catch(function (error) {
+          console.log("Error loading user \n" + error );
+        });
     },
     methods:{
         updateProps(){
           this.description = document.getElementById('Description').value;
           this.titleMission = document.getElementById('Title Mission').value;
           this.client = document.getElementById('Client Form').value;
+          console.log(this.infoUser);
         },
         getInfoMission(id){
             let i;

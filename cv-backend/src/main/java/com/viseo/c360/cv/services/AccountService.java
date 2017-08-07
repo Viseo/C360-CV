@@ -10,4 +10,6 @@ public interface AccountService {
     UsersEntity add(UserDto user);
 
     UsersEntity mailExist(String mail);
+
+    UsersEntity getUserById(int id);
 }

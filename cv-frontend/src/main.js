@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import handleLogin from "./components/loginPage.vue"
+import VueSession from 'vue-session'
+
+Vue.use(VueSession);
 
 const handleCv = resolve => {
   require.ensure([], () => {

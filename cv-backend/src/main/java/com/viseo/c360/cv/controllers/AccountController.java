@@ -42,4 +42,10 @@ public class AccountController {
         UsersEntity existenceTest = this.accountService.mailExist(user.getMail());
         return existenceTest;
     }
+
+    @RequestMapping("/getUser")
+    public UsersEntity getUser(@RequestParam(value="id") @NotEmpty int id) {
+
+        return this.accountService.getUserById(id);
+    }
 }

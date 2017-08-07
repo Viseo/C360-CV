@@ -439,8 +439,9 @@
             }
           })
           .then((response) => {
-
             if (response.data.login) {
+              this.$session.start();
+              this.$session.set("id",response.data.id);
               window.location.href = '/mycv';
             }
             else {

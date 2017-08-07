@@ -9,6 +9,9 @@ import java.util.List;
 public class UsersEntity extends BaseEntity {
 
     @Column
+    private int id;
+
+    @Column
     private String firstName;
 
     @Column
@@ -48,6 +51,10 @@ public class UsersEntity extends BaseEntity {
             inverseJoinColumns=@JoinColumn(name="missions_id")
     )
     private List <MissionsEntity> missions;
+
+    public int getId(){return id;}
+
+    public void setId(int id) {this.id = id;}
 
     public String getFirstName() {
         return firstName;

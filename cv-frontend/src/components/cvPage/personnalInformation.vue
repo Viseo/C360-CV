@@ -195,7 +195,7 @@
             inputFile.style.height = "40%";
             text.style.opacity=0;
           }
-        }
+        };
         document.getElementById('inputFile').addEventListener('change', this.handleFileSelect, false);
       },
       handleFileSelect: function () {
@@ -319,7 +319,6 @@
         }
       },
       updateInfoUser: function(){
-        console.log(this.infoUser.birth)
         let infoPerso = {
           name: this.infoUser.name,
           firstName: this.infoUser.firstName,
@@ -333,7 +332,6 @@
           picture: this.infoUser.picture,
           age: this.infoUser.age,
         };
-        console.log(event.target.value, 'putain de merde')
         for(let field in infoPerso){
           if(field==event.target.name){
             if(field=='name'){
