@@ -1,7 +1,7 @@
 <template>
   <div :style="styl.styleGlobal" >
     <form>
-      <div v-for="item in listitems">
+      <div v-for="item in listitems" v-on:keyup.enter="checkAndLogin">
         <inputPassword  v-if="item.fa === 'fa fa-lock'"
                         :label="item.label" :placeholder="item.placeholder" :type="item.type"
                         :styl="styl" :fa="item.fa" :form="item.name"

@@ -34,7 +34,12 @@ public class AccountController {
 
     @RequestMapping(path = "/register", method = POST)
     public UsersEntity register(@RequestBody @Valid UserDto user) {
-
         return this.accountService.add(user);
+    }
+
+    @RequestMapping(path = "/testRegister", method = POST)
+    public UsersEntity testRegister(@RequestBody @Valid UserDto user) {
+        UsersEntity existenceTest = this.accountService.mailExist(user.getMail());
+        return existenceTest;
     }
 }

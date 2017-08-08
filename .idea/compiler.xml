@@ -7,8 +7,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="C360-CV (1)" />
-        <module name="cv-backend" />
-        <module name="cv-frontend" />
         <module name="spring-petclinic-client (1)" />
       </profile>
     </annotationProcessing>
