@@ -72,9 +72,9 @@
     age: '50',
   };
 
-  axios.get('/api/getUser', {
+  axios.get('/getUser', {
 
-    })
+  })
     .then(function (response) {
       initInfoPerso=response;
     })
@@ -105,22 +105,22 @@
       saving: saveOrDownload
     },
     data: function () {
-        return {
-          titleMission: missions[0].name,
-          beginDateMission: missions[0].beginDate.split('/').reverse().join('-'),
-          endDateMission: missions[0].endDate == ''?'now':missions[0].endDate.split('/').reverse().join('-'),
-          description: missions[0].description,
-          client: missions[0].client,
-          domain: missions[0].domain,
-          type: missions[0].type,
-          currentBlock:missions[0].id,
-          today: '',
-          show: false,
-          missions:missions,
-          skills:missions[0].keyword,
-          showPDF: false,
-          infoUser: initInfoPerso
-        }
+      return {
+        titleMission: missions[0].name,
+        beginDateMission: missions[0].beginDate.split('/').reverse().join('-'),
+        endDateMission: missions[0].endDate == ''?'now':missions[0].endDate.split('/').reverse().join('-'),
+        description: missions[0].description,
+        client: missions[0].client,
+        domain: missions[0].domain,
+        type: missions[0].type,
+        currentBlock:missions[0].id,
+        today: '',
+        show: false,
+        missions:missions,
+        skills:missions[0].keyword,
+        showPDF: false,
+        infoUser: initInfoPerso
+      }
     },
     created: function(){
       let date = new Date();
@@ -130,75 +130,75 @@
       this.today = date.getFullYear() + '-' + thisMonth + '-' + thisDay;
     },
     methods:{
-        updateProps(){
-          this.description = document.getElementById('Description').value;
-          this.titleMission = document.getElementById('Title Mission').value;
-          this.client = document.getElementById('Client Form').value;
-        },
-        getInfoMission(id){
-            let i;
-            for(let mission in missions) {
-              if (missions[mission].id === id){
-                i=mission;
-                break;
-              }
-            }
-            if(missions[i]) {
-              this.currentBlock = missions[i].id;
-              this.titleMission = missions[i].name;
-              this.beginDateMission = missions[i].beginDate.split('/').reverse().join('-');
-              this.skills = missions[i].keyword;
-              if (missions[i].endDate == '') {
-                this.endDateMission = 'now';
-              } else {
-                this.endDateMission = missions[i].endDate.split('/').reverse().join('-');
-              }
-              this.client = missions[i].client;
-              this.domain = missions[i].domain;
-              this.description = missions[i].description;
-              for (let radio of document.getElementsByName('typeMission')) {
-                if (radio.value == missions[i].type) {
-                  radio.checked = true;
-                  this.type = missions[i].type;
-                }
-              }
-            }
-        },
-        addMission() {
-            let newId=missions[missions.length-1].id +1;
-            missions.push({id:newId,name: "", beginDate: "",
-              endDate: "", client: "", description: "",type: 'mission',keyword:[]});
-            this.currentBlock=newId;
-            this.getInfoMission(newId);
-        },
-        deleteMission(){
-            setTimeout(()=>{
-              this.currentBlock=this.missions[0].id;
-              this.getInfoMission(this.missions[0].id);
-            },100);
-        },
-        updateSkills(skillsSelected){
-          for(let mission in this.missions) {
-            if (this.currentBlock === this.missions[mission].id) {
-              this.missions[mission].keyword = skillsSelected;
-            }
+      updateProps(){
+        this.description = document.getElementById('Description').value;
+        this.titleMission = document.getElementById('Title Mission').value;
+        this.client = document.getElementById('Client Form').value;
+      },
+      getInfoMission(id){
+        let i;
+        for(let mission in missions) {
+          if (missions[mission].id === id){
+            i=mission;
+            break;
           }
-        },
-        updateInfoUserPDF: function (infoUser) {
-//            for(let info in infoUser)console.log(infoUser[info],info)
-          this.infoUser=infoUser;
-        },
-        closePDF: function () {
-          this.showPDF=!this.showPDF
-        },
-        updateSector: function (sector) {
-          for(let mission in this.missions) {
-            if (this.currentBlock === this.missions[mission].id) {
-              this.missions[mission].domain = sector;
-              this.domain = sector;
+        }
+        if(missions[i]) {
+          this.currentBlock = missions[i].id;
+          this.titleMission = missions[i].name;
+          this.beginDateMission = missions[i].beginDate.split('/').reverse().join('-');
+          this.skills = missions[i].keyword;
+          if (missions[i].endDate == '') {
+            this.endDateMission = 'now';
+          } else {
+            this.endDateMission = missions[i].endDate.split('/').reverse().join('-');
+          }
+          this.client = missions[i].client;
+          this.domain = missions[i].domain;
+          this.description = missions[i].description;
+          for (let radio of document.getElementsByName('typeMission')) {
+            if (radio.value == missions[i].type) {
+              radio.checked = true;
+              this.type = missions[i].type;
             }
           }
         }
+      },
+      addMission() {
+        let newId=missions[missions.length-1].id +1;
+        missions.push({id:newId,name: "", beginDate: "",
+          endDate: "", client: "", description: "",type: 'mission',keyword:[]});
+        this.currentBlock=newId;
+        this.getInfoMission(newId);
+      },
+      deleteMission(){
+        setTimeout(()=>{
+          this.currentBlock=this.missions[0].id;
+          this.getInfoMission(this.missions[0].id);
+        },100);
+      },
+      updateSkills(skillsSelected){
+        for(let mission in this.missions) {
+          if (this.currentBlock === this.missions[mission].id) {
+            this.missions[mission].keyword = skillsSelected;
+          }
+        }
+      },
+      updateInfoUserPDF: function (infoUser) {
+//            for(let info in infoUser)console.log(infoUser[info],info)
+        this.infoUser=infoUser;
+      },
+      closePDF: function () {
+        this.showPDF=!this.showPDF
+      },
+      updateSector: function (sector) {
+        for(let mission in this.missions) {
+          if (this.currentBlock === this.missions[mission].id) {
+            this.missions[mission].domain = sector;
+            this.domain = sector;
+          }
+        }
+      }
     }
   }
 
@@ -209,79 +209,5 @@
     position: relative;
     left: 10px;
     padding-right: 20px;
-  }
-
-  .mycv{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .bannerMission{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 2em;
-    width: auto;
-    background-color: #D7D7D7;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-  }
-
-  .bannerMission p{
-    position: relative;
-    left: 2.5%
-  }
-
-  .mission{
-    /*margin-left: 0.5%;*/
-    /*flex-basis: 75%;*/
-    flex-grow: 3;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    border: 1px solid #D7D7D7;
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-  }
-
-  .infoUser{
-    /*flex-basis: 23%;*/
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  #PDF{
-    z-index:10;
-    position: fixed;
-    top: 4%;
-    left: 50%;
-    transform: translate(-50%, -2%);
-    background-color: white;
-    border : 1px solid #D7D7D7;
-    height: 96%;
-  }
-
-  .grayer{
-    z-index: 9;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #A8A8A8;
-    opacity: 0.7;
-  }
-
-
-  .closePDF {
-    z-index:11;
-    position: absolute;
-    left: 1200px;
-    top: 8px;
-    width:35px;
-    height:35px;
   }
 </style>

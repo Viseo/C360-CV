@@ -1,70 +1,92 @@
 <template>
   <div class="containerForm">
-    <div class="containerColumn">
-      <div class="divForm">
-        <label v-bind:class="labelTitleClass">Titre de la mission</label>
-        <input id="Title Mission" v-model="nameMission" type='text' class="inputText" @focus="setFocusLabelClass(1)"
-               @keyup="updateBlock(currentBlock)" @blur="changeLabelClass(nameMission,1)">
-        <i class="fa fa-suitcase picto"></i>
+    <div class="lineInfo">
+      <div class="inputDiv">
+        <i class="fa fa-suitcase fa-2x"></i>
+        <div>
+          <label v-bind:class="labelTitleClass">Titre de la mission</label>
+          <input id="Title Mission" v-model="nameMission" type='text' class="inputText" @focus="setFocusLabelClass(1)"
+                 @keyup="updateBlock(currentBlock)" @blur="changeLabelClass(nameMission,1)">
+        </div>
       </div>
 
-      <div id="Type Mission" class="divRadio">
-        <label id="Type Title">Type</label>
-        <div class="radio"><input id="Mission Form" type="radio" name="typeMission" value="Mission" checked  v-on:click="updateBlock(currentBlock)">Mission</div>
-        <div class="radio"><input id="Séminaire Form" type="radio" name="typeMission" value="Séminaire"  v-on:click="updateBlock(currentBlock)">Séminaire</div>
-        <p></p>
+      <div class="inputDiv">
+        <i class="fa fa-file-text fa-2x"></i>
+        <div>
+          <label id="Type Title">Type</label>
+          <select v-model="typeMission" v-on:click="updateBlock(currentBlock)">
+            <option>Mission</option>
+            <option>Séminaire</option>
+          </select>
+        </div>
       </div>
 
-
-      <div class="divForm" style="margin-top:2em">
-        <label id="Client" v-bind:class="labelClientClass">Client</label>
-        <input id="Client Form" v-model="nameClient" type="text" v-on:keyup="updateBlock(currentBlock)" class="inputText"
-               @focus="setFocusLabelClass(2)" @blur="changeLabelClass(nameClient,2)">
-        <i class="fa fa-id-card-o picto"></i>
-      </div>
-      <span class="messageError" v-if="client == ''">Veuillez entrer un client</span>
-      <sector :client="client" :domain="domain" @updateSector="updateSector"></sector>
-    </div>
-
-    <div class="containerColumn">
-      <div id="Calendar" class="calendarDiv">
-        <div id="StartCalendar" class="start">
+      <div id="StartCalendar" class="inputDiv">
+        <i class="fa fa-calendar fa-2x"></i>
+        <div>
           <label id="Start Title">Début</label>
           <div class="inputCalendar">
             <template v-if="beginDate!=''">
-              <input id="Start Calendar Date" :value="beginDate" class="inputDate" type="date" v-on:click="updateBlock(currentBlock)" @input="updateBlock(currentBlock)"><i class="fa fa-calendar cal"></i>
+              <input id="Start Calendar Date" :value="beginDate" class="inputDate" type="date" v-on:click="updateBlock(currentBlock)" @input="updateBlock(currentBlock)">
             </template>
             <template v-else="endDate!=''">
-              <input id="Start Calendar Date" class="inputDate" type="date" @input="updateBlock(currentBlock)"><i class="fa fa-calendar cal"></i>
+              <input id="Start Calendar Date" class="inputDate" type="date" @input="updateBlock(currentBlock)">
             </template>
           </div>
         </div>
-        <span class="messageError" v-if="beginDate == ''">Veuillez entrer une date de début</span>
-        <div id="EndCalendar" class="end">
+
+      </div>
+      <span class="messageError" v-if="beginDate == ''">Veuillez entrer une date de début</span>
+
+      <div id="EndCalendar" class="inputDiv">
+        <i class="fa fa-calendar fa-2x cal"></i>
+        <div>
           <label id="Fin Title">Fin</label>
           <div class="inputCalendar">
             <template v-if="endDate!=''">
               <input v-if="endDate=='now'" id="End Calendar Date" :value="today" class="inputDate" type="date" v-on:click="updateBlock(currentBlock)" @input="updateBlock(currentBlock)">
               <input v-else id="End Calendar Date" :value="endDate" class="inputDate" type="date" v-on:click="updateBlock(currentBlock)" @input="updateBlock(currentBlock)">
-              <i class="fa fa-calendar cal"></i>
             </template>
             <template v-else="endDate!=''">
-              <input id="End Calendar Date" class="inputDate" type="date" @input="updateBlock(currentBlock)"><i class="fa fa-calendar cal"></i>
+              <input id="End Calendar Date" class="inputDate" type="date" @input="updateBlock(currentBlock)">
             </template>
           </div>
-          <div v-if="endDate=='now'"><input id="Until Now Box" type="checkbox" checked @click="updateBlock(currentBlock)">Jusqu'à ce jour</div>
-          <div v-else><input id="Until Now Box" type="checkbox" @click="updateBlock(currentBlock)">Jusqu'à ce jour</div>
+          <div v-if="endDate=='now'" id="checkboxNow"><input id="Until Now Box" type="checkbox" checked @click="updateBlock(currentBlock)">Jusqu'à ce jour</div>
+          <div v-else id="checkboxNow"><input id="Until Now Box" type="checkbox" @click="updateBlock(currentBlock)">Jusqu'à ce jour</div>
         </div>
       </div>
+    </div>
 
-
-      <div class="divTextArea">
-        <label id="descriptionLabel" v-bind:class="labelDescriptionClass">Description</label>
-        <textarea id="Description" v-model="descriptionMission" @input="updateBlock(currentBlock)" class="inputTextArea" rows="4"
-                  @focus="setFocusLabelClass(3)" @blur="changeLabelClass(descriptionMission,3)"/>
-        <i class="fa fa-pencil-square-o picto"></i>
+    <div class="lineClient">
+      <div class="clientDiv">
+        <i class="fa fa-id-card-o fa-2x"></i>
+        <div>
+          <label id="Client" v-bind:class="labelClientClass">Client</label>
+          <input id="Client Form" v-model="nameClient" type="text" v-on:keyup="updateBlock(currentBlock)" class="inputText"
+                 @focus="setFocusLabelClass(2)" @blur="changeLabelClass(nameClient,2)">
+        </div>
       </div>
-      <span class="messageError" v-if="descriptionMission == ''" style="display:block; position: relative; top: 3em;">Veuillez entrer une description de mission</span>
+      <div class="listSector">
+        <span class="messageError" v-if="client == ''">Veuillez entrer un client</span>
+        <sector :client="client" :domain="domain" @updateSector="updateSector"></sector>
+      </div>
+    </div>
+
+    <div class="lineDesc">
+      <div class="descDiv">
+        <i class="fa fa-pencil-square-o fa-2x"></i>
+        <div>
+          <label id="descriptionLabel" v-bind:class="labelDescriptionClass">Description</label>
+          <textarea id="Description" v-model="descriptionMission" @input="updateBlock(currentBlock)" class="inputTextArea" rows="4"
+                    @focus="setFocusLabelClass(3)" @blur="changeLabelClass(descriptionMission,3)"/>
+          <span class="messageError" v-if="descriptionMission == ''" style="display:block; position: relative; top: 3em;">Veuillez entrer une description de mission</span>
+        </div>
+      </div>
+    </div>
+    <div class="containerColumn">
+
+
+
     </div>
   </div>
 </template>
@@ -85,11 +107,13 @@
         labelClientClass:this.client!=""?"label-full":"label-empty",
         nameClient:this.client,
         labelDescriptionClass:this.description!=""?"labelDescription-full":"labelDescription-empty",
-        descriptionMission:this.description
+        descriptionMission:this.description,
+        typeMission: '',
       }
     },
     methods:{
       updateBlock(currentBlock){
+        console.log(event.target.value)
         if(event.target.id=='Until Now Box' && event.target.checked){
           document.getElementById('End Calendar Date').value=this.today;
         }else if(event.target.id=='End Calendar Date'){
@@ -145,197 +169,39 @@
 </script>
 
 <style>
-  .inputText{
-    padding: 0.5em 0px 0.5em 2.3em;
-    width: 100%;
-    border: none;
-    border-bottom: 2px solid #ccc;
-    height: 1em;
-    z-index:1;
-    background: transparent;
-  }
+  .containerForm label{color: dimgrey; font-family: Arial, cursive; font-weight: bold; transition: all 0.5s; margin-left: 0.2em}
+  .label-full {position: absolute; top: 0em; left: 2.2em}
+  .label-empty{position: absolute; top: 0.8em; left: 1.6em; font-size : 1.5em;}
+  .labelDescription-full {position: absolute; top: -1em; left: 2.2em}
+  .labelDescription-empty{position: absolute; top: 0em; left: 1.6em; font-size : 1.5em;}
 
-  .inputTextArea{
-    padding: 0.5em 0px 0.5em 2.3em;
-    width: 100%;
-    border: none;
-    border-bottom: 2px solid #ccc;
-    z-index:1;
-    background: transparent;
-  }
-  .inputDate{
-    padding: 0.5em 0em 0.5em 0em;
-    width: 20em;
-    border: none;
-    border-bottom: 1px solid #ccc;
-    margin-top: -0.6em;
-    height: 1em
-  }
-  .picto{
-    height: 2em;
-    position: relative;
-    left: -33.5em;
-    top: 0.2em
-  }
-  .divForm{
-    height: 35px;
-    display: flex;
-    position: relative;
-    flex-direction: row;
-    margin-bottom:0.2em;
-    margin-top:1em;
-    width: 35em;
-    align-items: center;
-    justify-content: flex-start;
-  }
-  .divTextArea{
-    height: 35px;
-    display: flex;
-    position: relative;
-    flex-direction: row;
-    margin-bottom:0.2em;
-    margin-top:1em;
-    width: 35em;
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
-  .divRadio{
-    height: 35px;
-    display: flex;
-    position: relative;
-    flex-direction: row;
-    margin-bottom:0.2em;
-    margin-top:1em;
-    width: 35em;
-    align-items: center;
-    justify-content: flex-start;
-    /*border: 1px solid black*/
-  }
-  .containerForm{
-    display: flex;
-    flex-direction: row;
-    align-items: left;
-    height: 15em;
-    justify-content: space-between;
-  }
-  .containerColumn{
-    margin-top:3vh;
-    display: flex;
-    width : 50em;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .calendarDiv{
-    height: 5em;
-    display: flex;
-    position: relative;
-    flex-direction: row;
-    margin-bottom:0.2em;
-    width: 40em;
-    align-items: center;
-    /*border: 1px solid black*/
-  }
-  .cal{
-    height: 1em;
-    position: relative;
-    left: -1em;
-    top: -0.2em;
-    pointer-events: none;
-    background-color: white;
-  }
-  .inputCalendar{
-    display: flex;
-    flex-direction: row;
-  }
-  textarea {
-    padding-left: 2.3em;
-    resize: none;
-    overflow: hidden;
-  }
-  .start{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 5em;
-    margin-right : 3em;
-  }
-  .end{
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 5em;
-    align-self: flex-end;
-  }
-  /*.start label{*/
-  /*padding-right: 5em ;*/
-  /*}*/
-  .radio{
-    padding-left: 5em;
-  }
-  ::-webkit-input-placeholder {
-    position: relative;
-    left: -0.55em;
-    text-align: center;
-  }
-  :-ms-input-placeholder {
-    position: relative;
-    left: -0.55em;
-    text-align: center;
-  }
-  .containerForm textarea:focus {
-    border-bottom: 2px solid dodgerblue;
-    border-top:none;
-    border-right:none;
-    border-left:none;
-  }
-  .containerForm textarea{
-    outline: none;
-  }
-  label{
-    color: dodgerblue;
-    font-family: Bradley Hand ITC, cursive;
-    font-weight: bold;
-    font-size: 3vh;
-    transition: bottom 0.5s, left 0.5s, font-size 0.5s;
-  }
-  .label-full {
-    position:absolute;
-    bottom : 4vh;
-    left:0vw;
-    font-size : 1.5em;
-  }
-  .label-empty{
-    bottom : 0.5vh;
-    position:absolute;
-    left:2vw;
-    font-size : 2em;
-  }
-  .labelDescription-full {
-    position:absolute;
-    top : -1em;
-    left:0vw;
-    font-size : 1.5em;
-  }
-  .labelDescription-empty{
-    top : -0.3em;
-    position:absolute;
-    left:2vw;
-    font-size : 2em;
-  }
-  .containerForm input{
-    outline: none;
-  }
-  .messageError{
-    font-size: 14px;
-    color: red;
-    text-align: center;
-  }
-  .containerForm input[type=text]:focus {
-    border-bottom: 2px solid dodgerblue;
-    border-top:none;
-    border-right:none;
-    border-left:none;
-  }
+  .containerForm{display: flex; flex-direction: column; position: relative}
+  /*.containerForm label{position: relative; top: -0.5em; left: 0.5em}*/
+
+  .lineInfo{display: flex; flex-direction: row; justify-content: space-between; align-items: center; height: 3em; margin: 1% 0 1% 2%;}
+
+  .inputDiv{display: flex; flex-direction: row; align-items: flex-end; flex-grow: 1; flex-basis: 25%; position: relative;height: 3em}
+  .inputDiv > div{display: flex; flex-direction: column; width: 100%}
+  .inputDiv input{border: none; border-bottom: 1px solid dimgray; margin-left: 8px; width: 80%; height: 2em; z-index: 1; background: transparent;}
+  .inputDiv select{border: none; border-bottom: 1px solid dimgrey; margin-left: 8px; width: 80%; height: 2em; z-index: 1; background: transparent;}
+  #checkboxNow{display:flex; flex-direction:row; justify-content: center; align-items: center; position: absolute; top: 2.5em}
+  #checkboxNow input{width: auto}
+
+
+  .lineClient{display: flex; flex-direction: row; align-items: center; height: 3em; margin: 0% 0 1.7% 2%;}
+  .clientDiv{display: flex; flex-direction: row; justify-content: flex-start; align-items: flex-end; width: 50%; flex-grow: 3; flex-basis: 50%; position: relative; height: 3em}
+  .clientDiv > div{display: flex; flex-direction: column; width: 100%}
+  .clientDiv input{border: none; border-bottom: 1px solid dimgray; margin-left: 8px; width: 95%; height: 2em; z-index: 1; background: transparent;}
+  .clientDiv span{display:flex; flex-direction:row; justify-content: center; align-items: center; position: absolute; top: 3em;}
+
+  .listSector{display: flex; flex-grow: 3; flex-basis: 50%; }
+
+  .lineDesc{display: flex; flex-direction: row; align-items: center; height: 5em; margin: 0% 0 1% 2%;}
+  .descDiv{display: flex; flex-direction: row; justify-content: flex-start; align-items: center; width: 50%; flex-grow: 3; flex-basis: 43%; position: relative; height: 5em}
+  .descDiv > div{display: flex; flex-direction: column; width: 100%}
+  .descDiv textarea{border: none; border-bottom: 1px solid dimgray; margin-left: 8px; width: 95%; z-index: 1; background: transparent; height: 5em}
+  .descDiv span{display:flex !important; flex-direction:row; justify-content: center; align-items: center; position: absolute !important; top: 5em !important; }
+
+
+
 </style>

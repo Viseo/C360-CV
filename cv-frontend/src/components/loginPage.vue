@@ -11,7 +11,7 @@
                   :listitems="signInForm"
                   :styl="style"
                   @login="register"
-                  @check="inputManager">
+                  @:check="inputManager">
                 </formhome>
             </div>
             <div id="ConnexionContent" :style="styleConnexionContent" v-show="chosenForm==='connexion'">
@@ -395,10 +395,8 @@
       },
       checkSubmitRegister : function(){
           let a=0;
-          console.log('test')
           for(let i in this.formChecked.signIn){
             if(this.formChecked.signIn[i]===false){
-                console.log(this.formChecked.signIn[i])
               a++;
             }
           }
