@@ -11,7 +11,7 @@
                   :listitems="signInForm"
                   :styl="style"
                   @login="register"
-                  @check="inputManager">
+                  @:check="inputManager">
                 </formhome>
             </div>
             <div id="ConnexionContent" :style="styleConnexionContent" v-show="chosenForm==='connexion'">
@@ -190,7 +190,7 @@
       }
     },
     created:function(){
-      this.$session.destroy();
+
     },
     methods:{
       inscriptionClick : function(){
@@ -222,20 +222,10 @@
         {
           let value = document.getElementById(label+form).value;
           let re = new RegExp("^[A-Z]{3,3}[0-9]{4,4}$");
-//          if(value===''){
-//            this.formChecked.signIn.login=false;
-//            document.getElementById("message"+label+form).innerHTML="";
-//          }
-//          else if(re.test(value)){
             if(re.test(value)){
               this.formChecked.signIn.login=true;
               document.getElementById("message"+label+form).innerHTML="";
             }
-//            else {
-//              this.formChecked.signIn.login=false;
-//              document.getElementById("message"+label+form).innerHTML="Le login doit etre contenu entre 3 et 20 caractères";
-//            }
-//          }
           else{
             this.formChecked.signIn.login=false;
             document.getElementById("message"+label+form).innerHTML="Veuillez entrer un code de login valide";
@@ -398,7 +388,6 @@
           let a=0;
           for(let i in this.formChecked.signIn){
             if(this.formChecked.signIn[i]===false){
-                console.log(this.formChecked.signIn[i])
               a++;
             }
           }
@@ -445,7 +434,12 @@
             if (response.data.login) {
               this.$session.start();
               this.$session.set("id",response.data.id);
-              window.location.href = '/mycv';
+              if(response.data.admin){
+                window.location.href = '/admin';
+              }
+              else {
+                window.location.href = '/mycv';
+              }
             }
             else {
               alert("Login Failed.");

@@ -1,21 +1,18 @@
 <template>
   <div style="margin-top:1vh; overflow: hidden;">
-    <div>
-      <i class="fa fa-space-shuttle" style="margin-left:1vw;"></i>
-      <span class="title-2" style="font-family: Bradley Hand ITC, cursive; font-weight: bold; font-size: 25px;margin-left: 1% ">Missions</span>
+    <div class="headerMissionsBlock">
+      <i class="fa fa-space-shuttle fa-2x"></i>
+      <span class="title-2" style="font-family: Arial, cursive; font-weight: bold; font-size: 25px;margin-left: 1% ">Missions</span>
     </div>
-    <div class="container-cv" style="width:80vw;height:21vh;">
-      <div id="listMissions" style="width:100vw;height:21vh;">
-        <div style="width:2vw;height:20vh;float:left">
-          <i v-bind:class="chevronLeft":style="styleChevron" v-on:click="moveMissionsToLeft" v-if="missions.length>5"></i>
-        </div>
-        <i v-bind:class="chevronRight":style="styleChevronRight" v-on:click="moveMissionsToRight" v-if="missions.length>5"></i>
-        <div id="containerMissions" style="height:23.5vh;width:75vw;overflow:hidden;">
+    <div class="container-cv">
+      <div id="listMissions" class="listMissions">
+        <i v-bind:class="chevronLeft" v-on:click="moveMissionsToLeft" v-if="missions.length>4"></i>
+        <div id="containerMissions" class="containerMissions">
           <div id="listAnimate" v-bind:style="styleAnimatingList">
-            <transition-group name="list-complete" tag="p">
-                 <span v-bind:style="block==index?styleObjectChecked:styleObject" v-for="(item,index) in missions" v-bind:key="index"
-                       @click="getInfoMission(index)" class="list-complete-item missionItem">
-                    <div v-bind:style="styleTitle">{{ item.title }}</div>
+            <transition-group name="list-complete" tag="div">
+                 <span v-bind:style="block==index?styleObjectChecked:styleObject" v-for="(item,index) in missions" v-bind:key="index" @click="getInfoMission(index)"
+                       class="list-complete-item missionItem">
+                    <div v-bind:style="styleTitle">{{ item.title!=""?item.title:"Nouvelle Mission" }}</div>
                     <div v-bind:style="styleDate">{{ item.beginDate }} to {{ item.endDate!=""?item.endDate:"now" }}</div>
                     <i v-on:mouseover="trashToRed" v-on:mouseleave="trashToBlack" v-on:click="deleteMission(index)"
                        v-bind:class="trash":style="styleTrash"></i>
@@ -27,6 +24,7 @@
             </div>
           </div>
         </div>
+        <i v-bind:class="chevronRight" v-on:click="moveMissionsToRight" v-if="missions.length>4"></i>
       </div>
     </div>
   </div>
@@ -74,21 +72,6 @@
     "font-size" : "1.8vh"
   };
 
-  var styleChevron = {
-    position:"relative",
-    "margin-top": "7.5vh",
-    display:"inline",
-    "margin-right":"5px",
-    float:"left"
-  };
-
-  var styleChevronRight = {
-    "float":"right",
-    position:"relative",
-    right:"21vw",
-    top:"8vh"
-  };
-
   var styleTrash = {
     position:"absolute",
     "left":"10vw",
@@ -119,8 +102,6 @@
         styleObjectChecked: styleMissionBoxChecked,
         styleTitle: styleMissionBoxTitle,
         styleDate: styleMissionBoxDate,
-        styleChevron : styleChevron,
-        styleChevronRight:styleChevronRight,
         styleTrash : styleTrash,
         styleAnimatingList : styleAnimatingList,
         imageLink:"static/img/add.png",
@@ -135,13 +116,6 @@
       },
       trashToBlack(e){
         e.target.style.color="white";
-      },
-      borderColorToHover(e){
-        if(e.target.classList.value.includes("missionItem"))e.target.style.border = "1px solid orange";
-        else if(e.path[1].classList.value.includes("missionItem"))e.path[1].style.border = "1px solid orange";
-      },
-      borderColorToDefault(e){
-        e.target.style.border = ""
       },
       moveMissionsToLeft(){
         var elem = document.getElementById("listAnimate");
@@ -196,7 +170,7 @@
         let frame=()=>{
           if(count >= end||
             (parseInt(elem.style.right?elem.style.right.substring(0,elem.style.right.length-2):0)
-            >=parseInt((this.missions.length-5)*vwTOpx(item.style.width.substring(0,item.style.width.length-2))))){
+            >=parseInt((this.missions.length-4)*(vwTOpx(item.style.width.substring(0,item.style.width.length-2)))+2*vwTOpx(item.style.margin.substring(0,item.style.margin.length-2))))){
             clearInterval(id);
           }
           else{
@@ -243,22 +217,64 @@
           this.$emit('getInfoMission',index);
       },
       addMission(){
-          this.$emit('addMission');
+        this.$emit('addMission');
+      },
+      getStyleMission(item){
+        if(this.block==item.id){
+          return {
+            color: 'white',
+            width: "11.5vw",
+            height:"4vh",
+            "padding-top": "3vh",
+            "padding-bottom": "8vh",
+            margin: "0.5vw",
+            "text-align": "center",
+            "border-radius":"10px",
+            "float":"left",
+            position:"relative",
+            "background-image":"linear-gradient(to bottom, #3498db, #2980b9)",
+          };
+        }
+        else{
+          return this.styleObject;
+        }
+
       }
     },
     props:[
-        'missions',"block"
+      'missions',"block"
     ]
   }
 </script>
 
 <style>
   .container-cv{
-    border-top: 1px solid lightgrey;
-    border-bottom: 1px solid lightgrey;
-    border-right: 1px solid lightgrey;
+    width: 100%;
+    height:21vh;
   }
 
+  .headerMissionsBlock{
+    width: 95%;
+    display: flex;
+    margin-left: 2%;
+    padding-bottom: 0.2em;
+    border: none;
+    border-bottom: 1px solid dimgrey;
+  }
+
+  .listMissions{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height:21vh;
+  }
+
+  .containerMissions{
+    width: 85%;
+    overflow:hidden;
+  }
   .list-complete-enter-active, .list-complete-leave-active {
     transition: .5s
   }
@@ -268,7 +284,7 @@
   }
 
   .missionItem:hover{
-    transform: scale(1.07);
+    transform: scale(1.1);
   }
 
   .fa-trash{

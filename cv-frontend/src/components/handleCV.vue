@@ -13,7 +13,7 @@
           <div style="display: flex; flex-direction: row;margin-right: 10px" @click="showPDF=!showPDF"><div style="display: flex;margin-right: 10px">Afficher aperçu PDF</div><i class="fa fa-binoculars"></i></div>
         </div>
         <registermission :currentBlock="currentBlock" :titleMission="missions[currentBlock].title" :beginDate="missions[currentBlock].beginDate" :endDate="missions[currentBlock].endDate"
-                         :client="missions[currentBlock].clientId" :description="missions[currentBlock].description" :typeM="missions[currentBlock].type" :today="today" :domain="missions[currentBlock].domain"
+                         :client="missions[currentBlock].clientId" :description="missions[currentBlock].description" :typeM="missions[currentBlock].typeMissions" :today="today" :domain="missions[currentBlock].domain"
                          @updateSector="updateSector" @updateProps="updateMission"></registermission>
 
         <skills v-bind:currentSkills="missions[currentBlock].skills" :block="currentBlock" v-on:updateSkills="updateSkills"></skills>
@@ -71,6 +71,11 @@
           currentBlock:0,
         }
     },
+    beforeCreate:function(){
+      if(!this.$session.has("id")) {
+        window.location.href = '/'
+      }
+    },
     created: function(){
       let date = new Date();
       let thisDay, thisMonth;
@@ -78,59 +83,56 @@
       date.getMonth() + 1 < 10 ? thisMonth = '0' + parseInt(date.getMonth() + 1) : thisMonth = parseInt(date.getMonth() + 1);
       this.today = date.getFullYear() + '-' + thisMonth + '-' + thisDay;
 
-      if(this.$session.has("id")) {
-        let id = this.$session.get("id");
-        axios.get('http://cv360-dev.lan:8061/api/getUser', {
-          params: {
-            id: id
+      let id = this.$session.get("id");
+      axios.get('http://cv360-dev.lan:8061/api/getUser', {
+        params: {
+          id: id
+        }
+      })
+        .then((response) => {
+
+          console.log(response.data);
+
+          var birthDate = new Date(response.data.date_birth);
+          this.infoUser = {
+            name: response.data.lastName,
+            firstName: response.data.firstName,
+            birth: birthDate.getFullYear() + "-" +
+            ("0" + (parseInt(birthDate.getMonth()) + 1)).slice(-2) + "-" +
+            ("0" + birthDate.getDate()).slice(-2),
+            fonction: response.data.fonction,
+            experience: response.data.experience,
+            email: response.data.mail,
+            telephone: response.data.telephone,
+            hobbies: response.data.hobbies,
+            languages: response.data.languages.map(
+              function (elem) {
+                return elem.label;
+              }).join(" "),
+            picture: ""
+          };
+
+          this.missions = response.data.missions;
+
+          for (let i in this.missions) {
+            let tmp = new Date(this.missions[i].beginDate);
+            let tmpEnd = new Date(this.missions[i].endDate);
+
+            this.missions[i].beginDate = tmp.getFullYear() + "-" +
+              ("0" + (parseInt(tmp.getMonth()) + 1)).slice(-2) + "-" +
+              ("0" + tmp.getDate()).slice(-2);
+
+            this.missions[i].endDate = tmpEnd.getFullYear() + "-" +
+              ("0" + (parseInt(tmpEnd.getMonth()) + 1)).slice(-2) + "-" +
+              ("0" + tmpEnd.getDate()).slice(-2);
           }
+
+          this.currentBlock = 0;
+
         })
-          .then((response) => {
-
-            var birthDate = new Date(response.data.date_birth);
-            this.infoUser = {
-              name: response.data.lastName,
-              firstName: response.data.firstName,
-              birth: birthDate.getFullYear() + "-" +
-              ("0" + (parseInt(birthDate.getMonth()) + 1)).slice(-2) + "-" +
-              ("0" + birthDate.getDate()).slice(-2),
-              fonction: response.data.fonction,
-              experience: response.data.experience,
-              email: response.data.mail,
-              telephone: response.data.telephone,
-              hobbies: response.data.hobbies,
-              languages: response.data.languages.map(
-                function (elem) {
-                  return elem.label;
-                }).join(" "),
-              picture: ""
-            };
-
-            this.missions = response.data.missions;
-
-            for (let i in this.missions) {
-              let tmp = new Date(this.missions[i].beginDate);
-              let tmpEnd = new Date(this.missions[i].endDate);
-
-              this.missions[i].beginDate = tmp.getFullYear() + "-" +
-                ("0" + (parseInt(tmp.getMonth()) + 1)).slice(-2) + "-" +
-                ("0" + tmp.getDate()).slice(-2);
-
-              this.missions[i].endDate = tmpEnd.getFullYear() + "-" +
-                ("0" + (parseInt(tmpEnd.getMonth()) + 1)).slice(-2) + "-" +
-                ("0" + tmpEnd.getDate()).slice(-2);
-            }
-
-            this.currentBlock = 0;
-
-          })
-          .catch(function (error) {
-            console.log("Error loading user \n" + error);
-          });
-      }
-      else{
-        window.location.href = '/';
-      }
+        .catch(function (error) {
+          console.log("Error loading user \n" + error);
+        });
     },
     methods:{
         getInfoMission(index){
@@ -166,12 +168,13 @@
             }
           }
         },
-        updateMission:function(name,client,dateB,dateE,descr){
+        updateMission:function(name,client,dateB,dateE,descr,type){
             this.missions[this.currentBlock].title=name;
             this.missions[this.currentBlock].client=client;
             this.missions[this.currentBlock].beginDate=dateB;
             this.missions[this.currentBlock].endDate=dateE;
             this.missions[this.currentBlock].description=descr;
+            this.missions[this.currentBlock].typeMissions=type;
         }
     }
   }
@@ -183,76 +186,5 @@
     position: relative;
     left: 10px;
     padding-right: 20px;
-  }
-
-  .mycv{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .bannerMission{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 2em;
-    width: auto;
-    background-color: #D7D7D7;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-  }
-
-  .bannerMission p{
-    position: relative;
-    left: 2.5%
-  }
-
-  .mission{
-    flex-grow: 3;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    border: 1px solid #D7D7D7;
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-  }
-
-  .infoUser{
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  #PDF{
-    z-index:10;
-    position: fixed;
-    top: 4%;
-    left: 50%;
-    transform: translate(-50%, -2%);
-    background-color: white;
-    border : 1px solid #D7D7D7;
-    height: 96%;
-  }
-
-  .grayer{
-    z-index: 9;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #A8A8A8;
-    opacity: 0.7;
-  }
-
-
-  .closePDF {
-    z-index:11;
-    position: absolute;
-    left: 1200px;
-    top: 8px;
-    width:35px;
-    height:35px;
   }
 </style>

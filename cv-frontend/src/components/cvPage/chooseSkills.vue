@@ -2,33 +2,34 @@
   <div>
     <div class="head-component">
       <div class="title-skills">
-        <i class="fa fa-anchor" style="margin-left:1vw;"></i>
-        <span class="title-2" style="font-family: Bradley Hand ITC, cursive; font-weight: bold; margin-left: 1% ">Mots-clés</span>
+        <i class="fa fa-anchor fa-2x"></i>
+        <span class="title-2" style="font-family: Arial, cursive; font-weight: bold; margin-left: 1%; width: 20% ">Mots-clés</span>
       </div>
       <div class="zone-search-skill">
+        <i class="fa fa-search picto-search" v-on:click="searchSkill"></i>
         <input type=text maxlength="25" class="search-skill" placeholder="Recherche" v-model="search"
                v-on:keyup.enter="searchSkill" v-on:keyup.delete="cancelSearch">
         <div class="result-search" v-bind:style="colorSearch">{{ resultSearch }}</div>
-        <i class="fa fa-search picto-search" v-on:click="searchSkill"></i>
+
         <i class="fa fa-times fa-2x picto-cancel" v-on:click="deleteSearch"></i>
       </div>
     </div>
-    <div id="tab-skills" style="width:80vw;height:20vh;overflow-y: scroll;overflow-x: hidden;" class="container-cv">
-      <transition-group name="transition-skills" tag="p">
+    <div id="tab-skills" class="containerCv">
+      <transition-group name="transition-skills">
         <div v-for="(item,index) in categories" v-bind:key="item">
           <div v-bind:style="findColor(item)" class="categorie-style" v-on:click="toggleActive(item)">
             {{ categories[index] }}
           </div>
-            <transition name="fade">
-              <div v-if="findActive(item)" class="skill-list" v-bind:style="applyHeight(item)" >
-                <a v-for="(i,num) in findSkills(item)" class="skill-style" v-bind:style="backgroundSelected(i)" v-on:click="select(i,item)"
-                   v-on:mouseover="changeColorToSelec" v-on:mouseleave="changeColorToUnselec(i,$event)">
-                  <span>{{ i }}</span>
-                  <i v-if="checkSelected(i)" v-bind:class="checked" class="icon-skill"></i>
-                  <i v-else v-bind:class="unchecked" class="icon-skill" style="color:black"></i>
-                </a>
-              </div>
-            </transition>
+          <transition name="fade">
+            <div v-if="findActive(item)" class="skill-list" v-bind:style="applyHeight(item)" >
+              <a v-for="(i,num) in findSkills(item)" class="skill-style" v-bind:style="backgroundSelected(i)" v-on:click="select(i)"
+                 v-on:mouseover="changeColorToSelec" v-on:mouseleave="changeColorToUnselec(i,$event)">
+                <span>{{ i }}</span>
+                <i v-if="checkSelected(i)" v-bind:class="checked" class="icon-skill"></i>
+                <i v-else v-bind:class="unchecked" class="icon-skill" style="color:black"></i>
+              </a>
+            </div>
+          </transition>
         </div>
       </transition-group>
     </div>
@@ -192,7 +193,7 @@
         }
       },
       updateSkills: function () {
-       this.$emit('updateSkills',this.currentSkills);
+        this.$emit('updateSkills',this.currentSkills);
       }
     }
   }
@@ -201,13 +202,19 @@
 </script>
 
 <style>
+  .containerCv{
+    width: 100%;
+    height: 10em;
+    overflow-y: scroll;
+  }
+
   .categorie-style{
     display: flex;
-    width: 97%;
+    width: 96.5%;
     height:7vh;
     margin-top: 0.5vh;
     margin-bottom: 0.5vh;
-    margin-left: 1vw;
+    margin-left: 2%;
     margin-right: 1vw;
     position:relative;
     color:white;
@@ -244,8 +251,8 @@
   }
 
   .title-2{
-    color:dodgerblue;
-    font-size:3.5vh;
+    color:dimgrey;
+    font-size:25px;
   }
 
   .search-skill{
@@ -257,16 +264,18 @@
   }
 
   .zone-search-skill{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     position:relative;
-    float:right;
-    right:-1px;
+    left:-10%;
+    padding: 0 2%;
     height:5vh;
-    display:inline;
     width:27vw;
-    border-bottom:none;
-    border-top:1px solid lightgrey;
-    border-left:1px solid lightgrey;
-    border-right:1px solid lightgrey;
+    border-radius: 20px;
+    border: 1px solid dodgerblue;
+    background-color: white;
   }
 
   .result-search{
@@ -279,25 +288,25 @@
   }
 
   .picto-search{
-    margin-left:1vw;
-    float:right;
+    color: dodgerblue;
     line-height:5vh;
-    background-color:#EEE;
     padding-left:1vw;
     padding-right:1vw;
   }
 
-  .picto-cancel{
-    float:right;
-    line-height:5vh;
-  }
-
   .head-component{
-    width:80vw;
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 2%;
+    padding-bottom: 0.2em;
+    border: none;
+    border-bottom: 1px solid dimgrey;
   }
 
   .title-skills{
     display:inline;
+    width: 15em;
   }
 
   .transition-skills-move{
@@ -305,10 +314,10 @@
   }
 
   .fade-enter-active{
-    transition: opacity .5s
+    transition: opacity .5s;
   }
   .fade-enter ,.fade-leave-to{
-    opacity: 0
+    opacity: 0;
   }
 
   .fade-leave-active{

@@ -1,10 +1,10 @@
 <template>
-  <div class="sectorcontent">
-    <div v-if="currentClient != ''">
+  <div>
+    <div v-if="currentClient != ''" class="sectorContent">
       <span class="spanActivities" v-if=" currentDomain != '' " v-on:click="updateChamps"
-          v-bind:style="applyStyle(fieldsOfActivities.indexOf(currentDomain))" >{{domain}}</span>
+            v-bind:style="applyStyle(fieldsOfActivities.indexOf(currentDomain))" >{{domain}}</span>
       <span class="spanActivities" v-else="currentDomain == ''"  v-for="(sector,index) in fieldsOfActivities"
-          v-show="toShow[index]" v-on:click="selectedSector(index)" v-bind:style="applyStyle(index)">{{sector}}</span>
+            v-show="toShow[index]" v-on:click="selectedSector(index)" v-bind:style="applyStyle(index)">{{sector}}</span>
     </div>
     <div v-else="currentClient == ''"></div>
   </div>
@@ -43,7 +43,7 @@
       updateChamps: function () {
         this.currentDomain = '';
         for(let i=0;i<this.toShow.length;i++){
-            this.toShow[i] = true;
+          this.toShow[i] = true;
         }
       }
     },
@@ -60,6 +60,7 @@
 </script>
 
 <style>
+  .sectorContent{display: flex; flex-wrap: wrap}
   .spanActivities{
     font-size: 10px;
     font-weight: bold;

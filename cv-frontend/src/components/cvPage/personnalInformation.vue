@@ -1,66 +1,100 @@
 <template>
   <div v-bind:style="styleDv">
     <div v-bind:style="styleHead"><i v-bind:style = "stylePicT" class="fa fa-address-card-o fa-lg" aria-hidden="true"></i> {{title}}</div>
-    <div v-bind:style="styleDiv2">
-      <a>
-        <img id="photoP" v-bind:src ="infoUser.picture" v-on:mouseover="changePhoto" v-bind:style="stylePh" aria-hidden="true">
-        <input type="file" id="inputFile" accept="image/*" name="picture" style="color: transparent; display: none">
-      </a>
+    <div class="photoUser">
+      <img id="photoP" v-bind:src = "photoProfileSrc" v-on:mouseover="changePhoto" v-bind:style="stylePh" aria-hidden="true">
       <span id="textChange" v-bind:style = "styleSp" v-on:mouseout="initPhoto">Modifier</span>
     </div>
-    <form>
-      <p v-bind:style = "stylep">Prénom</p>
-      <i v-bind:style = "stylePic" class="fa fa-user-o" aria-hidden="true"></i>
-      <input v-bind:style="stylei" name = "firstName" v-on:keyup="verificationChar" maxlength="125" type="text" placeholder="Prenom"
-             v-model="infoUser.firstName">
-      <span id="alM" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un prénom valide</span>
 
-      <p v-bind:style = "stylep">Nom</p>
-      <i v-bind:style = "stylePic" class="fa fa-user-o" aria-hidden="true"></i>
-      <input v-bind:style="stylei" name="name" v-on:keyup="verificationChar" placeHolder="Nom"
-             v-model="infoUser.name">
-      <span id="alM1" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un nom valide</span>
+    <input type="file" id="inputFile" accept="image/*" name="picture" style="color: transparent; display: none">
 
-      <p v-bind:style = "stylep">Age</p>
-      <i v-bind:style = "stylePic" class="fa fa-birthday-cake" aria-hidden="true"></i>
-      <input v-bind:style="stylei" name="birth" type="date" placeHolder="" v-model="infoUser.birth">
-      <span><i id="calendar_icon" v-bind:style = "styleCal" class="fa fa-calendar" aria-hidden="true"></i> </span>
+    <div class="containerInput">
+      <label v-bind:style = "stylep">Prénom</label>
+      <div class="inputWithPicto">
+        <i class="fa fa-user-o fa-2x picto" aria-hidden="true"></i>
+        <input class="inputInfo" name = "firstName" v-on:keyup="verificationChar" maxlength="125" type="text" placeholder="Prenom"
+               v-model="infoUser.firstName">
+        <span id="alM" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un prénom valide</span>
+      </div>
+    </div>
 
-      <p v-bind:style = "stylep">Fonction</p>
-      <i v-bind:style = "stylePic" class="fa fa-tag" aria-hidden="true"></i>
-      <input v-bind:style="stylei" name="fonction" v-on:keyup="verificationChar" maxlength="125" placeHolder="Poste"
-             v-model="infoUser.fonction">
-      <span id="alM2" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer une fonction valide</span>
+    <div class="containerInput">
+      <label v-bind:style = "stylep">Nom</label>
+      <div class="inputWithPicto">
+        <i class="fa fa-user-o fa-2x picto" aria-hidden="true"></i>
+        <input class="inputInfo" name="name" v-on:keyup="verificationChar" @input="name=name.toUpperCase()" placeHolder="Nom"
+               v-model="infoUser.name">
+        <span id="alM1" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un nom valide</span>
+      </div>
+    </div>
 
-      <p v-bind:style = "stylep">Expérience (en année)</p>
-      <i v-bind:style = "stylePic" class="fa fa-tachometer" aria-hidden="true"></i>
-      <input v-bind:style="stylei" name="experience" v-on:keyup="verificationChar" placeHolder="Années d'expérience"
-             v-model="infoUser.experience">
-      <span id="alM5" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un nombre d'années valide</span>
+    <div class="containerInput">
+      <label v-bind:style = "stylep">Age</label>
+      <div class="inputWithPicto">
+        <i class="fa fa-birthday-cake fa-2x picto" aria-hidden="true"></i>
+        <input class="inputInfo" name="birth" type="date" placeHolder="" v-model="infoUser.birth">
+        <span><i id="calendar_icon" class="fa fa-calendar pictoInput" aria-hidden="true"></i> </span>
+      </div>
+    </div>
 
-      <p v-bind:style = "stylep">Email</p>
-      <i v-bind:style = "stylePic" class="fa fa-envelope-o" aria-hidden="true"></i>
-      <input v-bind:style="stylei" name="email" type="email" v-on:keyup="verificationEmail" placeHolder="mail@viseo.fr"
-             v-model="infoUser.email">
-      <span id="alM6" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer une adresse email valide</span>
+    <div class="containerInput">
+      <label v-bind:style = "stylep">Fonction</label>
+      <div class="inputWithPicto">
+        <i class="fa fa-tag fa-2x picto" aria-hidden="true"></i>
+        <input class="inputInfo" name="fonction" v-on:keyup="verificationChar" maxlength="125" placeHolder="Poste"
+               v-model="infoUser.fonction">
+        <span id="alM2" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer une fonction valide</span>
+      </div>
+    </div>
 
-      <p v-bind:style = "stylep">Téléphone</p>
-      <i v-bind:style = "stylePic" class="fa fa-phone" aria-hidden="true"></i>
-      <input v-bind:style="stylei" name="telephone" placeholder="tel" v-model="infoUser.telephone">
-      <img v-bind:src="pictoTelSrc" v-bind:style="styleToTel">
+    <div class="containerInput">
+      <label v-bind:style = "stylep">Expérience (en année)</label>
+      <div class="inputWithPicto">
+        <i  class="fa fa-tachometer fa-2x picto" aria-hidden="true"></i>
+        <input class="inputInfo" name="experience" v-on:keyup="verificationChar" placeHolder="Années d'expérience"
+               v-model="infoUser.experience">
+        <span id="alM5" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un nombre d'années valide</span>
+      </div>
+    </div>
 
-      <p v-bind:style = "stylep">Langues</p>
-      <i v-bind:style = "stylePic" class="fa fa-language" aria-hidden="true"></i>
-      <input v-bind:style="stylei" name="languages" v-on:keyup="verificationChar" maxlength="50" placeHolder="langues"
-             v-model="infoUser.languages">
-      <span id="alM3" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer une langue valide</span>
+    <div class="containerInput">
+      <label v-bind:style = "stylep">Email</label>
+      <div class="inputWithPicto">
+        <i  class="fa fa-envelope-o fa-2x picto" aria-hidden="true"></i>
+        <input class="inputInfo" name="email" type="email" v-on:keyup="verificationEmail" placeHolder="mail@viseo.fr"
+               v-model="infoUser.email">
+        <span id="alM6" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer une adresse email valide</span>
+      </div>
+    </div>
 
-      <p v-bind:style = "stylep">Hobbies</p>
-      <i v-bind:style = "stylePic" class="fa fa-gamepad" aria-hidden="true"></i>
-      <input v-bind:style="stylei" name="hobbies" v-on:keyup="verificationChar" maxlength="50" placeHolder="hobbies"
-             v-model="infoUser.hobbies">
-      <span id="alM4" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un hobbie valide</span>
-    </form>
+    <div class="containerInput">
+      <label v-bind:style = "stylep">Téléphone</label>
+      <div class="inputWithPicto">
+        <i class="fa fa-phone fa-2x picto" aria-hidden="true"></i>
+        <input class="inputInfo" name="telephone" placeholder="tel" v-model="infoUser.telephone">
+        <img v-bind:src="pictoTelSrc" :style="styleTel" class="pictoInput">
+      </div>
+    </div>
+
+    <div class="containerInput">
+      <label v-bind:style = "stylep">Langues</label>
+      <div class="inputWithPicto">
+        <i class="fa fa-language fa-2x picto" aria-hidden="true"></i>
+        <input class="inputInfo" name="languages" v-on:keyup="verificationChar" maxlength="50" placeHolder="langues"
+               v-model="infoUser.languages">
+        <span id="alM3" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer une langue valide</span>
+      </div>
+    </div>
+
+    <div class="containerInput">
+      <label v-bind:style = "stylep">Hobbies</label>
+      <div class="inputWithPicto">
+        <i class="fa fa-gamepad fa-2x picto" aria-hidden="true"></i>
+        <input class="inputInfo" name="hobbies" v-on:keyup="verificationChar" maxlength="50" placeHolder="hobbies"
+               v-model="infoUser.hobbies">
+        <span id="alM4" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un hobbie valide</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -69,6 +103,7 @@
 
   var style = {
     height:"9px",
+    width:"100%",
     color: "rgb(180,180,180)",
     'text-indent' : "15%",
     'font-family': "Caflisch Script Pro",
@@ -79,54 +114,43 @@
   var styleInput = {
     border: "none",
     'border-bottom': "0.5px solid rgb(180,180,180)",
-    position: "relative",
-    left: "3%",
-    width: "80%",
+    width: "100%",
     'font-size':"90%",
     'font-family': "New Century Schoolbook, serif",
-
+    'background-color': '#F2F3F4'
   };
 
   var stylePhoto ={
     height : "80px",
     width: "80px",
-    display: "block",
-    margin: "20px 0",
-    position: "relative",
-    left: "35%",
-    'border-radius': "50px",
-    '-moz-box-shadow': "0px 0px 10px #343434",
-    '-webkit-box-shadow': "0px 0px 10px #343434",
-    '-o-box-shadow': "0px 0px 10px #343434",
-    'box-shadow': "0px 0px 10px #343434"
+    'border-radius': "50%",
   };
 
   var styleMainDiv = {
+    display: 'flex',
+    'flex-direction':'column',
+    'align-items': 'center',
+    'justify-content': 'space-between',
     height: "100%",
     width: "100%",
-    border: "0.5px solid rgb(220,220,220)",
-    'border-radius': "15px",
+    'background-color': '#F2F3F4',
     'margin-left': "2%"
   };
 
-  var stylePicto = {
-    position: "relative",
-    left: "2%"
-  };
-
   var stylePictoHeader = {
-    position: "relative",
+    'margin-right':'0.5em'
   };
 
   var styleHeader = {
-    background: "rgb(215,215,215)",
+    display: 'flex',
+    'justify-content': 'center',
+    'align-items':'center',
+    'background-color': "#229954",
     'text-align': "center",
-    height:"1.7em",
+    height:"2.5em",
     width: "100%",
-    'padding-top':"2%",
-    'border-top-right-radius': "8px",
-    'border-top-left-radius': "8px",
-    'font-family': "New Century Schoolbook, serif"
+    'font-family': "New Century Schoolbook, serif",
+    color: 'white',
   };
 
   var styleA = {
@@ -135,28 +159,22 @@
   };
 
   var styleSpan ={
+    position: 'absolute',
     'text-shadow': "0.1em 0.1em 0.2em black",
     color: "white",
     cursor: "pointer",
-    display: "table",
-    height: "50px",
-    left: "38%",
-    position: "absolute",
-    top: "0",
-    width: "70px",
-    opacity: "0",
+    padding: '30px 12px',
+    'text-align':'center',
+    'border-radius':'50%',
+    opacity: "1",
     '-webkit-transition': "opacity 500ms",
     '-moz-transition': "opacity 500ms",
     '-o-transition': "opacity 500ms",
     transition: "opacity 500ms",
-    'border-radius':"50%",
     'z-index': "-2",
-    'padding-top': "10%"
   };
 
-  var styleDivImage = {
-    position: "relative"
-  };
+
 
   var stylePictoTel= {
     "height": '18px',
@@ -191,8 +209,7 @@
           if(occur==1){
             inputFile.style.display="block";
             inputFile.style.position = "relative";
-            inputFile.style.left ="20%";
-            inputFile.style.height = "40%";
+            inputFile.style.width ="11em";
             text.style.opacity=0;
           }
         };
@@ -211,9 +228,11 @@
       },
       initPhoto: function () {
         let text = document.getElementById("textChange");
+        console.log(text.style.opacity, text.style.zIndex,document.getElementById("photoP").style.opacity)
         document.getElementById("photoP").style.opacity=1;
         text.style.opacity = 0;
         text.style.zIndex = -2;
+        console.log(text.style.opacity, text.style.zIndex,document.getElementById("photoP").style.opacity)
       },
       verificationChar: function () {
         let toShow = false;
@@ -312,10 +331,10 @@
           ((event.target.value.length<2 || event.target.value.length>125) &&
           (event.target.name =="prenom" || event.target.name == "nom" || event.target.name == "fonction"))){
 
-            alertMessage.style.display="block";
-            alertMessage.style.opacity=1;
-            alertMessage.style.color="rgb(255,0,0)";
-            alertMessage.style.textAlign= "center";
+          alertMessage.style.display="block";
+          alertMessage.style.opacity=1;
+          alertMessage.style.color="rgb(255,0,0)";
+          alertMessage.style.textAlign= "center";
         }
       }
     },
@@ -327,13 +346,11 @@
         stylei: styleInput,
         stylePh: stylePhoto,
         styleDv: styleMainDiv,
-        stylePic: stylePicto,
         stylePicT:stylePictoHeader,
         styleHead: styleHeader,
         stylea: styleA,
         styleSp: styleSpan,
-        styleDiv2: styleDivImage,
-        styleToTel:stylePictoTel,
+        styleTel:stylePictoTel,
         styleCal:stylePictoCal,
         photoProfileSrc: "../../static/viseo-logo.png",
         pictoTelSrc:"../../static/flag-fr.png",
@@ -344,5 +361,48 @@
 </script>
 
 <style>
+  .inputInfo{
+    border: none;
+    border-bottom: 0.5px solid rgb(180,180,180);
+    width: 80%;
+    font-size:90%;
+    font-family: New Century Schoolbook, serif;
+    background-color: #F2F3F4;
+  }
+
+  .containerInput{
+    display: flex;
+    width: 80%;
+    height: 3em;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
+  }
+
+  .inputWithPicto{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width:100%;
+  }
+
+  .picto{
+    margin-right: .5em;
+  }
+
+  .pictoInput{
+    position: relative;
+    left: -1em;
+    top: 0.5em;
+    pointer-events: none;
+    background-color: #F2F3F4;
+  }
+
+  .photoUser{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
 </style>

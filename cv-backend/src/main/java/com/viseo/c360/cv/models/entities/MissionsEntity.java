@@ -34,6 +34,7 @@ public class MissionsEntity extends BaseEntity {
             joinColumns=@JoinColumn(name="missions_id"),
             inverseJoinColumns=@JoinColumn(name="skills_id")
     )
+
     private List <SkillsEntity> skills;
     
     public String getTitle() {
@@ -69,7 +70,7 @@ public class MissionsEntity extends BaseEntity {
     }
 
     public ClientsEntity getClientId() {
-        return clientId;
+        return this.clientId;
     }
 
     public void setClientId(ClientsEntity clientId) {
