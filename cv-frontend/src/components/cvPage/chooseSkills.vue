@@ -21,7 +21,7 @@
           </div>
             <transition name="fade">
               <div v-if="findActive(item)" class="skill-list" v-bind:style="applyHeight(item)" >
-                <a v-for="(i,num) in findSkills(item)" class="skill-style" v-bind:style="backgroundSelected(i)" v-on:click="select(i)"
+                <a v-for="(i,num) in findSkills(item)" class="skill-style" v-bind:style="backgroundSelected(i)" v-on:click="select(i,item)"
                    v-on:mouseover="changeColorToSelec" v-on:mouseleave="changeColorToUnselec(i,$event)">
                   <span>{{ i }}</span>
                   <i v-if="checkSelected(i)" v-bind:class="checked" class="icon-skill"></i>
@@ -97,16 +97,19 @@
         return this.skills[categories.indexOf(cat)];
       },
       checkSelected(skill){
-        return this.currentSkills.indexOf(skill) != -1;
+          for(let i in this.currentSkills){
+              if(this.currentSkills[i].label==skill) return i;
+          }
+          return false;
       },
       backgroundSelected(skill){
-        return "background-color:" + (this.currentSkills.indexOf(skill) == -1 ? "white;" : "#50BDAC;") +
-          "color:" + (this.currentSkills.indexOf(skill) == -1 ? "black;" : "white;");
+        return "background-color:" + (!this.checkSelected(skill) ? "white;" : "#50BDAC;") +
+          "color:" + (!this.checkSelected(skill) ? "black;" : "white;");
       },
-      select(skill){
-        if (this.currentSkills.indexOf(skill) == -1) this.currentSkills.push(skill);
+      select(skill,cat){
+        if (!this.checkSelected(skill)) this.currentSkills.push({label:skill,domain:cat,id:0});
         else {
-          this.currentSkills.splice(this.currentSkills.indexOf(skill), 1);
+          this.currentSkills.splice(this.checkSelected(skill), 1);
         }
         this.updateSkills();
       },
@@ -115,7 +118,7 @@
         else if (e.path[1].classList.value.includes("skill-style")) e.path[1].style.backgroundColor = "#50BDAC";
       },
       changeColorToUnselec(skill, e){
-        if (this.currentSkills.indexOf(skill) == -1) {
+        if (!this.checkSelected(skill)) {
           if (e.target.classList.value.includes("skill-style")) e.target.style.backgroundColor = "white";
           else if (e.path[1].classList.value.includes("skill-style")) e.path[1].style.backgroundColor = "white";
         }

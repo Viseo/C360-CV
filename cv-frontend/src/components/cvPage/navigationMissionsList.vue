@@ -13,9 +13,9 @@
         <div id="containerMissions" style="height:23.5vh;width:75vw;overflow:hidden;">
           <div id="listAnimate" v-bind:style="styleAnimatingList">
             <transition-group name="list-complete" tag="p">
-                 <span v-bind:style="block==index?styleObjectChecked:styleObject" v-for="(item,index) in missions" v-bind:key="item" @click="getInfoMission(item)"
-                       class="list-complete-item missionItem">
-                    <div v-bind:style="styleTitle">{{ item.name!=""?item.name:"Nouvelle Mission" }}</div>
+                 <span v-bind:style="block==index?styleObjectChecked:styleObject" v-for="(item,index) in missions" v-bind:key="index"
+                       @click="getInfoMission(index)" class="list-complete-item missionItem">
+                    <div v-bind:style="styleTitle">{{ item.title }}</div>
                     <div v-bind:style="styleDate">{{ item.beginDate }} to {{ item.endDate!=""?item.endDate:"now" }}</div>
                     <i v-on:mouseover="trashToRed" v-on:mouseleave="trashToBlack" v-on:click="deleteMission(index)"
                        v-bind:class="trash":style="styleTrash"></i>
@@ -48,6 +48,7 @@
     position:"relative",
     "background-image":'linear-gradient(to bottom, #3498db, #2980b9)'
   };
+
   var styleMissionBoxChecked = {
     color: 'white',
     width: "11.5vw",
@@ -229,37 +230,20 @@
       },
       deleteMission(index){
         this.missions.splice(index,1);
-        if(this.missions.length<=5){
-          document.getElementById("listAnimate").style.right = 0;
-          document.getElementById("listAnimate").style.left = 0;
-        }
-        this.$emit('deleteMission');
+
+        setTimeout(()=> {
+          if (this.missions.length <= 5) {
+            document.getElementById("listAnimate").style.right = 0;
+            document.getElementById("listAnimate").style.left = 0;
+          }
+          this.$emit('deleteMission');
+        },500);
       },
-      getInfoMission(item){
-          this.$emit('getInfoMission', item.id);
+      getInfoMission(index){
+          this.$emit('getInfoMission',index);
       },
       addMission(){
           this.$emit('addMission');
-      },
-      getStyleMission(item){
-          if(this.block==item.id){
-              return {
-                color: 'white',
-                width: "11.5vw",
-                height:"4vh",
-                "padding-top": "3vh",
-                "padding-bottom": "8vh",
-                margin: "0.5vw",
-                "text-align": "center",
-                "border-radius":"10px",
-                "float":"left",
-                position:"relative",
-                "background-image":"linear-gradient(to bottom, #3498db, #2980b9)",
-              };
-          }
-          else{
-              return this.styleObject;
-          }
       }
     },
     props:[

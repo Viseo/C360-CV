@@ -189,6 +189,9 @@
         }
       }
     },
+    created:function(){
+      this.$session.destroy();
+    },
     methods:{
       inscriptionClick : function(){
         let inscription=document.getElementById("Inscription");

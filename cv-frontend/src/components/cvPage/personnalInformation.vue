@@ -3,62 +3,62 @@
     <div v-bind:style="styleHead"><i v-bind:style = "stylePicT" class="fa fa-address-card-o fa-lg" aria-hidden="true"></i> {{title}}</div>
     <div v-bind:style="styleDiv2">
       <a>
-        <img id="photoP" v-bind:src = "picture" v-on:mouseover="changePhoto" v-bind:style="stylePh" aria-hidden="true">
-        <input type="file" id="inputFile" accept="image/*" name="picture" @change="updateInfoUser" style="color: transparent; display: none">
+        <img id="photoP" v-bind:src ="infoUser.picture" v-on:mouseover="changePhoto" v-bind:style="stylePh" aria-hidden="true">
+        <input type="file" id="inputFile" accept="image/*" name="picture" style="color: transparent; display: none">
       </a>
       <span id="textChange" v-bind:style = "styleSp" v-on:mouseout="initPhoto">Modifier</span>
     </div>
     <form>
       <p v-bind:style = "stylep">Prénom</p>
       <i v-bind:style = "stylePic" class="fa fa-user-o" aria-hidden="true"></i>
-      <input v-bind:style="stylei" name = "firstName" v-on:keyup="verificationChar" @input="updateInfoUser" maxlength="125" type="text" placeholder="Prenom"
-             v-model="firstName">
+      <input v-bind:style="stylei" name = "firstName" v-on:keyup="verificationChar" maxlength="125" type="text" placeholder="Prenom"
+             v-model="infoUser.firstName">
       <span id="alM" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un prénom valide</span>
 
       <p v-bind:style = "stylep">Nom</p>
       <i v-bind:style = "stylePic" class="fa fa-user-o" aria-hidden="true"></i>
-      <input v-bind:style="stylei" name="name" v-on:keyup="verificationChar" @input="updateInfoUser(); name=name.toUpperCase()" placeHolder="Nom"
-             v-model="name">
+      <input v-bind:style="stylei" name="name" v-on:keyup="verificationChar" placeHolder="Nom"
+             v-model="infoUser.name">
       <span id="alM1" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un nom valide</span>
 
       <p v-bind:style = "stylep">Age</p>
       <i v-bind:style = "stylePic" class="fa fa-birthday-cake" aria-hidden="true"></i>
-      <input v-bind:style="stylei" name="birth" type="date" placeHolder="" v-model="birth" @input="updateInfoUser">
+      <input v-bind:style="stylei" name="birth" type="date" placeHolder="" v-model="infoUser.birth">
       <span><i id="calendar_icon" v-bind:style = "styleCal" class="fa fa-calendar" aria-hidden="true"></i> </span>
 
       <p v-bind:style = "stylep">Fonction</p>
       <i v-bind:style = "stylePic" class="fa fa-tag" aria-hidden="true"></i>
-      <input v-bind:style="stylei" name="fonction" v-on:keyup="verificationChar" @input="updateInfoUser" maxlength="125" placeHolder="Poste"
-             v-model="fonction">
+      <input v-bind:style="stylei" name="fonction" v-on:keyup="verificationChar" maxlength="125" placeHolder="Poste"
+             v-model="infoUser.fonction">
       <span id="alM2" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer une fonction valide</span>
 
       <p v-bind:style = "stylep">Expérience (en année)</p>
       <i v-bind:style = "stylePic" class="fa fa-tachometer" aria-hidden="true"></i>
-      <input v-bind:style="stylei" name="experience" v-on:keyup="verificationChar" @input="updateInfoUser" placeHolder="Années d'expérience"
-             v-model="experience">
+      <input v-bind:style="stylei" name="experience" v-on:keyup="verificationChar" placeHolder="Années d'expérience"
+             v-model="infoUser.experience">
       <span id="alM5" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un nombre d'années valide</span>
 
       <p v-bind:style = "stylep">Email</p>
       <i v-bind:style = "stylePic" class="fa fa-envelope-o" aria-hidden="true"></i>
-      <input v-bind:style="stylei" name="email" type="email" v-on:keyup="verificationEmail" @input="updateInfoUser" placeHolder="mail@viseo.fr"
-             v-model="email">
+      <input v-bind:style="stylei" name="email" type="email" v-on:keyup="verificationEmail" placeHolder="mail@viseo.fr"
+             v-model="infoUser.email">
       <span id="alM6" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer une adresse email valide</span>
 
       <p v-bind:style = "stylep">Téléphone</p>
       <i v-bind:style = "stylePic" class="fa fa-phone" aria-hidden="true"></i>
-      <input v-bind:style="stylei" name="telephone" placeholder="tel" v-model="telephone" @input="updateInfoUser">
+      <input v-bind:style="stylei" name="telephone" placeholder="tel" v-model="infoUser.telephone">
       <img v-bind:src="pictoTelSrc" v-bind:style="styleToTel">
 
       <p v-bind:style = "stylep">Langues</p>
       <i v-bind:style = "stylePic" class="fa fa-language" aria-hidden="true"></i>
-      <input v-bind:style="stylei" name="languages" v-on:keyup="verificationChar" @input="updateInfoUser" maxlength="50" placeHolder="langues"
-             v-model="languages">
+      <input v-bind:style="stylei" name="languages" v-on:keyup="verificationChar" maxlength="50" placeHolder="langues"
+             v-model="infoUser.languages">
       <span id="alM3" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer une langue valide</span>
 
       <p v-bind:style = "stylep">Hobbies</p>
       <i v-bind:style = "stylePic" class="fa fa-gamepad" aria-hidden="true"></i>
-      <input v-bind:style="stylei" name="hobbies" v-on:keyup="verificationChar" @input="updateInfoUser" maxlength="50" placeHolder="hobbies"
-             v-model="hobbies">
+      <input v-bind:style="stylei" name="hobbies" v-on:keyup="verificationChar" maxlength="50" placeHolder="hobbies"
+             v-model="infoUser.hobbies">
       <span id="alM4" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un hobbie valide</span>
     </form>
   </div>
@@ -317,69 +317,6 @@
             alertMessage.style.color="rgb(255,0,0)";
             alertMessage.style.textAlign= "center";
         }
-      },
-      updateInfoUser: function(){
-        let infoPerso = {
-          name: this.infoUser.name,
-          firstName: this.infoUser.firstName,
-          birth: this.infoUser.birth,
-          fonction: this.infoUser.fonction,
-          experience: this.infoUser.experience,
-          email: this.infoUser.email,
-          telephone: this.infoUser.telephone,
-          hobbies: this.hobbies,
-          languages: this.infoUser.languages,
-          picture: this.infoUser.picture,
-          age: this.infoUser.age,
-        };
-        for(let field in infoPerso){
-          if(field==event.target.name){
-            if(field=='name'){
-              infoPerso[field]=event.target.value.toUpperCase();
-            }else if(field=='picture'){
-              infoPerso[field]=event.target.value.split('\\').slice(-1)[0];
-            }else if(field=='birth'){
-              infoPerso[field]=event.target.value;
-              console.log(Math.floor((new Date(this.today).getTime())),new Date(infoPerso[field]).getTime(),(1000*3600*24*365),infoPerso[field],field)
-              infoPerso['age']=Math.floor((new Date(this.today).getTime()-new Date(infoPerso[field]).getTime())/(1000*3600*24*365));
-            }else{
-              infoPerso[field]=event.target.value;
-            }
-          }
-          console.log(infoPerso[field])
-        }
-
-
-
-
-//          let infoPerso = {
-//            name: this.name,
-//            firstName: this.firstName,
-//            birth: this.birth,
-//            fonction: this.fonction,
-//            experience: this.experience,
-//            email: this.email,
-//            telephone: this.telephone,
-//            hobbies: this.hobbies,
-//            languages: this.languages,
-//            picture: this.photoProfileSrc,
-//            age: '',
-//          };
-//        for(let field in infoPerso){
-//          if(field==event.target.name){
-//            if(field=='picture'){
-////                console.log(event.target.value.split('\\').slice(-1)[0], 'picture')
-//              infoPerso[field]=event.target.value.split('\\').slice(-1)[0];
-//            }else if(field=='birth'){
-//              infoPerso['age']=Math.floor((new Date(this.today).getTime()-new Date(infoPerso[field]).getTime())/(1000*3600*24*365));
-//            }else{
-//              infoPerso[field]=event.target.value;
-//            }
-//          }
-//          console.log(infoPerso[field])
-//        }
-
-        this.$emit('infoUser', infoPerso);
       }
     },
     data: function () {
@@ -400,17 +337,6 @@
         styleCal:stylePictoCal,
         photoProfileSrc: "../../static/viseo-logo.png",
         pictoTelSrc:"../../static/flag-fr.png",
-
-        name: this.infoUser.name,
-        firstName: this.infoUser.firstName,
-        birth: this.infoUser.birth,
-        fonction: this.infoUser.fonction,
-        experience: this.infoUser.experience,
-        email: this.infoUser.email,
-        telephone: this.infoUser.telephone,
-        hobbies: this.infoUser.hobbies,
-        languages: this.infoUser.languages,
-        picture: this.infoUser.picture
       };
     },
     props:["infoUser","today"]

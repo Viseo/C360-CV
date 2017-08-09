@@ -18,7 +18,7 @@
 
       <div class="divForm" style="margin-top:2em">
         <label id="Client" v-bind:class="labelClientClass">Client</label>
-        <input id="Client Form" v-model="nameClient" type="text" v-on:keyup="updateBlock(currentBlock)" class="inputText"
+        <input id="Client Form" v-model="clientMission" type="text" v-on:keyup="updateBlock(currentBlock)" class="inputText"
                @focus="setFocusLabelClass(2)" @blur="changeLabelClass(nameClient,2)">
         <i class="fa fa-id-card-o picto"></i>
       </div>
@@ -31,33 +31,22 @@
         <div id="StartCalendar" class="start">
           <label id="Start Title">Début</label>
           <div class="inputCalendar">
-            <template v-if="beginDate!=''">
-              <input id="Start Calendar Date" :value="beginDate" class="inputDate" type="date" v-on:click="updateBlock(currentBlock)" @input="updateBlock(currentBlock)"><i class="fa fa-calendar cal"></i>
-            </template>
-            <template v-else="endDate!=''">
-              <input id="Start Calendar Date" class="inputDate" type="date" @input="updateBlock(currentBlock)"><i class="fa fa-calendar cal"></i>
-            </template>
+            <input id="Start Calendar Date" v-model="beginInput" class="inputDate" type="date"
+                   @input="updateBlock(currentBlock)" v-on:click="updateBlock(currentBlock)"><i class="fa fa-calendar cal"></i>
           </div>
         </div>
         <span class="messageError" v-if="beginDate == ''">Veuillez entrer une date de début</span>
         <div id="EndCalendar" class="end">
           <label id="Fin Title">Fin</label>
           <div class="inputCalendar">
-            <template v-if="endDate!=''">
-              <input v-if="endDate=='now'" id="End Calendar Date" :value="today" class="inputDate" type="date" v-on:click="updateBlock(currentBlock)" @input="updateBlock(currentBlock)">
-              <input v-else id="End Calendar Date" :value="endDate" class="inputDate" type="date" v-on:click="updateBlock(currentBlock)" @input="updateBlock(currentBlock)">
-              <i class="fa fa-calendar cal"></i>
-            </template>
-            <template v-else="endDate!=''">
-              <input id="End Calendar Date" class="inputDate" type="date" @input="updateBlock(currentBlock)"><i class="fa fa-calendar cal"></i>
-            </template>
+            <input v-if="endDate=='now'" id="End Calendar Date" :value="today" class="inputDate" type="date" @input="updateBlock(currentBlock)">
+            <input v-else id="End Calendar Date" v-model="endInput" class="inputDate" type="date" @input="updateBlock(currentBlock)">
+            <i class="fa fa-calendar cal"></i>
           </div>
           <div v-if="endDate=='now'"><input id="Until Now Box" type="checkbox" checked @click="updateBlock(currentBlock)">Jusqu'à ce jour</div>
           <div v-else><input id="Until Now Box" type="checkbox" @click="updateBlock(currentBlock)">Jusqu'à ce jour</div>
         </div>
       </div>
-
-
       <div class="divTextArea">
         <label id="descriptionLabel" v-bind:class="labelDescriptionClass">Description</label>
         <textarea id="Description" v-model="descriptionMission" @input="updateBlock(currentBlock)" class="inputTextArea" rows="4"
@@ -78,18 +67,21 @@
     components:{
       sector: fieldActivity
     },
-    data: function(){
+    props: ['beginDate','endDate','titleMission','description','client','typeM','currentBlock','today','domain'],
+    data: function() {
       return {
-        labelTitleClass:this.titleMission!=""?"label-full":"label-empty",
-        nameMission:this.titleMission,
-        labelClientClass:this.client!=""?"label-full":"label-empty",
-        nameClient:this.client,
-        labelDescriptionClass:this.description!=""?"labelDescription-full":"labelDescription-empty",
-        descriptionMission:this.description
+        labelTitleClass: this.titleMission != "" ? "label-full" : "label-empty",
+        nameMission: this.titleMission,
+        labelClientClass: this.client != "" ? "label-full" : "label-empty",
+        clientMission: this.client,
+        labelDescriptionClass: this.description != "" ? "labelDescription-full" : "labelDescription-empty",
+        descriptionMission: this.description,
+        beginInput: "",
+        endInput: ""
       }
     },
     methods:{
-      updateBlock(currentBlock){
+      updateBlock(){
         if(event.target.id=='Until Now Box' && event.target.checked){
           document.getElementById('End Calendar Date').value=this.today;
         }else if(event.target.id=='End Calendar Date'){
@@ -99,8 +91,8 @@
             document.getElementById('Until Now Box').checked=false;
           }
         }
-        bus.$emit('changeBlock',currentBlock);
-        this.$emit('updateProps');
+
+        this.$emit('updateProps',this.nameMission,this.clientMission,this.beginInput,this.endInput,this.descriptionMission);
       },
       toggleShowMenu() {
         this.showMenu=!this.showMenu;
@@ -126,19 +118,24 @@
         this.$emit('updateSector',sector);
       }
     },
-    props: ['beginDate','endDate','titleMission','description','client','typeM','currentBlock','today','domain'],
     watch: {
-      titleMission: function (value,old) {
+      titleMission: function () {
         this.nameMission=this.titleMission;
         this.labelTitleClass=this.titleMission!=""?"label-full":"label-empty";
       },
-      client: function (value,old) {
+      client: function () {
         this.labelClientClass=this.client!=""?"label-full":"label-empty";
         this.nameClient=this.client;
       },
-      description: function (value,old) {
+      description: function (value) {
         this.labelDescriptionClass=value!=""?"labelDescription-full":"labelDescription-empty";
         this.descriptionMission=value
+      },
+      beginDate: function(value){
+          this.beginInput=value;
+      },
+      endDate: function(value){
+        this.endInput=value;
       }
     }
   }
