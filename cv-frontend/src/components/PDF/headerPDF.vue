@@ -4,7 +4,7 @@
       <div class="header">
         <div class="contentHeader">
           <div class="colonnesHeader">
-            <div class="bannerCV"><p>{{infoUser.firstName}} {{infoUser.name}}</p></div>
+            <div class="bannerCV"><p>{{infoUser.firstName}} {{infoUser.lastName}}</p></div>
             <div class="photo">
               <div><img :src="'../../static/'+infoUser.picture" class="photoProfil"></div>
             </div>
@@ -12,11 +12,11 @@
           <div class="colonnesHeader1">
             <div class="userInfo">
               <span class="luggageIcon"></span>
-              <p>{{infoUser.fonction}}, {{infoUser.experience}} d'expérience</p>
+              <p>{{infoUser.position}}, {{infoUser.experience}} d'expérience</p>
             </div>
             <div class="userInfo">
               <span class="enveloppe"></span>
-              <p>{{infoUser.email}}</p>
+              <p>{{infoUser.mail}}</p>
             </div>
             <div class="userInfo">
               <span class="phone"></span>
@@ -30,7 +30,7 @@
             </div>
             <div class="userInfo">
               <span class="netIcon"></span>
-              <p>{{infoUser.languages}}</p>
+              <p>{{this.getLanguages(infoUser.languages)}}</p>
             </div>
             <div class="userInfo">
               <span class="gamePad"></span>
@@ -53,6 +53,15 @@
     },
     props: ['infoUser'],
     methods: {
+      getLanguages: function (tab) {
+        let final = '';
+        if(tab) {
+          for (let language of tab) {
+            final += language.label + ' ';
+          }
+          return final;
+        }
+      }
     }
   }
 </script>

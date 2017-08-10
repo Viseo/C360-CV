@@ -16,6 +16,7 @@ public class ClientToEntityConverter implements Converter<ClientDto,ClientsEntit
 
         ClientsEntity clientsEntity = new ClientsEntity();
         clientsEntity.setDescription(clientDto.getDescription());
+        clientsEntity.setDomain(clientDto.getDomain());
         clientsEntity.setLabel(clientDto.getLabel());
 //        clientsEntity.setMission(clientDto.getMission());
         return clientsEntity;

@@ -1,5 +1,7 @@
 package com.viseo.c360.cv.models.dto;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +22,14 @@ public class UserDto {
     private String telephone;
 
     private String password;
+
+    private String picture;
+
+    private String position;
+
+    private String experience;
+
+    private Boolean admin;
 
     private List<LanguageDto> languages;
 
@@ -106,6 +116,39 @@ public class UserDto {
         this.missions = missions;
     }
 
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getExperience() {
+        return experience;
+    }
+
+    public void setExperience(String experience) {
+        this.experience = experience;
+    }
+
+    public Boolean getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -121,6 +164,10 @@ public class UserDto {
         if (hobbies != null ? !hobbies.equals(userDto.hobbies) : userDto.hobbies != null) return false;
         if (telephone != null ? !telephone.equals(userDto.telephone) : userDto.telephone != null) return false;
         if (password != null ? !password.equals(userDto.password) : userDto.password != null) return false;
+        if (picture != null ? !picture.equals(userDto.picture) : userDto.picture != null) return false;
+        if (position != null ? !position.equals(userDto.position) : userDto.position != null) return false;
+        if (experience != null ? !experience.equals(userDto.experience) : userDto.experience != null) return false;
+        if (admin != null ? !admin.equals(userDto.admin) : userDto.admin != null) return false;
         if (languages != null ? !languages.equals(userDto.languages) : userDto.languages != null) return false;
         return missions != null ? missions.equals(userDto.missions) : userDto.missions == null;
     }
@@ -135,6 +182,10 @@ public class UserDto {
         result = 31 * result + (hobbies != null ? hobbies.hashCode() : 0);
         result = 31 * result + (telephone != null ? telephone.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (picture != null ? picture.hashCode() : 0);
+        result = 31 * result + (position != null ? position.hashCode() : 0);
+        result = 31 * result + (experience != null ? experience.hashCode() : 0);
+        result = 31 * result + (admin != null ? admin.hashCode() : 0);
         result = 31 * result + (languages != null ? languages.hashCode() : 0);
         result = 31 * result + (missions != null ? missions.hashCode() : 0);
         return result;

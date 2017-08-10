@@ -42,14 +42,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<UserDto> getAll() {
-
-        List<UsersEntity> usersEntities = this.accountDAO.getAll();
-
-        if (isEmpty(usersEntities)) {
-            return emptyList();
-        }
-
-        return usersEntities.stream().map(ite -> userToDtoConverter.convert(ite)).collect(toList());
+    public List<UsersEntity> getAll() {
+        return accountDAO.getAll();
     }
 }

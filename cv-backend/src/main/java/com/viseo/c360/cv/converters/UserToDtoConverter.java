@@ -23,6 +23,10 @@ public class UserToDtoConverter implements Converter <UsersEntity,UserDto>{
         userDto.setMail(usersEntity.getMail());
         userDto.setPassword(usersEntity.getPassword());
         userDto.setTelephone(usersEntity.getTelephone());
+        userDto.setAdmin(usersEntity.getAdmin());
+        userDto.setPosition(usersEntity.getPosition());
+        userDto.setPicture(usersEntity.getPicture());
+        userDto.setExperience(usersEntity.getExperience());
 //        userDto.setMissions(usersEntity.getMissions());
 //        userDto.setLanguages(usersEntity.getLanguages());
 

@@ -19,6 +19,10 @@ public class UserToEntityConverter implements Converter<UserDto, UsersEntity> {
         usersEntity.setHobbies(userDto.getHobbies());
         usersEntity.setLogin(userDto.getLogin());
         usersEntity.setTelephone(userDto.getTelephone());
+        usersEntity.setAdmin(userDto.getAdmin());
+        usersEntity.setExperience(userDto.getExperience());
+        usersEntity.setPicture(userDto.getPicture());
+        usersEntity.setPosition(userDto.getPosition());
 //        usersEntity.setLanguages(userDto.getLanguages());
 
 

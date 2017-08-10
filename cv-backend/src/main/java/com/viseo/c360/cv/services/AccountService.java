@@ -11,5 +11,5 @@ public interface AccountService {
 
     UsersEntity add(UserDto user);
 
-    List<UserDto> getAll();
+    List<UsersEntity> getAll();
 }

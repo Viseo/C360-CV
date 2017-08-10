@@ -22,10 +22,12 @@ public class MissionsEntity extends BaseEntity {
     @Column
     private String description;
 
-    @ManyToOne
+    @OneToOne
+    @JoinColumn(name="client")
     private ClientsEntity clientId;
 
-    @ManyToOne
+    @OneToOne
+    @JoinColumn(name="type")
     private TypeMissionsEntity typeMissions;
 
     @ManyToMany

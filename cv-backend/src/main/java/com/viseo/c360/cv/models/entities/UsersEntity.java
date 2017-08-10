@@ -33,6 +33,18 @@ public class UsersEntity extends BaseEntity {
     @Column
     private String password;
 
+    @Column
+    private Boolean admin;
+
+    @Column
+    private String position;
+
+    @Column
+    private String picture;
+
+    @Column
+    private String experience;
+
     @ManyToMany
     @JoinTable(
             name="USERS_LANGUAGES",
@@ -127,5 +139,37 @@ public class UsersEntity extends BaseEntity {
 
     public void setMissions(List<MissionsEntity> missions) {
         this.missions = missions;
+    }
+
+    public Boolean getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public String getExperience() {
+        return experience;
+    }
+
+    public void setExperience(String experience) {
+        this.experience = experience;
     }
 }

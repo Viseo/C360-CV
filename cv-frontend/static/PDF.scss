@@ -1,204 +1,63 @@
 @import "_variables.scss";
+.line{@include line(840px, 35px)}
+.arrow{@include arrow;}
 
-.line {
-  @include line(840px, 35px)
+#PDF{z-index:10; position: fixed; top: 4%; left: 50%; transform: translate(-50%, -2%); background-color: white; border : 1px solid #D7D7D7 ; height: 96%;}
+
+.grayer{z-index: 9; position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; background-color: #A8A8A8 ; opacity: 0.7;}
+
+.closePDF {z-index:11; position: fixed; left: 1200px; top: 8px; width:35px; height:35px;}
+
+.logoDiv{display: flex; justify-content: flex-start; align-items: center;
+  .viseoLogo{max-width:30%; height: auto; display: block; border-radius: 50%; margin: 40px}
+}
+.titles{
+  font-size: 25px; color: dimgray; font-family: Calibri, serif; margin: 0; margin-left: 35px; margin-top: 35px
 }
 
-.arrow {
-  @include arrow;
-}
-
-.logoDiv {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  .viseoLogo {
-    max-width: 30%;
-    height: auto;
-    display: block;
-    border-radius: 50%;
-    margin: 40px
-  }
-}
-
-//.viseoLogo{
-//
-//  transform: scale(0.3, 0.3);
-//  width: 100px;
-//  height:100px;
-//  //content: url("../static/logoviseo.png");
-//}
-
-.titles {
-  font-size: 25px;
-  color: dimgray;
-  font-family: Calibri, serif;
-  margin: 0;
-  margin-left: 35px;
-  margin-top: 35px
-}
-
-.contentHeader {
-  display: flex;
-  flex-direction: row;
-  width: auto;
-  background-color: white;
-  .colonnesHeader {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 3;
-    flex-basis: 30%;
-    align-items: center;
-    justify-content: space-between;
-    .bannerCV {
-      color: dimgray;
-      font-size: 30px;
-      font-family: Calibri;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      p {
-        margin: 0;
-      }
+.contentHeader{display: flex; flex-direction: row; width: auto; background-color: white;
+  .colonnesHeader{display: flex; flex-direction: column; flex-grow: 4; flex-basis: 40%; align-items: center; justify-content: space-between;
+    .bannerCV{color: dimgray; font-size: 30px; font-family: Calibri,serif; display: flex; align-items: center; justify-content: center;
+      p{margin: 0;}
     }
-    .photo {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .photoProfil {
-        height: 7em;
-        width: 7em;
-        display: block;
-        border-radius: 50%;
-      }
+    .photo{display: flex; justify-content: center; align-items: center;
+      .photoProfil{height : 7em; width: 7em; display: block; border-radius: 50%;}
     }
   }
-  .colonnesHeader1 {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 4;
-    flex-basis: 40%;
-    justify-content: space-around
-  }
-  .colonnesHeader2 {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 3;
-    flex-basis: 30%;
-    justify-content: space-around
-  }
-  .userInfo {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 3.5em;
-    width: auto;
-    p {
-      margin-left: 1em;
-    }
-    @each $icon in $icons {
-      .#{$icon} {
-        @include setIcon(#{$icon});
+  .colonnesHeader1{display: flex; flex-direction: column; flex-grow: 3; flex-basis: 30%; justify-content: space-around}
+  .colonnesHeader2{display: flex; flex-direction: column; flex-grow: 3; flex-basis: 30%; justify-content: space-around}
+  .userInfo{display: flex;  flex-direction: row;  align-items: center;  height: 3.5em;  width: auto;
+    p{margin-left: 1em;}
+    @each $icon in $icons{
+      .#{$icon}{
+        @include setIcon($icon);
       }
     }
   }
 }
 
-.missions {
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 900px;
-  .line {
-    @include line()
+.missions{background-color: white; display: flex; flex-direction: column; align-items: flex-start; width: 900px;
+  .line{@include line()}
+  .detailMission{display: flex; flex-direction: row; justify-content: space-around; margin-left: 35px;
+    p{font-size: 25px; color: dimgray; font-family: Calibri, serif; margin: 0}
   }
-  .detailMission {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    margin-left: 35px;
-    p {
-      font-size: 25px;
-      color: dimgray;
-      font-family: Calibri, serif;
-      margin: 0
+  .titreMission{margin-left: 35px; margin-bottom: 15px;
+    p{font-size: 25px; color: dimgray; font-family: Calibri, serif; margin: 0}
+  }
+  .dateMission{margin-left: 65px; display: flex; flex-direction: row; height: 2em; width: 50em; margin-bottom: 15px;
+    p{font-size: 15px; color: dimgray; font-family: Calibri, serif; font-weight: bold; margin: 0; width: auto}
+  }
+  .contentMission{margin-left: 65px; display: flex; flex-direction: row; width: 50em; margin-bottom: 15px;
+    .descriptionMission{
+      p{font-size: 15px; color: dimgray; font-family: Calibri, serif; margin: 0}
     }
   }
-  .titreMission {
-    margin-left: 35px;
-    margin-bottom: 15px;
-    p {
-      font-size: 25px;
-      color: dimgray;
-      font-family: Calibri, serif;
-      margin: 0
-    }
+  .appType{margin-left: 65px; display: flex; flex-direction: row; height: 2em; width: 50em; margin-bottom: 15px;
+    p{font-size: 15px; color: dimgray; font-family: Calibri, serif; font-weight: bold; margin: 0; width: auto}
   }
-  .dateMission {
-    margin-left: 65px;
-    display: flex;
-    flex-direction: row;
-    height: 2em;
-    width: 50em;
-    margin-bottom: 15px;
-    p {
-      font-size: 15px;
-      color: dimgray;
-      font-family: Calibri, serif;
-      font-weight: bold;
-      margin: 0;
-      width: auto
-    }
-  }
-  .contentMission {
-    margin-left: 65px;
-    display: flex;
-    flex-direction: row;
-    width: 50em;
-    margin-bottom: 15px;
-    .descriptionMission {
-      p {
-        font-size: 15px;
-        color: dimgray;
-        font-family: Calibri, serif;
-        margin: 0
-      }
-    }
-  }
-  .appType {
-    margin-left: 65px;
-    display: flex;
-    flex-direction: row;
-    height: 2em;
-    width: 50em;
-    margin-bottom: 15px;
-    p {
-      font-size: 15px;
-      color: dimgray;
-      font-family: Calibri, serif;
-      font-weight: bold;
-      margin: 0;
-      width: auto
-    }
-  }
-  .skills {
-    margin-left: 65px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin-bottom: 15px;
-    .skill {
-      display: flex;
-      color: white;
-      justify-content: center;
-      align-items: center;
-      border-radius: 8px;
-      width: 5.2em;
-      height: 2em;
-      margin: 0.2em;
+  .skills{margin-left: 65px; display: flex; flex-direction: row; flex-wrap: wrap; margin-bottom: 15px;
+    .skill{display: flex; color: white; justify-content: center; align-items: center; border-radius: 8px; width: 5.2em; height: 2em; margin: 0.2em;
     }
   }
 
 }
-

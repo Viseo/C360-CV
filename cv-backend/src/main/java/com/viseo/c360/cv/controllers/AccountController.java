@@ -42,7 +42,7 @@ public class AccountController {
     }
 
     @RequestMapping(path = "/getUsers", method = GET)
-    public List<UserDto> getAll(){
+    public List<UsersEntity> getAll(){
         return this.accountService.getAll();
     }
 }

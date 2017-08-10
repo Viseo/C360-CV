@@ -11,10 +11,13 @@ public class ClientsEntity extends BaseEntity {
     private String label;
 
     @Column
+    private String domain;
+
+    @Column
     private String description;
 
-    @OneToMany (mappedBy = "clientId")
-    private List <MissionsEntity> mission;
+//    @OneToMany (mappedBy = "clientId")
+//    private List <MissionsEntity> mission;
 
     public String getLabel() {
         return label;
@@ -32,11 +35,19 @@ public class ClientsEntity extends BaseEntity {
         this.description = description;
     }
 
-    public List<MissionsEntity> getMission() {
-        return mission;
+//    public List<MissionsEntity> getMission() {
+//        return mission;
+//    }
+//
+//    public void setMission(List<MissionsEntity> mission) {
+//        this.mission = mission;
+//    }
+
+    public String getDomain() {
+        return domain;
     }
 
-    public void setMission(List<MissionsEntity> mission) {
-        this.mission = mission;
+    public void setDomain(String domain) {
+        this.domain = domain;
     }
 }
