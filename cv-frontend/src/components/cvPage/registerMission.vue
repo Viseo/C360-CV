@@ -14,7 +14,7 @@
         <i class="fa fa-file-text fa-2x"></i>
         <div>
           <label id="Type Title">Type</label>
-          <select v-model="typeMission" v-on:click="updateBlock(currentBlock)">
+          <select v-model="typeMission" v-on:click="updateBlock(currentBlock)" :value="typeM">
             <option>Mission</option>
             <option>Séminaire</option>
           </select>
@@ -27,7 +27,7 @@
           <label id="Start Title">Début</label>
           <div class="inputCalendar">
             <template v-if="beginDate!=''">
-              <input id="Start Calendar Date" :value="beginDate" class="inputDate" type="date" v-on:click="updateBlock(currentBlock)" @input="updateBlock(currentBlock)">
+              <input id="Start Calendar Date" :value="beginDate" v-model="beginInput" class="inputDate" type="date" v-on:click="updateBlock(currentBlock)" @input="updateBlock(currentBlock)">
             </template>
             <template v-else="endDate!=''">
               <input id="Start Calendar Date" class="inputDate" type="date" @input="updateBlock(currentBlock)">
@@ -44,15 +44,11 @@
           <label id="Fin Title">Fin</label>
           <div class="inputCalendar">
             <template v-if="endDate!=''">
-              <input v-if="endDate=='now'" id="End Calendar Date" :value="today" class="inputDate" type="date" v-on:click="updateBlock(currentBlock)" @input="updateBlock(currentBlock)">
-              <input v-else id="End Calendar Date" :value="endDate" class="inputDate" type="date" v-on:click="updateBlock(currentBlock)" @input="updateBlock(currentBlock)">
-            </template>
-            <template v-else="endDate!=''">
-              <input id="End Calendar Date" class="inputDate" type="date" @input="updateBlock(currentBlock)">
+              <input id="End Calendar Date" v-model="endInput" :value="endDate" class="inputDate" type="date" v-on:click="updateBlock()" @input="updateBlock()">
             </template>
           </div>
-          <div v-if="endDate=='now'" id="checkboxNow"><input id="Until Now Box" type="checkbox" checked @click="updateBlock(currentBlock)">Jusqu'à ce jour</div>
-          <div v-else id="checkboxNow"><input id="Until Now Box" type="checkbox" @click="updateBlock(currentBlock)">Jusqu'à ce jour</div>
+          <div v-if="endDate=='now'" id="checkboxNow"><input id="Until Now Box" type="checkbox" checked @click="console.log('ezr')">Jusqu'à ce jour</div>
+          <div v-else id="checkboxNow"><input id="Until Now Box" type="checkbox" @click="endInput=today">Jusqu'à ce jour</div>
         </div>
       </div>
     </div>
@@ -62,8 +58,8 @@
         <i class="fa fa-id-card-o fa-2x"></i>
         <div>
           <label id="Client" v-bind:class="labelClientClass">Client</label>
-          <input id="Client Form" v-model="nameClient" type="text" v-on:keyup="updateBlock(currentBlock)" class="inputText"
-                 @focus="setFocusLabelClass(2)" @blur="changeLabelClass(nameClient,2)">
+          <input id="Client Form" v-model="clientMission" type="text" v-on:keyup="updateBlock()" class="inputText"
+                 @focus="setFocusLabelClass(2)" @blur="changeLabelClass(clientMission,2)">
         </div>
       </div>
       <div class="listSector">
@@ -100,20 +96,22 @@
     components:{
       sector: fieldActivity
     },
-    data: function(){
+    props: ['beginDate','endDate','titleMission','description','client','typeM','currentBlock','today','domain'],
+    data: function() {
       return {
-        labelTitleClass:this.titleMission!=""?"label-full":"label-empty",
-        nameMission:this.titleMission,
-        labelClientClass:this.client!=""?"label-full":"label-empty",
-        nameClient:this.client,
-        labelDescriptionClass:this.description!=""?"labelDescription-full":"labelDescription-empty",
-        descriptionMission:this.description,
-        typeMission: '',
+        labelTitleClass: this.titleMission != "" ? "label-full" : "label-empty",
+        nameMission: this.titleMission,
+        labelClientClass: this.client != "" ? "label-full" : "label-empty",
+        clientMission: this.client,
+        labelDescriptionClass: this.description != "" ? "labelDescription-full" : "labelDescription-empty",
+        descriptionMission: this.description,
+        beginInput: "",
+        endInput: "",
+        typeMission:""
       }
     },
     methods:{
-      updateBlock(currentBlock){
-        console.log(event.target.value)
+      updateBlock(){
         if(event.target.id=='Until Now Box' && event.target.checked){
           document.getElementById('End Calendar Date').value=this.today;
         }else if(event.target.id=='End Calendar Date'){
@@ -123,8 +121,10 @@
             document.getElementById('Until Now Box').checked=false;
           }
         }
-        bus.$emit('changeBlock',currentBlock);
-        this.$emit('updateProps');
+
+        console.log(this.endInput);
+
+        this.$emit('updateProps',this.nameMission,this.clientMission,this.beginInput,this.endInput,this.descriptionMission,this.typeMission);
       },
       toggleShowMenu() {
         this.showMenu=!this.showMenu;
@@ -150,19 +150,27 @@
         this.$emit('updateSector',sector);
       }
     },
-    props: ['beginDate','endDate','titleMission','description','client','typeM','currentBlock','today','domain'],
     watch: {
-      titleMission: function (value,old) {
+      titleMission: function () {
         this.nameMission=this.titleMission;
         this.labelTitleClass=this.titleMission!=""?"label-full":"label-empty";
       },
-      client: function (value,old) {
+      client: function () {
         this.labelClientClass=this.client!=""?"label-full":"label-empty";
-        this.nameClient=this.client;
+        this.clientMission=this.client;
       },
-      description: function (value,old) {
+      description: function (value) {
         this.labelDescriptionClass=value!=""?"labelDescription-full":"labelDescription-empty";
         this.descriptionMission=value
+      },
+      beginDate: function(value){
+          this.beginInput=value;
+      },
+      endDate: function(value){
+        this.endInput=value;
+      },
+      typeM:function(value){
+        this.typeMission=value;
       }
     }
   }

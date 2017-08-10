@@ -14,4 +14,7 @@ public interface AccountDAO extends CrudRepository<UsersEntity, Long> {
 
     @Query("SELECT U FROM UsersEntity U WHERE U.mail = ?1")
     UsersEntity findByMail(String mail);
+
+    @Query("SELECT U FROM UsersEntity U WHERE U.id = ?1")
+    UsersEntity findById(int id);
 }

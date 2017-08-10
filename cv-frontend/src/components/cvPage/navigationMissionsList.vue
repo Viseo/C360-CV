@@ -1,36 +1,33 @@
 <template>
-  <div style="margin-top:1vh; overflow: hidden;">
-    <div class="headerMissionsBlock">
-      <i class="fa fa-space-shuttle fa-2x"></i>
-      <span class="title-2" style="font-family: Arial, cursive; font-weight: bold; font-size: 25px;margin-left: 1% ">Missions</span>
-    </div>
-    <div class="container-cv">
-      <div id="listMissions" class="listMissions">
-        <!--<div style="width:2vw;height:20vh;float:left">-->
-        <i v-bind:class="chevronLeft" v-on:click="moveMissionsToLeft" v-if="missions.length>5"></i>
+  <!--<div style="margin-top:1vh; overflow: hidden;">-->
+    <!--<div class="headerMissionsBlock">-->
+      <!--<i class="fa fa-space-shuttle fa-2x"></i>-->
+      <!--<span class="title-2" style="font-family: Arial, cursive; font-weight: bold; font-size: 25px;margin-left: 1% ">Missions</span>-->
+    <!--</div>-->
+    <!--<div class="container-cv">-->
+      <!--<div id="listMissions" class="listMissions">-->
+        <!--<i v-bind:class="chevronLeft" v-on:click="moveMissionsToLeft" v-if="missions.length>4"></i>-->
+        <!--<div id="containerMissions" class="containerMissions">-->
+          <!--<div id="listAnimate" v-bind:style="styleAnimatingList">-->
+            <!--<transition-group name="list-complete" tag="div">-->
+                 <!--<span v-bind:style="block==index?styleObjectChecked:styleObject" v-for="(item,index) in missions" v-bind:key="index" @click="getInfoMission(index)"-->
+                       <!--class="list-complete-item missionItem">-->
+                    <!--<div v-bind:style="styleTitle">{{ item.title!=""?item.title:"Nouvelle Mission" }}</div>-->
+                    <!--<div v-bind:style="styleDate">{{ item.beginDate }} to {{ item.endDate!=""?item.endDate:"now" }}</div>-->
+                    <!--<i v-on:mouseover="trashToRed" v-on:mouseleave="trashToBlack" v-on:click="deleteMission(index)"-->
+                       <!--v-bind:class="trash":style="styleTrash"></i>-->
+                 <!--</span>-->
+            <!--</transition-group>-->
+            <!--<div v-bind:style="styleObject" id="add-mission" class="missionItem list-complete-item" v-on:click="addMission">-->
+              <!--<i class="fa fa-plus fa-2x"></i>-->
+              <!--<div v-bind:style="styleDate">Ajouter une nouvelle Mission</div>-->
+            <!--</div>-->
+          <!--</div>-->
         <!--</div>-->
-        <div id="containerMissions" class="containerMissions">
-          <div id="listAnimate" v-bind:style="styleAnimatingList">
-            <transition-group name="list-complete" tag="div">
-                 <span v-bind:style="block==index?styleObjectChecked:styleObject" v-for="(item,index) in missions" v-bind:key="index" @click="getInfoMission(item)"
-                       class="list-complete-item missionItem">
-                    <div v-bind:style="styleTitle">{{ item.name!=""?item.name:"Nouvelle Mission" }}{{index}}</div>
-                    <div v-bind:style="styleDate">{{ item.beginDate }} to {{ item.endDate!=""?item.endDate:"now" }}</div>
-                    <i v-on:mouseover="trashToRed" v-on:mouseleave="trashToBlack" v-on:click="deleteMission(index)"
-                       v-bind:class="trash":style="styleTrash"></i>
-                 </span>
-            </transition-group>
-            <div v-bind:style="styleObject" id="add-mission" class="missionItem list-complete-item" v-on:click="addMission">
-              <i class="fa fa-plus fa-2x"></i>
-              <div v-bind:style="styleDate">Ajouter une nouvelle Mission</div>
-            </div>
-          </div>
-        </div>
-        <i v-bind:class="chevronRight"  v-on:click="moveMissionsToRight" v-if="missions.length>5"></i>
-
-      </div>
-    </div>
-  </div>
+        <!--<i v-bind:class="chevronRight" v-on:click="moveMissionsToRight" v-if="missions.length>4"></i>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
 </template>
 
 <script>
@@ -49,6 +46,7 @@
     position:"relative",
     "background-image":'linear-gradient(to bottom, #3498db, #2980b9)'
   };
+
   var styleMissionBoxChecked = {
     color: 'white',
     width: "11.5vw",
@@ -119,7 +117,6 @@
       trashToBlack(e){
         e.target.style.color="white";
       },
-
       moveMissionsToLeft(){
         var elem = document.getElementById("listAnimate");
         var posLeft = elem.style.left?(parseInt(elem.style.left.substring(0,elem.style.left.length-2))):0;
@@ -170,8 +167,7 @@
         let item = document.getElementsByClassName("missionItem")[0];
         var end = vwTOpx(item.style.width.substring(0,item.style.width.length-2))
           +2*vwTOpx(item.style.margin.substring(0,item.style.margin.length-2));
-        console.log('movetoright')
-        console.log((this.missions.length-5),(this.missions.length-4)*end)
+
         let frame=()=>{
           console.log(posLeft,posRight,parseInt((this.missions.length-4)*(vwTOpx(item.style.width.substring(0,item.style.width.length-2))+2*vwTOpx(item.style.margin.substring(0,item.style.margin.length-2)))))
 
@@ -211,14 +207,17 @@
       },
       deleteMission(index){
         this.missions.splice(index,1);
-        if(this.missions.length<=5){
-          document.getElementById("listAnimate").style.right = 0;
-          document.getElementById("listAnimate").style.left = 0;
-        }
-        this.$emit('deleteMission');
+
+        setTimeout(()=> {
+          if (this.missions.length <= 5) {
+            document.getElementById("listAnimate").style.right = 0;
+            document.getElementById("listAnimate").style.left = 0;
+          }
+          this.$emit('deleteMission');
+        },500);
       },
-      getInfoMission(item){
-        this.$emit('getInfoMission', item.id);
+      getInfoMission(index){
+          this.$emit('getInfoMission',index);
       },
       addMission(){
         this.$emit('addMission');
@@ -242,6 +241,7 @@
         else{
           return this.styleObject;
         }
+
       }
     },
     props:[

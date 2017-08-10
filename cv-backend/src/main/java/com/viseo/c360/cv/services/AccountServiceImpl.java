@@ -32,4 +32,9 @@ public class AccountServiceImpl implements AccountService{
 
         return accountDAO.findByMail(mail);
     }
+
+    public UsersEntity getUserById(int id) {
+
+        return accountDAO.findById(id);
+    }
 }

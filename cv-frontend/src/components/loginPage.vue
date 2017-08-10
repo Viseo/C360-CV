@@ -189,6 +189,9 @@
         }
       }
     },
+    created:function(){
+
+    },
     methods:{
       inscriptionClick : function(){
         let inscription=document.getElementById("Inscription");
@@ -219,20 +222,10 @@
         {
           let value = document.getElementById(label+form).value;
           let re = new RegExp("^[A-Z]{3,3}[0-9]{4,4}$");
-//          if(value===''){
-//            this.formChecked.signIn.login=false;
-//            document.getElementById("message"+label+form).innerHTML="";
-//          }
-//          else if(re.test(value)){
             if(re.test(value)){
               this.formChecked.signIn.login=true;
               document.getElementById("message"+label+form).innerHTML="";
             }
-//            else {
-//              this.formChecked.signIn.login=false;
-//              document.getElementById("message"+label+form).innerHTML="Le login doit etre contenu entre 3 et 20 caractères";
-//            }
-//          }
           else{
             this.formChecked.signIn.login=false;
             document.getElementById("message"+label+form).innerHTML="Veuillez entrer un code de login valide";
@@ -438,9 +431,15 @@
             }
           })
           .then((response) => {
-
             if (response.data.login) {
-              window.location.href = '/mycv';
+              this.$session.start();
+              this.$session.set("id",response.data.id);
+              if(response.data.admin){
+                window.location.href = '/admin';
+              }
+              else {
+                window.location.href = '/mycv';
+              }
             }
             else {
               alert("Login Failed.");

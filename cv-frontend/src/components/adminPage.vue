@@ -103,6 +103,9 @@
         missions: {}
       }
     },
+    beforeCreate:function(){
+      if(!this.$session.has("id")) window.location.href = '/';
+    },
     methods:{
       searchCollab(){
         let tab = [];

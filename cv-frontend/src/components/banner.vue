@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="banner" v-bind:style="styleBanner">
-      <div  class="bannerText" v-bind:style="styleBannerText">Collaborateur 360</div>
+      <div  class="bannerText" v-bind:style="styleBannerText" v-on:click="signOut">Collaborateur 360</div>
       <div v-on:mouseover="toggleShowMenu"  class="bannerIcon" v-bind:style="styleBannerIcon">
         <i class="fa fa-th" v-bind:style="styleColorIcon"></i>
       </div>
     </div>
-    <dropDownMenu :showMenu="showMenu" @toggledMenu="toggleShowMenu" ></dropDownMenu>
+    <dropDownMenu :showMenu="showMenu" @toggledMenu="toggleShowMenu"></dropDownMenu>
   </div>
 </template>
 
@@ -51,6 +51,10 @@
     methods:{
       toggleShowMenu: function() {
         this.showMenu=!this.showMenu;
+      },
+      signOut:function(){
+        this.$session.destroy();
+        window.location.href = '/';
       }
     }
   }
