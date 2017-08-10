@@ -1,16 +1,19 @@
 <template>
   <div id="collab-menu">
-    <div class="title"><span>Collaborateurs</span></div>
-    <div class="all-collabs">
-      <div v-for="(item,index) in collaborators">
-        <thumbnail :name="item.name" :firstName="item.firstName" :fonction="item.poste"
-                   :email="item.email" :telephone="item.telephone" :birth="item.birth"
-                   :hobbies="item.hobbies" :languages="item.languages"
-                   :experience="item.experience" :picture="item.picture" @showPDF="showPDF" @downloadPDF="downloadPDF"></thumbnail>
-      </div>
-    </div>
+    <div class="titleCollabMenu"><span>Collaborateurs</span></div>
     <div class="zone-download-all">
       <div class="download-all">Télécharger tous les CV</div>
+      <i class="fa fa-download"></i>
+    </div>
+    <div class="containerCollab">
+      <div class="all-collabs">
+        <div v-for="(item,index) in collaborators">
+          <thumbnail :name="item.name" :firstName="item.firstName" :fonction="item.poste"
+                     :email="item.email" :telephone="item.telephone" :birth="item.birth"
+                     :hobbies="item.hobbies" :languages="item.languages"
+                     :experience="item.experience" :picture="item.picture" @showPDF="showPDF" @downloadPDF="downloadPDF"></thumbnail>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -41,46 +44,54 @@
 
 <style>
   #collab-menu{
-    float:right;
-    display:block;
-    height:40em;
-    width:75em;
-    margin:10px;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, serif;
+    background-color: #F2F3F4;
+
+    /*float:right;*/
+    /*display:block;*/
+    /*height:40em;*/
+    /*width:75em;*/
+    /*margin:10px;*/
+  }
+
+  .containerCollab{
+    height:33.5em;
+    padding-left: 4em;
+    overflow-Y: scroll;
+
   }
 
   .all-collabs{
-    overflow-Y: scroll;
-    height:33em;
-    width:75em;
-    border-left:1.5px solid #D7D7D7;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
   }
 
-  .title{
-    height: 2em;
-    width: auto;
-    background-color: #D7D7D7;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    text-align: center;
-    line-height: 2em;
+  .titleCollabMenu{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.35em;
+    background-color: #3498DB;
+    color: white;
   }
 
   .zone-download-all{
-    height: 5em;
-    width: 75em;
-    border-left:1.5px solid #D7D7D7;
-    border-right:1.5px solid #D7D7D7;
-    border-bottom:1.5px solid #D7D7D7;
-    border-bottom-left-radius: 25px;
-    border-bottom-right-radius: 25px;
-    line-height: 5em;
-    text-align: center;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 2em;
+    padding:1em 7em 0 0;
   }
   .download-all{
-    width:10em;
-    height:2em;
-    line-height:2em;
-    display:inline-block;
-    border:1.5px solid pink;
+    display: flex;
+    align-items: center;
+    padding-right: 1em ;
+    font-size: 13px;
+    font-family: Calibri, serif;
+    font-weight: bold;
   }
 </style>

@@ -1,4 +1,6 @@
 $icons: "luggageIcon" "phone" "netIcon" "cake" "enveloppe" "gamePad";
+$checkbox: "Stagiaire" "Junior" "Sénior" "Manager" "first" "second" "third" "Plusde10ans";
+
 
 @mixin setIcon($icon) {
   width: 20px;

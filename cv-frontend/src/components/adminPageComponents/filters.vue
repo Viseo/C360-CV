@@ -1,93 +1,97 @@
 <template>
   <div id="filters-menu">
     <div class="bannerFilter">Filtres</div>
-    <div class="FilterField">
-      <div class="arrowTitle">
-        <div class="arrow"></div>
-        <p>Competences</p>
-      </div>
-      <div class="contenerSkillsFilter">
-        <input class="inputFilter" v-show="!newSkill" type="text" v-model="searchedSkill" @keyup.enter="isThatASkill">
-        <div style="display: flex; justify-content: center; align-items: center">
-          <div class="newSkill" v-show="newSkill">{{skillToAdd.skill}}</div>
-          <i v-show="newSkill" class="fa fa-times-circle fa-lg" style="position: relative; left: -20px" @click="newSkill=!newSkill; searchedSkill=''"></i>
+    <div class="contentFilters">
+      <div class="FilterField">
+        <div class="containerInput"  v-show="!newSkill">
+          <i class="fa fa-search" style="color: dodgerblue"></i>
+          <input class="inputFilter" v-show="!newSkill" type="text" v-model="searchedSkill" @keyup.enter="isThatASkill" placeholder="Rechercher une compétence">
         </div>
-        <i class="fa fa-search" style="position: relative; left: -20px"></i>
-      </div>
-      <div v-show="newSkill" class="addingSkill">
-        <span v-show="!showCat" style="font-size: 12px; font-family: Calibri,serif">Cette compétence n'existe pas, voulez-vous l'ajouter?</span>
-        <i v-show="!showCat" class="fa fa-plus-square-o fa-lg" style="color: #3498DB;" @click="addSkill(searchedSkill)"></i>
-        <div style="display: flex; flex-direction: row; flex-wrap: wrap">
-          <div v-show="showCat"><span v-for="(cat,index) in categories" :style="chooseColor(cat)" class="categoriesWhenAddSkill" @click="addCat(cat)">{{cat}}</span></div>
+        <div class="containerSkillsFilter">
+          <div style="display: flex; justify-content: center; align-items: center">
+            <div class="newSkill" v-show="newSkill">{{skillToAdd.skill}}</div>
+            <i v-show="newSkill" class="fa fa-times-circle fa-lg" style="position: relative; left: -20px" @click="newSkill=!newSkill; searchedSkill=''"></i>
+          </div>
+        </div>
+        <div v-show="newSkill" class="addingSkill">
+          <span v-show="!showCat" style="font-size: 12px; font-family: Calibri,serif">Cette compétence n'existe pas, voulez-vous l'ajouter?</span>
+          <i v-show="!showCat" class="fa fa-plus-square-o fa-lg" style="color: #3498DB;" @click="addSkill(searchedSkill)"></i>
+          <div style="display: flex; flex-direction: row; flex-wrap: wrap">
+            <div v-show="showCat"><span v-for="(cat,index) in categories" :style="chooseColor(cat)" class="categoriesWhenAddSkill" @click="addCat(cat)">{{cat}}</span></div>
+          </div>
+        </div>
+
+        <div class="arrowTitle">
+          <p>Competences</p>
+        </div>
+
+        <div class="skills">
+          <template  v-for="skill in listOfSkills">
+            <div class="skill" :style="chooseBackgroundColor(skill.categorie)">
+              <div class="textSkill" >{{skill.skill}}</div>
+              <i class="fa fa-times" style="color: white"  @click="removeSkillFromList(skill)"></i>
+            </div>
+          </template>
         </div>
       </div>
-      <div class="skills">
-        <template  v-for="skill in listOfSkills">
-          <div class="skill" :style="chooseBackgroundColor(skill.categorie)">{{skill.skill}}</div>
-          <i class="fa fa-times" style="position: relative; left: -1.1em;top: 0.2em; width: 0; color: white"  @click="removeSkillFromList(skill)"></i>
-        </template>
-      </div>
-    </div>
-    <div class="FilterField">
-      <div class="arrowTitle">
-        <div class="arrow"></div>
-        <p>Consultants</p>
-      </div>
-      <div class="contenerCheckboxFilter">
-        <div>
-          <input id="Stagiaire" type="checkbox" v-model="consultant" name="Consultant" value="Stagiaire">
-          <label for="Stagiaire">Stagiaire</label>
+      <div class="FilterField">
+        <div class="arrowTitle">
+          <p>Consultants</p>
         </div>
-        <div>
-          <input id="Junior" type="checkbox" v-model="consultant" name="Consultant" value="Junior">
-          <label for="Junior">Junior</label>
-        </div>
-        <div>
-          <input id="Sénior" type="checkbox" v-model="consultant" name="Consultant" value="Sénior">
-          <label for="Sénior">Sénior</label>
-        </div>
+        <div class="containerCheckboxFilter">
           <div>
-            <input id="Manager" type="checkbox" v-model="consultant" name="Consultant" value="Manager">
-            <label for="Manager">Manager</label>
+            <input id="Stagiaire" type="checkbox" v-model="consultant" name="Consultant" value="Stagiaire" style="display: none">
+            <label for="Stagiaire" class="labelFilters">Stagiaire</label>
+          </div>
+          <div>
+            <input id="Junior" type="checkbox" v-model="consultant" name="Consultant" value="Junior" style="display: none">
+            <label for="Junior" class="labelFilters">Junior</label>
+          </div>
+          <div>
+            <input id="Sénior" type="checkbox" v-model="consultant" name="Consultant" value="Sénior" style="display: none">
+            <label for="Sénior" class="labelFilters">Sénior</label>
+          </div>
+          <div>
+            <input id="Manager" type="checkbox" v-model="consultant" name="Consultant" value="Manager" style="display: none">
+            <label for="Manager" class="labelFilters">Manager</label>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="FilterField">
-      <div class="arrowTitle">
-        <div class="arrow"></div>
-        <p>Experience</p>
-      </div>
-      <div class="contenerCheckboxFilter">
-        <div>
-          <input id="0 à 3 ans" type="checkbox" v-model="experience" name="Experience" value="0 à 3 ans">
-          <label for="0 à 3 ans"> 0 à 3 ans</label>
+      <div class="FilterField">
+        <div class="arrowTitle">
+          <p>Experience</p>
         </div>
-        <div>
-          <input id="4 à 5 ans" type="checkbox" v-model="experience" name="Experience" value="4 à 5 ans">
-          <label for="4 à 5 ans"> 4 à 5 ans</label>
-        </div>
-        <div>
-          <input id="6 à 10 ans" type="checkbox" v-model="experience" name="Experience" value="6 à 10 ans">
-          <label for="6 à 10 ans"> 6 à 10 ans</label>
-        </div>
-        <div>
-          <input id="Plus de 10 ans" type="checkbox" v-model="experience" name="Experience" value="Plus de 10 ans">
-          <label for="Plus de 10 ans" > Plus de 10 ans</label>
+        <div class="containerCheckboxFilter">
+          <div>
+            <input id="first" type="checkbox" v-model="experience" name="Experience" value="0 à 3 ans" style="display: none">
+            <label for="first" class="labelFilters"> 0 à 3 ans</label>
+          </div>
+          <div>
+            <input id="second" type="checkbox" v-model="experience" name="Experience" value="4 à 5 ans" style="display: none">
+            <label for="second" class="labelFilters"> 4 à 5 ans</label>
+          </div>
+          <div>
+            <input id="third" type="checkbox" v-model="experience" name="Experience" value="6 à 10 ans" style="display: none">
+            <label for="third" class="labelFilters"> 6 à 10 ans</label>
+          </div>
+          <div>
+            <input id="Plusde10ans" type="checkbox" v-model="experience" name="Experience" value="Plus de 10 ans" style="display: none">
+            <label for="Plusde10ans" class="labelFilters"> Plus de 10 ans</label>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="FilterField">
-      <div class="arrowTitle">
-        <div class="arrow"></div>
-        <p>Client</p>
+      <div class="FilterField">
+        <div class="arrowTitle">
+          <p>Client</p>
+        </div>
+        <div class="containerClientsFilter">
+          <i class="fa fa-search" style="color: dodgerblue"></i>
+          <input class="inputFilter" type="text" v-model="searchedClient" placeholder="Rechercher un client">
+        </div>
       </div>
-      <div class="contenerClientsFilter">
-        <input class="inputFilter" type="text" v-model="searchedClient">
-        <i class="fa fa-search" style="position: relative; left: -20px"></i>
+      <div class="divReset">
+        <div class="resetFilters" v-on:click="resetFilters">Reset Filters</div>
       </div>
-    </div>
-    <div class="divReset">
-      <div class="resetFilters" v-on:click="resetFilters">Reset Filters</div>
     </div>
   </div>
 </template>
