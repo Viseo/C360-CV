@@ -12,8 +12,10 @@
           <div style="display: flex; flex-direction: row;"><i class="fa fa-briefcase fa-lg briefcase"></i><p style="margin: 0">Gestion des Missions</p></div>
           <div style="display: flex; flex-direction: row;margin-right: 10px" @click="showPDF=!showPDF"><div style="display: flex;margin-right: 10px">Afficher aperçu PDF</div><i class="fa fa-binoculars"></i></div>
         </div>
-        <registermission :currentBlock="currentBlock" :titleMission="missions[currentBlock].title" :beginDate="missions[currentBlock].beginDate" :endDate="missions[currentBlock].endDate"
-                         :client="missions[currentBlock].clientId" :description="missions[currentBlock].description" :typeM="missions[currentBlock].typeMissions" :today="today" :domain="missions[currentBlock].domain"
+        <registermission :currentBlock="currentBlock" :titleMission="missions[currentBlock].title" :beginDate="missions[currentBlock].beginDate"
+                         :client="missions[currentBlock].clientId?missions[currentBlock].clientId.label:''" :description="missions[currentBlock].description"
+                         :typeM="missions[currentBlock].clientId?missions[currentBlock].typeMissions.label:''"
+                         :today="today" :domain="missions[currentBlock].domain" :endDate="missions[currentBlock].endDate"
                          @updateSector="updateSector" @updateProps="updateMission"></registermission>
 
         <skills v-bind:currentSkills="missions[currentBlock].skills" :block="currentBlock" v-on:updateSkills="updateSkills"></skills>
@@ -91,8 +93,6 @@
       })
         .then((response) => {
 
-          console.log(response.data);
-
           var birthDate = new Date(response.data.date_birth);
           this.infoUser = {
             name: response.data.lastName,
@@ -139,8 +139,8 @@
             this.currentBlock=index;
         },
         addMission() {
-            this.missions.push({id:0,name: "", beginDate: "",
-              endDate: "", client: "", description: "",type: 'mission',skills:[]});
+            this.missions.push({id:0,title: "", beginDate: "",
+              endDate: "", clientId:{id:0,label:""}, description: "",typeMissions:{id:1,label:'mission'},skills:[]});
             this.currentBlock=this.missions.length-1;
             this.getInfoMission(this.missions.length-1);
         },
@@ -170,11 +170,11 @@
         },
         updateMission:function(name,client,dateB,dateE,descr,type){
             this.missions[this.currentBlock].title=name;
-            this.missions[this.currentBlock].client=client;
+            this.missions[this.currentBlock].clientId.label=client;
             this.missions[this.currentBlock].beginDate=dateB;
             this.missions[this.currentBlock].endDate=dateE;
             this.missions[this.currentBlock].description=descr;
-            this.missions[this.currentBlock].typeMissions=type;
+            this.missions[this.currentBlock].typeMissions.label=type;
         }
     }
   }

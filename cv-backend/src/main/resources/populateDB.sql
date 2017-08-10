@@ -32,7 +32,7 @@ INSERT INTO missions (title, begin_date, end_date, client_id, description, type_
   ('Viseo Intern','02/15/2017','07/22/2017','1','Développement du démonstrateur DigiMarket','1'),
   ('Collaborateur 360','06/01/2017','07/20/2017','3','Outils pour que les RH travaillent','2'),
   ('DigiMarket','06/15/2017','07/15/2017','2','Implémentation nouvel espace de vente','1'),
-  ('i-learning','06/04/2017','06/12/2017','3','Jeu pour devenir plus intelligent','1');
+  ('i-learning','06/04/2017','06/12/2017','1','Jeu pour devenir plus intelligent','1');
 
 INSERT INTO skills (label, domain) VALUES
   ('Taiga','Outils'),

@@ -13,8 +13,8 @@ public class ClientsEntity extends BaseEntity {
     @Column
     private String description;
 
-    @OneToMany (mappedBy = "clientId")
-    private List <MissionsEntity> mission;
+    /*@OneToMany (mappedBy = "clientId",fetch = FetchType.LAZY)
+    private List <MissionsEntity> mission;*/
 
     public String getLabel() {
         return label;
@@ -32,11 +32,11 @@ public class ClientsEntity extends BaseEntity {
         this.description = description;
     }
 
-    public List<MissionsEntity> getMission() {
+    /*public List<MissionsEntity> getMission() {
         return mission;
     }
 
     public void setMission(List<MissionsEntity> mission) {
         this.mission = mission;
-    }
+    }*/
 }

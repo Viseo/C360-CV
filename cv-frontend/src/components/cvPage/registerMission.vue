@@ -6,7 +6,7 @@
         <div>
           <label v-bind:class="labelTitleClass">Titre de la mission</label>
           <input id="Title Mission" v-model="nameMission" type='text' class="inputText" @focus="setFocusLabelClass(1)"
-                 @keyup="updateBlock(currentBlock)" @blur="changeLabelClass(nameMission,1)">
+                 @keyup="updateBlock()" @blur="changeLabelClass(nameMission,1)">
         </div>
       </div>
 
@@ -14,7 +14,7 @@
         <i class="fa fa-file-text fa-2x"></i>
         <div>
           <label id="Type Title">Type</label>
-          <select v-model="typeMission" v-on:click="updateBlock(currentBlock)" :value="typeM">
+          <select v-model="typeMission" v-on:click="updateBlock()" :value="typeM">
             <option>Mission</option>
             <option>Séminaire</option>
           </select>
@@ -26,29 +26,20 @@
         <div>
           <label id="Start Title">Début</label>
           <div class="inputCalendar">
-            <template v-if="beginDate!=''">
-              <input id="Start Calendar Date" :value="beginDate" v-model="beginInput" class="inputDate" type="date" v-on:click="updateBlock(currentBlock)" @input="updateBlock(currentBlock)">
-            </template>
-            <template v-else="endDate!=''">
-              <input id="Start Calendar Date" class="inputDate" type="date" @input="updateBlock(currentBlock)">
-            </template>
+            <input id="Start Calendar Date" :value="beginDate" v-model="beginInput" class="inputDate" type="date" v-on:click="updateBlock()" @input="updateBlock()">
           </div>
         </div>
-
       </div>
-      <span class="messageError" v-if="beginDate == ''">Veuillez entrer une date de début</span>
 
       <div id="EndCalendar" class="inputDiv">
         <i class="fa fa-calendar fa-2x cal"></i>
         <div>
           <label id="Fin Title">Fin</label>
           <div class="inputCalendar">
-            <template v-if="endDate!=''">
-              <input id="End Calendar Date" v-model="endInput" :value="endDate" class="inputDate" type="date" v-on:click="updateBlock()" @input="updateBlock()">
-            </template>
+            <input id="End Calendar Date" :value="endDate" v-model="endInput" class="inputDate" type="date" v-on:click="updateBlock()" @input="updateBlock()">
           </div>
-          <div v-if="endDate=='now'" id="checkboxNow"><input id="Until Now Box" type="checkbox" checked @click="console.log('ezr')">Jusqu'à ce jour</div>
-          <div v-else id="checkboxNow"><input id="Until Now Box" type="checkbox" @click="endInput=today">Jusqu'à ce jour</div>
+          <div v-if="endInput==today" id="checkboxNow"><input id="Until Now Box" type="checkbox" checked @click="endInput='';updateBlock()">Jusqu'à ce jour</div>
+          <div v-else id="checkboxNow"><input id="Until Now Box" type="checkbox" @click="endInput=today;updateBlock()">Jusqu'à ce jour</div>
         </div>
       </div>
     </div>
@@ -73,16 +64,13 @@
         <i class="fa fa-pencil-square-o fa-2x"></i>
         <div>
           <label id="descriptionLabel" v-bind:class="labelDescriptionClass">Description</label>
-          <textarea id="Description" v-model="descriptionMission" @input="updateBlock(currentBlock)" class="inputTextArea" rows="4"
+          <textarea id="Description" v-model="descriptionMission" @input="updateBlock" class="inputTextArea" rows="4"
                     @focus="setFocusLabelClass(3)" @blur="changeLabelClass(descriptionMission,3)"/>
           <span class="messageError" v-if="descriptionMission == ''" style="display:block; position: relative; top: 3em;">Veuillez entrer une description de mission</span>
         </div>
       </div>
     </div>
     <div class="containerColumn">
-
-
-
     </div>
   </div>
 </template>
@@ -105,9 +93,9 @@
         clientMission: this.client,
         labelDescriptionClass: this.description != "" ? "labelDescription-full" : "labelDescription-empty",
         descriptionMission: this.description,
-        beginInput: "",
-        endInput: "",
-        typeMission:""
+        beginInput: this.beginDate,
+        endInput: this.endInput,
+        typeMission:this.typeM
       }
     },
     methods:{
@@ -123,7 +111,6 @@
         }
 
         console.log(this.endInput);
-
         this.$emit('updateProps',this.nameMission,this.clientMission,this.beginInput,this.endInput,this.descriptionMission,this.typeMission);
       },
       toggleShowMenu() {
