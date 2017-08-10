@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+import java.util.List;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
@@ -37,6 +40,7 @@ public class AccountController {
         return this.accountService.add(user);
     }
 
+
     @RequestMapping(path = "/testRegister", method = POST)
     public UsersEntity testRegister(@RequestBody @Valid UserDto user) {
         UsersEntity existenceTest = this.accountService.mailExist(user.getMail());
@@ -47,5 +51,11 @@ public class AccountController {
     public UsersEntity getUser(@RequestParam(value="id") @NotEmpty int id) {
 
         return this.accountService.getUserById(id);
+    }
+
+    @RequestMapping(path = "/getUsers", method = GET)
+    public List<UsersEntity> getAll(){
+        return this.accountService.getAll();
+
     }
 }

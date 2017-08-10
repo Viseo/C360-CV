@@ -2,9 +2,9 @@
   <div class="thumbnail">
     <img :src="picture" class="pictureCollab">
     <div class="pitchCollab">
-      <div class="name">{{ firstName+' '+name }}</div>
+      <div class="name">{{ firstName+' '+lastName }}</div>
       <div class="other">
-        <div>{{"Consultant "+ fonction}}</div>
+        <div>{{"Consultant "+ position}}</div>
         <div>{{ experience+" ans d'expérience"}}</div>
       </div>
     </div>
@@ -20,7 +20,6 @@
       </div>
     </div>
   </div>
-  </span>
 </template>
 
 <script>
@@ -30,12 +29,12 @@
     methods:{
       preparePDF(action){
           this.infoUser.firstName=this.firstName;
-          this.infoUser.name=this.name;
+          this.infoUser.lastName=this.lastName;
           this.infoUser.experience=this.experience;
           this.infoUser.birth=this.birth;
           this.infoUser.languages=this.languages;
-          this.infoUser.fonction=this.fonction;
-          this.infoUser.email=this.email;
+          this.infoUser.position=this.position;
+          this.infoUser.mail=this.mail;
           this.infoUser.hobbies=this.hobbies;
           this.infoUser.telephone=this.telephone;
           this.infoUser.picture=this.picture;
@@ -64,12 +63,12 @@
       return {
           infoUser: {
               firstName:'',
-              name: '',
+              lastName: '',
               experience: '',
               birth: '',
               languages: '',
-              fonction: '',
-              email: '',
+              position: '',
+              mail: '',
               hobbies: '',
               telephone: '',
               picture: '',
@@ -78,7 +77,7 @@
       };
     },
     props:[
-      'name',"firstName","experience","birth","fonction","picture","languages","email","hobbies","missions","telephone"
+      'lastName',"firstName","experience","birth","position","picture","languages","mail","hobbies","missions","telephone"
     ]
   }
 </script>

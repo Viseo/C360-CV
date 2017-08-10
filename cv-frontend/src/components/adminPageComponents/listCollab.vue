@@ -8,9 +8,9 @@
     <div class="containerCollab">
       <div class="all-collabs">
         <div v-for="(item,index) in collaborators">
-          <thumbnail :name="item.name" :firstName="item.firstName" :fonction="item.poste"
-                     :email="item.email" :telephone="item.telephone" :birth="item.birth"
-                     :hobbies="item.hobbies" :languages="item.languages"
+          <thumbnail :lastName="item.lastName" :firstName="item.firstName" :position="item.position"
+                     :mail="item.mail" :telephone="item.telephone" :birth="item.birth"
+                     :hobbies="item.hobbies" :languages="item.languages" :missions="item.missions"
                      :experience="item.experience" :picture="item.picture" @showPDF="showPDF" @downloadPDF="downloadPDF"></thumbnail>
         </div>
       </div>
@@ -27,7 +27,7 @@
     },
     methods:{
       showPDF(infoUser){
-          this.$emit('showPDF', infoUser);
+        this.$emit('showPDF', infoUser);
       },
       downloadPDF(infoUser){
         this.$emit('downloadPDF', infoUser);

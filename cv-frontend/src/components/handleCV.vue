@@ -40,12 +40,12 @@
   import axios from 'axios'
 
   let initInfoPerso = {
-    name: 'DARMET',
+    lastName: 'DARMET',
     firstName: 'Henri',
     birth: '1975-02-02',
-    fonction: 'Responsable Practice Web & Java',
+    position: 'Responsable Practice Web & Java',
     experience: '30 ans',
-    email: 'henri.darmet@viseo.com',
+    mail: 'henri.darmet@viseo.com',
     telephone: '0615482659',
     hobbies: 'Voyages',
     languages: 'Anglais',
@@ -95,21 +95,21 @@
 
           var birthDate = new Date(response.data.date_birth);
           this.infoUser = {
-            name: response.data.lastName,
+            lastName: response.data.lastName,
             firstName: response.data.firstName,
             birth: birthDate.getFullYear() + "-" +
             ("0" + (parseInt(birthDate.getMonth()) + 1)).slice(-2) + "-" +
             ("0" + birthDate.getDate()).slice(-2),
-            fonction: response.data.fonction,
+            position: response.data.position,
             experience: response.data.experience,
-            email: response.data.mail,
+            mail: response.data.mail,
             telephone: response.data.telephone,
             hobbies: response.data.hobbies,
             languages: response.data.languages.map(
               function (elem) {
                 return elem.label;
               }).join(" "),
-            picture: ""
+            picture: response.data.picture
           };
 
           this.missions = response.data.missions;
@@ -169,6 +169,7 @@
           }
         },
         updateMission:function(name,client,dateB,dateE,descr,type){
+            console.log(this.missions[this.currentBlock])
             this.missions[this.currentBlock].title=name;
             this.missions[this.currentBlock].clientId.label=client;
             this.missions[this.currentBlock].beginDate=dateB;

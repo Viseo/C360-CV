@@ -11,7 +11,7 @@
                   :listitems="signInForm"
                   :styl="style"
                   @login="register"
-                  @:check="inputManager">
+                  @check="inputManager">
                 </formhome>
             </div>
             <div id="ConnexionContent" :style="styleConnexionContent" v-show="chosenForm==='connexion'">
@@ -31,7 +31,6 @@
   import formHome from './homePage/formHome.vue'
   import banner from "./banner.vue"
   import axios from 'axios'
-
   export default {
     data:function (){
       return{
@@ -44,14 +43,12 @@
           {id: 5, type: 'password', placeholder: '••••••', label: 'Confirmation du mot de passe', fa: 'fa fa-lock', eye: 'fa fa-eye', value: '',name: 'signInForm'},
           {id: 6, type: 'submit', value: 'S\'inscrire'}
         ],
-
         logInForm: [
           {id: 0, type: 'email', placeholder: 'eric.dupont@viseo.com', label: 'Email', fa: 'fa fa-envelope', name: 'logInForm'},
           {id: 1, type: 'password', placeholder: '••••••', label: 'Mot de passe', fa: 'fa fa-lock', eye: 'fa fa-eye', value: '',name: 'logInForm'},
           {id: 2, type: 'checkbox', value: 'keepConnected', checked: 'false', checkMsg: 'Rester connecté', href: '#'},
           {id: 4, type: 'submit', value: 'Se connecter'}
         ],
-
         formChecked:{
           signIn: {
             "login": false,
@@ -67,9 +64,7 @@
           }
         },
         connexionFailed : false,
-
         chosenForm: 'inscription',
-
         style: {
           styleGlobal: {
             'margin-top': '20px',
@@ -84,7 +79,6 @@
           divForm: {
             position: 'relative',
           },
-
           styleForm: {
             padding: '1em 0px 1em 2.3em',
             width: '27em',
@@ -95,7 +89,6 @@
             'box-shadow': 'inset 0 0.01em 0.02em rgba(0,0,0,.39)',
             height: '2.5em'
           },
-
           styleSubmit: {
             // padding: '1em 0px 1em 2.3em',
             'font-size': '1.04em',
@@ -109,15 +102,12 @@
             'margin-bottom': '2em',
             'box-shadow': '0 0.01em 0.02em rgba(0,0,0,.39)',
             height: '2.5em'
-
           },
-
           styleLabel: {
             display: 'flex',
             'align-items': 'left',
             'margin-bottom': '15px'
           },
-
           styleConfig: {
             display: 'flex',
             'flex-orientation': 'row',
@@ -125,21 +115,18 @@
             'justify-content': 'space-between',
             'margin-bottom': '15px'
           },
-
           stylePicto: {
             position: 'absolute',
             'left': '1em',
             'top': '0px',
             'z-index': '10'
           },
-
           styleEye: {
             position: 'absolute',
             'right': '10px',
             'top': '0px',
             'z-index': '10'
           },
-
           styleMessage: {
             display: 'flex',
             'height':'1em',
@@ -149,7 +136,6 @@
             'font-weight': 'normal',
           }
         },
-
         styleContent: {
           display: 'flex',
           'flex-direction': 'column',
@@ -157,7 +143,6 @@
           'margin-left':'25%',
           'box-shadow': '0 2px 5px rgba(0,0,0,0.14), 0 2px 5px rgba(0,0,0,0.24)'
         },
-
         styleTopContent:{
           display: 'flex',
           'flex-direction': 'row',
@@ -166,7 +151,6 @@
           'font-family': 'Arial',
           'font-size': '1em',
         },
-
         styleInscription:{
           display: 'flex',
           flex: '1',
@@ -174,16 +158,13 @@
           'background-color' : 'rgb(254,204,19)',
           'color':'rgb(255,255,255)',
         },
-
         styleConnexion:{
           display: 'flex',
           flex: '1',
           'justify-content': 'center',
           'background-color' : 'rgb(235,235,235)',
           'color':'rgb(120,120,120)',
-
         },
-
         styleConnexionContent:{
           display:'none',
         }
@@ -196,25 +177,19 @@
       inscriptionClick : function(){
         let inscription=document.getElementById("Inscription");
         let connexion=document.getElementById("Connexion");
-
         inscription.style.color='rgb(255,255,255)';
         inscription.style.backgroundColor='rgb(254,204,19)';
-
         connexion.style.color='rgb(120,120,120)';
         connexion.style.backgroundColor='rgb(235,235,235)';
-
         this.chosenForm==='connexion'?this.chosenForm='inscription':{};
       },
       connexionClick : function(){
         let inscription=document.getElementById("Inscription");
         let connexion=document.getElementById("Connexion");
-
         inscription.style.color='rgb(120,120,120)';
         inscription.style.backgroundColor='rgb(235,235,235)';
-
         connexion.style.color='rgb(255,255,255)';
         connexion.style.backgroundColor='rgb(254,204,19)';
-
         this.chosenForm==='inscription'?this.chosenForm='connexion':{};
       },
       inputManager : function(label,form){
@@ -226,10 +201,13 @@
               this.formChecked.signIn.login=true;
               document.getElementById("message"+label+form).innerHTML="";
             }
+          if(re.test(value)){
+            this.formChecked.signIn.login=true;
+            document.getElementById("message"+label+form).innerHTML="";
+          }
           else{
             this.formChecked.signIn.login=false;
             document.getElementById("message"+label+form).innerHTML="Veuillez entrer un code de login valide";
-
           }
         }
         else if(label=="Nom")
@@ -253,15 +231,12 @@
           else{
             this.formChecked.signIn.nom=false;
             document.getElementById("message"+label+form).innerHTML="Caractères non autorisés";
-
           }
         }
-
         else if(label==="Prénom")
         {
           let value = document.getElementById(label+form).value;
           let re = new RegExp("^[a-zA-Z'éèÉ. -]*$");
-
           if(value===''){
             this.formChecked.signIn.prenom=false;
             document.getElementById("message"+label+form).innerHTML="";
@@ -279,10 +254,8 @@
           else{
             this.formChecked.signIn.prenom=false;
             document.getElementById("message"+label+form).innerHTML="Caractères non autorisés";
-
           }
         }
-
         else if(label==="Email")
         {
           let value=document.getElementById(label+form).value;
@@ -321,7 +294,6 @@
         else if(label==="Mot de passe")
         {
           let value=document.getElementById(label+form).value;
-
           if(form=="signInForm") {
             let passwordvalue = document.getElementById("Confirmation du mot de passe"+form).value;
             if (value === '') {
@@ -347,7 +319,6 @@
             }
           }
           else{
-
             if (value === '') {
               this.formChecked.logIn.password = false;
               document.getElementById("message" + label+ form).innerHTML = "";
@@ -359,7 +330,6 @@
             else {
               this.formChecked.logIn.password = false;
               document.getElementById("message" + label+ form).innerHTML = "Le mot de passe doit avoir au minimum 6 caractères";
-
             }
           }
         }
@@ -377,37 +347,32 @@
             document.getElementById("message"+label+ form).innerHTML="";
           }
           else{
-
             this.formChecked.signIn.checkpassword=false;
             document.getElementById("message"+label+ form).innerHTML="La confirmation du mot de passe n'est pas valide";
-
           }
         }
       },
       checkSubmitRegister : function(){
-          let a=0;
-          for(let i in this.formChecked.signIn){
-            if(this.formChecked.signIn[i]===false){
-              a++;
-            }
+        let a=0;
+        for(let i in this.formChecked.signIn){
+          if(this.formChecked.signIn[i]===false){
+            a++;
           }
-
-          if(a===0){
-            return true;
-          }
-          else{
-            return false;
-          }
+        }
+        if(a===0){
+          return true;
+        }
+        else{
+          return false;
+        }
       },
       checkSubmitConnexion: function(){
         let a=0;
-
         for(let i in this.formChecked.logIn){
           if(this.formChecked.logIn[i]===false){
             a++;
           }
         }
-
         if(a===0){
           return true;
         }
@@ -423,7 +388,6 @@
         if(this.checkSubmitConnexion()) {
           let mail = document.getElementById("EmaillogInForm").value;
           let password = document.getElementById("Mot de passelogInForm").value;
-
           axios.get('http://cv360-dev.lan:8061/api/login', {
             params: {
               mail: mail,
@@ -435,7 +399,7 @@
               this.$session.start();
               this.$session.set("id",response.data.id);
               if(response.data.admin){
-                window.location.href = '/admin';
+                window.location.href = '/admincv';
               }
               else {
                 window.location.href = '/mycv';
@@ -448,10 +412,9 @@
           .catch((error) => {
             console.log(error);
           });
-
         }
         else{
-            alert("Remplir tous les champs");
+          alert("Remplir tous les champs");
         }
       },
       register: function(){
@@ -461,7 +424,6 @@
           let firstName = document.getElementById("PrénomsignInForm").value;
           let password = document.getElementById("Mot de passesignInForm").value;
           let mail = document.getElementById("EmailsignInForm").value;
-
           let data = {
             login:code,
             lastName:name,
@@ -492,7 +454,7 @@
             });
         }
         else{
-            alert("Remplir tous les champs correctement");
+          alert("Remplir tous les champs correctement");
         }
       }
     },
@@ -501,13 +463,12 @@
       formhome:formHome
     }
   }
-
 </script>
 
 <style>
   #connexion-failed{
     text-align:center;
     color:rgb(255,10,50);
-     margin-bottom: 1em;
+    margin-bottom: 1em;
   }
 </style>

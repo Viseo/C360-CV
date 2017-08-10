@@ -23,7 +23,7 @@
       <div class="inputWithPicto">
         <i class="fa fa-user-o fa-2x picto" aria-hidden="true"></i>
         <input class="inputInfo" name="name" v-on:keyup="verificationChar" @input="name=name.toUpperCase()" placeHolder="Nom"
-               v-model="infoUser.name">
+               v-model="infoUser.lastName">
         <span id="alM1" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un nom valide</span>
       </div>
     </div>
@@ -42,7 +42,7 @@
       <div class="inputWithPicto">
         <i class="fa fa-tag fa-2x picto" aria-hidden="true"></i>
         <input class="inputInfo" name="fonction" v-on:keyup="verificationChar" maxlength="125" placeHolder="Poste"
-               v-model="infoUser.fonction">
+               v-model="infoUser.position">
         <span id="alM2" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer une fonction valide</span>
       </div>
     </div>
@@ -62,7 +62,7 @@
       <div class="inputWithPicto">
         <i  class="fa fa-envelope-o fa-2x picto" aria-hidden="true"></i>
         <input class="inputInfo" name="email" type="email" v-on:keyup="verificationEmail" placeHolder="mail@viseo.fr"
-               v-model="infoUser.email">
+               v-model="infoUser.mail">
         <span id="alM6" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer une adresse email valide</span>
       </div>
     </div>

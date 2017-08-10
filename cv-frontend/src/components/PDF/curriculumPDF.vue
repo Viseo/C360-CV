@@ -1,12 +1,12 @@
 <template>
   <div style="overflow-y: scroll">
     <div class="logoDiv">
-      <img class="viseoLogo" src="../../../static/logoviseo.png" ></img>
+      <img class="viseoLogo" src="../../../static/logoviseo.png" >
     </div>
     <div class="line"></div>
     <headerPDF :infoUser="infoPerso"></headerPDF>
     <div class="titles">MISSIONS - PROJETS</div>
-    <div v-for="mission in infoMission">
+    <div v-for="mission in infoPerso.missions">
       <missionsPDF :infoMission="mission"></missionsPDF>
     </div>
   </div>
