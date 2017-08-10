@@ -47,7 +47,7 @@
               <input id="End Calendar Date" v-model="endInput" :value="endDate" class="inputDate" type="date" v-on:click="updateBlock()" @input="updateBlock()">
             </template>
           </div>
-          <div v-if="endDate=='now'" id="checkboxNow"><input id="Until Now Box" type="checkbox" checked @click="console.log('ezr')">Jusqu'à ce jour</div>
+          <div v-if="endDate=='now'" id="checkboxNow"><input id="Until Now Box" type="checkbox" checked>Jusqu'à ce jour</div>
           <div v-else id="checkboxNow"><input id="Until Now Box" type="checkbox" @click="endInput=today">Jusqu'à ce jour</div>
         </div>
       </div>
@@ -121,9 +121,6 @@
             document.getElementById('Until Now Box').checked=false;
           }
         }
-
-        console.log(this.endInput);
-
         this.$emit('updateProps',this.nameMission,this.clientMission,this.beginInput,this.endInput,this.descriptionMission,this.typeMission);
       },
       toggleShowMenu() {

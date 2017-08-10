@@ -1,33 +1,33 @@
 <template>
-  <!--<div style="margin-top:1vh; overflow: hidden;">-->
-    <!--<div class="headerMissionsBlock">-->
-      <!--<i class="fa fa-space-shuttle fa-2x"></i>-->
-      <!--<span class="title-2" style="font-family: Arial, cursive; font-weight: bold; font-size: 25px;margin-left: 1% ">Missions</span>-->
-    <!--</div>-->
-    <!--<div class="container-cv">-->
-      <!--<div id="listMissions" class="listMissions">-->
-        <!--<i v-bind:class="chevronLeft" v-on:click="moveMissionsToLeft" v-if="missions.length>4"></i>-->
-        <!--<div id="containerMissions" class="containerMissions">-->
-          <!--<div id="listAnimate" v-bind:style="styleAnimatingList">-->
-            <!--<transition-group name="list-complete" tag="div">-->
-                 <!--<span v-bind:style="block==index?styleObjectChecked:styleObject" v-for="(item,index) in missions" v-bind:key="index" @click="getInfoMission(index)"-->
-                       <!--class="list-complete-item missionItem">-->
-                    <!--<div v-bind:style="styleTitle">{{ item.title!=""?item.title:"Nouvelle Mission" }}</div>-->
-                    <!--<div v-bind:style="styleDate">{{ item.beginDate }} to {{ item.endDate!=""?item.endDate:"now" }}</div>-->
-                    <!--<i v-on:mouseover="trashToRed" v-on:mouseleave="trashToBlack" v-on:click="deleteMission(index)"-->
-                       <!--v-bind:class="trash":style="styleTrash"></i>-->
-                 <!--</span>-->
-            <!--</transition-group>-->
-            <!--<div v-bind:style="styleObject" id="add-mission" class="missionItem list-complete-item" v-on:click="addMission">-->
-              <!--<i class="fa fa-plus fa-2x"></i>-->
-              <!--<div v-bind:style="styleDate">Ajouter une nouvelle Mission</div>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<i v-bind:class="chevronRight" v-on:click="moveMissionsToRight" v-if="missions.length>4"></i>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
+  <div style="margin-top:1vh; overflow: hidden;">
+    <div class="headerMissionsBlock">
+      <i class="fa fa-space-shuttle fa-2x"></i>
+      <span class="title-2" style="font-family: Arial, cursive; font-weight: bold; font-size: 25px;margin-left: 1% ">Missions</span>
+    </div>
+    <div class="container-cv">
+      <div id="listMissions" class="listMissions">
+        <i v-bind:class="chevronLeft" v-on:click="moveMissionsToLeft" v-if="missions.length>4"></i>
+        <div id="containerMissions" class="containerMissions">
+          <div id="listAnimate" v-bind:style="styleAnimatingList">
+            <transition-group name="list-complete" tag="div">
+                 <span v-bind:style="block==index?styleObjectChecked:styleObject" v-for="(item,index) in missions" v-bind:key="index" @click="getInfoMission(index)"
+                       class="list-complete-item missionItem">
+                    <div v-bind:style="styleTitle">{{ item.title!=""?item.title:"Nouvelle Mission" }}</div>
+                    <div v-bind:style="styleDate">{{ item.beginDate }} to {{ item.endDate!=""?item.endDate:"now" }}</div>
+                    <i v-on:mouseover="trashToRed" v-on:mouseleave="trashToBlack" v-on:click="deleteMission(index)"
+                       v-bind:class="trash":style="styleTrash"></i>
+                 </span>
+            </transition-group>
+            <div v-bind:style="styleObject" id="add-mission" class="missionItem list-complete-item" v-on:click="addMission">
+              <i class="fa fa-plus fa-2x"></i>
+              <div v-bind:style="styleDate">Ajouter une nouvelle Mission</div>
+            </div>
+          </div>
+        </div>
+        <i v-bind:class="chevronRight" v-on:click="moveMissionsToRight" v-if="missions.length>4"></i>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -127,7 +127,6 @@
           +2*vwTOpx(item.style.margin.substring(0,item.style.margin.length-2));
         var id = setInterval(frame, 1);
         function frame(){
-          console.log(posLeft,posRight)
           if(count >= end||(posRight==0&&posLeft<=0)){
             clearInterval(id);
           }
@@ -169,12 +168,9 @@
           +2*vwTOpx(item.style.margin.substring(0,item.style.margin.length-2));
 
         let frame=()=>{
-          console.log(posLeft,posRight,parseInt((this.missions.length-4)*(vwTOpx(item.style.width.substring(0,item.style.width.length-2))+2*vwTOpx(item.style.margin.substring(0,item.style.margin.length-2)))))
-
           if(count >= end||
             (parseInt(posRight)>=parseInt((this.missions.length-4)*end))){
             clearInterval(id);
-            console.log('on arrete',count,end)
           }
           else{
             if(posLeft&&posLeft>=0){
