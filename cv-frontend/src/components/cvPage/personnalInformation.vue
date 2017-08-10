@@ -228,11 +228,9 @@
       },
       initPhoto: function () {
         let text = document.getElementById("textChange");
-        console.log(text.style.opacity, text.style.zIndex,document.getElementById("photoP").style.opacity)
         document.getElementById("photoP").style.opacity=1;
         text.style.opacity = 0;
         text.style.zIndex = -2;
-        console.log(text.style.opacity, text.style.zIndex,document.getElementById("photoP").style.opacity)
       },
       verificationChar: function () {
         let toShow = false;

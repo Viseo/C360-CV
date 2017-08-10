@@ -109,8 +109,6 @@
             document.getElementById('Until Now Box').checked=false;
           }
         }
-
-        console.log(this.endInput);
         this.$emit('updateProps',this.nameMission,this.clientMission,this.beginInput,this.endInput,this.descriptionMission,this.typeMission);
       },
       toggleShowMenu() {

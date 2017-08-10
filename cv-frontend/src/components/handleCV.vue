@@ -146,8 +146,8 @@
         },
         deleteMission(){
             setTimeout(()=>{
-              this.currentBlock=this.missions[0].id;
-              this.getInfoMission(this.missions[0].id);
+              this.currentBlock=0;
+              this.getInfoMission(0);
             },100);
         },
         updateSkills(skillsSelected){

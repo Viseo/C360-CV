@@ -20,20 +20,6 @@
       </div>
     </div>
   </div>
-  <!--<span class="thumbnail-style">-->
-    <!--<img v-bind:src="picture" class="collaborator-picture">-->
-    <!--<div class="collaborator-description">-->
-      <!--<div>{{ firstName }}</div>-->
-      <!--<div>{{ name }}</div>-->
-      <!--<div style="color:hotpink">Consultant {{ fonction }}</div>-->
-      <!--<div style="color:deepskyblue">{{ experience }} ans d'expérience</div>-->
-    <!--</div>-->
-    <!--<div class="cv-zone">-->
-      <!--<div class="fa fa-binoculars icon-cv" @click="preparePDF('show')"></div>-->
-      <!--<div>Aperçu</div>-->
-      <!--<div class="fa fa-download icon-cv" style="margin-top:0.4em" @click="preparePDF('download')"></div>-->
-      <!--<div>Télécharger</div>-->
-    <!--</div>-->
   </span>
 </template>
 
@@ -62,78 +48,6 @@
           }
       },
       downloadPDF(){
-        // create a document and pipe to a blob
-//        PDFDocument = require('pdfkit')
-//
-//        var doc = new PDFDocument();
-//        var stream = doc.pipe(blobStream());
-//
-//// draw some text
-//        doc.margin
-//        doc.fontSize(25)
-//          .text('Here is some vector graphics...', 100, 80);
-//
-//// some vector graphics
-//        doc.save()
-//          .moveTo(100, 150)
-//          .lineTo(100, 250)
-//          .lineTo(200, 250)
-//          .fill("#FF3300");
-//
-//        doc.circle(280, 200, 50)
-//          .fill("#6600FF");
-//
-//// an SVG path
-//        doc.scale(0.6)
-//          .translate(470, 130)
-//          .path('M 250,75 L 323,301 131,161 369,161 177,301 z')
-//          .fill('red', 'even-odd')
-//          .restore();
-//
-//// and some justified text wrapped into columns
-//        doc.text('And here is some wrapped text...', 100, 300)
-//          .font('Times-Roman', 13)
-//          .moveDown()
-//          .text('hola, que tal', {
-//            width: 412,
-//            align: 'justify',
-//            indent: 30,
-//            columns: 2,
-//            height: 300,
-//            ellipsis: true
-//          });
-//        doc.addPage();
-//        doc.text('And here is some wrapped text...')
-//          .font('Times-Roman', 13)
-//          .moveDown()
-//          .text('coucou comment ca va', {
-//            width: 412,
-//            align: 'justify',
-//            indent: 30,
-//            columns: 3,
-//            height: 300,
-//            ellipsis: true
-//          });
-//
-//        doc.text('I understood how it works').moveDown(5);
-//        doc.text('I understood how it works').moveDown();
-//
-//
-//// end and display the document in the iframe to the right
-//        doc.end();
-//        stream.on('finish', function() {
-//          let blob = stream.toBlob('application/pdf');
-//          var url = window.URL.createObjectURL(blob);
-//          var p = document.createElement("a");
-//          document.body.appendChild(p);
-//          p.setAttribute("href", url);
-//          p.setAttribute("download", 'test');
-//// 	$("body").append(a);
-//          console.log(p)
-//          p.click();
-//          window.URL.revokeObjectURL(url);
-//          p.remove();
-//        });
         this.$emit('downloadPDF', this.infoUser);
         setTimeout(function () {
           var printContents = document.getElementById('PDF').innerHTML;
