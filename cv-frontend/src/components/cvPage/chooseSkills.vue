@@ -256,7 +256,7 @@
     padding-left:1vw;
     border:none;
     outline: none;
-    width:10vw;
+    width:15em;
     display:inline-block;
   }
 
@@ -267,9 +267,9 @@
     justify-content: space-between;
     position:relative;
     left:-10%;
-    padding: 0 2%;
+    padding: 0 1%;
     height:5vh;
-    width:27vw;
+    width:27em;
     border-radius: 20px;
     border: 1px solid dodgerblue;
     background-color: white;
@@ -277,8 +277,8 @@
 
   .result-search{
     display:inline-block;
-    margin-top:2vh;
-    padding-left:1vw;
+    width: 9em;
+    padding: 0 2em;
     border-left:1px solid lightgrey;
     color:white;
     font-size:2vh;

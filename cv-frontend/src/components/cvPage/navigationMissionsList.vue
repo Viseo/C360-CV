@@ -7,14 +7,14 @@
     <div class="container-cv">
       <div id="listMissions" class="listMissions">
         <!--<div style="width:2vw;height:20vh;float:left">-->
-        <i v-bind:class="chevronLeft":style="styleChevron" v-on:click="moveMissionsToLeft" v-if="missions.length>5"></i>
+        <i v-bind:class="chevronLeft" v-on:click="moveMissionsToLeft" v-if="missions.length>5"></i>
         <!--</div>-->
         <div id="containerMissions" class="containerMissions">
           <div id="listAnimate" v-bind:style="styleAnimatingList">
             <transition-group name="list-complete" tag="div">
-                 <span v-bind:style="block==index?styleObjectChecked:styleObject" v-for="(item,index) in missions" v-bind:key="item" @click="getInfoMission(item)"
+                 <span v-bind:style="block==index?styleObjectChecked:styleObject" v-for="(item,index) in missions" v-bind:key="index" @click="getInfoMission(item)"
                        class="list-complete-item missionItem">
-                    <div v-bind:style="styleTitle">{{ item.name!=""?item.name:"Nouvelle Mission" }}</div>
+                    <div v-bind:style="styleTitle">{{ item.name!=""?item.name:"Nouvelle Mission" }}{{index}}</div>
                     <div v-bind:style="styleDate">{{ item.beginDate }} to {{ item.endDate!=""?item.endDate:"now" }}</div>
                     <i v-on:mouseover="trashToRed" v-on:mouseleave="trashToBlack" v-on:click="deleteMission(index)"
                        v-bind:class="trash":style="styleTrash"></i>
@@ -26,7 +26,7 @@
             </div>
           </div>
         </div>
-        <i v-bind:class="chevronRight":style="styleChevronRight" v-on:click="moveMissionsToRight" v-if="missions.length>5"></i>
+        <i v-bind:class="chevronRight"  v-on:click="moveMissionsToRight" v-if="missions.length>5"></i>
 
       </div>
     </div>
@@ -74,21 +74,6 @@
     "font-size" : "1.8vh"
   };
 
-  var styleChevron = {
-//    position:"relative",
-//    "margin-top": "7.5vh",
-//    display:"inline",
-//    "margin-right":"5px",
-//    float:"left"
-  };
-
-  var styleChevronRight = {
-//    "float":"right",
-//    position:"relative",
-//    right:"21vw",
-//    top:"8vh"
-  };
-
   var styleTrash = {
     position:"absolute",
     "left":"10vw",
@@ -119,8 +104,6 @@
         styleObjectChecked: styleMissionBoxChecked,
         styleTitle: styleMissionBoxTitle,
         styleDate: styleMissionBoxDate,
-        styleChevron : styleChevron,
-        styleChevronRight:styleChevronRight,
         styleTrash : styleTrash,
         styleAnimatingList : styleAnimatingList,
         imageLink:"static/img/add.png",
@@ -136,13 +119,7 @@
       trashToBlack(e){
         e.target.style.color="white";
       },
-//      borderColorToHover(e){
-//        if(e.target.classList.value.includes("missionItem"))e.target.style.border = "2px solid #F4D03F";
-//        else if(e.path[1].classList.value.includes("missionItem"))e.path[1].style.border = "2px solid #F4D03F";
-//      },
-//      borderColorToDefault(e){
-//        e.target.style.border = ""
-//      },
+
       moveMissionsToLeft(){
         var elem = document.getElementById("listAnimate");
         var posLeft = elem.style.left?(parseInt(elem.style.left.substring(0,elem.style.left.length-2))):0;
@@ -151,9 +128,9 @@
         let item = document.getElementsByClassName("missionItem")[0];
         var end = vwTOpx(item.style.width.substring(0,item.style.width.length-2))
           +2*vwTOpx(item.style.margin.substring(0,item.style.margin.length-2));
-        console.log(end)
         var id = setInterval(frame, 1);
         function frame(){
+          console.log(posLeft,posRight)
           if(count >= end||(posRight==0&&posLeft<=0)){
             clearInterval(id);
           }
@@ -193,13 +170,15 @@
         let item = document.getElementsByClassName("missionItem")[0];
         var end = vwTOpx(item.style.width.substring(0,item.style.width.length-2))
           +2*vwTOpx(item.style.margin.substring(0,item.style.margin.length-2));
-        console.log(end)
-
+        console.log('movetoright')
+        console.log((this.missions.length-5),(this.missions.length-4)*end)
         let frame=()=>{
+          console.log(posLeft,posRight,parseInt((this.missions.length-4)*(vwTOpx(item.style.width.substring(0,item.style.width.length-2))+2*vwTOpx(item.style.margin.substring(0,item.style.margin.length-2)))))
+
           if(count >= end||
-            (parseInt(elem.style.right?elem.style.right.substring(0,elem.style.right.length-2):0)
-            >=parseInt((this.missions.length-4)*(vwTOpx(item.style.width.substring(0,item.style.width.length-2)))+2*vwTOpx(item.style.margin.substring(0,item.style.margin.length-2))))){
+            (parseInt(posRight)>=parseInt((this.missions.length-4)*end))){
             clearInterval(id);
+            console.log('on arrete',count,end)
           }
           else{
             if(posLeft&&posLeft>=0){

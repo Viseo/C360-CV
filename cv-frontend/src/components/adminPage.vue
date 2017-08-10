@@ -1,21 +1,20 @@
 <template>
   <div>
       <banner></banner>
-      <div style="text-align: center">
+      <div class="containerSearch">
           <div class="zone-search-collab">
+            <span class="fa fa-search icon-search" v-on:click="searchCollab"></span>
             <input v-model="currentSearch" id="search-collab" list="browsers" v-on:input="searchCollab">
             <datalist id="browsers">
               <option v-for="item in defaultCollab" v-bind:value="item.firstName + ' '+item.name" ></option>
             </datalist>
-            <span class="fa fa-search icon-search" v-on:click="searchCollab"></span>
+            <div class="messageErreur"><span id="msgErreur"></span></div>
             <span class="fa fa-times icon-cancel" v-on:click="cancelSearch"></span>
           </div>
-        <span id="msgErreur" style="display: none; color: red;"></span>
-
       </div>
       <div class="page-content">
-          <filters :colors="colors" :skills="skills" :categories="categories" @updateFilters="updateFilters"></filters>
-          <listCollab :collaborators="collaborators" @showPDF="showPDFUser" @downloadPDF="downloadPDF"></listCollab>
+          <filters class="filterZone" :colors="colors" :skills="skills" :categories="categories" @updateFilters="updateFilters"></filters>
+          <listCollab class="collabZone" :collaborators="collaborators" @showPDF="showPDFUser" @downloadPDF="downloadPDF"></listCollab>
       </div>
       <div v-show="showPDF" class="grayer" @click="closePDF"></div>
       <img v-show="showPDF" class="closePDF" src="../../static/icone-supprimer.png" @click="closePDF">
@@ -31,35 +30,35 @@
   import axios from 'axios'
 
   let collab = [
-    {name:"Naulin",firstName:"Thomas",experience:2, poste:"Sénior",picture:"../../static/ReverseFlash_wallapaper.png",
+    {name:"Naulin",firstName:"Thomas",experience:2, poste:"Sénior",picture:"../../static/thomas.png",
       telephone: '0154879565', email:'thomas.naulin@viseo.com', hobbies: 'pictor',languages:'Anglais', clients:["Orange","Alten"],skills:["Mobile","Web"]},
-    {name:"Tranzer",firstName:"Master",experience:4, poste:"Sénior",picture:"../../static/ReverseFlash_wallapaper.png",
+    {name:"Tranzer",firstName:"Master",experience:4, poste:"Sénior",picture:"../../static/marc.png",
       telephone: '0123456789', email:'tranzer@chelou.com', hobbies: 'orthphoniste',languages:'Français, mais vite fait',clients:["Viseo","Bouygues"],skills:["Android","Web"]},
-    {name:"Test",firstName:"Test",experience:5, poste:"Manager",picture:"../../static/ReverseFlash_wallapaper.png",
+    {name:"Test",firstName:"Test",experience:5, poste:"Manager",picture:"../../static/mocha.svg",
       telephone: '0635897456', email:'test@test.try', hobbies: 'mocha',languages:'coffeescript',clients:["Orange","Viseo"],skills:["Mobile","Java"]},
-    {name:"Balboa",firstName:"Rocky",experience:1, poste:"Stagiaire",picture:"../../static/ReverseFlash_wallapaper.png",
+    {name:"Balboa",firstName:"Rocky",experience:1, poste:"Stagiaire",picture:"../../static/rocky.png",
       telephone: '0879461325', email:'tin.tintintin@tintin.tiiin', hobbies: 'Boxe',languages:'Argot',clients:["Renault","Bouygues"],skills:["Java","Javascript"]},
-    {name:"Zarrin",firstName:"Maxime",experience:2, poste:"Sénior",picture:"../../static/ReverseFlash_wallapaper.png",
+    {name:"Zarrin",firstName:"Maxime",experience:2, poste:"Sénior",picture:"../../static/maxime.png",
       telephone: '0669362584', email:'maxime.zarrin@viseo.com', hobbies: 'LOL, Flame, flame on LOL',languages:'Anglais',clients:["Renault","Riot"],skills:["Javascript","JEE"]},
-    {name:"Touati",firstName:"Farah",experience:0, poste:"Stagiaire",picture:"../../static/ReverseFlash_wallapaper.png",
+    {name:"Touati",firstName:"Farah",experience:0, poste:"Stagiaire",picture:"../../static/DiannaAgron.png",
       telephone: '0215487926', email:'touati.farah@viseo.com', hobbies: 'lecture',languages:'Anglais, Arabe',clients:["Dassault","Renault"],skills:["Perl","Agile"]},
-    {name:"Plouvier",firstName:"Julien",experience:4, poste:"Sénior",picture:"../../static/ReverseFlash_wallapaper.png",
+    {name:"Plouvier",firstName:"Julien",experience:4, poste:"Sénior",picture:"../../static/DiannaAgron.png",
       telephone: '0254896544', email:'plouvier.julien@edu.ece.fr', hobbies: 'enseignement',languages:'Anglais',clients:["Renault","NASA"],skills:["Agile","C#"]},
-    {name:"Short",firstName:"Edouard",experience:2, poste:"Junior",picture:"../../static/ReverseFlash_wallapaper.png",
+    {name:"Short",firstName:"Edouard",experience:2, poste:"Junior",picture:"../../static/DiannaAgron.png",
       telephone: '0615958432', email:'edouard.long@viseo.com', hobbies: 'Algo',languages:'Anglais',clients:["Astek","NASA"],skills:["C++","Java"]},
-    {name:"Lerandy",firstName:"Emmanuelle",experience:0, poste:"Stagiaire",picture:"../../static/ReverseFlash_wallapaper.png",
+    {name:"Lerandy",firstName:"Emmanuelle",experience:0, poste:"Stagiaire",picture:"../../static/emma.png",
       telephone: '0528649751', email:'emma.lerandy@viseo.com', hobbies: 'handball, kine',languages:'Anglais',clients:["Astek","Orange"],skills:["Mobile","Web"]},
-    {name:"Ouamar",firstName:"Lydia",experience:5, poste:"Sénior",picture:"../../static/ReverseFlash_wallapaper.png",
+    {name:"Ouamar",firstName:"Lydia",experience:5, poste:"Sénior",picture:"../../static/DiannaAgron.png",
       telephone: '0154879565', email:'lydia@viseo.com', hobbies: 'ocean,design',languages:'Anglais',clients:["MarineLand","Bouygues"],skills:["Javascript","Biodiversité Marine"]},
-    {name:"Ehrmann",firstName:"Geoffrey",experience:7, poste:"Manager",picture:"../../static/ReverseFlash_wallapaper.png",
+    {name:"Ehrmann",firstName:"Geoffrey",experience:7, poste:"Manager",picture:"../../static/geoff.jpg",
       telephone: '0123456987', email:'ouam@viseo.com', hobbies: 'pizza',languages:'Anglais',clients:["Riot","Orthofiga"],skills:["Auto-Destruction","Web"]},
-    {name:"Bouvet",firstName:"Nicolas",experience:4, poste:"Sénior",picture:"../../static/ReverseFlash_wallapaper.png",
+    {name:"Bouvet",firstName:"Nicolas",experience:4, poste:"Sénior",picture:"../../static/DiannaAgron.png",
       telephone: '05478965411', email:'nico.bouvet@viseo.com', hobbies: 'rien',languages:'Anglais',clients:["Dassault","Bouygues"],skills:["C++","PHP"]},
-    {name:"Riquier",firstName:"Master",experience:9, poste:"Sénior",picture:"../../static/ReverseFlash_wallapaper.png",
+    {name:"Riquier",firstName:"Master",experience:9, poste:"Sénior",picture:"../../static/DiannaAgron.png",
       telephone: '0235854123', email:'riquier@ece.fr', hobbies: 'elec, nage',languages:'Anglais',clients:["Orange","ECE"],skills:["VHDL","Et ça ne marche pas"]},
-    {name:"Bouchez",firstName:"David-Olivier",experience:11, poste:"Junior",picture:"../../static/ReverseFlash_wallapaper.png",
+    {name:"Bouchez",firstName:"David-Olivier",experience:11, poste:"Junior",picture:"../../static/DiannaAgron.png",
       telephone: '0658965478', email:'do.bouchez@edu.ece.fr', hobbies: 'PFE, VPE',languages:'Anglais',clients:["ECE","Inseec"],skills:["Entreprenariat","Pause"]},
-    {name:"Darmet",firstName:"Henri",experience:12, poste:"Junior",picture:"../../static/ReverseFlash_wallapaper.png",
+    {name:"Darmet",firstName:"Henri",experience:12, poste:"Junior",picture:"../../static/henri.png",
       telephone: '0658742589', email:'henri.darmet@viseo.com', hobbies: 'SVG',languages:'Anglais',clients:["Viseo","SVG"],skills:["Tout"]}
   ];
 
@@ -111,7 +110,6 @@
         for(let i of collab){
             if((i.firstName+" "+i.name).toLowerCase().includes(this.currentSearch.toLowerCase())
               ||(i.name+" "+i.firstName).toLowerCase().includes(this.currentSearch.toLowerCase())){
-              msg.style.display="none";
               tab.push(i);
             }
         }
@@ -194,41 +192,65 @@
 </script>
 
 <style>
-
-  .page-content{
-    display:flex;
+  .containerSearch{
+    display: flex;
+    justify-content: center;
   }
 
   #search-collab{
-    float:left;
     line-height: 2em;
     width:31em;
-    margin-left:0.4em;
     border:none;
     outline:none;
   }
 
   .zone-search-collab{
-    line-height: 2em;
-    width:30em;
-    border:1px solid black;
-    border-radius:0.5em;
-    display: inline-block;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-self: center;
+    width:50em;
+    height: 2.3em;
+    border:1.3px solid dodgerblue;
+    border-radius: 30px;
+    padding: 0 1em;
   }
 
   .icon-search{
-    line-height:2em;
     width:2em;
-    background-color: #D7D7D7;
-    float:right;
-    border-top-right-radius: 0.5em;
-    border-bottom-right-radius: 0.5em;
+    color: dodgerblue;
+  }
+  .messageErreur{
+    display: flex;
+    align-items: center;
+    height: 1.8em;
+    width: 30em;
+    padding-left: 1em;
+    margin-left: 1em;
+    border: none;
+    border-left: 1.5px solid lightgray;
   }
 
-  .icon-cancel{
-    float:right;
-    line-height:2em;
-    margin-right:0.5em;
+  #msgErreur{
+    color: red;
   }
 
+  .page-content{
+    display: flex; flex-direction: row; justify-content: space-around; width: 100%; margin-top: 1em;
+  }
+
+  .filterZone{
+    display: flex;
+    flex-basis: 23%;
+  }
+
+  .collabZone{
+    display: flex;
+    /*flex-direction: row;*/
+    /*justify-content: space-around;*/
+    /*flex-wrap: wrap;*/
+
+    flex-basis: 73%;
+  }
 </style>
