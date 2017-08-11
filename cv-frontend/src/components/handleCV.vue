@@ -169,7 +169,6 @@
           }
         },
         updateMission:function(name,client,dateB,dateE,descr,type){
-            console.log(this.missions[this.currentBlock])
             this.missions[this.currentBlock].title=name;
             this.missions[this.currentBlock].clientId.label=client;
             this.missions[this.currentBlock].beginDate=dateB;

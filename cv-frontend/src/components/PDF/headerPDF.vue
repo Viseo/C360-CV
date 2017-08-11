@@ -30,7 +30,7 @@
             </div>
             <div class="userInfo">
               <span class="netIcon"></span>
-              <p>{{this.getLanguages(infoUser.languages)}}</p>
+              <p>{{infoUser.languages}}</p>
             </div>
             <div class="userInfo">
               <span class="gamePad"></span>
@@ -53,9 +53,7 @@
     },
     props: ['infoUser'],
     methods: {
-      getLanguages: function (tab) {
-        return tab
-      }
+
     }
   }
 </script>
