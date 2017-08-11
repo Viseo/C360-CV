@@ -113,8 +113,9 @@
           //CheckClients
           if(this.filterClients!=""){
             let test = false;
-            for(let j of i.clients){
-              if(j.includes(this.filterClients)){
+            for(let j of i.missions){
+              let client = j.clientId.label;
+              if(client.toUpperCase().trim().includes(this.filterClients.toUpperCase().trim())){
                 test=true;
               }
             }
@@ -130,7 +131,6 @@
           }
           if(searched) tmp.push(i);
         }
-        console.log(tmp);
         return tmp;
       },
       showPDFUser(infoUser){
@@ -163,14 +163,13 @@
                     function (elem) {
                       return elem.label;
                     }).join(", ");
-                  console.log(this.collaborators[collab].languages);
               }
             }else{
               console.log("failed");
             }
           })
           .catch((error)=>{
-            console.log(error,"et oui! ");
+            console.log(error);
           })
     }
   }

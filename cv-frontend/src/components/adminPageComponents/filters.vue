@@ -22,7 +22,7 @@
         </div>
 
         <div class="arrowTitle">
-          <p>Competences</p>
+          <p>Compétences</p>
         </div>
 
         <div class="skills">
@@ -59,7 +59,7 @@
       </div>
       <div class="FilterField">
         <div class="arrowTitle">
-          <p>Experience</p>
+          <p>Expérience</p>
         </div>
         <div class="containerCheckboxFilter">
           <div>
