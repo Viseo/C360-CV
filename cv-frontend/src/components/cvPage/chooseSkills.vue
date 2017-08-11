@@ -222,6 +222,7 @@
     line-height: 7vh;
     font-family: "Arial", Arial, sans-serif;
     font-size:3vh;
+    cursor: pointer;
   }
 
   .skill-style{
@@ -236,6 +237,7 @@
     line-height:8vh;
     font-family: "Arial", Arial, sans-serif;
     font-size:2vh;
+    cursor: pointer;
   }
 
   .skill-list{
@@ -292,6 +294,9 @@
     line-height:5vh;
     padding-left:1vw;
     padding-right:1vw;
+  }
+  .picto-cancel{
+    cursor: pointer;
   }
 
   .head-component{

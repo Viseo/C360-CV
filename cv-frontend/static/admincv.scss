@@ -50,6 +50,8 @@
   height: 2em;
   background-color: white;
   color: #000066;
+  cursor: pointer;
+
 }
 
 .FilterField {
@@ -134,6 +136,7 @@
       font-size: 12px;
       font-family: Calibri, serif;
       padding-right: 7px;
+      cursor: pointer;
     }
   }
   .skills {
@@ -183,7 +186,8 @@
     border-radius: 8px;
     margin-top: 1em;
     padding: 0.5em;
-    color: white
+    color: white;
+    cursor: pointer;
   }
 
 }

@@ -10,12 +10,12 @@
         <div class="containerSkillsFilter">
           <div style="display: flex; justify-content: center; align-items: center">
             <div class="newSkill" v-show="newSkill">{{skillToAdd.skill}}</div>
-            <i v-show="newSkill" class="fa fa-times-circle fa-lg" style="position: relative; left: -20px" @click="newSkill=!newSkill; searchedSkill=''"></i>
+            <i v-show="newSkill" class="fa fa-times-circle fa-lg" style="position: relative; left: -20px; cursor: pointer;" @click="newSkill=!newSkill; searchedSkill=''"></i>
           </div>
         </div>
         <div v-show="newSkill" class="addingSkill">
           <span v-show="!showCat" style="font-size: 12px; font-family: Calibri,serif">Cette compétence n'existe pas, voulez-vous l'ajouter?</span>
-          <i v-show="!showCat" class="fa fa-plus-square-o fa-lg" style="color: #3498DB;" @click="addSkill(searchedSkill)"></i>
+          <i v-show="!showCat" class="fa fa-plus-square-o fa-lg" style="color: #3498DB; cursor: pointer;" @click="addSkill(searchedSkill)"></i>
           <div style="display: flex; flex-direction: row; flex-wrap: wrap">
             <div v-show="showCat"><span v-for="(cat,index) in categories" :style="chooseColor(cat)" class="categoriesWhenAddSkill" @click="addCat(cat)">{{cat}}</span></div>
           </div>

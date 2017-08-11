@@ -58,8 +58,10 @@
               width: '40px',
               height: '50px',
               'flex-grow': '1',
-              'margin': '8px'
-            },
+              'margin': '8px',
+              cursor: 'pointer'
+
+    },
             styleImg: {
               display: 'flex',
               width: '2em',

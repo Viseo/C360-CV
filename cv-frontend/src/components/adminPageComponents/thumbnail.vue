@@ -144,9 +144,9 @@
     font-size: 12px;
   }
 
-  /*.pictoThumb{*/
-    /*font-size: ;*/
-  /*}*/
+  .pictoThumb{
+    cursor: pointer;
+  }
 
   /*.collaborator-picture{*/
     /*float:left;*/

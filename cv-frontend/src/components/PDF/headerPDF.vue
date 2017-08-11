@@ -26,7 +26,7 @@
           <div class="colonnesHeader2">
             <div class="userInfo">
               <span class="cake"></span>
-              <p>{{infoUser.age}} ans</p>
+              <p>{{computeAge()}} ans</p>
             </div>
             <div class="userInfo">
               <span class="netIcon"></span>
@@ -55,6 +55,10 @@
     methods: {
       getLanguages: function (tab) {
         return tab
+      },
+      computeAge: function () {
+//          console.log(new Date().getTime(),new Date(this.infoUser.birth).getTime(),this.infoUser.birth)
+        return Math.floor((new Date().getTime()-this.infoUser.birth)/(1000*3600*24*365));
       }
     }
   }

@@ -22,7 +22,7 @@
       <label v-bind:style = "stylep">Nom</label>
       <div class="inputWithPicto">
         <i class="fa fa-user-o fa-2x picto" aria-hidden="true"></i>
-        <input class="inputInfo" name="name" v-on:keyup="verificationChar" @input="name=name.toUpperCase()" placeHolder="Nom"
+        <input class="inputInfo" name="name" v-on:keyup="verificationChar" @input="infoUser.lastName=infoUser.lastName.toUpperCase()" placeHolder="Nom"
                v-model="infoUser.lastName">
         <span id="alM1" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un nom valide</span>
       </div>
@@ -32,7 +32,7 @@
       <label v-bind:style = "stylep">Age</label>
       <div class="inputWithPicto">
         <i class="fa fa-birthday-cake fa-2x picto" aria-hidden="true"></i>
-        <input class="inputInfo" name="birth" type="date" placeHolder="" v-model="infoUser.birth">
+        <input class="inputInfo date" name="birth" type="date" placeHolder="" v-model="infoUser.birthDate">
         <span><i id="calendar_icon" class="fa fa-calendar pictoInput" aria-hidden="true"></i> </span>
       </div>
     </div>
@@ -334,6 +334,11 @@
           alertMessage.style.color="rgb(255,0,0)";
           alertMessage.style.textAlign= "center";
         }
+      },
+      computeAge: function(){
+//        console.log(Math.floor((new Date(this.today).getTime())),new Date(infoPerso[field]).getTime(),(1000*3600*24*365),infoPerso[field],field)
+        Math.floor((new Date(this.today).getTime()-new Date(infoPerso[field]).getTime())/(1000*3600*24*365));
+//        return Math.floor((new Date(this.today).getTime()-new Date(infoPerso[field]).getTime())/(1000*3600*24*365));
       }
     },
     data: function () {
@@ -394,6 +399,9 @@
     top: 0.5em;
     pointer-events: none;
     background-color: #F2F3F4;
+  }
+  .date{
+    cursor: pointer;
   }
 
   .photoUser{

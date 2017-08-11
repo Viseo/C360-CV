@@ -44,7 +44,9 @@
     "border-radius":"10px",
     "float":"left",
     position:"relative",
-    "background-image":'linear-gradient(to bottom, #3498db, #2980b9)'
+    "background-image":'linear-gradient(to bottom, #3498db, #2980b9)',
+    cursor: 'pointer',
+
   };
 
   var styleMissionBoxChecked = {
@@ -59,6 +61,8 @@
     "float":"left",
     position:"relative",
     "background-image":'linear-gradient(to bottom, #487692, #265471)',
+    cursor: 'pointer',
+
   };
 
   var styleMissionBoxTitle = {

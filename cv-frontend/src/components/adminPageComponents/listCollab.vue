@@ -3,13 +3,13 @@
     <div class="titleCollabMenu"><span>Collaborateurs</span></div>
     <div class="zone-download-all">
       <div class="download-all">Télécharger tous les CV</div>
-      <i class="fa fa-download"></i>
+      <i class="fa fa-download pictoThumb"></i>
     </div>
     <div class="containerCollab">
       <div class="all-collabs">
         <div v-for="(item,index) in collaborators">
           <thumbnail :lastName="item.lastName" :firstName="item.firstName" :position="item.position"
-                     :mail="item.mail" :telephone="item.telephone" :birth="item.birth"
+                     :mail="item.mail" :telephone="item.telephone" :birth="item.date_birth"
                      :hobbies="item.hobbies" :languages="item.languages" :missions="item.missions"
                      :experience="item.experience" :picture="item.picture" @showPDF="showPDF" @downloadPDF="downloadPDF"></thumbnail>
         </div>
@@ -93,5 +93,7 @@
     font-size: 13px;
     font-family: Calibri, serif;
     font-weight: bold;
+    cursor: pointer;
   }
+
 </style>

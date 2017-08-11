@@ -1,7 +1,8 @@
 <template>
     <div class="display">
         <banner></banner>
-        <div class="content" :style="styleContent">
+      <div><img :style="style.styleImg" src="../../static/backgroundLogin.png"></div>
+      <div class="content" :style="styleContent">
             <div class="topcontent" :style="styleTopContent">
                 <div id="Inscription" :style="styleInscription" @click="inscriptionClick"><p>Inscription</p></div>
                 <div id="Connexion" :style="styleConnexion" @click="connexionClick"><p>Connexion</p></div>
@@ -79,6 +80,14 @@
           divForm: {
             position: 'relative',
           },
+          styleImg: {
+            display: 'flex',
+            width: '100%',
+            height: '100%',
+            position: 'absolute',
+            filter: 'grayscale(100%)',
+          },
+
           styleForm: {
             padding: '1em 0px 1em 2.3em',
             width: '27em',
@@ -89,25 +98,31 @@
             'box-shadow': 'inset 0 0.01em 0.02em rgba(0,0,0,.39)',
             height: '2.5em'
           },
+
           styleSubmit: {
             // padding: '1em 0px 1em 2.3em',
             'font-size': '1.04em',
             'font-weight': 'bold',
-            width: '27em',
+            width: '20em',
             border: '0px solid #ccc',
-            'border-radius': '4px',
-            'background-color' : 'rgb(254,204,19)',
+            'border-radius': '18px',
+            'background-color' : 'rgb(255,146,0)',
             'text-align': 'center',
             color: 'white',
-            'margin-bottom': '2em',
+            'margin-bottom': '4em',
             'box-shadow': '0 0.01em 0.02em rgba(0,0,0,.39)',
-            height: '2.5em'
+            height: '2.5em',
+            display: 'block',
+            'margin': 'auto',
+
           },
+
           styleLabel: {
             display: 'flex',
             'align-items': 'left',
             'margin-bottom': '15px'
           },
+
           styleConfig: {
             display: 'flex',
             'flex-orientation': 'row',
@@ -115,18 +130,21 @@
             'justify-content': 'space-between',
             'margin-bottom': '15px'
           },
+
           stylePicto: {
             position: 'absolute',
             'left': '1em',
             'top': '0px',
             'z-index': '10'
           },
+
           styleEye: {
             position: 'absolute',
             'right': '10px',
             'top': '0px',
             'z-index': '10'
           },
+
           styleMessage: {
             display: 'flex',
             'height':'1em',
@@ -136,13 +154,18 @@
             'font-weight': 'normal',
           }
         },
+
         styleContent: {
           display: 'flex',
           'flex-direction': 'column',
           width:'50%',
           'margin-left':'25%',
-          'box-shadow': '0 2px 5px rgba(0,0,0,0.14), 0 2px 5px rgba(0,0,0,0.24)'
+          'margin-top': '4%',
+          'box-shadow': '0 2px 5px rgba(0,0,0,0.14), 0 2px 5px rgba(0,0,0,0.24)',
+          'background-color': 'rgba(230,230,230,0.8)',
+          position: 'relative'
         },
+
         styleTopContent:{
           display: 'flex',
           'flex-direction': 'row',
@@ -150,23 +173,28 @@
           'background-color' : 'rgb(255,255,255)',
           'font-family': 'Arial',
           'font-size': '1em',
+          position: 'relative'
         },
+
         styleInscription:{
           display: 'flex',
           flex: '1',
           'justify-content': 'center',
-          'background-color' : 'rgb(254,204,19)',
+          'background-color' : 'rgb(255,146,0)',
           'color':'rgb(255,255,255)',
         },
+
         styleConnexion:{
           display: 'flex',
           flex: '1',
           'justify-content': 'center',
-          'background-color' : 'rgb(235,235,235)',
-          'color':'rgb(120,120,120)',
+          'background-color' : 'rgb(255,255,255)',
+          'color':'rgb(255,146,0)',
+
         },
+
         styleConnexionContent:{
-          display:'none',
+          display:'none'
         }
       }
     },
@@ -178,18 +206,18 @@
         let inscription=document.getElementById("Inscription");
         let connexion=document.getElementById("Connexion");
         inscription.style.color='rgb(255,255,255)';
-        inscription.style.backgroundColor='rgb(254,204,19)';
-        connexion.style.color='rgb(120,120,120)';
-        connexion.style.backgroundColor='rgb(235,235,235)';
+        inscription.style.backgroundColor='rgb(255,146,0)';
+        connexion.style.color='rgb(255,146,0)';
+        connexion.style.backgroundColor='rgb(255,255,255)';
         this.chosenForm==='connexion'?this.chosenForm='inscription':{};
       },
       connexionClick : function(){
         let inscription=document.getElementById("Inscription");
         let connexion=document.getElementById("Connexion");
-        inscription.style.color='rgb(120,120,120)';
-        inscription.style.backgroundColor='rgb(235,235,235)';
+        inscription.style.color='rgb(255,146,0)';
+        inscription.style.backgroundColor='rgb(255,255,255)';
         connexion.style.color='rgb(255,255,255)';
-        connexion.style.backgroundColor='rgb(254,204,19)';
+        connexion.style.backgroundColor='rgb(255,146,0)';
         this.chosenForm==='inscription'?this.chosenForm='connexion':{};
       },
       inputManager : function(label,form){

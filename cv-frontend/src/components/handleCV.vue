@@ -4,13 +4,12 @@
     <div class="mycv">
       <div class="infoUser">
         <informationForm :infoUser="infoUser" :today="today"></informationForm>
-
         <saving :missions="missions" @getInfoMission="getInfoMission"></saving>
       </div>
       <div class="mission">
         <div class="bannerMission">
           <div style="display: flex; flex-direction: row;"><i class="fa fa-briefcase fa-lg briefcase"></i><p style="margin: 0">Gestion des Missions</p></div>
-          <div style="display: flex; flex-direction: row;margin-right: 10px" @click="showPDF=!showPDF"><div style="display: flex;margin-right: 10px">Afficher aperçu PDF</div><i class="fa fa-binoculars"></i></div>
+          <div style="display: flex; flex-direction: row;margin-right: 10px; cursor: pointer;" @click="showPDF=!showPDF"><div style="display: flex;margin-right: 10px">Afficher aperçu PDF</div><i class="fa fa-binoculars"></i></div>
         </div>
         <registermission :currentBlock="currentBlock" :titleMission="missions[currentBlock].title" :beginDate="missions[currentBlock].beginDate"
                          :client="missions[currentBlock].clientId?missions[currentBlock].clientId.label:''" :description="missions[currentBlock].description"
@@ -97,7 +96,8 @@
           this.infoUser = {
             lastName: response.data.lastName,
             firstName: response.data.firstName,
-            birth: birthDate.getFullYear() + "-" +
+            birth: response.data.date_birth,
+            birthDate: birthDate.getFullYear() + "-" +
             ("0" + (parseInt(birthDate.getMonth()) + 1)).slice(-2) + "-" +
             ("0" + birthDate.getDate()).slice(-2),
             position: response.data.position,
@@ -109,7 +109,7 @@
               function (elem) {
                 return elem.label;
               }).join(" "),
-            picture: response.data.picture
+            picture: response.data.picture,
           };
 
           this.missions = response.data.missions;

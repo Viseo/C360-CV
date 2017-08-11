@@ -66,6 +66,7 @@
         colors: colors,
         infoUser: {},
         missions: {},
+
       }
     },
     beforeCreate:function(){
@@ -122,11 +123,19 @@
           }
           //CheckSkills
           if(this.filterSkills.length>=1){
-            for(let j of this.filterSkills){
-              if(i.skills.indexOf(j.skill)==-1){
-                searched=false;
+            let tmpTab=[];
+
+            for(let k of i.missions){
+                for(let l of k.skills) {
+                  tmpTab.push(l.label);
+                }
+            }
+            for (let j of this.filterSkills) {
+              if (tmpTab.indexOf(j.skill) == -1) {
+                searched = false;
               }
             }
+
           }
           if(searched) tmp.push(i);
         }
@@ -157,13 +166,14 @@
           .then(response=>{
             if(response.data.length>0){
               this.collaborators = response.data;
+              console.log(this.collaborators)
               this.defaultCollab = response.data;
               for(let collab in this.collaborators){
-                  this.collaborators[collab].languages=this.collaborators[collab].languages.map(
-                    function (elem) {
-                      return elem.label;
-                    }).join(", ");
-                  console.log(this.collaborators[collab].languages);
+                console.log(this.collaborators[collab].date_birth);
+                this.collaborators[collab].languages=this.collaborators[collab].languages.map(
+                  function (elem) {
+                    return elem.label;
+                  }).join(", ");
               }
             }else{
               console.log("failed");
