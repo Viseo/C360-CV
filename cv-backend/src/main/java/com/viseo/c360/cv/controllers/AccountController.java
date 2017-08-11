@@ -18,8 +18,7 @@ import javax.validation.Valid;
 
 import java.util.List;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
 @RequestMapping("/api")
@@ -47,7 +46,7 @@ public class AccountController {
         return existenceTest;
     }
 
-    @RequestMapping("/getUser")
+    @RequestMapping(path="/getUser", method=GET)
     public UsersEntity getUser(@RequestParam(value="id") @NotEmpty int id) {
 
         return this.accountService.getUserById(id);
@@ -56,6 +55,11 @@ public class AccountController {
     @RequestMapping(path = "/getUsers", method = GET)
     public List<UsersEntity> getAll(){
         return this.accountService.getAll();
+    }
 
+    @RequestMapping(path="/updateUser", method = POST)
+    public UsersEntity updateUser(@RequestBody @Valid UserDto user) {
+
+        return this.accountService.updateUser(user);
     }
 }

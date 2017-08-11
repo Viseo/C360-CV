@@ -12,11 +12,12 @@ public class MissionToEntityConverter implements Converter<MissionDto,MissionsEn
     public MissionsEntity convert(MissionDto missionDto) {
 
         MissionsEntity missionsEntity = new MissionsEntity();
+        missionsEntity.setId(missionDto.getId());
         missionsEntity.setBeginDate(missionDto.getBeginDate());
         missionsEntity.setDescription(missionDto.getDescription());
         missionsEntity.setEndDate(missionDto.getEndDate());
         missionsEntity.setTitle(missionDto.getTitle());
-//        missionsEntity.setClientId(missionDto.getClient().getId());
+        //missionsEntity.setClientId(missionDto.getClientId());
 
         return missionsEntity;
     }

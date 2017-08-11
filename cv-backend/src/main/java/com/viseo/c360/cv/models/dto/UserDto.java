@@ -1,11 +1,14 @@
 package com.viseo.c360.cv.models.dto;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.viseo.c360.cv.models.entities.MissionsEntity;
 
 import java.util.Date;
 import java.util.List;
 
 public class UserDto {
+
+    private int id;
 
     private String login;
 
@@ -33,8 +36,15 @@ public class UserDto {
 
     private List<LanguageDto> languages;
 
-    private List <MissionDto> missions;
+    private List <MissionsEntity> missions;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -108,11 +118,11 @@ public class UserDto {
         this.languages = languages;
     }
 
-    public List<MissionDto> getMissions() {
+    public List<MissionsEntity> getMissions() {
         return missions;
     }
 
-    public void setMissions(List<MissionDto> missions) {
+    public void setMissions(List<MissionsEntity> missions) {
         this.missions = missions;
     }
 

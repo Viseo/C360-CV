@@ -5,8 +5,10 @@ import com.viseo.c360.cv.models.entities.UsersEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
 
 @Transactional
 public interface AccountDAO extends CrudRepository<UsersEntity, Long> {

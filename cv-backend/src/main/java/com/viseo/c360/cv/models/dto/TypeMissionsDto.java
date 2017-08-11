@@ -5,6 +5,8 @@ package com.viseo.c360.cv.models.dto;
  */
 public class TypeMissionsDto {
 
+    private int id;
+
     private String label;
 
     public String getLabel() {
@@ -28,5 +30,13 @@ public class TypeMissionsDto {
     @Override
     public int hashCode() {
         return label != null ? label.hashCode() : 0;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

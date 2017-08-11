@@ -3,11 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/C360-CV.iml" filepath="$PROJECT_DIR$/C360-CV.iml" />
-      <module fileurl="file://C:\Users\ELE3653\workspace\C360-CV\cv-backend\C360-CV (1).iml" filepath="C:\Users\ELE3653\workspace\C360-CV\cv-backend\C360-CV (1).iml" />
-      <module fileurl="file://C:\Users\ELE3653\workspace\C360-CV-front\C360-CV-front.iml" filepath="C:\Users\ELE3653\workspace\C360-CV-front\C360-CV-front.iml" />
+      <module fileurl="file://C:/Users/ELE3653/workspace/C360-CV/cv-backend/C360-CV (1).iml" filepath="C:/Users/ELE3653/workspace/C360-CV/cv-backend/C360-CV (1).iml" />
+      <module fileurl="file://C:/Users/ELE3653/workspace/C360-CV-front/C360-CV-front.iml" filepath="C:/Users/ELE3653/workspace/C360-CV-front/C360-CV-front.iml" />
       <module fileurl="file://$PROJECT_DIR$/cv-backend/cv-backend.iml" filepath="$PROJECT_DIR$/cv-backend/cv-backend.iml" />
       <module fileurl="file://$PROJECT_DIR$/cv-frontend/cv-frontend.iml" filepath="$PROJECT_DIR$/cv-frontend/cv-frontend.iml" />
-      <module fileurl="file://C:\Users\ELE3653\workspace\C360-CV\cv-fronted\spring-petclinic-client (1).iml" filepath="C:\Users\ELE3653\workspace\C360-CV\cv-fronted\spring-petclinic-client (1).iml" />
+      <module fileurl="file://C:/Users/ELE3653/workspace/C360-CV/cv-fronted/spring-petclinic-client (1).iml" filepath="C:/Users/ELE3653/workspace/C360-CV/cv-fronted/spring-petclinic-client (1).iml" />
     </modules>
   </component>
 </project>

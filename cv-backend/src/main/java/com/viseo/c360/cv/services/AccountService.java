@@ -17,4 +17,6 @@ public interface AccountService {
 
     List<UsersEntity> getAll();
 
+    UsersEntity updateUser(UserDto user);
+
 }

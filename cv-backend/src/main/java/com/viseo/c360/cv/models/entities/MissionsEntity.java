@@ -9,6 +9,9 @@ import java.util.List;
 public class MissionsEntity extends BaseEntity {
 
     @Column
+    private int id;
+
+    @Column
     private String title;
 
     @Column
@@ -38,7 +41,16 @@ public class MissionsEntity extends BaseEntity {
     )
 
     private List <SkillsEntity> skills;
-    
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
     }

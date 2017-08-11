@@ -6,6 +6,8 @@ package com.viseo.c360.cv.models.dto;
  */
 public class SkillsDto {
 
+    private int id;
+
     private String label;
 
     private String domain;
@@ -42,5 +44,13 @@ public class SkillsDto {
         int result = label != null ? label.hashCode() : 0;
         result = 31 * result + (domain != null ? domain.hashCode() : 0);
         return result;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
