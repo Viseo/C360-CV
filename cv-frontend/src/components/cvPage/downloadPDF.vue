@@ -16,6 +16,7 @@
   export default {
     methods:{
       saveButton: function () {
+        this.$emit("saveData");
       },
       getInfoMission: function (id) {
         this.$emit('getInfoMission',id);
@@ -46,7 +47,7 @@
 
       }
     },
-    props:['missions']
+    props:['missions','infoUser']
   }
 
 </script>

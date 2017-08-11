@@ -468,7 +468,7 @@
               }
               else{
                 axios.post('/api/register', data)
-                  .then((done)=>{
+                  .then(()=>{
                     alert("Inscription Effectuée");
                     window.location.href = '/';
                   })

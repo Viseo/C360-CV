@@ -8,6 +8,8 @@ import java.util.List;
  */
 public class MissionDto {
 
+    private int id;
+
     private String title;
 
     private Date beginDate;
@@ -21,6 +23,14 @@ public class MissionDto {
     private TypeMissionsDto typeMissions;
 
     private List<SkillsDto> skills;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -77,6 +87,8 @@ public class MissionDto {
     public void setSkills(List<SkillsDto> skills) {
         this.skills = skills;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

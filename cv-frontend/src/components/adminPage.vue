@@ -114,8 +114,9 @@
           //CheckClients
           if(this.filterClients!=""){
             let test = false;
-            for(let j of i.clients){
-              if(j.includes(this.filterClients)){
+            for(let j of i.missions){
+              let client = j.clientId.label;
+              if(client.toUpperCase().trim().includes(this.filterClients.toUpperCase().trim())){
                 test=true;
               }
             }
@@ -139,7 +140,6 @@
           }
           if(searched) tmp.push(i);
         }
-        console.log(tmp);
         return tmp;
       },
       showPDFUser(infoUser){
@@ -169,18 +169,17 @@
               console.log(this.collaborators)
               this.defaultCollab = response.data;
               for(let collab in this.collaborators){
-                console.log(this.collaborators[collab].date_birth);
-                this.collaborators[collab].languages=this.collaborators[collab].languages.map(
-                  function (elem) {
-                    return elem.label;
-                  }).join(", ");
+                  this.collaborators[collab].languages=this.collaborators[collab].languages.map(
+                    function (elem) {
+                      return elem.label;
+                    }).join(", ");
               }
             }else{
               console.log("failed");
             }
           })
           .catch((error)=>{
-            console.log(error,"et oui! ");
+            console.log(error);
           })
     }
   }

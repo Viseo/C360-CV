@@ -4,7 +4,7 @@
     <div class="mycv">
       <div class="infoUser">
         <informationForm :infoUser="infoUser" :today="today"></informationForm>
-        <saving :missions="missions" @getInfoMission="getInfoMission"></saving>
+        <saving :missions="missions" @getInfoMission="getInfoMission" @saveData="updateUserBDD"></saving>
       </div>
       <div class="mission">
         <div class="bannerMission">
@@ -94,6 +94,8 @@
 
           var birthDate = new Date(response.data.date_birth);
           this.infoUser = {
+            id:response.data.id,
+            login:response.data.login,
             lastName: response.data.lastName,
             firstName: response.data.firstName,
             birth: response.data.date_birth,
@@ -112,7 +114,19 @@
             picture: response.data.picture,
           };
 
-          this.missions = response.data.missions;
+          if(response.data.missions.length==0){
+            this.missions=[
+              {id:0,title: "", beginDate: "",
+                endDate: "", clientId:{id:0,label:""}, description: "",typeMissions:{id:1,label:'mission'},skills:[]}
+            ];
+
+            this.currentBlock=this.missions.length-1;
+            this.getInfoMission(this.missions.length-1);
+
+          }
+          else {
+            this.missions = response.data.missions;
+          }
 
           for (let i in this.missions) {
             let tmp = new Date(this.missions[i].beginDate);
@@ -169,13 +183,65 @@
           }
         },
         updateMission:function(name,client,dateB,dateE,descr,type){
-            console.log(this.missions[this.currentBlock])
             this.missions[this.currentBlock].title=name;
             this.missions[this.currentBlock].clientId.label=client;
             this.missions[this.currentBlock].beginDate=dateB;
             this.missions[this.currentBlock].endDate=dateE;
             this.missions[this.currentBlock].description=descr;
             this.missions[this.currentBlock].typeMissions.label=type;
+        },
+        updateUserBDD:function(){
+
+          let birth = this.infoUser.birth.split("-");
+          let user = {
+            id:this.infoUser.id,
+            login:this.infoUser.login,
+            lastName: this.infoUser.lastName,
+            firstName: this.infoUser.firstName,
+            date_birth: new Date(birth[0],birth[1],birth[2]).getTime(),
+            position: this.infoUser.position,
+            experience: this.infoUser.experience,
+            mail: this.infoUser.mail,
+            telephone: this.infoUser.telephone,
+            hobbies: this.infoUser.hobbies,
+            languages: [],
+            picture: this.infoUser.picture
+          };
+
+          user.missions = this.missions;
+
+          for (let i in user.missions) {
+            let tabBegin = user.missions[i].beginDate.split("-");
+            let tmpBegin = new Date(tabBegin[0],tabBegin[1],tabBegin[2]);
+
+            let tabEnd = user.missions[i].endDate.split("-");
+            let tmpEnd = new Date(tabEnd[0],tabEnd[1],tabEnd[2]);
+
+            user.missions[i].beginDate=tmpBegin.getTime();
+            user.missions[i].endDate=tmpEnd.getTime();
+          }
+
+          axios.post('/api/updateUser', user)
+            .then((response)=>{
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+
+          for (let i in this.missions) {
+            let tmp = new Date(this.missions[i].beginDate);
+            let tmpEnd = new Date(this.missions[i].endDate);
+
+            this.missions[i].beginDate = tmp.getFullYear() + "-" +
+              ("0" + (parseInt(tmp.getMonth()) + 1)).slice(-2) + "-" +
+              ("0" + tmp.getDate()).slice(-2);
+
+            this.missions[i].endDate = tmpEnd.getFullYear() + "-" +
+              ("0" + (parseInt(tmpEnd.getMonth()) + 1)).slice(-2) + "-" +
+              ("0" + tmpEnd.getDate()).slice(-2);
+          }
+
         }
     }
   }

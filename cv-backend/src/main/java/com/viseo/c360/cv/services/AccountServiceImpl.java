@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,7 +40,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public UsersEntity add(UserDto user) {
-        return accountDAO.save(userToEntityConverter.convert(user));
+        UsersEntity convertedUser = userToEntityConverter.convert(user);
+        return accountDAO.save(convertedUser);
     }
 
     public UsersEntity mailExist(String mail) {
@@ -51,5 +55,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<UsersEntity> getAll() {
         return accountDAO.getAll();
+    }
+
+    public UsersEntity updateUser(UserDto user){
+        UsersEntity convertedUser = userToEntityConverter.convert(user);
+
+        return accountDAO.save(convertedUser);
     }
 }
