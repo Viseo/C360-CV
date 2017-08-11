@@ -5,6 +5,7 @@ import com.viseo.c360.cv.converters.UserToEntityConverter;
 import com.viseo.c360.cv.models.dto.UserDto;
 import com.viseo.c360.cv.models.entities.UsersEntity;
 import com.viseo.c360.cv.repositories.AccountDAO;
+import com.viseo.c360.cv.repositories.MissionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;

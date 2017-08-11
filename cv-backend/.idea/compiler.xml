@@ -9,7 +9,7 @@
         <module name="cv-backend" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.8">
       <module name="cv-backend" target="1.8" />
     </bytecodeTargetLevel>
   </component>
