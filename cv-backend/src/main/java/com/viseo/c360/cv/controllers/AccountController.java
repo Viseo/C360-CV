@@ -1,7 +1,3 @@
-/**
- * Created by GEH3641 on 19/07/2017.
- */
-
 package com.viseo.c360.cv.controllers;
 
 import com.viseo.c360.cv.models.dto.UserDto;
@@ -15,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-
 import java.util.List;
 
-import static org.springframework.web.bind.annotation.RequestMethod.*;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping("/api")
@@ -28,8 +24,8 @@ public class AccountController {
     private AccountService accountService;
 
     @RequestMapping("/login")
-    public UsersEntity login(@RequestParam(value="mail")     @NotEmpty String mail,
-                             @RequestParam(value="password") @NotEmpty String password) {
+    public UsersEntity login(@RequestParam(value = "mail") @NotEmpty String mail,
+                             @RequestParam(value = "password") @NotEmpty String password) {
 
         return this.accountService.exist(mail, password);
     }
@@ -39,25 +35,24 @@ public class AccountController {
         return this.accountService.add(user);
     }
 
-
     @RequestMapping(path = "/testRegister", method = POST)
     public UsersEntity testRegister(@RequestBody @Valid UserDto user) {
         UsersEntity existenceTest = this.accountService.mailExist(user.getMail());
         return existenceTest;
     }
 
-    @RequestMapping(path="/getUser", method=GET)
-    public UsersEntity getUser(@RequestParam(value="id") @NotEmpty int id) {
+    @RequestMapping(path = "/getUser", method = GET)
+    public UsersEntity getUser(@RequestParam(value = "id") @NotEmpty int id) {
 
         return this.accountService.getUserById(id);
     }
 
     @RequestMapping(path = "/getUsers", method = GET)
-    public List<UsersEntity> getAll(){
+    public List<UsersEntity> getAll() {
         return this.accountService.getAll();
     }
 
-    @RequestMapping(path="/updateUser", method = POST)
+    @RequestMapping(path = "/updateUser", method = POST)
     public UsersEntity updateUser(@RequestBody @Valid UserDto user) {
 
         return this.accountService.updateUser(user);

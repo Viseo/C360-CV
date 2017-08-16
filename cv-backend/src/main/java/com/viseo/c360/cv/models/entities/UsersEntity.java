@@ -19,7 +19,7 @@ public class UsersEntity extends BaseEntity {
 
     @Column(name="birth_date")
     @Temporal(TemporalType.DATE)
-    private Date date_birth;
+    private Date birth_date;
 
     @Column
     private String mail;
@@ -84,12 +84,12 @@ public class UsersEntity extends BaseEntity {
         this.lastName = lastName;
     }
 
-    public Date getDate_birth() {
-        return date_birth;
+    public Date getBirth_date() {
+        return birth_date;
     }
 
-    public void setDate_birth(Date date_birth) {
-        this.date_birth = date_birth;
+    public void setBirth_date(Date birth_date) {
+        this.birth_date = birth_date;
     }
 
     public String getMail() {

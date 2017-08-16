@@ -92,13 +92,13 @@
       })
         .then((response) => {
 
-          var birthDate = new Date(response.data.date_birth);
+          var birthDate = new Date(response.data.birth_date);
           this.infoUser = {
             id:response.data.id,
             login:response.data.login,
             lastName: response.data.lastName,
             firstName: response.data.firstName,
-            birth: response.data.date_birth,
+            birth: response.data.birth_date,
             birthDate: birthDate.getFullYear() + "-" +
             ("0" + (parseInt(birthDate.getMonth()) + 1)).slice(-2) + "-" +
             ("0" + birthDate.getDate()).slice(-2),
@@ -113,7 +113,6 @@
               }).join(" "),
             picture: response.data.picture,
           };
-
           if(response.data.missions.length==0){
             this.missions=[
               {id:0,title: "", beginDate: "",
@@ -191,14 +190,18 @@
             this.missions[this.currentBlock].typeMissions.label=type;
         },
         updateUserBDD:function(){
-
-          let birth = this.infoUser.birth.split("-");
+          console.log(this.infoUser)
+          let birth = this.infoUser.birthDate.split("-");
+          console.log("cccccccccccccccccccccc", this.infoUser.birth,this.infoUser.birthDate);
           let user = {
             id:this.infoUser.id,
             login:this.infoUser.login,
             lastName: this.infoUser.lastName,
             firstName: this.infoUser.firstName,
-            date_birth: new Date(birth[0],birth[1],birth[2]).getTime(),
+
+
+
+            birth_date: new Date(this.infoUser.birthDate).getTime(),
             position: this.infoUser.position,
             experience: this.infoUser.experience,
             mail: this.infoUser.mail,
@@ -207,13 +210,12 @@
             languages: [],
             picture: this.infoUser.picture
           };
-
           user.missions = this.missions;
-
+          console.log(user.birth_date,"dedede")
           for (let i in user.missions) {
             let tabBegin = user.missions[i].beginDate.split("-");
             let tmpBegin = new Date(tabBegin[0],tabBegin[1],tabBegin[2]);
-
+            console.log(tmpBegin,tmpBegin.getTime())
             let tabEnd = user.missions[i].endDate.split("-");
             let tmpEnd = new Date(tabEnd[0],tabEnd[1],tabEnd[2]);
 

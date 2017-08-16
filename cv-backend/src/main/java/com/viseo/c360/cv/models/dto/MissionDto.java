@@ -89,7 +89,6 @@ public class MissionDto {
     }
 
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -97,6 +96,7 @@ public class MissionDto {
 
         MissionDto that = (MissionDto) o;
 
+        if (id != that.id) return false;
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
         if (beginDate != null ? !beginDate.equals(that.beginDate) : that.beginDate != null) return false;
         if (endDate != null ? !endDate.equals(that.endDate) : that.endDate != null) return false;
@@ -108,7 +108,8 @@ public class MissionDto {
 
     @Override
     public int hashCode() {
-        int result = title != null ? title.hashCode() : 0;
+        int result = id;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (beginDate != null ? beginDate.hashCode() : 0);
         result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);

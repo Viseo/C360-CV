@@ -28,24 +28,6 @@ public class SkillsDto {
         this.domain = domain;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        SkillsDto skillsDto = (SkillsDto) o;
-
-        if (label != null ? !label.equals(skillsDto.label) : skillsDto.label != null) return false;
-        return domain != null ? domain.equals(skillsDto.domain) : skillsDto.domain == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = label != null ? label.hashCode() : 0;
-        result = 31 * result + (domain != null ? domain.hashCode() : 0);
-        return result;
-    }
-
     public int getId() {
         return id;
     }
@@ -53,4 +35,25 @@ public class SkillsDto {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SkillsDto skillsDto = (SkillsDto) o;
+
+        if (id != skillsDto.id) return false;
+        if (label != null ? !label.equals(skillsDto.label) : skillsDto.label != null) return false;
+        return domain != null ? domain.equals(skillsDto.domain) : skillsDto.domain == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (label != null ? label.hashCode() : 0);
+        result = 31 * result + (domain != null ? domain.hashCode() : 0);
+        return result;
+    }
+
 }

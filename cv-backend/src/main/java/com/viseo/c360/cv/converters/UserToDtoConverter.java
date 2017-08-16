@@ -16,7 +16,7 @@ public class UserToDtoConverter implements Converter <UsersEntity,UserDto>{
 
         UserDto userDto = new UserDto();
         userDto.setLogin(usersEntity.getLogin());
-        userDto.setDate_birth(usersEntity.getDate_birth());
+        userDto.setBirth_date(usersEntity.getBirth_date());
         userDto.setFirstName(usersEntity.getFirstName());
         userDto.setHobbies(usersEntity.getHobbies());
         userDto.setLastName(usersEntity.getLastName());
@@ -27,7 +27,7 @@ public class UserToDtoConverter implements Converter <UsersEntity,UserDto>{
         userDto.setPosition(usersEntity.getPosition());
         userDto.setPicture(usersEntity.getPicture());
         userDto.setExperience(usersEntity.getExperience());
-//        userDto.setMissions(usersEntity.getMissions());
+        userDto.setMissions(usersEntity.getMissions());
 //        userDto.setLanguages(usersEntity.getLanguages());
 
         return userDto;
