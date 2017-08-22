@@ -4,7 +4,7 @@
     <div class="containerSearch">
       <div class="zone-search-collab">
         <span class="fa fa-search icon-search" v-on:click="searchCollab"></span>
-        <input v-model="currentSearch" id="search-collab" list="browsers" v-on:input="searchCollab">
+        <input v-model="currentSearch" id="search-collab" list="browsers" v-on:input="searchCollab" placeholder="Rechercher un collaborateur">
         <datalist id="browsers">
           <option v-for="item in defaultCollab" v-bind:value="item.firstName + ' '+item.lastName" ></option>
         </datalist>

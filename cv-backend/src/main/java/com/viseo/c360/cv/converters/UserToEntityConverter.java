@@ -26,6 +26,7 @@ public class UserToEntityConverter implements Converter<UserDto, UsersEntity> {
         usersEntity.setPicture(userDto.getPicture());
         usersEntity.setPosition(userDto.getPosition());
         usersEntity.setMissions(userDto.getMissions());
+        usersEntity.setId(userDto.getId());
 //        usersEntity.setLanguages(userDto.getLanguages());
 
 

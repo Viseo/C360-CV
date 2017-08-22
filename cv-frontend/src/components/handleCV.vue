@@ -14,7 +14,7 @@
         <registermission :currentBlock="currentBlock" :titleMission="missions[currentBlock].title" :beginDate="missions[currentBlock].beginDate"
                          :client="missions[currentBlock].clientId?missions[currentBlock].clientId.label:''" :description="missions[currentBlock].description"
                          :typeM="missions[currentBlock].clientId?missions[currentBlock].typeMissions.label:''"
-                         :today="today" :domain="missions[currentBlock].domain" :endDate="missions[currentBlock].endDate"
+                         :today="today" :domain="missions[currentBlock].clientId?missions[currentBlock].clientId.domain:''" :endDate="missions[currentBlock].endDate"
                          @updateSector="updateSector" @updateProps="updateMission"></registermission>
 
         <skills v-bind:currentSkills="missions[currentBlock].skills" :block="currentBlock" v-on:updateSkills="updateSkills"></skills>
@@ -70,6 +70,7 @@
           missions:[{id:0,name: "", beginDate: "",
             endDate: "", client: "", description: "",type: 'mission',skills:[]}],
           currentBlock:0,
+          domain:""
         }
     },
     beforeCreate:function(){
@@ -116,7 +117,7 @@
           if(response.data.missions.length==0){
             this.missions=[
               {id:0,title: "", beginDate: "",
-                endDate: "", clientId:{id:0,label:""}, description: "",typeMissions:{id:1,label:'mission'},skills:[]}
+                endDate: "", clientId:{id:0,label:"",domain:""}, description: "",typeMissions:{id:1,label:'mission'},skills:[]}
             ];
 
             this.currentBlock=this.missions.length-1;
@@ -153,7 +154,7 @@
         },
         addMission() {
             this.missions.push({id:0,title: "", beginDate: "",
-              endDate: "", clientId:{id:0,label:""}, description: "",typeMissions:{id:1,label:'mission'},skills:[]});
+              endDate: "", clientId:{id:0,label:"",domain:""}, description: "",typeMissions:{id:1,label:'mission'},skills:[]});
             this.currentBlock=this.missions.length-1;
             this.getInfoMission(this.missions.length-1);
         },
@@ -174,9 +175,9 @@
           this.showPDF=!this.showPDF
         },
         updateSector: function (sector) {
-          for(let mission in this.missions) {
-            if (this.currentBlock === this.missions[mission].id) {
-              this.missions[mission].domain = sector;
+          for(let i = 0; i<this.missions.length;i++) {
+            if (this.currentBlock === i) {
+              this.missions[i].clientId.domain = sector;
               this.domain = sector;
             }
           }
@@ -198,9 +199,6 @@
             login:this.infoUser.login,
             lastName: this.infoUser.lastName,
             firstName: this.infoUser.firstName,
-
-
-
             birth_date: new Date(this.infoUser.birthDate).getTime(),
             position: this.infoUser.position,
             experience: this.infoUser.experience,
@@ -256,4 +254,5 @@
     left: 10px;
     padding-right: 20px;
   }
+  *:focus {outline: none;}
 </style>

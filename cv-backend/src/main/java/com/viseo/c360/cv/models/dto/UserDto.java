@@ -61,7 +61,6 @@ public class UserDto {
         this.lastName = lastName;
     }
 
-
     public String getMail() {
         return mail;
     }
