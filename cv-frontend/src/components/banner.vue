@@ -1,15 +1,10 @@
 <template>
   <div>
     <div class="banner" v-bind:style="styleBanner">
-      <div  class="bannerText" v-bind:style="styleBannerText">Collaborateur 360</div>
-      <div class="menus">
-        <div>
-          <div @mouseover="toggleShowMenuProfil"> Choisissez une option </div>
-          <menuProfil :showMenuProfil="showMenuProfil"  @toggledMenuProfil="toggleShowMenuProfil" @signOut="signOut"></menuProfil>
-        </div>
-        <div v-on:mouseover="toggleShowMenu"  class="bannerIcon">
-          <i class="fa fa-th" v-bind:style="styleColorIcon"></i>
-        </div>
+      <div  class="bannerText" v-bind:style="styleBannerText" v-on:click="signOut">Collaborateur 360</div>
+      <div v-on:mouseover="toggleShowMenu"  class="bannerIcon" v-bind:style="styleBannerIcon">
+        <span class="GestionCV">Gestion des CV</span><img class="user" src="../../static/png/user.png"/><span class="Roland">Roland Houssou</span>
+        <i class="fa fa-th" v-bind:style="styleColorIcon"></i>
       </div>
 
     </div>
@@ -44,11 +39,14 @@
           'padding-top':"1%",
           'padding-left':"1%",
           'padding-bottom':"1%",
+          'color' : 'rgb(0,10,255)',
         },
         styleBannerIcon:{
         },
         styleColorIcon:{
-          color:'rgb(255,146,0)',
+          color:'rgb(0,10,255)',
+          position: 'relative',
+          right: '40px',
         },
       }
     },

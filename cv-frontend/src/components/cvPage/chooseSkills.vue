@@ -2,19 +2,21 @@
   <div>
     <div class="head-component">
       <div class="title-skills">
-        <i class="fa fa-anchor fa-2x"></i>
+        <img class="ancre" src="../../../static/png/ancre.png"/>
         <span class="title-2" style="font-family: Arial, cursive; font-weight: bold; margin-left: 1%; width: 20% ">Mots-clés</span>
       </div>
       <div class="zone-search-skill">
         <i class="fa fa-search picto-search" v-on:click="searchSkill"></i>
-        <input type=text maxlength="25" class="search-skill" placeholder="Recherche" v-model="search"
+        <input type=text maxlength="30" class="search-skill" placeholder="Rechercher une compétence" v-model="search"
                v-on:keyup.enter="searchSkill" v-on:keyup.delete="cancelSearch">
         <div class="result-search" v-bind:style="colorSearch">{{ resultSearch }}</div>
-
-        <i class="fa fa-times fa-2x picto-cancel" v-on:click="deleteSearch"></i>
+        <img class="deletePicto" src="../../../static/png/delete.png" v-on:click="deleteSearch"></img>
       </div>
     </div>
+
     <div id="tab-skills" class="containerCv">
+      <div> <img class="up" src="../../../static/png/up.png"/></div>
+      <div> <img class="down" src="../../../static/png/down.png"/></div>
       <transition-group name="transition-skills">
         <div v-for="(item,index) in categories" v-bind:key="item">
           <div v-bind:style="findColor(item)" class="categorie-style" v-on:click="toggleActive(item)">
@@ -205,12 +207,21 @@
   .containerCv{
     width: 100%;
     height: 10em;
-    overflow-y: scroll;
+    overflow-y: hidden;
+  }
+  .up{
+   margin-left: 66em;
+    position:absolute;
+  }
+  .down{
+    margin-left: 66em;
+    margin-top: 7em;
+    position:absolute;
   }
 
   .categorie-style{
     display: flex;
-    width: 96.5%;
+    width: 90%;
     height:7vh;
     margin-top: 0.5vh;
     margin-bottom: 0.5vh;
@@ -274,7 +285,7 @@
     left:-10%;
     padding: 0 1%;
     height:5vh;
-    width:27em;
+    width:35em;
     border-radius: 20px;
     border: 1px solid dodgerblue;
     background-color: white;
@@ -287,6 +298,10 @@
     border-left:1px solid lightgrey;
     color:white;
     font-size:2vh;
+  }
+
+  .deletePicto{
+    height:2em;
   }
 
   .picto-search{
@@ -309,6 +324,9 @@
     border-bottom: 1px solid dimgrey;
   }
 
+  .ancre{
+    height: 2em;
+  }
   .title-skills{
     display:inline;
     width: 15em;
