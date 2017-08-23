@@ -193,7 +193,8 @@
     .contentHeader .userInfo .cake {
       width: 20px;
       height: 20px;
-      content: url("../static/png/cake.png"); }
+      content: url("../static/png/cake.png");
+    }
     .contentHeader .userInfo .enveloppe {
       width: 20px;
       height: 20px;

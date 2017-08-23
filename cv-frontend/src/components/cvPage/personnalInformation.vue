@@ -1,6 +1,7 @@
 <template>
   <div v-bind:style="styleDv">
-    <div v-bind:style="styleHead"><i v-bind:style = "stylePicT" class="fa fa-address-card-o fa-lg" aria-hidden="true"></i> {{title}}</div>
+    <div v-bind:style="styleHead">
+      {{title}}</div>
     <div class="photoUser">
       <img id="photoP" v-bind:src = "photoProfileSrc" v-on:mouseover="changePhoto" v-bind:style="stylePh" aria-hidden="true">
       <span id="textChange" v-bind:style = "styleSp" v-on:mouseout="initPhoto">Modifier</span>
@@ -11,7 +12,7 @@
     <div class="containerInput">
       <label v-bind:style = "stylep">Prénom</label>
       <div class="inputWithPicto">
-        <i class="fa fa-user-o fa-2x picto" aria-hidden="true"></i>
+        <img class="pictoUser" src="../../../static/png/iconUser.png"/>
         <input class="inputInfo" name = "firstName" v-on:keyup="verificationChar" maxlength="125" type="text" placeholder="Prenom"
                v-model="infoUser.firstName">
         <span id="alM" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un prénom valide</span>
@@ -21,17 +22,18 @@
     <div class="containerInput">
       <label v-bind:style = "stylep">Nom</label>
       <div class="inputWithPicto">
-        <i class="fa fa-user-o fa-2x picto" aria-hidden="true"></i>
+        <img class="pictoUser" src="../../../static/png/iconUser.png"/>
         <input class="inputInfo" name="name" v-on:keyup="verificationChar" @input="name=name.toUpperCase()" placeHolder="Nom"
                v-model="infoUser.lastName">
         <span id="alM1" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un nom valide</span>
       </div>
     </div>
 
+
     <div class="containerInput">
       <label v-bind:style = "stylep">Age</label>
       <div class="inputWithPicto">
-        <i class="fa fa-birthday-cake fa-2x picto" aria-hidden="true"></i>
+        <img class="age" src="../../../static/png/cake.png"/>
         <input class="inputInfo" name="birth" type="date" placeHolder="" v-model="infoUser.birth">
         <span><i id="calendar_icon" class="fa fa-calendar pictoInput" aria-hidden="true"></i> </span>
       </div>
@@ -40,7 +42,7 @@
     <div class="containerInput">
       <label v-bind:style = "stylep">Fonction</label>
       <div class="inputWithPicto">
-        <i class="fa fa-tag fa-2x picto" aria-hidden="true"></i>
+        <img class="luggage" src="../../../static/png/luggageIcon.png"/>
         <input class="inputInfo" name="fonction" v-on:keyup="verificationChar" maxlength="125" placeHolder="Poste"
                v-model="infoUser.position">
         <span id="alM2" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer une fonction valide</span>
@@ -50,7 +52,7 @@
     <div class="containerInput">
       <label v-bind:style = "stylep">Expérience (en année)</label>
       <div class="inputWithPicto">
-        <i  class="fa fa-tachometer fa-2x picto" aria-hidden="true"></i>
+        <img class="experience" src="../../../static/png/experience.png"/>
         <input class="inputInfo" name="experience" v-on:keyup="verificationChar" placeHolder="Années d'expérience"
                v-model="infoUser.experience">
         <span id="alM5" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un nombre d'années valide</span>
@@ -60,7 +62,7 @@
     <div class="containerInput">
       <label v-bind:style = "stylep">Email</label>
       <div class="inputWithPicto">
-        <i  class="fa fa-envelope-o fa-2x picto" aria-hidden="true"></i>
+        <img class="mail" src="../../../static/png/mail.png"/>
         <input class="inputInfo" name="email" type="email" v-on:keyup="verificationEmail" placeHolder="mail@viseo.fr"
                v-model="infoUser.mail">
         <span id="alM6" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer une adresse email valide</span>
@@ -70,7 +72,7 @@
     <div class="containerInput">
       <label v-bind:style = "stylep">Téléphone</label>
       <div class="inputWithPicto">
-        <i class="fa fa-phone fa-2x picto" aria-hidden="true"></i>
+        <img class="CellPhone" src="../../../static/png/CellPhone.png"/>
         <input class="inputInfo" name="telephone" placeholder="tel" v-model="infoUser.telephone">
         <img v-bind:src="pictoTelSrc" :style="styleTel" class="pictoInput">
       </div>
@@ -79,7 +81,7 @@
     <div class="containerInput">
       <label v-bind:style = "stylep">Langues</label>
       <div class="inputWithPicto">
-        <i class="fa fa-language fa-2x picto" aria-hidden="true"></i>
+        <img class="language" src="../../../static/png/language.png"/>
         <input class="inputInfo" name="languages" v-on:keyup="verificationChar" maxlength="50" placeHolder="langues"
                v-model="infoUser.languages">
         <span id="alM3" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer une langue valide</span>
@@ -89,7 +91,7 @@
     <div class="containerInput">
       <label v-bind:style = "stylep">Hobbies</label>
       <div class="inputWithPicto">
-        <i class="fa fa-gamepad fa-2x picto" aria-hidden="true"></i>
+        <img class="hobbies" src="../../../static/png/hobbies.png"/>
         <input class="inputInfo" name="hobbies" v-on:keyup="verificationChar" maxlength="50" placeHolder="hobbies"
                v-model="infoUser.hobbies">
         <span id="alM4" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un hobbie valide</span>
@@ -362,19 +364,25 @@
   .inputInfo{
     border: none;
     border-bottom: 0.5px solid rgb(180,180,180);
-    width: 80%;
+    width: 85%;
     font-size:90%;
     font-family: New Century Schoolbook, serif;
     background-color: #F2F3F4;
+    margin-left: 2em;
   }
 
   .containerInput{
     display: flex;
-    width: 80%;
-    height: 3em;
+    width: 85%;
+    height: 2.5em;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-around;
+    margin-inside: 0.2em;
+  }
+
+  .pictoUser{
+    height:2em;
   }
 
   .inputWithPicto{
@@ -382,6 +390,34 @@
     flex-direction: row;
     justify-content: flex-start;
     width:100%;
+  }
+
+  .age{
+    height:2em;
+  }
+
+  .luggage{
+    height:2em;
+  }
+
+  .experience{
+    height:2em;
+  }
+
+  .mail{
+    height:2em;
+  }
+
+  .CellPhone{
+    height:2.3em;
+  }
+
+  .language{
+    height:2em;
+  }
+
+  .hobbies{
+    height:2em;
   }
 
   .picto{

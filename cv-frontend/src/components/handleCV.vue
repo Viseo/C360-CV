@@ -9,8 +9,12 @@
       </div>
       <div class="mission">
         <div class="bannerMission">
-          <div style="display: flex; flex-direction: row;"><i class="fa fa-briefcase fa-lg briefcase"></i><p v-show="titleMission" style="margin: 0">Gestion des Missions</p></div>
-          <div style="display: flex; flex-direction: row;margin-right: 10px" @click="showPDF=!showPDF"><div style="display: flex;margin-right: 10px">Afficher aperçu PDF</div><i class="fa fa-binoculars"></i></div>
+          <div style="display: flex; flex-direction: row;">
+            <p v-show="titleMission" style="margin: 0">Gestion des Missions</p></div>
+          <div style="display: flex; flex-direction: row;margin-right: 10px" @click="showPDF=!showPDF"><div style="display: flex;margin-right:10px">
+          </div>
+            <img class="jumelles" src="static/png/jumelles.png" />
+          </div>
         </div>
         <registermission :currentBlock="currentBlock" :titleMission="titleMission" :beginDate="beginDateMission" :endDate="endDateMission"
                          :client="client" :description="description" :typeM="type" :today="today" :domain="domain" @updateSector="updateSector" @updateProps="updateProps"></registermission>
@@ -165,39 +169,12 @@
             }
         },
         addMission() {
-//            let newId=missions[missions.length-1].id +1;
-//            missions.push({id:newId,name: "", beginDate: "",
-//              endDate: "", client: "", description: "",type: 'mission',keyword:[]});
-//            this.currentBlock=newId;
-//            this.getInfoMission(newId);
+            let newId=missions[missions.length-1].id +1;
+            missions.push({id:newId,name: "", beginDate: "",
+              endDate: "", client: "", description: "",type: 'mission',keyword:[]});
+            this.currentBlock=newId;
+            this.getInfoMission(newId);
 
-          let titleMission=document.getElementById("Title Mission").value;
-          let typeMission=document.getElementById("typeMission").value;
-          let beginDate=document.getElementById("Start Calendar Date").value;
-          let endDate=document.getElementById("End Calendar Date").value;
-          let description=document.getElementById("Description").value;
-          let client=document.getElementById("Client Form").value;
-
-          let data={
-            title:titleMission,
-            beginDate:beginDate,
-            endDate:endDate,
-            description:description,
-            clientId:{
-              label:client
-            },
-            typeMissions:{
-              label:typeMission
-            }
-          };
-          axios.post('/api/missions/addMission',data)
-            .then((response)=>{
-            console.log(response);
-            })
-            .catch((error)=>{
-            console.log(error);
-              }
-            )
         },
         deleteMission(){
             setTimeout(()=>{
@@ -213,7 +190,7 @@
           }
         },
         updateInfoUserPDF: function (infoUser) {
-//            for(let info in infoUser)console.log(infoUser[info],info)
+            for(let info in infoUser)console.log(infoUser[info],info)
           this.infoUser=infoUser;
         },
         closePDF: function () {
@@ -271,6 +248,12 @@
     border: 1px solid #D7D7D7;
     border-top-left-radius: 9px;
     border-top-right-radius: 9px;
+  }
+
+  .jumelles{
+    height:2.5em;
+    width:100%;
+    margin-right: 12cm;
   }
 
   .infoUser{

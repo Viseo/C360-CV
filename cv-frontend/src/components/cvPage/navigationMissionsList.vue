@@ -1,7 +1,7 @@
 <template>
   <div style="margin-top:1vh; overflow: hidden;">
     <div class="headerMissionsBlock">
-      <i class="fa fa-space-shuttle fa-2x"></i>
+      <img class="avion" src="../../../static/png/avion.png"/>
       <span class="title-2" style="font-family: Arial, cursive; font-weight: bold; font-size: 25px;margin-left: 1% ">Missions</span>
     </div>
     <div class="container-cv">
@@ -14,12 +14,13 @@
                        class="list-complete-item missionItem">
                     <div v-bind:style="styleTitle">{{ item.title!=""?item.title:"Nouvelle Mission" }}</div>
                     <div v-bind:style="styleDate">{{ item.beginDate }} to {{ item.endDate!=""?item.endDate:"now" }}</div>
-                    <i v-on:mouseover="trashToRed" v-on:mouseleave="trashToBlack" v-on:click="deleteMission(index)"
-                       v-bind:class="trash":style="styleTrash"></i>
+                    <div class="containerTrash"><div class="trash" v-on:click="deleteMission(index)"></div></div>
+                    <!--<i v-on:mouseover="trashToRed" v-on:mouseleave="trashToBlack" v-on:click="deleteMission(index)"-->
+                       <!--v-bind:class="trashWhite":style="styleTrash"></i>-->
+                       <!--<i v-on:mouseover="trashToRed" v-on:mouseleave="trashToBlack" v-on:click="deleteMission(index)"-->
                  </span>
             </transition-group>
             <div v-bind:style="styleObject" id="add-mission" class="missionItem list-complete-item" v-on:click="addMission">
-              <i class="fa fa-plus fa-2x"></i>
               <div v-bind:style="styleDate">Ajouter une nouvelle Mission</div>
             </div>
           </div>
@@ -44,7 +45,8 @@
     "border-radius":"10px",
     "float":"left",
     position:"relative",
-    "background-image":'linear-gradient(to bottom, #3498db, #2980b9)'
+    "background-image":'linear-gradient(to bottom, #3498db, #2980b9)',
+    "border-color":'black',
   };
 
   var styleMissionBoxChecked = {
@@ -67,7 +69,7 @@
   };
 
   var styleMissionBoxDate = {
-    color:"white",
+    color:"black",
     "padding-top": "1.5vh",
     "font-size" : "1.8vh"
   };
@@ -76,13 +78,14 @@
     position:"absolute",
     "left":"10vw",
     "bottom":"1vh",
-    color:"white"
+    color:"black"
   };
 
   var styleAnimatingList = {
     position:"relative",
     width:"300%"
   };
+
 
   function vwTOpx(value) {
     var w = window,
@@ -107,7 +110,7 @@
         imageLink:"static/img/add.png",
         chevronLeft:"fa fa-angle-left fa-3x",
         chevronRight:"fa fa-angle-right fa-3x",
-        trash:"fa fa-trash"
+        trash:"../../../static/png/trashWhite.png",
       }
     },
     methods:{
@@ -250,6 +253,7 @@
   .container-cv{
     width: 100%;
     height:21vh;
+    color:white;
   }
 
   .headerMissionsBlock{
@@ -259,6 +263,10 @@
     padding-bottom: 0.2em;
     border: none;
     border-bottom: 1px solid dimgrey;
+
+  }
+  .avion{
+    height:2em;
   }
 
   .listMissions{
@@ -286,8 +294,35 @@
     transform: scale(1.1);
   }
 
-  .fa-trash{
-    color: white;
+  .containerTrash{
+    transform: scale(0.5);
+    margin-left:8em;
+  }
+
+  .trash:before{
+    content: url('../../../static/png/trashWhite.png');
+
+    /*transform: scale(0.5);*/
+    /*position:relative;*/
+    /*margin-left:8em;*/
+    /*margin-top:1em;*/
+  }
+  .trash:hover:before{
+    content: url('../../../static/png/trashRed.png');
+    transform: scale(0.5);
+  }
+
+  .trashWhite{
+
+    position:relative;
+
+  }
+
+  .trashRed{
+    transform: scale(0.5);
+    position:relative;
+    margin-left:8em;
+    margin-top:1em;
   }
 
 </style>

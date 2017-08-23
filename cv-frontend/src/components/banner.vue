@@ -3,6 +3,7 @@
     <div class="banner" v-bind:style="styleBanner">
       <div  class="bannerText" v-bind:style="styleBannerText" v-on:click="signOut">Collaborateur 360</div>
       <div v-on:mouseover="toggleShowMenu"  class="bannerIcon" v-bind:style="styleBannerIcon">
+        <span class="GestionCV">Gestion des CV</span><img class="user" src="../../static/png/user.png"/><span class="Roland">Roland Houssou</span>
         <i class="fa fa-th" v-bind:style="styleColorIcon"></i>
       </div>
     </div>
@@ -25,15 +26,16 @@
           'flex-orientation': 'row',
           'justify-content': 'space-between',
           'align-items': 'center',
-          'background-color' : 'rgb(254,204,19)',
+//          'background-color' : 'rgb(255,204,19)',
+          'background-color' : 'rgb(255,255,255)',
           'margin-bottom':'1%',
-          'font-family': 'Arial'
+          'font-family': 'Arial',
         },
         styleBannerText:{
           'padding-top':"1%",
           'padding-left':"1%",
           'padding-bottom':"1%",
-          'color' : 'rgb(255,255,255)',
+          'color' : 'rgb(0,10,255)',
         },
         styleBannerIcon:{
           'text-align':'right',
@@ -42,9 +44,9 @@
           'padding-bottom':"1%",
         },
         styleColorIcon:{
-          color:'rgb(255,255,255)',
+          color:'rgb(0,10,255)',
           position: 'relative',
-          right: '40px'
+          right: '40px',
         },
       }
     },
@@ -62,5 +64,16 @@
 </script>
 
 <style>
+  .GestionCV{
+    margin-right: 4em;
+  }
+  .user{
+    height:2em;
+    margin-right: 1em;
+
+  }
+  .Roland{
+    margin-right: 5em;
+  }
 
 </style>

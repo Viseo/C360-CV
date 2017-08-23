@@ -60,6 +60,7 @@
     margin-right: 2%;
     font-size: 80%;
     padding: 5px;
+    background-color: #00ffff;
   }
   .downloadPDF{
     width: 50%;
@@ -68,6 +69,7 @@
     border-radius: 8px;
     font-size: 80%;
     padding: 5px;
+    background-color: #ffd3e0;
 
   }
   .toPDF{
