@@ -22,10 +22,11 @@
       <file leaf-file-name="AccountController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/viseo/c360/cv/controllers/AccountController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="609">
-              <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+            <state relative-caret-position="882">
+              <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
               <folding>
-                <marker date="1502458280165" expanded="true" signature="2067:2073" ph="{...}" />
+                <marker date="1503562037314" expanded="true" signature="2049:2110" ph="{...}" />
+                <marker date="1503562037314" expanded="true" signature="2104:2110" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -114,16 +115,16 @@
       <file leaf-file-name="workspace.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20895">
-              <caret line="1011" column="71" lean-forward="false" selection-start-line="1011" selection-start-column="71" selection-end-line="1011" selection-end-column="71" />
+            <state relative-caret-position="20916">
+              <caret line="1012" column="71" lean-forward="false" selection-start-line="1012" selection-start-column="71" selection-end-line="1012" selection-end-column="71" />
               <folding>
-                <marker date="1503561868308" expanded="true" signature="63203:63428" ph="..." />
-                <marker date="1503561868308" expanded="true" signature="63203:63441" ph="..." />
-                <marker date="1503561868308" expanded="true" signature="63203:63878" ph="..." />
-                <marker date="1503561868308" expanded="true" signature="63204:63410" ph="..." />
-                <marker date="1503561868308" expanded="true" signature="63523:63863" ph="..." />
-                <marker date="1503561868308" expanded="true" signature="63585:63850" ph="..." />
-                <marker date="1503561868308" expanded="true" signature="63629:63832" ph="..." />
+                <marker date="1503567803439" expanded="true" signature="63400:63625" ph="..." />
+                <marker date="1503567803439" expanded="true" signature="63400:63638" ph="..." />
+                <marker date="1503567803439" expanded="true" signature="63400:64075" ph="..." />
+                <marker date="1503567803439" expanded="true" signature="63401:63607" ph="..." />
+                <marker date="1503567803439" expanded="true" signature="63720:64060" ph="..." />
+                <marker date="1503567803439" expanded="true" signature="63782:64047" ph="..." />
+                <marker date="1503567803439" expanded="true" signature="63826:64029" ph="..." />
               </folding>
             </state>
           </provider>
@@ -872,12 +873,12 @@
       <workItem from="1503044223616" duration="2166000" />
       <workItem from="1503315832855" duration="601000" />
       <workItem from="1503406409806" duration="647000" />
-      <workItem from="1503561631176" duration="261000" />
+      <workItem from="1503561631176" duration="827000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="85562000" />
+    <option name="totallyTimeSpent" value="86128000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="0" />
@@ -987,16 +988,16 @@
     <entry file="file://$PROJECT_DIR$/cv-frontend/src/components/adminPage.vue" />
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20895">
-          <caret line="1011" column="71" lean-forward="false" selection-start-line="1011" selection-start-column="71" selection-end-line="1011" selection-end-column="71" />
+        <state relative-caret-position="20916">
+          <caret line="1012" column="71" lean-forward="false" selection-start-line="1012" selection-start-column="71" selection-end-line="1012" selection-end-column="71" />
           <folding>
-            <marker date="1503561868308" expanded="true" signature="63203:63428" ph="..." />
-            <marker date="1503561868308" expanded="true" signature="63203:63441" ph="..." />
-            <marker date="1503561868308" expanded="true" signature="63203:63878" ph="..." />
-            <marker date="1503561868308" expanded="true" signature="63204:63410" ph="..." />
-            <marker date="1503561868308" expanded="true" signature="63523:63863" ph="..." />
-            <marker date="1503561868308" expanded="true" signature="63585:63850" ph="..." />
-            <marker date="1503561868308" expanded="true" signature="63629:63832" ph="..." />
+            <marker date="1503567803439" expanded="true" signature="63400:63625" ph="..." />
+            <marker date="1503567803439" expanded="true" signature="63400:63638" ph="..." />
+            <marker date="1503567803439" expanded="true" signature="63400:64075" ph="..." />
+            <marker date="1503567803439" expanded="true" signature="63401:63607" ph="..." />
+            <marker date="1503567803439" expanded="true" signature="63720:64060" ph="..." />
+            <marker date="1503567803439" expanded="true" signature="63782:64047" ph="..." />
+            <marker date="1503567803439" expanded="true" signature="63826:64029" ph="..." />
           </folding>
         </state>
       </provider>
@@ -1043,10 +1044,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/viseo/c360/cv/controllers/AccountController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="609">
-          <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+        <state relative-caret-position="882">
+          <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
           <folding>
-            <marker date="1502458280165" expanded="true" signature="2067:2073" ph="{...}" />
+            <marker date="1503562037314" expanded="true" signature="2049:2110" ph="{...}" />
+            <marker date="1503562037314" expanded="true" signature="2104:2110" ph="{...}" />
           </folding>
         </state>
       </provider>

@@ -15,7 +15,7 @@
         <div>
           <label id="Type Title">Type</label>
           <select v-model="typeMission" v-on:click="updateBlock()" :value="typeM">
-            <option>Mission</option>
+            <option >Mission</option>
             <option>Séminaire</option>
           </select>
         </div>

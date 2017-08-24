@@ -1,19 +1,16 @@
 <template>
   <div>
     <banner></banner>
-    <div style="margin-top: 2%">
-      <div>
+    <div class="mainContainer">
+      <div class="containerProfile">
         <user-info></user-info>
-      </div>
-      <div style="margin-top: 1em">
         <id-user></id-user>
-      </div>
-      <div style="height: 100px; width: 600px; margin-left: auto; margin-right: auto; margin-top: 10px">
-        <button style="margin-left: 100px">Enregistrer</button>
-        <button style="margin-left: 100px">Annuler</button>
+        <div class="buttonsProfile">
+          <div class="buttons">Enregistrer</div>
+          <div class="buttons">Annuler</div>
+        </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -35,3 +32,35 @@ export default {
     }
 }
 </script>
+
+<style>
+  .mainContainer{
+    display: flex;
+    justify-content: center;
+  }
+  .containerProfile{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .buttonsProfile{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 30em;
+  }
+
+  .buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #E67E22;
+    width: 13em;
+    height: 1.8em;
+    border-radius: 3px;
+    color:white;
+  }
+
+</style>
