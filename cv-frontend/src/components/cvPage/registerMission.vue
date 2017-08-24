@@ -2,7 +2,7 @@
   <div class="containerForm">
     <div class="lineInfo">
       <div class="inputDiv">
-        <i class="fa fa-suitcase fa-2x"></i>
+        <img  class="PictoLuggage" src="../../../static/png/luggageIcon.png"/>
         <div>
           <label v-bind:class="labelTitleClass">Titre de la mission</label>
           <input id="Title Mission" v-model="nameMission" type='text' class="inputText" @focus="setFocusLabelClass(1)"
@@ -11,7 +11,7 @@
       </div>
 
       <div class="inputDiv">
-        <i class="fa fa-file-text fa-2x"></i>
+        <img class="typeMission" src="../../../static/png/typeMissionSeminaire.png"/>
         <div>
           <label id="Type Title">Type</label>
           <select v-model="typeMission" v-on:click="updateBlock()" :value="typeM">
@@ -22,7 +22,7 @@
       </div>
 
       <div id="StartCalendar" class="inputDiv">
-        <i class="fa fa-calendar fa-2x"></i>
+        <img class="beginDate" src="../../../static/png/startCalendar.png"/>
         <div>
           <label id="Start Title">Début</label>
           <div class="inputCalendar">
@@ -32,7 +32,7 @@
       </div>
 
       <div id="EndCalendar" class="inputDiv">
-        <i class="fa fa-calendar fa-2x cal"></i>
+        <img class="endDate" src="../../../static/png/endCalendar.png"/>
         <div>
           <label id="Fin Title">Fin</label>
           <div class="inputCalendar">
@@ -46,7 +46,7 @@
 
     <div class="lineClient">
       <div class="clientDiv">
-        <i class="fa fa-id-card-o fa-2x"></i>
+        <img class="pictoClient" src="../../../static/png/Client.png"/>
         <div>
           <label id="Client" v-bind:class="labelClientClass">Client</label>
           <input id="Client Form" v-model="clientMission" type="text" v-on:keyup="updateBlock()" class="inputText"
@@ -64,7 +64,7 @@
 
     <div class="lineDesc">
       <div class="descDiv">
-        <i class="fa fa-pencil-square-o fa-2x"></i>
+        <img class="description" src="../../../static/png/Description.png"/>
         <div>
           <label id="descriptionLabel" v-bind:class="labelDescriptionClass">Description</label>
           <textarea id="Description" v-model="descriptionMission" @input="updateBlock" class="inputTextArea" rows="4"
@@ -175,24 +175,28 @@
   /*.containerForm label{position: relative; top: -0.5em; left: 0.5em}*/
 
   .lineInfo{display: flex; flex-direction: row; justify-content: space-between; align-items: center; height: 3em; margin: 1% 0 1% 2%;}
-
-  .inputDiv{display: flex; flex-direction: row; align-items: flex-end; flex-grow: 1; flex-basis: 25%; position: relative;height: 3em}
+  .PictoLuggage{height: 2.5em;}
+  .inputDiv{display: flex; flex-direction: row; align-items: flex-end; flex-grow: 1; flex-basis: 25%; position: relative;height: 3em;}
   .inputDiv > div{display: flex; flex-direction: column; width: 100%}
   .inputDiv input{border: none; border-bottom: 1px solid dimgray; margin-left: 8px; width: 80%; height: 2em; z-index: 1; background: transparent;}
   .inputDiv select{border: none; border-bottom: 1px solid dimgrey; margin-left: 8px; width: 80%; height: 2em; z-index: 1; background: transparent;}
   #checkboxNow{display:flex; flex-direction:row; justify-content: center; align-items: center; position: absolute; top: 2.5em}
   #checkboxNow input{width: auto}
+  .typeMission{height:2.5em;}
+  .beginDate{height:2.5em;}
+  .endDate{height:2.5em;}
 
-
-  .lineClient{display: flex; flex-direction: row; align-items: center; height: 3em; margin: 0% 0 1.7% 2%;}
+  .pictoClient{height: 2.5em;}
+  .lineClient{display: flex; flex-direction: row; align-items: left; height: 3em; margin: 0% 0 1.7% 2%;}
   .clientDiv{display: flex; flex-direction: row; justify-content: flex-start; align-items: flex-end; width: 50%; flex-grow: 3; flex-basis: 50%; position: relative; height: 3em}
   .clientDiv > div{display: flex; flex-direction: column; width: 100%}
-  .clientDiv input{border: none; border-bottom: 1px solid dimgray; margin-left: 8px; width: 95%; height: 2em; z-index: 1; background: transparent;}
+  .clientDiv input{border: none; border-bottom: 1px solid dimgray; margin-left: 8px; width: 200%; height: 2em; z-index: 1; background: transparent;}
   .clientDiv span{display:flex; flex-direction:row; justify-content: center; align-items: center; position: absolute; top: 3em;}
 
   .listSector{display: flex; flex-grow: 3; flex-basis: 50%; }
 
   .lineDesc{display: flex; flex-direction: row; align-items: center; height: 5em; margin: 0% 0 1% 2%;}
+  .description{height:2.5em;}
   .descDiv{display: flex; flex-direction: row; justify-content: flex-start; align-items: center; width: 50%; flex-grow: 3; flex-basis: 43%; position: relative; height: 5em}
   .descDiv > div{display: flex; flex-direction: column; width: 100%}
   .descDiv textarea{border: none; border-bottom: 1px solid dimgray; margin-left: 8px; width: 95%; z-index: 1; background: transparent; height: 5em}

@@ -8,8 +8,12 @@
       </div>
       <div class="mission">
         <div class="bannerMission">
-          <div style="display: flex; flex-direction: row;"><i class="fa fa-briefcase fa-lg briefcase"></i><p style="margin: 0">Gestion des Missions</p></div>
-          <div style="display: flex; flex-direction: row;margin-right: 10px; cursor: pointer;" @click="showPDF=!showPDF"><div style="display: flex;margin-right: 10px">Afficher aperçu PDF</div><i class="fa fa-binoculars"></i></div>
+          <div style="display: flex; flex-direction: row;">
+            <p v-show="titleMission" style="margin: 0">Gestion des Missions</p></div>
+          <div style="display: flex; flex-direction: row;margin-right: 10px" @click="showPDF=!showPDF"><div style="display: flex;margin-right:10px">
+          </div>
+            <img class="jumelles" src="static/png/jumelles.png" />
+          </div>
         </div>
         <registermission :currentBlock="currentBlock" :titleMission="missions[currentBlock].title" :beginDate="missions[currentBlock].beginDate"
                          :client="missions[currentBlock].clientId?missions[currentBlock].clientId.label:''" :description="missions[currentBlock].description"
@@ -153,10 +157,12 @@
             this.currentBlock=index;
         },
         addMission() {
-            this.missions.push({id:0,title: "", beginDate: "",
-              endDate: "", clientId:{id:0,label:"",domain:""}, description: "",typeMissions:{id:1,label:'mission'},skills:[]});
-            this.currentBlock=this.missions.length-1;
-            this.getInfoMission(this.missions.length-1);
+            let newId=missions[missions.length-1].id +1;
+            missions.push({id:newId,name: "", beginDate: "",
+              endDate: "", client: "", description: "",type: 'mission',keyword:[]});
+            this.currentBlock=newId;
+            this.getInfoMission(newId);
+
         },
         deleteMission(){
             setTimeout(()=>{
@@ -170,6 +176,10 @@
               this.missions[mission].skills = skillsSelected;
             }
           }
+        },
+        updateInfoUserPDF: function (infoUser) {
+            for(let info in infoUser)console.log(infoUser[info],info)
+          this.infoUser=infoUser;
         },
         closePDF: function () {
           this.showPDF=!this.showPDF
@@ -251,6 +261,84 @@
     position: relative;
     left: 10px;
     padding-right: 20px;
+  }
+
+  .mycv{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .bannerMission{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 2em;
+    width: auto;
+    background-color: #D7D7D7;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  .bannerMission p{
+    position: relative;
+    left: 2.5%
+  }
+
+  .mission{
+    margin-left: 0.5%;
+    width: 82%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border: 1px solid #D7D7D7;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+  }
+
+  .jumelles{
+    height:2.5em;
+    width:100%;
+    margin-right: 12cm;
+  }
+
+  .infoUser{
+    width: 18%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #PDF{
+    z-index:10;
+    position: fixed;
+    top: 4%;
+    left: 50%;
+    transform: translate(-50%, -2%);
+    background-color: white;
+    border : 1px solid #D7D7D7;
+    height: 96%;
+  }
+
+  .grayer{
+    z-index: 9;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #A8A8A8;
+    opacity: 0.7;
+  }
+
+
+  .closePDF {
+    z-index:11;
+    position: absolute;
+    left: 1200px;
+    top: 8px;
+    width:35px;
+    height:35px;
   }
   *:focus {outline: none;}
 </style>
