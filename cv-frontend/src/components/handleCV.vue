@@ -209,11 +209,9 @@
             picture: this.infoUser.picture
           };
           user.missions = this.missions;
-          console.log(user.birth_date,"dedede")
           for (let i in user.missions) {
             let tabBegin = user.missions[i].beginDate.split("-");
             let tmpBegin = new Date(tabBegin[0],tabBegin[1],tabBegin[2]);
-            console.log(tmpBegin,tmpBegin.getTime())
             let tabEnd = user.missions[i].endDate.split("-");
             let tmpEnd = new Date(tabEnd[0],tabEnd[1],tabEnd[2]);
 

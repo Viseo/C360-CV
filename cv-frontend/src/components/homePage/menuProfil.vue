@@ -2,7 +2,7 @@
   <transition name="fadeMenu">
     <div class="fadeMenu menuProfil" v-show="showMenuProfil" v-on:mouseleave="toggleShowMenuProfil">
       <a class="option" @click="goToMyCV">Espace CV</a>
-      <a class="option">Modifier mon profil</a>
+      <a class="option" @click="goToMyProfile">Modifier mon profil</a>
       <a class="deconnexion" @click="signOut">Déconnexion</a>
     </div>
   </transition>
@@ -30,6 +30,9 @@
       },
       goToMyCV: function () {
         window.location.href = '/mycv';
+      },
+      goToMyProfile: function(){
+          window.location.href = '/myprofile'
       }
     },
     props: ['showMenuProfil']

@@ -195,7 +195,6 @@
   let occur = 0;
 
   export default{
-    props: ['today'],
     methods:{
       changePhoto: function () {
         let text = document.getElementById("textChange");
