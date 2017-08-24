@@ -61,6 +61,7 @@
     margin-right: 2%;
     font-size: 80%;
     padding: 5px;
+    cursor: pointer;
   }
   .downloadPDF{
     width: 50%;
@@ -69,7 +70,7 @@
     border-radius: 8px;
     font-size: 80%;
     padding: 5px;
-
+    cursor: pointer;
   }
   .toPDF{
     display: flex;

@@ -1,9 +1,12 @@
 INSERT INTO users (first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES
-  ('Maxime', 'Zarrin', 'maxime.zarrin@viseo.com','MZA4571','Stagiaire','3','10/06/1994','mastermind actions','0614253647','reverseflash','../../static/ReverseFlash_wallapaper.png','false'),
-  ('Thomas','Naulin','thomas.naulin@viseo.com','TNA7852','Sénior','7','06/15/1994','Sous-fifre du mastermind','0669584714','123456','../../static/ReverseFlash_wallapaper.png','true'),
-  ('Geoffrey','Ehrmann','geoffrey.ehrmann@viseo.com','GEH1524','Manager','14','10/25/1994','pizzas','0678451223','azerty','../../static/ReverseFlash_wallapaper.png','false'),
-  ('Farah','Touati','farah.touati@viseo.com','FTO5968','Junior','0','08/28/1994','lecture','0695157535','123456','../../static/ReverseFlash_wallapaper.png','false'),
-  ('Admin','Admin','admin.admin@viseo.com','ADM1234','Sénior','20','01/01/1970','développer des applis en dormant','0601010101','adminadmin','../../static/ReverseFlash_wallapaper.png','true');
+  ('Maxime', 'Zarrin', 'maxime.zarrin@viseo.com','MZA4571','Stagiaire','3','10/06/1994','mastermind actions','0614253647','reverseflash','../../static/maxime.png','false'),
+  ('Thomas','Naulin','thomas.naulin@viseo.com','TNA7852','Sénior','7','06/15/1994','Sous-fifre du mastermind','0669584714','123456','../../static/thomas.png','true'),
+  ('Geoffrey','Ehrmann','geoffrey.ehrmann@viseo.com','GEH1524','Manager','14','10/25/1994','pizzas','0678451223','azerty','../../static/geoffrey.png','true'),
+  ('Farah','Touati','farah.touati@viseo.com','FTO5968','Junior','0','08/28/1994','lecture','0695157535','123456','../../static/mocha.svg','false'),
+  ('Admin','Admin','admin.admin@viseo.com','ADM1234','Sénior','20','01/01/1970','développer des applis en dormant','0601010101','adminadmin','../../static/ReverseFlash_wallapaper.png','true'),
+  ('Emmanuelle','Lerandy','lerandy@viseo.com','ELE3642','Sénior','12','07/16/1994','Aller chez le kiné','0601010101','adminadmin','../../static/emma.png','true'),
+  ('Lydia','Ouamar','ouamar@viseo.com','LOU0000','Stagiaire','0','01/01/1970','hein','0679218948','ouamouam','../../static/mocha.svg','false'),
+  ('Rocky','Balboa','tin.tintintin@tintin.tiiiin','RBA9999','Sénior','45','01/01/1970','coup de latte dans la gueule','0679218948','punchingball','../../static/rocky.png','true');
 
 
 INSERT INTO languages (label) VALUES

@@ -109,11 +109,13 @@
             'background-color' : 'rgb(255,146,0)',
             'text-align': 'center',
             color: 'white',
-            'margin-bottom': '4em',
+            'margin-bottom': '2em',
             'box-shadow': '0 0.01em 0.02em rgba(0,0,0,.39)',
             height: '2.5em',
             display: 'block',
-            'margin': 'auto',
+            'margin-right': 'auto',
+            'margin-left': 'auto',
+            cursor: 'pointer'
 
           },
 
@@ -133,7 +135,7 @@
 
           stylePicto: {
             position: 'absolute',
-            'left': '1em',
+            'left': '-1.5em',
             'top': '0px',
             'z-index': '10'
           },
@@ -182,6 +184,7 @@
           'justify-content': 'center',
           'background-color' : 'rgb(255,146,0)',
           'color':'rgb(255,255,255)',
+          cursor: 'pointer'
         },
 
         styleConnexion:{
@@ -190,7 +193,7 @@
           'justify-content': 'center',
           'background-color' : 'rgb(255,255,255)',
           'color':'rgb(255,146,0)',
-
+          cursor: 'pointer'
         },
 
         styleConnexionContent:{
