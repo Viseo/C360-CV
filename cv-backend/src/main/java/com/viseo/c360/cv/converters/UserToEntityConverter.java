@@ -17,6 +17,7 @@ public class UserToEntityConverter implements Converter<UserDto, UsersEntity> {
         usersEntity.setFirstName(userDto.getFirstName());
         usersEntity.setLastName(userDto.getLastName());
         usersEntity.setMail(userDto.getMail());
+        usersEntity.setBirth_date(userDto.getBirth_date());
         usersEntity.setHobbies(userDto.getHobbies());
         usersEntity.setLogin(userDto.getLogin());
         usersEntity.setTelephone(userDto.getTelephone());
@@ -24,9 +25,8 @@ public class UserToEntityConverter implements Converter<UserDto, UsersEntity> {
         usersEntity.setExperience(userDto.getExperience());
         usersEntity.setPicture(userDto.getPicture());
         usersEntity.setPosition(userDto.getPosition());
-
         usersEntity.setMissions(userDto.getMissions());
-
+        usersEntity.setId(userDto.getId());
 //        usersEntity.setLanguages(userDto.getLanguages());
 
 

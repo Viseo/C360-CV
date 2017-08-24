@@ -1,6 +1,5 @@
 package com.viseo.c360.cv.models.dto;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.viseo.c360.cv.models.entities.MissionsEntity;
 
 import java.util.Date;
@@ -16,7 +15,7 @@ public class UserDto {
 
     private String lastName;
 
-    private Date date_birth;
+    private Date birth_date;
 
     private String mail;
 
@@ -36,7 +35,7 @@ public class UserDto {
 
     private List<LanguageDto> languages;
 
-    private List <MissionsEntity> missions;
+    private List<MissionsEntity> missions;
 
     public int getId() {
         return id;
@@ -60,14 +59,6 @@ public class UserDto {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public Date getDate_birth() {
-        return date_birth;
-    }
-
-    public void setDate_birth(Date date_birth) {
-        this.date_birth = date_birth;
     }
 
     public String getMail() {
@@ -108,6 +99,14 @@ public class UserDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Date getBirth_date() {
+        return birth_date;
+    }
+
+    public void setBirth_date(Date birth_date) {
+        this.birth_date = birth_date;
     }
 
     public List<LanguageDto> getLanguages() {
@@ -158,7 +157,6 @@ public class UserDto {
         this.admin = admin;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -166,10 +164,11 @@ public class UserDto {
 
         UserDto userDto = (UserDto) o;
 
+        if (id != userDto.id) return false;
         if (login != null ? !login.equals(userDto.login) : userDto.login != null) return false;
         if (firstName != null ? !firstName.equals(userDto.firstName) : userDto.firstName != null) return false;
         if (lastName != null ? !lastName.equals(userDto.lastName) : userDto.lastName != null) return false;
-        if (date_birth != null ? !date_birth.equals(userDto.date_birth) : userDto.date_birth != null) return false;
+        if (birth_date != null ? !birth_date.equals(userDto.birth_date) : userDto.birth_date != null) return false;
         if (mail != null ? !mail.equals(userDto.mail) : userDto.mail != null) return false;
         if (hobbies != null ? !hobbies.equals(userDto.hobbies) : userDto.hobbies != null) return false;
         if (telephone != null ? !telephone.equals(userDto.telephone) : userDto.telephone != null) return false;
@@ -184,10 +183,11 @@ public class UserDto {
 
     @Override
     public int hashCode() {
-        int result = login != null ? login.hashCode() : 0;
+        int result = id;
+        result = 31 * result + (login != null ? login.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (date_birth != null ? date_birth.hashCode() : 0);
+        result = 31 * result + (birth_date != null ? birth_date.hashCode() : 0);
         result = 31 * result + (mail != null ? mail.hashCode() : 0);
         result = 31 * result + (hobbies != null ? hobbies.hashCode() : 0);
         result = 31 * result + (telephone != null ? telephone.hashCode() : 0);

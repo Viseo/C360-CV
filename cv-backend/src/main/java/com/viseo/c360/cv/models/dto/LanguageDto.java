@@ -5,6 +5,8 @@ package com.viseo.c360.cv.models.dto;
  */
 public class LanguageDto {
 
+    private int id;
+
     private String label;
 
     public String getLabel() {
@@ -15,6 +17,10 @@ public class LanguageDto {
         this.label = label;
     }
 
+    public int getId() {
+        return id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -22,11 +28,14 @@ public class LanguageDto {
 
         LanguageDto that = (LanguageDto) o;
 
+        if (id != that.id) return false;
         return label != null ? label.equals(that.label) : that.label == null;
     }
 
     @Override
     public int hashCode() {
-        return label != null ? label.hashCode() : 0;
+        int result = id;
+        result = 31 * result + (label != null ? label.hashCode() : 0);
+        return result;
     }
 }

@@ -9,7 +9,7 @@
       <div class="all-collabs">
         <div v-for="(item,index) in collaborators">
           <thumbnail :lastName="item.lastName" :firstName="item.firstName" :position="item.position"
-                     :mail="item.mail" :telephone="item.telephone" :birth="item.date_birth"
+                     :mail="item.mail" :telephone="item.telephone" :birth="item.birth_date"
                      :hobbies="item.hobbies" :languages="item.languages" :missions="item.missions"
                      :experience="item.experience" :picture="item.picture" @showPDF="showPDF" @downloadPDF="downloadPDF"></thumbnail>
         </div>

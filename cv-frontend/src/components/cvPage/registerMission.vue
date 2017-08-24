@@ -55,7 +55,10 @@
       </div>
       <div class="listSector">
         <span class="messageError" v-if="client == ''">Veuillez entrer un client</span>
-        <sector :client="client" :domain="domain" @updateSector="updateSector"></sector>
+        <span v-else="client != ''">
+          <sector  :client="client" :domain="domain" @updateSector="updateSector"></sector>
+        </span>
+
       </div>
     </div>
 
@@ -164,7 +167,7 @@
 <style>
   .containerForm label{color: dimgrey; font-family: Arial, cursive; font-weight: bold; transition: all 0.5s; margin-left: 0.2em}
   .label-full {position: absolute; top: 0em; left: 2.2em}
-  .label-empty{position: absolute; top: 0.8em; left: 1.6em; font-size : 1.5em;}
+  .label-empty{position: absolute; top: 0.8em; left: 1.6em; font-size : 1.4em;}
   .labelDescription-full {position: absolute; top: -1em; left: 2.2em}
   .labelDescription-empty{position: absolute; top: 0em; left: 1.6em; font-size : 1.5em;}
 
