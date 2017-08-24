@@ -16,12 +16,19 @@ const handleAdmin = resolve => {
   })
 };
 
+const handleProfile = resolve => {
+  require.ensure([], () => {
+    resolve(require('./components/profilePage.vue'))
+  })
+};
+
 const NotFound = { template: '<p><strong>Page not found</strong></p>' };
 
 const routes = [
   { path: '/mycv', component: handleCv },
   { path: '/', component: handleLogin },
-  {path:'/admincv',component : handleAdmin}
+  {path:'/admincv',component : handleAdmin},
+  {path:'/myprofile',component:handleProfile}
 ];
 
 new Vue({

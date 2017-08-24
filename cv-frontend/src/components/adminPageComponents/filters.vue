@@ -88,6 +88,23 @@
           <i class="fa fa-search" style="color: dodgerblue"></i>
           <input class="inputFilter" type="text" v-model="searchedClient" placeholder="Rechercher un client">
         </div>
+        <div>
+          <div class="containerCheckboxFilter" style="margin-top: 2%">
+            <div>
+              <input id="client1" type="radio" v-model="searchedClient" value="Orange" style="display: none">
+              <label for="client1" class="labelFilters">Orange</label>
+            </div>
+            <div>
+              <input id="client2" type="radio" v-model="searchedClient" value="Henri" style="display: none">
+              <label for="client2" class="labelFilters">Henri</label>
+            </div>
+            <div>
+              <input id="client3" type="radio" v-model="searchedClient" value="Société Générale" style="display: none">
+              <label for="client3" class="labelFilters">SocGé</label>
+            </div>
+          </div>
+        </div>
+
       </div>
       <div class="divReset">
         <div class="resetFilters" v-on:click="resetFilters">Reset Filters</div>
