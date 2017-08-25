@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS USERS(
   birth_date DATE,
   hobbies VARCHAR(50),
   telephone VARCHAR(10),
-  password VARCHAR(20),
+  password VARCHAR(125),
   picture VARCHAR(125),
   admin BOOLEAN
 );

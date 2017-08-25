@@ -1,6 +1,6 @@
 <template>
   <div>
-    <banner></banner>
+    <banner :page="'Modifier Profil'"></banner>
     <div class="mainContainer">
       <div class="containerProfile">
         <user-info></user-info>
@@ -29,7 +29,17 @@ export default {
       return{
 
       }
-    }
+    },
+//    created: function(){
+//        console.log(this.$sha1('reverseflash'))
+//        console.log(this.$sha1('123456'))
+//        console.log(this.$sha1('azerty'))
+//        console.log(this.$sha1('123456'))
+//        console.log(this.$sha1('adminadmin'))
+//        console.log(this.$sha1('adminadmin'))
+//        console.log(this.$sha1('ouamouam'))
+//        console.log(this.$sha1('punchingball'))
+//    }
 }
 </script>
 

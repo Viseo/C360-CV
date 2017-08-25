@@ -95,12 +95,13 @@
   }
 
   .inputProfile{
-    width: 17em;
+    width: 15em;
     height: 2em;
     border: 1px solid #CACFD2;
     border-radius: 3px;
     box-shadow: inset 0 0.01em 0.02em rgba(0,0,0,.39);
     outline: none;
+    padding-left: 2em;
   }
   .divInputProfile div{
     display: flex;

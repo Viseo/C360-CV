@@ -1,6 +1,6 @@
 <template>
   <div>
-    <banner></banner>
+    <banner :page="'Administration'"></banner>
     <div class="containerSearch">
       <div class="zone-search-collab">
         <span class="fa fa-search icon-search" v-on:click="searchCollab"></span>
