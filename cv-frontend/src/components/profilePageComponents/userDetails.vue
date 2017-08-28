@@ -9,8 +9,9 @@
           <label class="labelProfile">Prénom</label>
           <div>
             <i class="fa fa-user pictoProf"></i>
-            <input type="text" class="inputProfile">
+            <input type="text" class="inputProfile" name="prenomProfile" v-on:keyup="verificationChar">
           </div>
+          <span class="errorPr" id="prénomError">Veuillez entrer un prénom valide</span>
         </div>
         <div class="divInputProfile">
           <label class="labelProfile">Fonction</label>
@@ -25,8 +26,9 @@
           <label class="labelProfile">Nom</label>
           <div>
             <i class="fa fa-user pictoProf"></i>
-            <input type="text" class="inputProfile">
+            <input type="text" class="inputProfile" name="nomProfile" v-on:keyup="verificationChar">
           </div>
+          <span id="nomError" class="errorPr" >Veuillez entrer un nom valide</span>
         </div>
         <div class="divInputProfile">
           <label class="labelProfile">Business Unit</label>
@@ -46,7 +48,58 @@
 
 <script>
   export default{
-
+    methods: {
+      verificationChar: function () {
+        let toShow = false;
+        for (let letter of event.target.value) {
+          if (!((letter.charCodeAt(0) >= 97 && letter.charCodeAt(0) <= 122) || (letter.charCodeAt(0) >= 65 && letter.charCodeAt(0) <= 90) ||
+            letter.charCodeAt(0) == 32 || letter.charCodeAt(0) == 39 || letter.charCodeAt(0) == 46 || letter.charCodeAt(0) == 45 ||
+            (letter.charCodeAt(0) >= 232 && letter.charCodeAt(0) <= 235))) {
+            toShow = true;
+          }
+        }
+        let selectedInput = "";
+        switch (event.target.name) {
+          case "prenomProfile":
+            selectedInput = "prénomError";
+            break;
+          case "nomProfile":
+            selectedInput = "nomError";
+            break;
+        }
+        let alertMessage = document.getElementById(selectedInput);
+        if (toShow == false) {
+          alertMessage.style.display = "none";
+        } else {
+          alertMessage.style.display = "block";
+          alertMessage.style.opacity = 1;
+          alertMessage.style.color = "rgb(255,0,0)";
+          alertMessage.style.textAlign = "center";
+        }
+        if(event.charCode==0){
+          this.validateForm();
+        }
+      },
+      validateForm:function () {
+        let selectedInput="";
+        switch (event.target.name){
+          case "prenomProfile":
+            selectedInput = "prénomError";
+            break;
+          case "nomProfile":
+            selectedInput = "nomError";
+            break;
+        }
+        let alertMessage = document.getElementById(selectedInput);
+        if((event.target.value.length<2 || event.target.value.length>125) &&
+          (event.target.name =="prenomProfile" || event.target.name == "nomProfile")){
+          alertMessage.style.display="block";
+          alertMessage.style.opacity=1;
+          alertMessage.style.color="rgb(255,0,0)";
+          alertMessage.style.textAlign= "center";
+        }
+      }
+    }
   }
 </script>
 
@@ -126,4 +179,12 @@
     left: .5em;
     top: 1.9em;
   }
+
+  .errorPr{
+    color: red;
+    display: none;
+    font-size: 14px;
+  }
+
+
 </style>

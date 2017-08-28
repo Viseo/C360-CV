@@ -15,11 +15,11 @@
 </template>
 
 <script>
-import userDetails from './profilePageComponents/userDetails.vue';
-import banner from './banner.vue';
-import identifiant from './profilePageComponents/userId.vue'
+  import userDetails from './profilePageComponents/userDetails.vue';
+  import banner from './banner.vue';
+  import identifiant from './profilePageComponents/userId.vue'
+  export default {
 
-export default {
     components: {
       userInfo: userDetails,
       banner: banner,
@@ -30,7 +30,8 @@ export default {
 
       }
     }
-}
+  }
+
 </script>
 
 <style>
@@ -44,14 +45,12 @@ export default {
     justify-content: center;
     align-items: center;
   }
-
   .buttonsProfile{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     width: 30em;
   }
-
   .buttons{
     display: flex;
     justify-content: center;
@@ -62,5 +61,4 @@ export default {
     border-radius: 3px;
     color:white;
   }
-
 </style>

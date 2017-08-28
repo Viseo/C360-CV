@@ -48,7 +48,6 @@
 
 <script>
   export default{
-
   }
 </script>
 
@@ -58,5 +57,4 @@
     left:-1.5em;
     top: .3em;
   }
-
 </style>
