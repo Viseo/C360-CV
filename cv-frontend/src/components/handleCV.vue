@@ -113,6 +113,8 @@
                 return elem.label;
               }).join(" "),
             picture: response.data.picture,
+            admin: response.data.admin,
+            password: response.data.password
           };
           if(response.data.missions.length==0){
             this.missions=[
@@ -193,7 +195,7 @@
         updateUserBDD:function(){
           console.log(this.infoUser)
           let birth = this.infoUser.birthDate.split("-");
-          console.log("cccccccccccccccccccccc", this.infoUser.birth,this.infoUser.birthDate);
+//          console.log( this.infoUser);
           let user = {
             id:this.infoUser.id,
             login:this.infoUser.login,
@@ -206,7 +208,9 @@
             telephone: this.infoUser.telephone,
             hobbies: this.infoUser.hobbies,
             languages: [],
-            picture: this.infoUser.picture
+            picture: this.infoUser.picture,
+            password: this.infoUser.password,
+            admin: this.infoUser.admin
           };
           user.missions = this.missions;
           for (let i in user.missions) {
@@ -232,11 +236,11 @@
             let tmpEnd = new Date(this.missions[i].endDate);
 
             this.missions[i].beginDate = tmp.getFullYear() + "-" +
-              ("0" + (parseInt(tmp.getMonth()) + 1)).slice(-2) + "-" +
+              ("0" + (parseInt(tmp.getMonth()))).slice(-2) + "-" +
               ("0" + tmp.getDate()).slice(-2);
 
             this.missions[i].endDate = tmpEnd.getFullYear() + "-" +
-              ("0" + (parseInt(tmpEnd.getMonth()) + 1)).slice(-2) + "-" +
+              ("0" + (parseInt(tmpEnd.getMonth()))).slice(-2) + "-" +
               ("0" + tmpEnd.getDate()).slice(-2);
           }
 

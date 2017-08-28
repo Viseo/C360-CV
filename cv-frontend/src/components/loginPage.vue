@@ -415,6 +415,7 @@
         this.showMenu=!this.showMenu;
       },
       login: function () {
+          console.log(this.$sha1('azerty'))
         //Need Check
         if(this.checkSubmitConnexion()) {
           let mail = document.getElementById("EmaillogInForm").value;
