@@ -1,6 +1,6 @@
 <template>
   <div>
-    <banner></banner>
+    <banner :page="'Modifier Profil'"></banner>
     <div class="mainContainer">
       <div class="containerProfile">
         <user-info></user-info>
@@ -26,9 +26,7 @@
       idUser: identifiant
     },
     data: function () {
-      return{
-
-      }
+      return {}
     }
   }
 

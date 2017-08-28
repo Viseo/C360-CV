@@ -1,12 +1,12 @@
 INSERT INTO users (first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES
-  ('Maxime', 'Zarrin', 'maxime.zarrin@viseo.com','MZA4571','Stagiaire','3','10/06/1994','mastermind actions','0614253647','reverseflash','../../static/maxime.png','false'),
-  ('Thomas','Naulin','thomas.naulin@viseo.com','TNA7852','Sénior','7','06/15/1994','Sous-fifre du mastermind','0669584714','123456','../../static/thomas.png','true'),
-  ('Geoffrey','Ehrmann','geoffrey.ehrmann@viseo.com','GEH1524','Manager','14','10/25/1994','pizzas','0678451223','azerty','../../static/geoffrey.png','true'),
-  ('Farah','Touati','farah.touati@viseo.com','FTO5968','Junior','0','08/28/1994','lecture','0695157535','123456','../../static/mocha.svg','false'),
-  ('Admin','Admin','admin.admin@viseo.com','ADM1234','Sénior','20','01/01/1970','développer des applis en dormant','0601010101','adminadmin','../../static/ReverseFlash_wallapaper.png','true'),
-  ('Emmanuelle','Lerandy','lerandy@viseo.com','ELE3642','Sénior','12','07/16/1994','Aller chez le kiné','0601010101','adminadmin','../../static/emma.png','true'),
-  ('Lydia','Ouamar','ouamar@viseo.com','LOU0000','Stagiaire','0','01/01/1970','hein','0679218948','ouamouam','../../static/mocha.svg','false'),
-  ('Rocky','Balboa','tin.tintintin@tintin.tiiiin','RBA9999','Sénior','45','01/01/1970','coup de latte dans la gueule','0679218948','punchingball','../../static/rocky.png','true');
+  ('Maxime', 'Zarrin', 'maxime.zarrin@viseo.com','MZA4571','Stagiaire','3','10/06/1994','mastermind actions','0614253647','fd907eb6a93e49bb0ca5aa22f68bb2d66e0218dc','../../static/maxime.png','false'),
+  ('Thomas','Naulin','thomas.naulin@viseo.com','TNA7852','Sénior','7','06/15/1994','Sous-fifre du mastermind','0669584714','7c4a8d09ca3762af61e59520943dc26494f8941b','../../static/thomas.png','true'),
+  ('Geoffrey','Ehrmann','geoffrey.ehrmann@viseo.com','GEH1524','Manager','14','10/25/1994','pizzas','0678451223','9cf95dacd226dcf43da376cdb6cbba7035218921','../../static/geoffrey.png','true'),
+  ('Farah','Touati','farah.touati@viseo.com','FTO5968','Junior','0','08/28/1994','lecture','0695157535','7c4a8d09ca3762af61e59520943dc26494f8941b','../../static/mocha.svg','false'),
+  ('Admin','Admin','admin.admin@viseo.com','ADM1234','Sénior','20','01/01/1970','développer des applis en dormant','0601010101','dd94709528bb1c83d08f3088d4043f4742891f4f','../../static/ReverseFlash_wallapaper.png','true'),
+  ('Emmanuelle','Lerandy','lerandy@viseo.com','ELE3642','Sénior','12','07/16/1994','Aller chez le kiné','0601010101','dd94709528bb1c83d08f3088d4043f4742891f4f','../../static/emma.png','true'),
+  ('Lydia','Ouamar','ouamar@viseo.com','LOU0000','Stagiaire','0','01/01/1970','hein','0679218948','02acd07068be87c6ace4ea97079c406d3e8da7fd','../../static/mocha.svg','false'),
+  ('Rocky','Balboa','tin.tintintin@tintin.tiiiin','RBA9999','Sénior','45','01/01/1970','coup de latte dans la gueule','0679218948','c4ae472af23bf4650c11980c0691608b9ea3da12','../../static/rocky.png','true');
 
 
 INSERT INTO languages (label) VALUES

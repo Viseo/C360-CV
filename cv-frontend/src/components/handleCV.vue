@@ -1,6 +1,6 @@
 <template>
   <div>
-    <banner></banner>
+    <banner :page="'Gestion CV'"></banner>
     <div class="mycv">
       <div class="infoUser">
         <informationForm :infoUser="infoUser" :today="today"></informationForm>

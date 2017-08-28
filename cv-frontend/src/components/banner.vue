@@ -1,10 +1,11 @@
 <template>
   <div>
     <div class="banner" v-bind:style="styleBanner">
-      <div  class="bannerText" v-bind:style="styleBannerText">Collaborateur 360</div>
+      <div  class="bannerText" v-bind:style="styleBannerText">Collaborateur 360 {{test}}</div>
       <div class="menus">
+        <div>{{page}}</div>
         <div>
-          <div @mouseover="toggleShowMenuProfil"> Choisissez une option </div>
+          <div @mouseover="toggleShowMenuProfil"> {{session}} </div>
           <menuProfil :showMenuProfil="showMenuProfil"  @toggledMenuProfil="toggleShowMenuProfil" @signOut="signOut"></menuProfil>
         </div>
         <div v-on:mouseover="toggleShowMenu"  class="bannerIcon">
@@ -50,7 +51,12 @@
         styleColorIcon:{
           color:'rgb(255,146,0)',
         },
+        session:'options',
+        test:"",
       }
+    },
+    created:function(){
+      this.session=this.$session.get('name');
     },
     methods:{
       toggleShowMenu: function() {
@@ -62,8 +68,14 @@
       signOut:function(){
         this.$session.destroy();
         window.location.href = '/';
-      }
-    }
+      },
+//      session:function () {
+//          var sessions=this.$session.get('name');
+//          alert(sessions)
+//        return sessions;
+//      }
+    },
+    props:['page']
   }
 
 </script>
@@ -72,8 +84,10 @@
   .menus{
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     align-items: center;
     padding-right: 5%;
+    width: 30%;
   }
 
   .bannerIcon{

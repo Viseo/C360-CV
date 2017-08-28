@@ -418,7 +418,7 @@
         //Need Check
         if(this.checkSubmitConnexion()) {
           let mail = document.getElementById("EmaillogInForm").value;
-          let password = document.getElementById("Mot de passelogInForm").value;
+          let password = this.$sha1(document.getElementById("Mot de passelogInForm").value);
           axios.get('http://cv360-dev.lan:8061/api/login', {
             params: {
               mail: mail,
@@ -429,6 +429,9 @@
             if (response.data.login) {
               this.$session.start();
               this.$session.set("id",response.data.id);
+              this.$session.set("name",response.data.firstName + ' ' + response.data.lastName);
+              console.log(this.$session.get('name'),'youhou')
+
               if(response.data.admin){
                 window.location.href = '/admincv';
               }
@@ -453,7 +456,7 @@
           let code = document.getElementById("Code de loginsignInForm").value;
           let name = document.getElementById("NomsignInForm").value;
           let firstName = document.getElementById("PrénomsignInForm").value;
-          let password = document.getElementById("Mot de passesignInForm").value;
+          let password = this.$sha1(document.getElementById("Mot de passesignInForm").value);
           let mail = document.getElementById("EmailsignInForm").value;
           let data = {
             login:code,
