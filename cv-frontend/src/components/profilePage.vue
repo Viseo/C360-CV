@@ -15,32 +15,21 @@
 </template>
 
 <script>
-import userDetails from './profilePageComponents/userDetails.vue';
-import banner from './banner.vue';
-import identifiant from './profilePageComponents/userId.vue'
+  import userDetails from './profilePageComponents/userDetails.vue';
+  import banner from './banner.vue';
+  import identifiant from './profilePageComponents/userId.vue'
+  export default {
 
-export default {
     components: {
       userInfo: userDetails,
       banner: banner,
       idUser: identifiant
     },
     data: function () {
-      return{
+      return {}
+    }
+  }
 
-      }
-    },
-//    created: function(){
-//        console.log(this.$sha1('reverseflash'))
-//        console.log(this.$sha1('123456'))
-//        console.log(this.$sha1('azerty'))
-//        console.log(this.$sha1('123456'))
-//        console.log(this.$sha1('adminadmin'))
-//        console.log(this.$sha1('adminadmin'))
-//        console.log(this.$sha1('ouamouam'))
-//        console.log(this.$sha1('punchingball'))
-//    }
-}
 </script>
 
 <style>
@@ -54,14 +43,12 @@ export default {
     justify-content: center;
     align-items: center;
   }
-
   .buttonsProfile{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     width: 30em;
   }
-
   .buttons{
     display: flex;
     justify-content: center;
@@ -72,5 +59,4 @@ export default {
     border-radius: 3px;
     color:white;
   }
-
 </style>

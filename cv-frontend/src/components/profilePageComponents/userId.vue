@@ -68,7 +68,6 @@
                 else return 'password';
             }
       }
-
   }
 </script>
 
@@ -78,5 +77,4 @@
     left:-1.5em;
     top: .3em;
   }
-
 </style>
