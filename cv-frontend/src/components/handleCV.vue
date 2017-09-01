@@ -22,7 +22,7 @@
       </div>
     </div>
     <div v-show="showPDF" class="grayer" @click="closePDF"></div>
-    <img v-show="showPDF" class="closePDF" src="../../static/icone-supprimer.png" @click="closePDF">
+    <img v-show="showPDF" class="closePDF" src="../../static/png/icone-supprimer.png" @click="closePDF">
     <curriPDF :infoPerso="infoUser" :infoMission="missions" v-show="showPDF" id="PDF"></curriPDF>
   </div>
 </template>
@@ -39,17 +39,17 @@
   import axios from 'axios'
 
   let initInfoPerso = {
-    lastName: 'DARMET',
-    firstName: 'Henri',
-    birth: '1975-02-02',
-    position: 'Responsable Practice Web & Java',
-    experience: '30 ans',
-    mail: 'henri.darmet@viseo.com',
+    lastName: 'Collab',
+    firstName: 'Viseo',
+    birth: '1999-01-01',
+    position: 'Awesome Engineer',
+    experience: '18 ans',
+    mail: 'viseo@viseo.com',
     telephone: '0615482659',
-    hobbies: 'Voyages',
+    hobbies: 'Développement Agile',
     languages: 'Anglais',
-    picture: '../../static/henri.png',
-    age: '50',
+    picture: '../../static/users/mocha.svg',
+    age: '18',
   };
 
   export default {
@@ -193,9 +193,7 @@
             this.missions[this.currentBlock].typeMissions.label=type;
         },
         updateUserBDD:function(){
-          console.log(this.infoUser)
           let birth = this.infoUser.birthDate.split("-");
-//          console.log( this.infoUser);
           let user = {
             id:this.infoUser.id,
             login:this.infoUser.login,
@@ -207,7 +205,7 @@
             mail: this.infoUser.mail,
             telephone: this.infoUser.telephone,
             hobbies: this.infoUser.hobbies,
-            languages: [],
+            languages: this.infoUser.languages,
             picture: this.infoUser.picture,
             password: this.infoUser.password,
             admin: this.infoUser.admin

@@ -48,12 +48,6 @@
     flex-direction: column;
     font-family: Arial, serif;
     background-color: #F2F3F4;
-
-    /*float:right;*/
-    /*display:block;*/
-    /*height:40em;*/
-    /*width:75em;*/
-    /*margin:10px;*/
   }
 
   .containerCollab{

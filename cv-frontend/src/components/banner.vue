@@ -69,11 +69,6 @@
         this.$session.destroy();
         window.location.href = '/';
       },
-//      session:function () {
-//          var sessions=this.$session.get('name');
-//          alert(sessions)
-//        return sessions;
-//      }
     },
     props:['page']
   }

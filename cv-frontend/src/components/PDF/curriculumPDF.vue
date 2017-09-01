@@ -1,7 +1,7 @@
 <template>
   <div style="overflow-y: scroll">
     <div class="logoDiv">
-      <img class="viseoLogo" src="../../../static/logoviseo.png" >
+      <img class="viseoLogo" src="../../../static/png/logoviseo.png" >
     </div>
     <div class="line"></div>
     <headerPDF :infoUser="infoPerso"></headerPDF>

@@ -172,7 +172,6 @@
   .labelDescription-empty{position: absolute; top: 0em; left: 1.6em; font-size : 1.5em;}
 
   .containerForm{display: flex; flex-direction: column; position: relative}
-  /*.containerForm label{position: relative; top: -0.5em; left: 0.5em}*/
 
   .lineInfo{display: flex; flex-direction: row; justify-content: space-between; align-items: center; height: 3em; margin: 1% 0 1% 2%;}
 

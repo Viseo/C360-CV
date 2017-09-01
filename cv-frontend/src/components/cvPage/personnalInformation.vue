@@ -217,7 +217,7 @@
       handleFileSelect: function () {
         var file = event.target.value;
         let tab = file.split("\\");
-        let srcChanging = "../static/"+tab[tab.length-1];
+        let srcChanging = "../static/users/"+tab[tab.length-1];
         let photo=document.getElementById("photoP");
         photo.src=srcChanging;
         let inputF = document.getElementById("inputFile");
@@ -335,9 +335,7 @@
         }
       },
       computeAge: function(){
-//        console.log(Math.floor((new Date(this.today).getTime())),new Date(infoPerso[field]).getTime(),(1000*3600*24*365),infoPerso[field],field)
         Math.floor((new Date(this.today).getTime()-new Date(infoPerso[field]).getTime())/(1000*3600*24*365));
-//        return Math.floor((new Date(this.today).getTime()-new Date(infoPerso[field]).getTime())/(1000*3600*24*365));
       }
     },
     data: function () {
@@ -354,8 +352,8 @@
         styleSp: styleSpan,
         styleTel:stylePictoTel,
         styleCal:stylePictoCal,
-        photoProfileSrc: "../../static/viseo-logo.png",
-        pictoTelSrc:"../../static/flag-fr.png",
+        photoProfileSrc: "../../static/png/viseo-logo.png",
+        pictoTelSrc:"../../static/png/flag-fr.png",
       };
     },
     props:["infoUser","today"]

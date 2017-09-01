@@ -2,19 +2,19 @@
   <transition :name="classes.classFade">
     <div :style="style.styleMenu" :class="classes.classFade" v-show="showMenu" v-on:mouseleave="toggleShowMenu">
       <div :style="style.styleDivImg">
-        <img :style="style.styleImg" src="../../../static/GCV.png">
+        <img :style="style.styleImg" src="../../../static/png/GCV.png">
         <p :style="style.styleText">GCV</p>
       </div>
       <div :style="style.styleDivImg">
-        <img :style="style.styleImg" src="../../../static/GCon.png">
+        <img :style="style.styleImg" src="../../../static/png/GCon.png">
         <p :style="style.styleText">GCom</p>
       </div>
       <div :style="style.styleDivImg">
-        <img :style="style.styleImg" src="../../../static/GForm.png">
+        <img :style="style.styleImg" src="../../../static/png/GForm.png">
         <p :style="style.styleText">GF</p>
       </div>
       <div :style="style.styleDivImg">
-        <img :style="style.styleImg" src="../../../static/GM.png">
+        <img :style="style.styleImg" src="../../../static/png/GM.png">
         <p :style="style.styleText">GM</p>
       </div>
     </div>
@@ -67,7 +67,6 @@
               width: '2em',
               height: '2em',
               'border-radius': '50%',
-              // border: '1px solid black'
             },
             styleText: {
               'font-size': '12px',

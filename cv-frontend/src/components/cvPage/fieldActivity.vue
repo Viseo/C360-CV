@@ -35,7 +35,6 @@
             this.toShow.splice(i,1,!this.toShow[i]);
           }else{
             this.sectorCurrent = this.fieldsOfActivities[i];
-            console.log(this.sectorCurrent)
             this.$emit('updateSector',this.sectorCurrent);
           }
         }

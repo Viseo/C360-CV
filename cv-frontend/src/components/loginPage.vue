@@ -1,7 +1,7 @@
 <template>
     <div class="display">
         <banner></banner>
-      <div><img :style="style.styleImg" src="../../static/backgroundLogin.png"></div>
+      <div><img :style="style.styleImg" src="../../static/png/backgroundLogin.png"></div>
       <div class="content" :style="styleContent">
             <div class="topcontent" :style="styleTopContent">
                 <div id="Inscription" :style="styleInscription" @click="inscriptionClick"><p>Inscription</p></div>
@@ -415,7 +415,6 @@
         this.showMenu=!this.showMenu;
       },
       login: function () {
-          console.log(this.$sha1('azerty'))
         //Need Check
         if(this.checkSubmitConnexion()) {
           let mail = document.getElementById("EmaillogInForm").value;
@@ -431,8 +430,6 @@
               this.$session.start();
               this.$session.set("id",response.data.id);
               this.$session.set("name",response.data.firstName + ' ' + response.data.lastName);
-              console.log(this.$session.get('name'),'youhou')
-
               if(response.data.admin){
                 window.location.href = '/admincv';
               }

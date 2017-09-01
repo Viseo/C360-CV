@@ -17,7 +17,7 @@
         <listCollab class="collabZone" :collaborators="collaborators" @showPDF="showPDFUser" @downloadPDF="downloadPDF"></listCollab>
     </div>
     <div v-show="showPDF" class="grayer" @click="closePDF"></div>
-    <img v-show="showPDF" class="closePDF" src="../../static/icone-supprimer.png" @click="closePDF">
+    <img v-show="showPDF" class="closePDF" src="../../static/png/icone-supprimer.png" @click="closePDF">
     <curriPDF :infoPerso="infoUser" :infoMission="missions" v-show="showPDF" id="PDF"></curriPDF>
   </div>
 </template>
@@ -166,7 +166,6 @@
           .then(response=>{
             if(response.data.length>0){
               this.collaborators = response.data;
-              console.log(this.collaborators)
               this.defaultCollab = response.data;
               for(let collab in this.collaborators){
                   this.collaborators[collab].languages=this.collaborators[collab].languages.map(

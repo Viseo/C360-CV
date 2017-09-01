@@ -63,7 +63,6 @@
       },
       methods:{
             toggleType(old){
-                console.log(this.typePass1,this.typePass2,this.typePass3)
                 if(old=='password')return 'text';
                 else return 'password';
             }
