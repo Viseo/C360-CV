@@ -1,0 +1,30 @@
+$icons: "luggageIcon" "phone" "netIcon" "cake" "enveloppe" "gamePad";
+$checkbox: "Stagiaire" "Junior" "Sénior" "Manager" "first" "second" "third" "Plusde10ans" "client1" "client2" "client3";
+
+
+@mixin setIcon($icon) {
+  width: 20px;
+  height: 20px;
+  content: url("../png/#{$icon}.png");
+}
+
+;
+
+@mixin line($size: 840px, $margin-left: 0px) {
+  display: flex;
+  align-self: center;
+  border-color: dimgrey;
+  border-bottom: 1px solid;
+  width: $size;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-left: $margin-left;
+}
+
+@mixin arrow($color: purple) {
+  display: flex;
+  width: 0px;
+  height: 0px;
+  border: 10px solid transparent;
+  border-left: 15px solid $color;
+}
