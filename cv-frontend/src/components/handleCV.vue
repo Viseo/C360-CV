@@ -37,6 +37,7 @@
   import { bus } from '../EventBus.js';
   import saveOrDownload from './cvPage/downloadPDF.vue'
   import axios from 'axios'
+  import config from '../config/config'
 
   let initInfoPerso = {
     lastName: 'Collab',
@@ -86,7 +87,7 @@
       this.today = date.getFullYear() + '-' + thisMonth + '-' + thisDay;
 
       let id = this.$session.get("id");
-      axios.get('http://cv360-dev.lan:8061/api/getUser', {
+      axios.get(config.server + '/api/getUser', {
         params: {
           id: id
         }
@@ -221,7 +222,7 @@
             user.missions[i].endDate=tmpEnd.getTime();
           }
 
-          axios.post('/api/updateUser', user)
+          axios.post(config.server + '/api/updateUser', user)
             .then((response)=>{
               console.log(response);
             })

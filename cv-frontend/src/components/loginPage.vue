@@ -32,6 +32,7 @@
   import formHome from './homePage/formHome.vue'
   import banner from "./banner.vue"
   import axios from 'axios'
+  import config from '../config/config'
   export default {
     data:function (){
       return{
@@ -419,7 +420,7 @@
         if(this.checkSubmitConnexion()) {
           let mail = document.getElementById("EmaillogInForm").value;
           let password = this.$sha1(document.getElementById("Mot de passelogInForm").value);
-          axios.get('http://cv360-dev.lan:8061/api/login', {
+          axios.get(config.server + '/api/login', {
             params: {
               mail: mail,
               password: password
@@ -464,14 +465,14 @@
             mail:mail
           };
 
-          axios.post('/api/testRegister', data)
+          axios.post(config.server + '/api/testRegister', data)
             .then((response)=>{
               console.log(response);
               if(response.data!=""){
                   alert("Un compte existe déjà pour cette adresse E-Mail.");
               }
               else{
-                axios.post('/api/register', data)
+                axios.post(config.server + '/api/register', data)
                   .then(()=>{
                     alert("Inscription Effectuée");
                     window.location.href = '/';

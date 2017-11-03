@@ -5,10 +5,8 @@ import com.viseo.c360.cv.models.entities.UsersEntity;
 import com.viseo.c360.cv.services.AccountService;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -30,11 +28,13 @@ public class AccountController {
         return this.accountService.exist(mail, password);
     }
 
+    @CrossOrigin (origins =  "${server.front}")
     @RequestMapping(path = "/register", method = POST)
     public UsersEntity register(@RequestBody @Valid UserDto user) {
         return this.accountService.add(user);
     }
 
+    @CrossOrigin (origins =  "${server.front}")
     @RequestMapping(path = "/testRegister", method = POST)
     public UsersEntity testRegister(@RequestBody @Valid UserDto user) {
         UsersEntity existenceTest = this.accountService.mailExist(user.getMail());
