@@ -1,3 +1,7 @@
+INSERT INTO users (id, first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES
+  (100000, 'GU', 'Leo', 'test1@test.com','AAA1111','Stagiaire','3','01/01/1994','mastermind actions','0614253647','bcb15f821479b4d5772bd0ca866c00ad5f926e3580720659cc80d39c9d09802a','../../static/users/maxime.png','false')
+
+/*
 INSERT INTO users (first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES
   ('Maxime', 'Zarrin', 'maxime.zarrin@viseo.com','MZA4571','Stagiaire','3','10/06/1994','mastermind actions','0614253647','fd907eb6a93e49bb0ca5aa22f68bb2d66e0218dc','../../static/users/maxime.png','false'),
   ('Thomas','Naulin','thomas.naulin@viseo.com','TNA7852','Sénior','7','06/15/1994','Sous-fifre du mastermind','0669584714','7c4a8d09ca3762af61e59520943dc26494f8941b','../../static/users/thomas.png','true'),
@@ -118,3 +122,4 @@ INSERT INTO users_missions (user_id, missions_id) VALUES
   (3,8),
   (4,3),
   (5,6);
+*/

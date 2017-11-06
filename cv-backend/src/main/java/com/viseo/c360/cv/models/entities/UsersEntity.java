@@ -1,6 +1,9 @@
 package com.viseo.c360.cv.models.entities;
 
+import org.hibernate.validator.constraints.Email;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -18,10 +21,12 @@ public class UsersEntity extends BaseEntity {
     @Temporal(TemporalType.DATE)
     private Date birth_date;
 
-    @Column
+    @Column(unique = true, nullable = false)
+    @NotNull
+    @Email
     private String mail;
 
-    @Column
+    @Column(unique = true, nullable = false)
     private String login;
 
     @Column

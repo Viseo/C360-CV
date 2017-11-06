@@ -7,6 +7,15 @@
                 <div id="Inscription" :style="styleInscription" @click="inscriptionClick"><p>Inscription</p></div>
                 <div id="Connexion" :style="styleConnexion" @click="connexionClick"><p>Connexion</p></div>
             </div>
+            <div id="ConnexionContent" :style="styleConnexionContent" v-show="chosenForm==='connexion'">
+              <formhome
+                :listitems="logInForm"
+                :styl="style"
+                @login="login"
+                @check="inputManager">
+              </formhome>
+              <div id="connexion-failed" v-if="connexionFailed">Utilisateur inconnu</div>
+            </div>
             <div id="InscriptionContent" v-show="chosenForm==='inscription'">
                 <formhome
                   :listitems="signInForm"
@@ -15,15 +24,7 @@
                   @check="inputManager">
                 </formhome>
             </div>
-            <div id="ConnexionContent" :style="styleConnexionContent" v-show="chosenForm==='connexion'">
-                <formhome
-                  :listitems="logInForm"
-                  :styl="style"
-                  @login="login"
-                  @check="inputManager">
-                </formhome>
-              <div id="connexion-failed" v-if="connexionFailed">Utilisateur inconnu</div>
-            </div>
+
         </div>
     </div>
 </template>
@@ -66,7 +67,7 @@
           }
         },
         connexionFailed : false,
-        chosenForm: 'inscription',
+        chosenForm: 'connexion',
         style: {
           styleGlobal: {
             'margin-top': '20px',
@@ -179,7 +180,7 @@
           position: 'relative'
         },
 
-        styleInscription:{
+        styleConnexion:{
           display: 'flex',
           flex: '1',
           'justify-content': 'center',
@@ -188,7 +189,7 @@
           cursor: 'pointer'
         },
 
-        styleConnexion:{
+        styleInscription:{
           display: 'flex',
           flex: '1',
           'justify-content': 'center',
@@ -419,7 +420,7 @@
         //Need Check
         if(this.checkSubmitConnexion()) {
           let mail = document.getElementById("EmaillogInForm").value;
-          let password = this.$sha1(document.getElementById("Mot de passelogInForm").value);
+          let password = this.$sha256(document.getElementById("Mot de passelogInForm").value);
           axios.get(config.server + '/api/login', {
             params: {
               mail: mail,
@@ -455,7 +456,7 @@
           let code = document.getElementById("Code de loginsignInForm").value;
           let name = document.getElementById("NomsignInForm").value;
           let firstName = document.getElementById("PrénomsignInForm").value;
-          let password = this.$sha1(document.getElementById("Mot de passesignInForm").value);
+          let password = this.$sha256(document.getElementById("Mot de passesignInForm").value);
           let mail = document.getElementById("EmailsignInForm").value;
           let data = {
             login:code,
@@ -465,29 +466,23 @@
             mail:mail
           };
 
-          axios.post(config.server + '/api/testRegister', data)
+          axios.post(config.server + '/api/register', data)
             .then((response)=>{
               console.log(response);
-              if(response.data!=""){
-                  alert("Un compte existe déjà pour cette adresse E-Mail.");
-              }
-              else{
-                axios.post(config.server + '/api/register', data)
-                  .then(()=>{
-                    alert("Inscription Effectuée");
-                    window.location.href = '/';
-                  })
-                  .catch((error)=>{
-                    console.log(error);
-                  });
-              }
+              alert("SUCCESS!");
             })
             .catch((error)=>{
               console.log(error);
+              if (error.response.data.message.indexOf("email") != -1){
+                alert("EMAIL EXISTE DEJA!");
+              }
+              else if(error.response.data.message.indexOf("login") != -1){
+                alert("LOGIN EXISTE DEJA!");
+              }
             });
         }
         else{
-          alert("Remplir tous les champs correctement");
+          alert("Veuillez remplir tous les champs correctement");
         }
       }
     },

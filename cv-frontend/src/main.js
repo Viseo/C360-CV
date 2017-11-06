@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import handleLogin from "./components/loginPage.vue"
 import VueSession from 'vue-session'
-import sha1 from 'sha1'
+//import sha1 from 'sha1'
+import sha256 from '../node_modules/js-sha256/src/sha256'
 
 Vue.use(VueSession);
-Vue.prototype.$sha1=sha1;
+Vue.prototype.$sha256=sha256;
 const handleCv = resolve => {
   require.ensure([], () => {
     resolve(require('./components/handleCV.vue'))
@@ -38,7 +39,7 @@ new Vue({
     currentRoute: window.location.pathname,
   },
   created: function(){
-    console.log('sha1 test', sha1('test'))
+    console.log('sha256 test', sha256('test'))
   },
   computed: {
     ViewComponent () {
