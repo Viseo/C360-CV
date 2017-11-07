@@ -469,7 +469,15 @@
           axios.post(config.server + '/api/register', data)
             .then((response)=>{
               console.log(response);
-              alert("SUCCESS!");
+              this.$session.start();
+              this.$session.set("id",response.data.id);
+              this.$session.set("name",response.data.firstName + ' ' + response.data.lastName);
+              if(response.data.admin){
+                window.location.href = '/admincv';
+              }
+              else {
+                window.location.href = '/mycv';
+              }
             })
             .catch((error)=>{
               console.log(error);

@@ -26,7 +26,6 @@ public class AccountController {
     @RequestMapping("/login")
     public UsersEntity login(@RequestParam(value = "mail") @NotEmpty String mail,
                              @RequestParam(value = "password") @NotEmpty String password) {
-
         return this.accountService.exist(mail, password);
     }
 
@@ -42,17 +41,20 @@ public class AccountController {
         }
     }
 
+    @CrossOrigin (origins =  "${server.front}")
     @RequestMapping(path = "/getUser", method = GET)
     public UsersEntity getUser(@RequestParam(value = "id") @NotEmpty int id) {
 
         return this.accountService.getUserById(id);
     }
 
+    @CrossOrigin (origins =  "${server.front}")
     @RequestMapping(path = "/getUsers", method = GET)
     public List<UsersEntity> getAll() {
         return this.accountService.getAll();
     }
 
+    @CrossOrigin (origins =  "${server.front}")
     @RequestMapping(path = "/updateUser", method = POST)
     public UsersEntity updateUser(@RequestBody @Valid UserDto user) {
 
