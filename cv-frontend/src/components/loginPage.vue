@@ -34,6 +34,8 @@
   import banner from "./banner.vue"
   import axios from 'axios'
   import config from '../config/config'
+  var jwtDecode = require('jwt-decode');
+
   export default {
     data:function (){
       return{
@@ -428,11 +430,14 @@
             }
           })
           .then((response) => {
-            if (response.data.login) {
+            console.log(jwtDecode(response.data));
+
+            /*
+            if (data) {
               this.$session.start();
               this.$session.set("id",response.data.id);
               this.$session.set("name",response.data.firstName + ' ' + response.data.lastName);
-              if(response.data.admin){
+              if(data.admin){
                 window.location.href = '/admincv';
               }
               else {
@@ -442,6 +447,7 @@
             else {
               alert("Login Failed.");
             }
+            */
           })
           .catch((error) => {
             console.log(error);

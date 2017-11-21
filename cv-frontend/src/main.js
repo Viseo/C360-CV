@@ -4,6 +4,7 @@ import handleLogin from "./components/loginPage.vue"
 import VueSession from 'vue-session'
 //import sha1 from 'sha1'
 import sha256 from '../node_modules/js-sha256/src/sha256'
+var jwtDecode = require('jwt-decode');
 
 Vue.use(VueSession);
 Vue.use(Router);
@@ -40,6 +41,11 @@ new Vue({
   data: {
     currentRoute: window.location.pathname,
   },
+  /*
+  created: function(){
+    console.log(jwtDecode("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ"));
+  },
+  */
   computed: {
     ViewComponent () {
       let comp = null;
