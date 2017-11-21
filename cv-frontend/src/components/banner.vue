@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="banner" v-bind:style="styleBanner">
-      <div  class="bannerText" v-bind:style="styleBannerText">Collaborateur 360 {{test}}</div>
+      <div  class="bannerText" v-bind:style="styleBannerText">Collaborateur 360</div>
       <div class="menus">
         <div>{{page}}</div>
         <div>
@@ -52,7 +52,6 @@
           color:'rgb(255,146,0)',
         },
         session:'options',
-        test:"",
       }
     },
     created:function(){
