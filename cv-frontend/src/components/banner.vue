@@ -73,7 +73,10 @@
       },
     },
     beforeMount:function(){
-      this.$store.dispatch('checkIfTokenValide');
+      if (localStorage.getItem('token') != null){
+        this.$store.commit('setToken', localStorage.getItem('token'));
+        this.$store.dispatch('checkIfTokenValide');
+      }
     },
     props:['page']
   }

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import config from '../src/config/config'
+import router from '../src/config/router'
 
 Vue.use(Vuex);
 var jwtDecode = require('jwt-decode');
@@ -49,26 +50,28 @@ export const store = new Vuex.Store({
               console.log("Token valide");
               if (response.data == "admin"){
                 console.log("Admin");
-                this.state.isAdmin = true;
+                context.state.isAdmin = true;
+                router.push('/admincv');
               }
               else{
                 console.log("Not admin");
-                this.state.isAdmin = false;
+                context.state.isAdmin = false;
+                router.push('/mycv');
               }
             }
             else{
               console.log("Token non valide");
-              state.token = null;
+              context.state.token = null;
               localStorage.removeItem("token")
               context.commit('resetStore');
-              this.$router.push('/login');
+              router.push('/login');
             }
           }, response => {
             console.log("Token non valide");
-            state.token = null;
+            context.state.token = null;
             localStorage.removeItem("token")
             context.commit('resetStore');
-            this.$router.push('/login');
+            router.push('/login');
           })
       }
 

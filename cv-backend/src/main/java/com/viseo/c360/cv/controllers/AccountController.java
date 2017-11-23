@@ -91,8 +91,25 @@ public class AccountController {
     @RequestMapping(path = "/identification", method = POST)
     @ResponseBody
     public String checkIsAlreadyConnected(@RequestBody String token) {
-        System.out.println("Request successfully received!");
-        return "result";
+        System.out.println("Request successfully received! Received token : " + token);
+        try{
+            token = token.replace("=", "");
+            UserDto user = mapUserCache.get(token);
+            if (user != null){
+                if (user.getAdmin()){
+                    return "admin";
+                }
+                else{
+                    return "notAdmin";
+                }
+            }
+            else{
+                return null;
+            }
+        }
+        catch(Exception e){
+            throw new RuntimeException(e);
+        }
     }
 
     @CrossOrigin (origins =  "${server.front}")
