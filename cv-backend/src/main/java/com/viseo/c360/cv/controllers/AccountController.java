@@ -1,6 +1,7 @@
 package com.viseo.c360.cv.controllers;
 
 import com.viseo.c360.cv.converters.UserToDtoConverter;
+import com.viseo.c360.cv.models.dto.ClientDto;
 import com.viseo.c360.cv.models.dto.UserDto;
 import com.viseo.c360.cv.models.entities.UsersEntity;
 import com.viseo.c360.cv.services.AccountService;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static io.jsonwebtoken.impl.crypto.MacProvider.generateKey;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -30,13 +33,25 @@ public class AccountController {
     private String secret;
 
     private String compactJws;
+    private static final Map<String, UserDto> mapUserCache = new ConcurrentHashMap<>();
 
     private String createSecurityToken(UserDto user){
         return Jwts.builder()
-                .setSubject(user.getFirstName())
+                .setSubject(user.getMail())
+                .claim("firstName", user.getFirstName())
                 .claim("lastName", user.getLastName())
                 .claim("admin", user.getAdmin())
                 .claim("id", user.getId())
+                .claim("login", user.getLogin())
+                .claim("mail", user.getMail())
+                .claim("birth_date", user.getBirth_date())
+                .claim("experience", user.getExperience())
+                .claim("hobbies", user.getHobbies())
+                .claim("missions", user.getMissions())
+                .claim("languages", user.getLanguages())
+                .claim("position", user.getPosition())
+                .claim("picture",user.getPicture())
+                .claim("telephone", user.getTelephone())
                 //.signWith(SignatureAlgorithm.HS512, generateKey())
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
@@ -44,10 +59,12 @@ public class AccountController {
 
     @CrossOrigin (origins =  "${server.front}")
     @RequestMapping("/login")
+    @ResponseBody
     public String login(@RequestParam(value = "mail") @NotEmpty String mail,
                              @RequestParam(value = "password") @NotEmpty String password) {
         UserDto user = new UserToDtoConverter().convert(this.accountService.exist(mail, password));
         compactJws = createSecurityToken(user);
+        this.mapUserCache.put(compactJws, user);
         return compactJws;
     }
 
@@ -68,6 +85,14 @@ public class AccountController {
     public UsersEntity getUser(@RequestParam(value = "id") @NotEmpty int id) {
 
         return this.accountService.getUserById(id);
+    }
+
+    @CrossOrigin (origins =  "${server.front}")
+    @RequestMapping(path = "/identification", method = POST)
+    @ResponseBody
+    public String checkIsAlreadyConnected(@RequestBody String token) {
+        System.out.println("Request successfully received!");
+        return "result";
     }
 
     @CrossOrigin (origins =  "${server.front}")

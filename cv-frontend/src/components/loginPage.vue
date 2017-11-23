@@ -34,7 +34,6 @@
   import banner from "./banner.vue"
   import axios from 'axios'
   import config from '../config/config'
-  import router from '../config/router'
   var jwtDecode = require('jwt-decode');
 
   export default {
@@ -431,19 +430,20 @@
             }
           })
           .then((response) => {
-            console.log(jwtDecode(response.data));
-
-            let data = jwtDecode(response.data);
-            console.log(data);
-            if (data) {
+            if (response.data) {
+              localStorage.setItem('token', response.data);
+              let data = jwtDecode(response.data);
+              this.$store.commit('setToken', response.data);
+              /*
               this.$session.start();
               this.$session.set("id",data.id);
               this.$session.set("name",data.sub + ' ' + data.lastName);
+              */
               if(data.admin){
-                router.push('/admincv');
+                this.$router.push('/admincv');
               }
               else {
-                router.push('/mycv');
+                this.$router.push('/mycv');
               }
             }
             else {

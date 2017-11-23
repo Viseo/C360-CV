@@ -70,7 +70,10 @@
       }
     },
     beforeCreate:function(){
-      if(!this.$session.has("id")) window.location.href = '/';
+      //if(!this.$session.has("id")) window.location.href = '/';
+      if(localStorage.getItem("token") === null){
+        this.$router.push('/')
+      }
     },
     methods:{
       searchCollab(){

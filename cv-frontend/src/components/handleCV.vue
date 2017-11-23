@@ -74,19 +74,24 @@
           domain:""
         }
     },
-    beforeCreate:function(){
-      if(!this.$session.has("id")) {
-        window.location.href = '/'
+    computed:{
+      today:function(){
+        let date = new Date();
+        let thisDay, thisMonth;
+        date.getDate() < 10 ? thisDay = '0' + date.getDate() : thisDay = date.getDate();
+        date.getMonth() + 1 < 10 ? thisMonth = '0' + parseInt(date.getMonth() + 1) : thisMonth = parseInt(date.getMonth() + 1);
+        return date.getFullYear() + '-' + thisMonth + '-' + thisDay;
       }
     },
-    created: function(){
-      let date = new Date();
-      let thisDay, thisMonth;
-      date.getDate() < 10 ? thisDay = '0' + date.getDate() : thisDay = date.getDate();
-      date.getMonth() + 1 < 10 ? thisMonth = '0' + parseInt(date.getMonth() + 1) : thisMonth = parseInt(date.getMonth() + 1);
-      this.today = date.getFullYear() + '-' + thisMonth + '-' + thisDay;
-
-      let id = this.$session.get("id");
+    /*
+    beforeMount:function(){
+      if(this.$store.state.userLogged.id === -1) {
+        this.$router.push('/');
+      }
+    },
+    */
+    mounted: function(){
+      let id = this.$store.state.userLogged.id;
       axios.get(config.server + '/api/getUser', {
         params: {
           id: id

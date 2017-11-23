@@ -5,7 +5,7 @@
       <div class="menus">
         <div>{{page}}</div>
         <div>
-          <div @mouseover="toggleShowMenuProfil"> {{session}} </div>
+          <div @mouseover="toggleShowMenuProfil"> {{userName}} </div>
           <menuProfil :showMenuProfil="showMenuProfil"  @toggledMenuProfil="toggleShowMenuProfil" @signOut="signOut"></menuProfil>
         </div>
         <div v-on:mouseover="toggleShowMenu"  class="bannerIcon">
@@ -50,13 +50,16 @@
         },
         styleColorIcon:{
           color:'rgb(255,146,0)',
-        },
-        session:'options',
+        }
       }
     },
-    created:function(){
-      this.session=this.$session.get('name');
+
+    computed: {
+      userName: function(){
+        return this.$store.state.userLogged.firstName + ' ' +  this.$store.state.userLogged.lastName;
+      }
     },
+
     methods:{
       toggleShowMenu: function() {
         this.showMenu=!this.showMenu;
@@ -65,9 +68,12 @@
         this.showMenuProfil=!this.showMenuProfil;
       },
       signOut:function(){
-        this.$session.destroy();
-        window.location.href = '/';
+        this.$router.push('/');
+        this.$store.commit('resetStore');
       },
+    },
+    beforeMount:function(){
+      this.$store.dispatch('checkIfTokenValide');
     },
     props:['page']
   }
