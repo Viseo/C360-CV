@@ -29,10 +29,15 @@
           this.$emit('signOut');
       },
       goToMyCV: function () {
-        window.location.href = '/mycv';
+        if (this.$store.state.userLogged.isAdmin){
+          this.$router.push('/admincv');
+        }
+        else{
+          this.$router.push('/mycv');
+        }
       },
       goToMyProfile: function(){
-          window.location.href = '/myprofile'
+        this.$router.push('/myprofile');
       }
     },
     props: ['showMenuProfil']

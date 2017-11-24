@@ -205,8 +205,15 @@
         }
       }
     },
-    created:function(){
-
+    mounted:function(){
+      if(this.$store.state.userLogged.id != -1){
+        if(this.$store.state.userLogged.isAdmin){
+          this.$router.push('/admincv');
+        }
+        else{
+          this.$router.push('/mycv');
+        }
+      }
     },
     methods:{
       inscriptionClick : function(){
@@ -434,11 +441,6 @@
               localStorage.setItem('token', response.data);
               let data = jwtDecode(response.data);
               this.$store.commit('setToken', response.data);
-              /*
-              this.$session.start();
-              this.$session.set("id",data.id);
-              this.$session.set("name",data.sub + ' ' + data.lastName);
-              */
               if(data.admin){
                 this.$router.push('/admincv');
               }
@@ -481,10 +483,10 @@
               this.$session.set("id",response.data.id);
               this.$session.set("name",response.data.firstName + ' ' + response.data.lastName);
               if(response.data.admin){
-                window.location.href = '/admincv';
+                this.$router.push('/admincv');
               }
               else {
-                window.location.href = '/mycv';
+                this.$router.push('/mycv');
               }
             })
             .catch((error)=>{

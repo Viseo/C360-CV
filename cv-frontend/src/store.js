@@ -66,12 +66,10 @@ export const store = new Vuex.Store({
               if (response.data == "admin"){
                 console.log("Admin");
                 context.state.isAdmin = true;
-                router.push('/admincv');
               }
               else{
                 console.log("Not admin");
                 context.state.isAdmin = false;
-                router.push('/mycv');
               }
             }
             else{
