@@ -68,14 +68,19 @@
         this.showMenuProfil=!this.showMenuProfil;
       },
       signOut:function(){
-        this.$router.push('/');
+        localStorage.removeItem("token");
         this.$store.commit('resetStore');
+        this.$router.push('/');
       },
     },
     beforeMount:function(){
       if (localStorage.getItem('token') != null){
         this.$store.commit('setToken', localStorage.getItem('token'));
         this.$store.dispatch('checkIfTokenValide');
+      }
+      else{
+        this.$store.commit('resetStore');
+        this.$router.push('/');
       }
     },
     props:['page']

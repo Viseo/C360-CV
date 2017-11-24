@@ -22,8 +22,7 @@ var storeInit = {
       position: "",
       telephone: ""
     },
-    token : '',
-    isAdmin : false
+    token : ''
 };
 
 export const store = new Vuex.Store({
@@ -35,7 +34,23 @@ export const store = new Vuex.Store({
       },
 
       resetStore(state) {
-        Object.assign(state, storeInit);
+        Object.assign(state, {
+          userLogged:{
+            id: -1,
+            admin: false,
+            birth_date: "",
+            experience: '',
+            firstName: "",
+            hobbies: "",
+            lastName: "",
+            login: "",
+            mail: "",
+            picture: "",
+            position: "",
+            telephone: ""
+          },
+          token : ''
+        });
       }
     },
     getters: {
@@ -61,14 +76,12 @@ export const store = new Vuex.Store({
             }
             else{
               console.log("Token non valide");
-              context.state.token = null;
               localStorage.removeItem("token")
               context.commit('resetStore');
               router.push('/login');
             }
           }, response => {
             console.log("Token non valide");
-            context.state.token = null;
             localStorage.removeItem("token")
             context.commit('resetStore');
             router.push('/login');
