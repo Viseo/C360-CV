@@ -24,7 +24,8 @@ const routes = [
       path: '/admincv',
       component : handleAdmin
     },
-    { path: '/myprofile',
+    {
+      path: '/myprofile',
       component : handleProfile
     }
 ];
