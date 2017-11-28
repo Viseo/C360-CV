@@ -1,5 +1,7 @@
 package com.viseo.c360.cv.models.entities;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
@@ -9,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UsersEntity extends BaseEntity {
 
     @Column
@@ -24,8 +27,10 @@ public class UsersEntity extends BaseEntity {
     @Column(unique = true, nullable = false)
     @NotNull
     @Email
+    @JsonProperty("email")
     private String mail;
 
+    @JsonProperty("personnalIdNumber")
     @Column(unique = true, nullable = false)
     private String login;
 
@@ -49,6 +54,9 @@ public class UsersEntity extends BaseEntity {
 
     @Column
     private String experience;
+
+    @Column
+    private Date lastUpdateDate;
 
     @ManyToMany
     @JoinTable(
@@ -177,5 +185,13 @@ public class UsersEntity extends BaseEntity {
 
     public void setExperience(String experience) {
         this.experience = experience;
+    }
+
+    public Date getLastUpdateDate() {
+        return lastUpdateDate;
+    }
+
+    public void setLastUpdateDate(Date lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
     }
 }

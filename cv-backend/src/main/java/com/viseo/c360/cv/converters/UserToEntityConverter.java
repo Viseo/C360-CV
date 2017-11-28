@@ -27,6 +27,7 @@ public class UserToEntityConverter implements Converter<UserDto, UsersEntity> {
         usersEntity.setPosition(userDto.getPosition());
         usersEntity.setMissions(userDto.getMissions());
         usersEntity.setId(userDto.getId());
+        usersEntity.setLastUpdateDate(userDto.getLastUpdateDate());
 //        usersEntity.setLanguages(userDto.getLanguages());
 
 

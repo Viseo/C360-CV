@@ -29,6 +29,7 @@ public class UserToDtoConverter implements Converter <UsersEntity,UserDto>{
         userDto.setExperience(usersEntity.getExperience());
         userDto.setMissions(usersEntity.getMissions());
         userDto.setId(usersEntity.getId());
+        userDto.setLastUpdateDate(usersEntity.getLastUpdateDate());
 //        userDto.setLanguages(usersEntity.getLanguages());
 
         return userDto;

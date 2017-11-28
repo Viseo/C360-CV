@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static io.jsonwebtoken.impl.crypto.MacProvider.generateKey;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -121,7 +120,6 @@ public class AccountController {
     @CrossOrigin (origins =  "${server.front}")
     @RequestMapping(path = "/updateUser", method = POST)
     public UsersEntity updateUser(@RequestBody @Valid UserDto user) {
-
         return this.accountService.updateUser(user);
     }
 }

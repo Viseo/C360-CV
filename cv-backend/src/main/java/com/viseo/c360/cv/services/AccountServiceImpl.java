@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,6 +41,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public UsersEntity add(UserDto user) {
+        user.setLastUpdateDate(new Date());
         UsersEntity convertedUser = userToEntityConverter.convert(user);
         return accountDAO.save(convertedUser);
     }
@@ -59,7 +61,7 @@ public class AccountServiceImpl implements AccountService {
 
     public UsersEntity updateUser(UserDto user){
         UsersEntity convertedUser = userToEntityConverter.convert(user);
-
+        user.setLastUpdateDate(new Date());
         return accountDAO.save(convertedUser);
     }
 }

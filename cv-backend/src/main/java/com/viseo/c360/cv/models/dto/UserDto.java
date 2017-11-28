@@ -33,6 +33,8 @@ public class UserDto {
 
     private Boolean admin;
 
+    private Date lastUpdateDate;
+
     private List<LanguageDto> languages;
 
     private List<MissionsEntity> missions;
@@ -155,6 +157,14 @@ public class UserDto {
 
     public void setAdmin(Boolean admin) {
         this.admin = admin;
+    }
+
+    public Date getLastUpdateDate() {
+        return lastUpdateDate;
+    }
+
+    public void setLastUpdateDate(Date lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
     }
 
     @Override
