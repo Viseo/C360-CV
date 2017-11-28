@@ -37,6 +37,11 @@ public class RequestProducerConfig {
     }
 
     @Bean
+    public Queue fanoutQueue3() {
+        return new Queue("fanout-queue3", false);
+    }
+
+    @Bean
     public Queue responseCompetence() {
         return new Queue("response-competence", false);
     }
@@ -67,12 +72,15 @@ public class RequestProducerConfig {
         return BindingBuilder.bind(fanoutQueue2).to(fanoutExchange);
     }
 
-
+    @Bean
+    public Binding binding3(FanoutExchange fanoutExchange, Queue fanoutQueue3) {
+        return BindingBuilder.bind(fanoutQueue3).to(fanoutExchange);
+    }
 
     @Bean
     public SimpleMessageListenerContainer listenerContainer() {
         SimpleMessageListenerContainer listenerContainer = new SimpleMessageListenerContainer();
-        listenerContainer.setQueueNames(fanoutQueue2().getName());
+        listenerContainer.setQueueNames(fanoutQueue3().getName());
         listenerContainer.setConnectionFactory(connectionFactory());
         listenerContainer.setMessageListener(new MessageListenerAdapter(new ConsumerMessageHandler()));
         listenerContainer.setAcknowledgeMode(AcknowledgeMode.NONE);
