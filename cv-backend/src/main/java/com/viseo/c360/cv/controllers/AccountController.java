@@ -69,10 +69,13 @@ public class AccountController {
 
     @CrossOrigin (origins =  "${server.front}")
     @RequestMapping(path = "/register", method = POST)
-    public UsersEntity register(@RequestBody @Valid UserDto user){
+    public String register(@RequestBody @Valid UserDto user){
         try{
-            UsersEntity usersEntity = this.accountService.add(user);
-            return usersEntity;
+            user.setAdmin(false);
+            this.accountService.add(user);
+            compactJws = createSecurityToken(user);
+            this.mapUserCache.put(compactJws, user);
+            return compactJws;
         }
         catch (DataIntegrityViolationException e){
             throw new RuntimeException(e.getCause().getCause());

@@ -479,10 +479,10 @@
           axios.post(config.server + '/api/register', data)
             .then((response)=>{
               console.log(response);
-              this.$session.start();
-              this.$session.set("id",response.data.id);
-              this.$session.set("name",response.data.firstName + ' ' + response.data.lastName);
-              if(response.data.admin){
+              localStorage.setItem('token', response.data);
+              let data = jwtDecode(response.data);
+              this.$store.commit('setToken', response.data);
+              if(data.admin){
                 this.$router.push('/admincv');
               }
               else {
