@@ -26,6 +26,7 @@ public class RequestProducerConfig {
     public FanoutExchange fanoutExchange() {
         return new FanoutExchange("amq.fanout");
     }
+
     @Bean
     public Queue fanoutQueue1() {
         return new Queue("fanout-queue1", false);

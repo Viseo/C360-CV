@@ -1,10 +1,13 @@
 package com.viseo.c360.cv.models.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.viseo.c360.cv.models.entities.MissionsEntity;
 
 import java.util.Date;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDto {
 
     private int id;
@@ -63,6 +66,7 @@ public class UserDto {
         this.lastName = lastName;
     }
 
+    @JsonProperty("email")
     public String getMail() {
         return mail;
     }
@@ -71,6 +75,7 @@ public class UserDto {
         this.mail = mail;
     }
 
+    @JsonProperty("personnalIdNumber")
     public String getLogin() {
         return login;
     }

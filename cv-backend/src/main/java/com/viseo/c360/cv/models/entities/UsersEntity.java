@@ -1,7 +1,7 @@
 package com.viseo.c360.cv.models.entities;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
@@ -27,10 +27,8 @@ public class UsersEntity extends BaseEntity {
     @Column(unique = true, nullable = false)
     @NotNull
     @Email
-    @JsonProperty("email")
     private String mail;
 
-    @JsonProperty("personnalIdNumber")
     @Column(unique = true, nullable = false)
     private String login;
 
@@ -99,6 +97,7 @@ public class UsersEntity extends BaseEntity {
         this.birth_date = birth_date;
     }
 
+    @JsonProperty("email")
     public String getMail() {
         return mail;
     }
@@ -107,6 +106,7 @@ public class UsersEntity extends BaseEntity {
         this.mail = mail;
     }
 
+    @JsonProperty("personnalIdNumber")
     public String getLogin() {
         return login;
     }
