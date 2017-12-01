@@ -21,6 +21,8 @@
 <script>
   import dropdownMenu from './homePage/dropdownMenu.vue'
   import menuProfil from './homePage/menuProfil.vue'
+  import axios from 'axios'
+  import config from '../config/config'
 
   export default {
     components: {
@@ -71,9 +73,30 @@
         localStorage.removeItem("token");
         this.$store.commit('resetStore');
         this.$router.push('/');
-      },
+      }
     },
     beforeMount:function(){
+      var d = window.location.href.indexOf("?user=");
+      if(d != -1){
+        var token = window.location.href.slice(d+6,window.location.href.length);
+        if(token != null && token!= 'undefined'){
+          axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+          console.log(token);
+          axios.post(config.server + "/api/getuserifalreadyconnectedelsewhere",token).then((response) => {
+            this.$store.commit('resetStore');
+            localStorage.setItem('token',response.data);
+            this.$store.commit('setToken', response.data);
+            if(this.$store.state.userLogged.admin){
+              this.$router.push('/admincv');
+            }
+            else{
+              this.$router.push('/mycv');
+            }
+          }, response => {
+            console.log(response);
+          });
+        }
+      }
       if (localStorage.getItem('token') != null){
         this.$store.commit('setToken', localStorage.getItem('token'));
         this.$store.dispatch('checkIfTokenValide');
@@ -82,6 +105,7 @@
         this.$store.commit('resetStore');
         this.$router.push('/');
       }
+
     },
     props:['page']
   }

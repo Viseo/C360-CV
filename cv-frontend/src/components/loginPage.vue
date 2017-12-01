@@ -206,6 +206,8 @@
       }
     },
     mounted:function(){
+
+
       if(this.$store.state.userLogged.id != -1){
         if(this.$store.state.userLogged.isAdmin){
           this.$router.push('/admincv');
@@ -503,6 +505,7 @@
           alert("Veuillez remplir tous les champs correctement");
         }
       }
+
     },
     components:{
       banner:banner,

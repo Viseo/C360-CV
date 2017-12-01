@@ -1,5 +1,5 @@
 INSERT INTO users (last_update_date,id, first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES
-  (now(),100000, 'GU', 'Leo', 'test1@test.com','AAA1111','Stagiaire','3','01/01/1994','mastermind actions','0614253647','bcb15f821479b4d5772bd0ca866c00ad5f926e3580720659cc80d39c9d09802a','../../static/users/maxime.png','false')
+  (TIMESTAMP 'yesterday',100000, 'GU', 'Leo', 'test1@test.com','AAA1221','Stagiaire','3','01/01/1994','mastermind actions','0614253647','bcb15f821479b4d5772bd0ca866c00ad5f926e3580720659cc80d39c9d09802a','../../static/users/maxime.png','false')
 
 /*
 INSERT INTO users (first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES

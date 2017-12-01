@@ -33,6 +33,7 @@ public class ConnectionMessage extends RabbitMsg{
         return userDto;
     }
 
+    @JsonProperty("collaboratorDescription")
     public ConnectionMessage setUserDto(UserDto userDto) {
         this.userDto = userDto;
         return this;

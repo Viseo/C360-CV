@@ -156,6 +156,65 @@ public class AccountController {
         return this.accountService.updateUser(user);
     }
 
+    @CrossOrigin (origins =  "${server.front}")
+    @RequestMapping(path = "/getuserifalreadyconnectedelsewhere", method = POST)
+    public String getUserIfAlreadyConnectedElseWhere(@RequestBody String theToken){
+        try{
+            ConnectionMessage request = new ConnectionMessage();
+            UUID personalMessageSequence = UUID.randomUUID();
+            request.setSequence(personalMessageSequence)
+                    .setToken(theToken.substring(0, theToken.length() - 1)) //why there's a '=' at the end?
+                    .setMessageDate(new Date())
+                    .setNameFileResponse(responseCV.getName());
+            ObjectMapper mapper = new ObjectMapper();
+            rabbitTemplate.convertAndSend(fanout.getName(), "", mapper.writeValueAsString(request));
+            ConnectionMessage connectedUser = this.rabbitTemplate.execute(new ChannelCallback<ConnectionMessage>() {
+                @Override
+                public ConnectionMessage doInRabbit(Channel channel) throws Exception {
+                    long startTime = System.currentTimeMillis();
+                    long elapsedTime = 0;
+                    ConnectionMessage mostRecentConsumerResponse = null;
+                    GetResponse consumerResponse;
+                    long deliveryTag;
+                    sleep();
+                    do{
+                        elapsedTime = (new Date()).getTime() - startTime;
+                        consumerResponse = channel.basicGet(responseCV.getName(), false);
+                        if(consumerResponse != null){
+                            deliveryTag = consumerResponse.getEnvelope().getDeliveryTag();
+                            channel.basicAck(deliveryTag, true);
+                            JSONObject jo = (JSONObject) new JSONParser().parse(new String(consumerResponse.getBody(), StandardCharsets.UTF_8));
+                            RabbitMsg rbtMsg = ResolveMsgFactory.getFactory().get(jo.get("type")).apply(jo);
+                            if(rbtMsg.getType() == MessageType.CONNECTION){
+                                ConnectionMessage rabbitMessageResponse = new ObjectMapper().readValue(consumerResponse.getBody(), ConnectionMessage.class);
+                                if (rabbitMessageResponse.getSequence().equals(personalMessageSequence)){
+                                    if (mostRecentConsumerResponse == null ||
+                                            rabbitMessageResponse.getUserDto().getLastUpdateDate()
+                                                .after(mostRecentConsumerResponse.getUserDto().getLastUpdateDate())){
+                                        mostRecentConsumerResponse = rabbitMessageResponse;
+                                    }
+                                }
+                                else{
+                                    channel.basicPublish("", responseCV.getName(), null, consumerResponse.getBody());
+                                }
+                            }
+                            else{
+                                channel.basicPublish("", responseCV.getName(), null, consumerResponse.getBody());
+                            }
+                        }
+                    } while (consumerResponse != null && elapsedTime < 2000);
+                    return mostRecentConsumerResponse;
+                }
+            });
+            if (connectedUser != null)
+                return login(connectedUser.getUserDto().getMail(),connectedUser.getUserDto().getPassword());
+            return null;
+        }
+        catch(Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
     private UserDto checkIfUserExistElsewhere(String mail, String password){
         UserDto inputUserDto = new UserDto();
         inputUserDto.setMail(mail);
@@ -237,12 +296,12 @@ public class AccountController {
             UserDto storedUserDto = new UserToDtoConverter().convert(myUser);
             if(receivedUser == null
                     || receivedUser.getFirstName() == null
-                    || storedUserDto.getPassword().equals(receivedUser.getPassword())
-                    || storedUserDto.getLastUpdateDate().after(receivedUser.getLastUpdateDate())){
+                    || (storedUserDto.getPassword().equals(receivedUser.getPassword())
+                        && storedUserDto.getLastUpdateDate().after(receivedUser.getLastUpdateDate()))){
                 System.out.println("MOT DE PASSE IDENTIQUE OU PLUS RECENT");
                 return storedUserDto;
             }
-            else if ((password == receivedUser.getPassword())
+            else if ((password.equals(receivedUser.getPassword()))
                     && storedUserDto.getLastUpdateDate().before(receivedUser.getLastUpdateDate())){
                 storedUserDto.setPassword(password);
                 return new UserToDtoConverter().convert(updateUser(storedUserDto));

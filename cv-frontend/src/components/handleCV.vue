@@ -92,6 +92,7 @@
     */
     mounted: function(){
       let id = this.$store.state.userLogged.id;
+      console.log(id);
       axios.get(config.server + '/api/getUser', {
         params: {
           id: id
