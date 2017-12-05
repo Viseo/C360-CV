@@ -47,6 +47,7 @@ public class ResolveMsgFactory {
                 }
             });
             factory.put(MessageType.INFORMATION.toString(),json->{
+                //TO DO
                 /*
                 //ObjectMapper objectMapper = new ObjectMapper();
                 InformationMessage informationMessage = new InformationMessage();
@@ -57,6 +58,24 @@ public class ResolveMsgFactory {
                     return informationMessage;
                 }catch (Exception e){
                     throw new RuntimeException(e);
+                }
+                */
+                return null;
+            });
+            factory.put(MessageType.DISCONNECTION.toString(), json->{
+                //TO DO
+                /*
+                ObjectMapper objectMapper = new ObjectMapper();
+                DisconnectionMessage disconnectionMessage = new DisconnectionMessage();
+                try{
+                    disconnectionMessage.setToken((String)json.get("token"))
+                            .setNameFileResponse((String)json.get("nameFileResponse"));
+                    if(json.get("collaboratorDescription") != null){
+                        disconnectionMessage.setCollaboratorDescription(objectMapper.readValue(json.get("collaboratorDescription").toString(), CollaboratorDescription.class));
+                    }
+                    return disconnectionMessage;
+                }catch (IOException ioe){
+                    throw new RuntimeException(ioe);
                 }
                 */
                 return null;

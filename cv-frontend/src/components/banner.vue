@@ -5,10 +5,10 @@
       <div class="menus">
         <div>{{page}}</div>
         <div>
-          <div @mouseover="toggleShowMenuProfil"> {{userName}} </div>
+          <div @click="toggleShowMenuProfil" style="cursor: pointer;"> {{userName}} </div>
           <menuProfil :showMenuProfil="showMenuProfil"  @toggledMenuProfil="toggleShowMenuProfil" @signOut="signOut"></menuProfil>
         </div>
-        <div v-on:mouseover="toggleShowMenu"  class="bannerIcon">
+        <div @click="toggleShowMenu"  class="bannerIcon">
           <i class="fa fa-th" v-bind:style="styleColorIcon"></i>
         </div>
       </div>
@@ -52,6 +52,7 @@
         },
         styleColorIcon:{
           color:'rgb(255,146,0)',
+          cursor: 'pointer'
         }
       }
     },
