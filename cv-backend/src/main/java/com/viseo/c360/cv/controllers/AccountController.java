@@ -25,7 +25,11 @@ import org.springframework.amqp.rabbit.core.ChannelCallback;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.support.ReplaceOverride;
+import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -61,6 +65,7 @@ public class AccountController {
 
     private String compactJws;
     private static final Map<String, UserDto> mapUserCache = new ConcurrentHashMap<>();
+    private boolean compteExisteInOtherApp = false;
 
     private String createSecurityToken(UserDto user){
         return Jwts.builder()
@@ -99,7 +104,66 @@ public class AccountController {
 
     @CrossOrigin (origins =  "${server.front}")
     @RequestMapping(path = "/register", method = POST)
-    public String register(@RequestBody @Valid UserDto user){
+    public String register(@RequestBody UserDto user){
+        ConnectionMessage checkIfUserExist = new ConnectionMessage();
+        UUID personalMessageSequence = UUID.randomUUID();
+        checkIfUserExist.setUserDto(user)
+                .setNameFileResponse(responseCV.getName())
+                .setSequence(personalMessageSequence)
+                .setMessageDate(new Date());
+        ObjectMapper mapper = new ObjectMapper();
+        try{
+            rabbitTemplate.convertAndSend(fanout.getName(),"",mapper.writeValueAsString(checkIfUserExist));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        this.rabbitTemplate.execute(new ChannelCallback<ConnectionMessage>() {
+            @Override
+            public ConnectionMessage doInRabbit(Channel channel) throws Exception {
+                long startTime = System.currentTimeMillis();
+                long elapsedTime = 0;
+                ConnectionMessage mostRecentConsumerResponse = null;
+                GetResponse consumerResponse;
+                long deliveryTag;
+                sleep();
+                do{
+                    elapsedTime = (new Date()).getTime() - startTime;
+                    consumerResponse = channel.basicGet(responseCV.getName(),false);
+                    if(consumerResponse != null){
+                        deliveryTag = consumerResponse.getEnvelope().getDeliveryTag();
+                        ConnectionMessage rabbitMessageResponse = new ObjectMapper().readValue(consumerResponse.getBody(), ConnectionMessage.class);
+                        channel.basicAck(deliveryTag, true);
+                        if (rabbitMessageResponse.getSequence().equals(personalMessageSequence)) {
+                            if (mostRecentConsumerResponse == null ||
+                                    rabbitMessageResponse.getUserDto().getLastUpdateDate()
+                                            .after(mostRecentConsumerResponse.getUserDto().getLastUpdateDate())) {
+                                mostRecentConsumerResponse = rabbitMessageResponse;
+                            }
+                        } else {
+                            channel.basicPublish("", responseCV.getName(), null, consumerResponse.getBody());
+                        }
+                        System.out.println("compte existe!");
+                        compteExisteInOtherApp = true;
+                        return null;
+                    }
+                    else{
+                        System.out.println("compte existe pas!");
+                        compteExisteInOtherApp = false;
+                    }
+                }while (consumerResponse != null && elapsedTime < 2000);
+                return mostRecentConsumerResponse;
+            }
+        });
+        if (compteExisteInOtherApp){
+            //if the email is already exist in other microservice
+            throw new RuntimeException("email");
+        }
+        String tokenToReturn = addUserDirectly(user);
+        return tokenToReturn;
+    }
+
+    private String addUserDirectly(UserDto user){
         try{
             user.setAdmin(false);
             this.accountService.add(user);
@@ -317,6 +381,45 @@ public class AccountController {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
+        }
+    }
+
+    public UserDto checkIfAlreadyConnected(RabbitMsg msg) {
+        try {
+            UserDto user = null;
+            if (msg.getType() == MessageType.CONNECTION) {
+                ConnectionMessage message = (ConnectionMessage) msg;
+                user = mapUserCache.get(message.getToken());
+                if (user != null) {
+                    ConnectionMessage response = new ConnectionMessage().setNameFileResponse(message.getNameFileResponse())
+                            .setUserDto(user)
+                            .setMessageDate(new Date())
+                            .setSequence(message.getSequence());
+                    ObjectMapper mapper = new ObjectMapper();
+                    System.out.println("Collaborateur envoyé : " + mapper.writeValueAsString(response));
+                    rabbitTemplate.convertAndSend(message.getNameFileResponse(), mapper.writeValueAsString(response));
+                }
+            }/* else if (msg.getType() == MessageType.DISCONNECTION) {
+                String token = null;
+                DisconnectionMessage message = (DisconnectionMessage) msg;
+                System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA : " + message.getCollaboratorDescription());
+                if(!message.getNameFileResponse().equals(this.responseCompetence.getName())){
+                    CollaboratorDescription collaborator = message.getCollaboratorDescription();
+                    for (String t : mapUserCache.keySet()){
+                        if (mapUserCache.get(t).getEmail().equals(collaborator.getEmail())){
+                            token = t;
+                            System.out.println("Reomving token : " + token);
+                            mapUserCache.remove(token);
+                            compactJws = null;
+                            break;
+                        }
+                    }
+                }
+            }*/
+            return user;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

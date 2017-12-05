@@ -97,19 +97,30 @@ public class UsersEntity extends BaseEntity {
         this.birth_date = birth_date;
     }
 
-    @JsonProperty("email")
+
     public String getMail() {
         return mail;
     }
+
+    @JsonProperty("email")
+    public String getEmail(){ return this.getMail(); }
 
     public void setMail(String mail) {
         this.mail = mail;
     }
 
-    @JsonProperty("personnalIdNumber")
+    @JsonProperty("email")
+    public void setEmail(String email){this.setMail(email);}
+
     public String getLogin() {
         return login;
     }
+
+    @JsonProperty("personnalIdNumber")
+    public String getPersonnalIdNumber() { return this.getLogin(); }
+
+    @JsonProperty("personnalIdNumber")
+    public void setPersonnalIdNumber(String personnalIdNumber){this.setLogin(personnalIdNumber);}
 
     public void setLogin(String login) {
         this.login = login;

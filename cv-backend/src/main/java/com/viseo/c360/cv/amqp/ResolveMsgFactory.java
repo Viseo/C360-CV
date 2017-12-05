@@ -46,6 +46,22 @@ public class ResolveMsgFactory {
                     throw new RuntimeException(ioe);
                 }
             });
+            factory.put(MessageType.INFORMATION.toString(),json->{
+                /*
+                //ObjectMapper objectMapper = new ObjectMapper();
+                InformationMessage informationMessage = new InformationMessage();
+                try{
+                    informationMessage.setNameFileResponse((String)json.get("nameFileResponse"))
+                            .setSequence(UUID.fromString((String)json.get("sequence")))
+                            .setMessageDate(new Date((long)json.get("messageDate")));
+                    return informationMessage;
+                }catch (Exception e){
+                    throw new RuntimeException(e);
+                }
+                */
+                return null;
+            });
+
             initialization = true;
         }
         return factory;

@@ -6,13 +6,15 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
-import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RequestProducerConfig {
 
+    @Autowired
+    ConsumerMessageHandler consumerMessageHandler;
 
     @Bean
     public ConnectionFactory connectionFactory() {
@@ -77,13 +79,18 @@ public class RequestProducerConfig {
     public Binding binding3(FanoutExchange fanoutExchange, Queue fanoutQueue3) {
         return BindingBuilder.bind(fanoutQueue3).to(fanoutExchange);
     }
-
+/*
+    @Bean
+    public ConsumerMessageHandler consumerMessageHandler(){
+        return new ConsumerMessageHandler();
+    }
+*/
     @Bean
     public SimpleMessageListenerContainer listenerContainer() {
         SimpleMessageListenerContainer listenerContainer = new SimpleMessageListenerContainer();
         listenerContainer.setQueueNames(fanoutQueue3().getName());
         listenerContainer.setConnectionFactory(connectionFactory());
-        listenerContainer.setMessageListener(new MessageListenerAdapter(new ConsumerMessageHandler()));
+        listenerContainer.setMessageListener(new MessageListenerAdapter(consumerMessageHandler));
         listenerContainer.setAcknowledgeMode(AcknowledgeMode.NONE);
         return listenerContainer;
     }

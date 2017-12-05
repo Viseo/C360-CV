@@ -5,6 +5,7 @@ import com.viseo.c360.cv.models.entities.UsersEntity;
 
 import java.util.List;
 
+
 public interface AccountService {
 
     UsersEntity exist(String mail, String password);

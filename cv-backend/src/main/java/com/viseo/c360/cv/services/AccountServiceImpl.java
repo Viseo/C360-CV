@@ -6,6 +6,7 @@ import com.viseo.c360.cv.models.dto.UserDto;
 import com.viseo.c360.cv.models.entities.UsersEntity;
 import com.viseo.c360.cv.repositories.AccountDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 

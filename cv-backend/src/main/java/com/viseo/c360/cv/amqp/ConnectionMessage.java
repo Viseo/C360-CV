@@ -3,7 +3,6 @@ package com.viseo.c360.cv.amqp;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.viseo.c360.cv.models.dto.UserDto;
 
-import javax.inject.Inject;
 import java.util.Date;
 import java.util.UUID;
 
@@ -13,7 +12,6 @@ import java.util.UUID;
 
 public class ConnectionMessage extends RabbitMsg{
 
-    @Inject
     private UserDto userDto;
 
     private UUID sequence;

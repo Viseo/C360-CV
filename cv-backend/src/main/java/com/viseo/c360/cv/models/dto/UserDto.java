@@ -67,6 +67,8 @@ public class UserDto {
     }
 
     @JsonProperty("email")
+    public String getEmail() {return this.getMail();}
+
     public String getMail() {
         return mail;
     }
@@ -75,10 +77,18 @@ public class UserDto {
         this.mail = mail;
     }
 
-    @JsonProperty("personnalIdNumber")
+    @JsonProperty("email")
+    public void setEmail(String email){this.setMail(email);}
+
     public String getLogin() {
         return login;
     }
+
+    @JsonProperty("personnalIdNumber")
+    public String getPersonnalIdNumber() {return this.getLogin();}
+
+    @JsonProperty("personnalIdNumber")
+    public void setPersonnalIdNumber(String personnalIdNumber){this.setLogin(personnalIdNumber);}
 
     public void setLogin(String login) {
         this.login = login;

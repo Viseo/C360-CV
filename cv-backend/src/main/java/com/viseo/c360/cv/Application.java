@@ -3,6 +3,7 @@
  */
 package com.viseo.c360.cv;
 
+import com.viseo.c360.cv.amqp.ConsumerMessageHandler;
 import com.viseo.c360.cv.converters.UserToDtoConverter;
 import com.viseo.c360.cv.converters.UserToEntityConverter;
 import org.springframework.beans.factory.annotation.Autowired;
