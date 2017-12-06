@@ -68,8 +68,8 @@
           show: false,
           showPDF: false,
           infoUser: initInfoPerso,
-          missions:[{id:0,name: "", beginDate: "",
-            endDate: "", client: "", description: "",type: 'mission',skills:[]}],
+          missions:[{id:0,name: "", beginDate: new Date(),
+            endDate: new Date(), client: "", description: "",type: 'mission',skills:[]}],
           currentBlock:0,
           domain:""
         }
@@ -100,35 +100,44 @@
       })
         .then((response) => {
 
-          var birthDate = new Date(response.data.birth_date);
+         // var birthDate = new Date(response.data.birth_date);
+          var languages = response.data.languages;
+          if (languages != undefined){
+            languages = response.data.languages.map(
+              function (elem) {
+                return elem.label;
+              }).join(" ");
+          }
+          else{
+            languages = [];
+          }
+          if (response.data.missions == undefined){
+            response.data.missions = [];
+          }
           this.infoUser = {
             id:response.data.id,
             login:response.data.login,
             lastName: response.data.lastName,
             firstName: response.data.firstName,
             birth: response.data.birth_date,
-            birthDate: birthDate.getFullYear() + "-" +
-            ("0" + (parseInt(birthDate.getMonth()) + 1)).slice(-2) + "-" +
-            ("0" + birthDate.getDate()).slice(-2),
+            birthDate: new Date(response.data.birth_date).getFullYear() + "-" +
+            ("0" + (parseInt(new Date(response.data.birth_date).getMonth()) + 1)).slice(-2) + "-" +
+            ("0" + new Date(response.data.birth_date).getDate()).slice(-2),
             position: response.data.position,
             experience: response.data.experience,
             mail: response.data.mail,
             telephone: response.data.telephone,
             hobbies: response.data.hobbies,
-            languages: response.data.languages.map(
-              function (elem) {
-                return elem.label;
-              }).join(" "),
+            languages: languages,
             picture: response.data.picture,
             admin: response.data.admin,
             password: response.data.password
           };
-          if(response.data.missions.length==0){
+          if(response.data.missions != undefined || response.data.missions.length==0){
             this.missions=[
-              {id:0,title: "", beginDate: "",
-                endDate: "", clientId:{id:0,label:"",domain:""}, description: "",typeMissions:{id:1,label:'mission'},skills:[]}
+              {id:0,title: "", beginDate: new Date(),
+                endDate: new Date(), clientId:{id:0,label:"",domain:""}, description: "",typeMissions:{id:1,label:'mission'},skills:[]}
             ];
-
             this.currentBlock=this.missions.length-1;
             this.getInfoMission(this.missions.length-1);
 
@@ -227,6 +236,8 @@
             user.missions[i].beginDate=tmpBegin.getTime();
             user.missions[i].endDate=tmpEnd.getTime();
           }
+          //TEST CODE
+          user.languages = [];
 
           axios.post(config.server + '/api/updateUser', user)
             .then((response)=>{

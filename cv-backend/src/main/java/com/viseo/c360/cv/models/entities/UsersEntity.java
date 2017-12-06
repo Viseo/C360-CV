@@ -1,7 +1,10 @@
 package com.viseo.c360.cv.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
@@ -56,7 +59,9 @@ public class UsersEntity extends BaseEntity {
     @Column
     private Date lastUpdateDate;
 
-    @ManyToMany
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    //@LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name="USERS_LANGUAGES",
             joinColumns=@JoinColumn(name="user_id"),
@@ -64,7 +69,9 @@ public class UsersEntity extends BaseEntity {
     )
     private List <LanguagesEntity> languages;
 
-    @ManyToMany
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    //@LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name="USERS_MISSIONS",
             joinColumns=@JoinColumn(name="user_id"),

@@ -2,6 +2,7 @@ package com.viseo.c360.cv.amqp;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.viseo.c360.cv.controllers.AccountController;
 import com.viseo.c360.cv.converters.UserToDtoConverter;
 import com.viseo.c360.cv.models.dto.UserDto;
@@ -64,6 +65,7 @@ public class ConsumerMessageHandler {
                         connectionMessageResponse.setUserDto(new UserToDtoConverter().convert(c));
                         if (!connectionMessageResponse.getNameFileResponse().equals(responseCompetence.getName())) {
                             ObjectMapper mapper = new ObjectMapper();
+                            mapper.registerModule(new Hibernate5Module());
                             try{
                                 rabbitTemplate.convertAndSend(connectionMessageResponse.getNameFileResponse(), mapper.writeValueAsString(connectionMessageResponse));
                                 System.out.println("Collaborateur envoyé : " + mapper.writeValueAsString(connectionMessageResponse));
