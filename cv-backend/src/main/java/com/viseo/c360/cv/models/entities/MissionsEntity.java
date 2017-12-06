@@ -25,7 +25,7 @@ public class MissionsEntity extends BaseEntity {
     @Column
     private String description;
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="client_id")
     private ClientsEntity clientId;
 

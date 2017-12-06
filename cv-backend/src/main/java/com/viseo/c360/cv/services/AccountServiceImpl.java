@@ -61,8 +61,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     public UsersEntity updateUser(UserDto user){
-        UsersEntity convertedUser = userToEntityConverter.convert(user);
         user.setLastUpdateDate(new Date());
+        UsersEntity convertedUser = userToEntityConverter.convert(user);
+
         return accountDAO.save(convertedUser);
     }
 }
