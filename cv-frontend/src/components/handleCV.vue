@@ -228,13 +228,8 @@
           };
           user.missions = this.missions;
           for (let i in user.missions) {
-            let tabBegin = user.missions[i].beginDate.split("-");
-            let tmpBegin = new Date(tabBegin[0],tabBegin[1],tabBegin[2]);
-            let tabEnd = user.missions[i].endDate.split("-");
-            let tmpEnd = new Date(tabEnd[0],tabEnd[1],tabEnd[2]);
-
-            user.missions[i].beginDate=tmpBegin.getTime();
-            user.missions[i].endDate=tmpEnd.getTime();
+            user.missions[i].beginDate = new Date(user.missions[i].beginDate).toUTCString();
+            user.missions[i].endDate = new Date(user.missions[i].endDate).toUTCString();
           }
           //TEST CODE
           user.languages = [];

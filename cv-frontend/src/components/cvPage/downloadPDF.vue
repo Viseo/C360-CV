@@ -6,6 +6,7 @@
       <div class="downloadPDF" @click="printPDF">Télécharger le PDF</div>
     </div>
     <span id="toValidate" style="opacity: 0; font-size: 10px; display: none">Veuillez remplir correctement le formulaire</span>
+    <span style="color:green;" v-show="saveSuccessfully">Enregistrement avec succès!</span>
   </div>
 
 </template>
@@ -24,6 +25,8 @@
       printPDF: function () {
           let toShow = false;
           let messageError = document.getElementById("toValidate");
+          /*
+          Test!!!!!!
           for(let mission of this.missions){
               if((mission.description == "" ||mission.name == "" || mission.beginDate == "" || mission.client == "" || mission.type == "")){
                   toShow = true;
@@ -35,6 +38,7 @@
                   break;
               }
           }
+          */
           if(!toShow){
               messageError.style.display = "none";
               var printContents = document.getElementById('PDF').innerHTML;

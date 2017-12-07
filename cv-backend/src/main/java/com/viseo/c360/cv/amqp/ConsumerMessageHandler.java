@@ -63,7 +63,7 @@ public class ConsumerMessageHandler {
                     UsersEntity c = this.accountService.mailExist(collaborator.getMail());
                     if (c != null){
                         connectionMessageResponse.setUserDto(new UserToDtoConverter().convert(c));
-                        if (!connectionMessageResponse.getNameFileResponse().equals(responseCompetence.getName())) {
+                        if (!connectionMessageResponse.getNameFileResponse().equals(responseCV.getName())) {
                             ObjectMapper mapper = new ObjectMapper();
                             mapper.registerModule(new Hibernate5Module());
                             try{
