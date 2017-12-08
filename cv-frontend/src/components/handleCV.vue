@@ -11,14 +11,19 @@
           <div style="display: flex; flex-direction: row;"><i class="fa fa-briefcase fa-lg briefcase"></i><p style="margin: 0">Gestion des Missions</p></div>
           <div style="display: flex; flex-direction: row;margin-right: 10px; cursor: pointer;" @click="showPDF=!showPDF"><div style="display: flex;margin-right: 10px">Afficher aperçu PDF</div><i class="fa fa-binoculars"></i></div>
         </div>
+        <!--
         <registermission :currentBlock="currentBlock" :titleMission="missions[currentBlock].title" :beginDate="missions[currentBlock].beginDate"
                          :client="missions[currentBlock].clientId?missions[currentBlock].clientId.label:''" :description="missions[currentBlock].description"
                          :typeM="missions[currentBlock].clientId?missions[currentBlock].typeMissions.label:''"
                          :today="today" :domain="missions[currentBlock].clientId?missions[currentBlock].clientId.domain:''" :endDate="missions[currentBlock].endDate"
                          @updateSector="updateSector" @updateProps="updateMission"></registermission>
-
+        -->
+        <registermission></registermission>
+        <!--
         <skills v-bind:currentSkills="missions[currentBlock].skills" :block="currentBlock" v-on:updateSkills="updateSkills"></skills>
-        <listMissions @getInfoMission="getInfoMission" v-bind:missions="missions" :block="currentBlock" v-on:addMission="addMission" v-on:deleteMission="deleteMission"></listMissions>
+        -->
+        <skills></skills>
+        <listMissions @getInfoMission="getInfoMission" :block="currentBlock" v-on:addMission="addMission" v-on:deleteMission="deleteMission"></listMissions>
       </div>
     </div>
     <div v-show="showPDF" class="grayer" @click="closePDF"></div>
@@ -39,20 +44,6 @@
   import axios from 'axios'
   import config from '../config/config'
 
-  let initInfoPerso = {
-    lastName: 'Collab',
-    firstName: 'Viseo',
-    birth: '1999-01-01',
-    position: 'Awesome Engineer',
-    experience: '18 ans',
-    mail: 'viseo@viseo.com',
-    telephone: '0615482659',
-    hobbies: 'Développement Agile',
-    languages: 'Anglais',
-    picture: '../../static/users/mocha.svg',
-    age: '18',
-  };
-
   export default {
     components: {
       informationForm: formulaire,
@@ -67,9 +58,8 @@
         return {
           show: false,
           showPDF: false,
-          infoUser: initInfoPerso,
-          missions:[{id:0,name: "", beginDate: new Date(),
-            endDate: new Date(), client: "", description: "",type: 'mission',skills:[]}],
+          infoUser: this.$store.state.userLogged,
+          missions: this.$store.state.userLogged.missions,
           currentBlock:0,
           domain:""
         }
@@ -146,18 +136,7 @@
             this.missions = response.data.missions;
           }
 
-          for (let i in this.missions) {
-            let tmp = new Date(this.missions[i].beginDate);
-            let tmpEnd = new Date(this.missions[i].endDate);
 
-            this.missions[i].beginDate = tmp.getFullYear() + "-" +
-              ("0" + (parseInt(tmp.getMonth()) + 1)).slice(-2) + "-" +
-              ("0" + tmp.getDate()).slice(-2);
-
-            this.missions[i].endDate = tmpEnd.getFullYear() + "-" +
-              ("0" + (parseInt(tmpEnd.getMonth()) + 1)).slice(-2) + "-" +
-              ("0" + tmpEnd.getDate()).slice(-2);
-          }
 
           this.currentBlock = 0;
 
@@ -171,10 +150,12 @@
             this.currentBlock=index;
         },
         addMission() {
+          /*
             this.missions.push({id:0,title: "", beginDate: "",
               endDate: "", clientId:{id:0,label:"",domain:""}, description: "",typeMissions:{id:1,label:'mission'},skills:[]});
             this.currentBlock=this.missions.length-1;
             this.getInfoMission(this.missions.length-1);
+            */
         },
         deleteMission(){
             setTimeout(()=>{
@@ -201,12 +182,14 @@
           }
         },
         updateMission:function(name,client,dateB,dateE,descr,type){
+          /*
             this.missions[this.currentBlock].title=name;
             this.missions[this.currentBlock].clientId.label=client;
             this.missions[this.currentBlock].beginDate=dateB;
             this.missions[this.currentBlock].endDate=dateE;
             this.missions[this.currentBlock].description=descr;
             this.missions[this.currentBlock].typeMissions.label=type;
+            */
         },
         updateUserBDD:function(){
           let birth = this.infoUser.birthDate.split("-");
@@ -227,10 +210,7 @@
             admin: this.infoUser.admin
           };
           user.missions = this.missions;
-          for (let i in user.missions) {
-            user.missions[i].beginDate = new Date(user.missions[i].beginDate).toUTCString();
-            user.missions[i].endDate = new Date(user.missions[i].endDate).toUTCString();
-          }
+
           //TEST CODE
           user.languages = [];
 

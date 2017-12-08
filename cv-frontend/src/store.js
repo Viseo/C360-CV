@@ -20,7 +20,9 @@ var storeInit = {
       mail: "",
       picture: "",
       position: "",
-      telephone: ""
+      telephone: "",
+      missions:[],
+      language:[]
     },
     token : ''
 };
@@ -31,6 +33,19 @@ export const store = new Vuex.Store({
       setToken(state, userToken){
         state.token = userToken;
         Object.assign(state.userLogged, jwtDecode(userToken));
+        for (let i in state.userLogged.missions) {
+          state.userLogged.missions[i].beginDate = new Date(state.userLogged.missions[i].beginDate).toUTCString();
+          state.userLogged.missions[i].endDate = new Date(state.userLogged.missions[i].endDate).toUTCString();
+          let tmp = new Date(state.userLogged.missions[i].beginDate);
+          let tmpEnd = new Date(state.userLogged.missions[i].endDate);
+          state.userLogged.missions[i].beginDate = tmp.getFullYear() + "-" +
+            ("0" + (parseInt(tmp.getMonth()) + 1)).slice(-2) + "-" +
+            ("0" + tmp.getDate()).slice(-2);
+
+          state.userLogged.missions[i].endDate = tmpEnd.getFullYear() + "-" +
+            ("0" + (parseInt(tmpEnd.getMonth()) + 1)).slice(-2) + "-" +
+            ("0" + tmpEnd.getDate()).slice(-2);
+        }
       },
 
       resetStore(state) {
@@ -47,7 +62,9 @@ export const store = new Vuex.Store({
             mail: "",
             picture: "",
             position: "",
-            telephone: ""
+            telephone: "",
+            missions:[],
+            language:[]
           },
           token : ''
         });

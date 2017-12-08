@@ -111,7 +111,17 @@
         imageLink:"static/img/add.png",
         chevronLeft:"fa fa-angle-left fa-3x",
         chevronRight:"fa fa-angle-right fa-3x",
-        trash:"fa fa-trash"
+        trash:"fa fa-trash",
+        missions:this.$store.state.userLogged.missions
+      }
+    },
+    computed:{
+
+      missionsBeginDate: function(){
+
+      },
+      missionsEndDate: function(){
+
       }
     },
     methods:{
@@ -245,7 +255,7 @@
       }
     },
     props:[
-      'missions',"block"
+      "block"
     ]
   }
 </script>

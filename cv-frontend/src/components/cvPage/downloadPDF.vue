@@ -15,6 +15,11 @@
 
 
   export default {
+    data(){
+      return {
+        saveSuccessfully : false
+      }
+    },
     methods:{
       saveButton: function () {
         this.$emit("saveData");

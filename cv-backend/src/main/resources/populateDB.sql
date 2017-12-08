@@ -1,9 +1,16 @@
-INSERT INTO users (last_update_date,id, first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES
-  (TIMESTAMP 'yesterday',200000, 'GU', 'Leo', 'test1@test.com','AAA1221','Stagiaire','3','01/01/1994','mastermind actions','0614253647','bcb15f821479b4d5772bd0ca866c00ad5f926e3580720659cc80d39c9d09802a','../../static/users/maxime.png','false');
+INSERT INTO languages VALUES (1,'Français');
 INSERT INTO type_missions (id,label) VALUES
   (1,'Séminaire');
+INSERT INTO users (last_update_date,id, first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES
+  (TIMESTAMP 'yesterday', 200000, 'GU', 'Leo', 'test1@test.com','AAA1221','Stagiaire','3','01/01/1994','mastermind actions','0614253647','bcb15f821479b4d5772bd0ca866c00ad5f926e3580720659cc80d39c9d09802a','../../static/users/maxime.png','false');
 INSERT INTO clients (id,label, domain, description) VALUES
-  (0,'Henri','CONSEIL','Projet pour Henri comme ilearning et un supermarché virtuel');
+  (1,'Henri','CONSEIL','Projet pour Henri comme ilearning et un supermarché virtuel');
+INSERT INTO missions (id, title, begin_date, end_date, client_id, description, type_id) VALUES
+  (1,'Viseo Intern','01/01/2016','01/01/2017','1','Développement du démonstrateur DigiMarket','1');
+INSERT INTO users_missions VALUES (200000,1);
+INSERT INTO users_languages (user_id, language_id) VALUES
+  ('200000','1');
+
 /*
 INSERT INTO users (first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES
   ('Maxime', 'Zarrin', 'maxime.zarrin@viseo.com','MZA4571','Stagiaire','3','10/06/1994','mastermind actions','0614253647','fd907eb6a93e49bb0ca5aa22f68bb2d66e0218dc','../../static/users/maxime.png','false'),

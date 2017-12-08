@@ -84,6 +84,8 @@ public class AccountController {
                 .claim("position", user.getPosition())
                 .claim("picture",user.getPicture())
                 .claim("telephone", user.getTelephone())
+                .claim("missions", user.getMissions())
+                .claim("languages", user.getLanguages())
                 //.signWith(SignatureAlgorithm.HS512, generateKey())
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
