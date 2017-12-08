@@ -22,7 +22,7 @@ var storeInit = {
       position: "",
       telephone: "",
       missions:[],
-      language:[]
+      languages:[]
     },
     token : ''
 };
@@ -33,6 +33,7 @@ export const store = new Vuex.Store({
       setToken(state, userToken){
         state.token = userToken;
         Object.assign(state.userLogged, jwtDecode(userToken));
+        //convert missions date to yyyy-mm-dd type
         for (let i in state.userLogged.missions) {
           state.userLogged.missions[i].beginDate = new Date(state.userLogged.missions[i].beginDate).toUTCString();
           state.userLogged.missions[i].endDate = new Date(state.userLogged.missions[i].endDate).toUTCString();
@@ -41,10 +42,22 @@ export const store = new Vuex.Store({
           state.userLogged.missions[i].beginDate = tmp.getFullYear() + "-" +
             ("0" + (parseInt(tmp.getMonth()) + 1)).slice(-2) + "-" +
             ("0" + tmp.getDate()).slice(-2);
-
           state.userLogged.missions[i].endDate = tmpEnd.getFullYear() + "-" +
             ("0" + (parseInt(tmpEnd.getMonth()) + 1)).slice(-2) + "-" +
             ("0" + tmpEnd.getDate()).slice(-2);
+        }
+        //convert birthday to yyyy-mm-dd type
+        state.userLogged.birth_date = new Date(state.userLogged.birth_date).getFullYear() + "-" +
+          ("0" + (parseInt(new Date(state.userLogged.birth_date).getMonth()) + 1)).slice(-2) + "-" +
+          ("0" + new Date(state.userLogged.birth_date).getDate()).slice(-2);
+        if (state.userLogged.languages != undefined){
+          state.userLogged.languages = state.userLogged.languages.map(
+            function (elem) {
+              return elem.label;
+            }).join(" ");
+        }
+        else{
+          state.userLogged.languages = [];
         }
       },
 
@@ -64,7 +77,7 @@ export const store = new Vuex.Store({
             position: "",
             telephone: "",
             missions:[],
-            language:[]
+            languages:[]
           },
           token : ''
         });

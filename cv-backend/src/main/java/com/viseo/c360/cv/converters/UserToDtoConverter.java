@@ -1,9 +1,13 @@
 package com.viseo.c360.cv.converters;
 
+import com.viseo.c360.cv.models.dto.LanguageDto;
 import com.viseo.c360.cv.models.dto.UserDto;
 import com.viseo.c360.cv.models.entities.UsersEntity;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ELE3653 on 07/08/2017.
@@ -13,7 +17,7 @@ public class UserToDtoConverter implements Converter <UsersEntity,UserDto>{
     @Nullable
     @Override
     public UserDto convert(UsersEntity usersEntity) {
-
+        LanguageDtoToEntityConverter languageDtoToEntityConverter = new LanguageDtoToEntityConverter();
         UserDto userDto = new UserDto();
         userDto.setLogin(usersEntity.getLogin());
         userDto.setBirth_date(usersEntity.getBirth_date());
@@ -30,7 +34,11 @@ public class UserToDtoConverter implements Converter <UsersEntity,UserDto>{
         userDto.setMissions(usersEntity.getMissions());
         userDto.setId(usersEntity.getId());
         userDto.setLastUpdateDate(usersEntity.getLastUpdateDate());
-//        userDto.setLanguages(usersEntity.getLanguages());
+        List<LanguageDto> languageDtoList = new ArrayList<LanguageDto>();
+        for (int i=0;i<usersEntity.getLanguages().size();i++){
+            languageDtoList.add(languageDtoToEntityConverter.convert(usersEntity.getLanguages().get(i)));
+        }
+        userDto.setLanguages(languageDtoList);
 
         return userDto;
     }

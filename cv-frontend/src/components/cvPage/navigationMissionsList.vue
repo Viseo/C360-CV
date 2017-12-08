@@ -115,15 +115,6 @@
         missions:this.$store.state.userLogged.missions
       }
     },
-    computed:{
-
-      missionsBeginDate: function(){
-
-      },
-      missionsEndDate: function(){
-
-      }
-    },
     methods:{
       trashToRed(e){
         e.target.style.color="red";

@@ -61,7 +61,6 @@ public class UsersEntity extends BaseEntity {
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    //@LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name="USERS_LANGUAGES",
             joinColumns=@JoinColumn(name="user_id"),
@@ -71,7 +70,6 @@ public class UsersEntity extends BaseEntity {
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    //@LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name="USERS_MISSIONS",
             joinColumns=@JoinColumn(name="user_id"),
