@@ -2,7 +2,6 @@ package com.viseo.c360.cv.models.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.viseo.c360.cv.models.entities.MissionsEntity;
 
 import java.util.Date;
 import java.util.List;
@@ -40,7 +39,7 @@ public class UserDto {
 
     private List<LanguageDto> languages;
 
-    private List<MissionsEntity> missions;
+    private List<MissionDto> missions;
 
     public int getId() {
         return id;
@@ -134,11 +133,11 @@ public class UserDto {
         this.languages = languages;
     }
 
-    public List<MissionsEntity> getMissions() {
+    public List<MissionDto> getMissions() {
         return missions;
     }
 
-    public void setMissions(List<MissionsEntity> missions) {
+    public void setMissions(List<MissionDto> missions) {
         this.missions = missions;
     }
 

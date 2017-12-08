@@ -4,7 +4,7 @@ package com.viseo.c360.cv.models.dto;
 /**
  * Created by ELE3653 on 07/08/2017.
  */
-public class SkillsDto {
+public class SkillDto {
 
     private int id;
 
@@ -41,11 +41,11 @@ public class SkillsDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        SkillsDto skillsDto = (SkillsDto) o;
+        SkillDto skillDto = (SkillDto) o;
 
-        if (id != skillsDto.id) return false;
-        if (label != null ? !label.equals(skillsDto.label) : skillsDto.label != null) return false;
-        return domain != null ? domain.equals(skillsDto.domain) : skillsDto.domain == null;
+        if (id != skillDto.id) return false;
+        if (label != null ? !label.equals(skillDto.label) : skillDto.label != null) return false;
+        return domain != null ? domain.equals(skillDto.domain) : skillDto.domain == null;
     }
 
     @Override

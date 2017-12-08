@@ -3,9 +3,8 @@
  */
 package com.viseo.c360.cv;
 
-import com.viseo.c360.cv.amqp.ConsumerMessageHandler;
-import com.viseo.c360.cv.converters.UserToDtoConverter;
-import com.viseo.c360.cv.converters.UserToEntityConverter;
+import com.viseo.c360.cv.converters.UserEntityToDtoConverter;
+import com.viseo.c360.cv.converters.UserDtoToEntityConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,14 +24,14 @@ public class Application {
     private Environment environment;
 
     @Bean
-    public UserToEntityConverter userToEntityConverter() {
-        return new UserToEntityConverter();
+    public UserDtoToEntityConverter userToEntityConverter() {
+        return new UserDtoToEntityConverter();
     }
 
 
     @Bean
-    public UserToDtoConverter userToDtoConverter() {
-        return new UserToDtoConverter();
+    public UserEntityToDtoConverter userToDtoConverter() {
+        return new UserEntityToDtoConverter();
     }
 
     public static void main(String[] args) {

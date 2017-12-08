@@ -1,20 +1,21 @@
 package com.viseo.c360.cv.models.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
-/**
- * Created by ELE3653 on 19/07/2017.
- */
 @Entity
-@Table(name = "skills")
-public class SkillsEntity extends BaseEntity {
+@Table(name = "clients")
+public class ClientEntity extends BaseEntity {
+
     @Column
     private String label;
 
     @Column
     private String domain;
+
+    @Column
+    private String description;
+
 
     public String getLabel() {
         return label;
@@ -22,6 +23,14 @@ public class SkillsEntity extends BaseEntity {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getDomain() {

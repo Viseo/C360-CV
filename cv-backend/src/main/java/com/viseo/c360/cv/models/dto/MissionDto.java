@@ -22,7 +22,7 @@ public class MissionDto {
 
     private TypeMissionsDto typeMissions;
 
-    private List<SkillsDto> skills;
+    private List<SkillDto> skills;
 
     public int getId() {
         return id;
@@ -80,11 +80,11 @@ public class MissionDto {
         this.typeMissions = typeMissions;
     }
 
-    public List<SkillsDto> getSkills() {
+    public List<SkillDto> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<SkillsDto> skills) {
+    public void setSkills(List<SkillDto> skills) {
         this.skills = skills;
     }
 

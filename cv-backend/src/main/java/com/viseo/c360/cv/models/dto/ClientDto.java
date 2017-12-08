@@ -15,8 +15,6 @@ public class ClientDto {
 
     private String description;
 
-    private List<MissionDto> mission;
-
     public String getLabel() {
         return label;
     }
@@ -31,14 +29,6 @@ public class ClientDto {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<MissionDto> getMission() {
-        return mission;
-    }
-
-    public void setMission(List<MissionDto> mission) {
-        this.mission = mission;
     }
 
     public String getDomain() {
@@ -63,9 +53,8 @@ public class ClientDto {
         if (id != clientDto.id) return false;
         if (label != null ? !label.equals(clientDto.label) : clientDto.label != null) return false;
         if (domain != null ? !domain.equals(clientDto.domain) : clientDto.domain != null) return false;
-        if (description != null ? !description.equals(clientDto.description) : clientDto.description != null)
-            return false;
-        return mission != null ? mission.equals(clientDto.mission) : clientDto.mission == null;
+        return (description != null ? !description.equals(clientDto.description) : clientDto.description != null);
+        //return mission != null ? mission.equals(clientDto.mission) : clientDto.mission == null;
     }
 
     @Override
@@ -74,7 +63,7 @@ public class ClientDto {
         result = 31 * result + (label != null ? label.hashCode() : 0);
         result = 31 * result + (domain != null ? domain.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (mission != null ? mission.hashCode() : 0);
+        //result = 31 * result + (mission != null ? mission.hashCode() : 0);
         return result;
     }
 }

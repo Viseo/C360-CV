@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "missions")
-public class MissionsEntity extends BaseEntity {
+public class MissionEntity extends BaseEntity {
 
     @Column
     private int id;
@@ -25,9 +25,9 @@ public class MissionsEntity extends BaseEntity {
     @Column
     private String description;
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="client_id")
-    private ClientsEntity clientId;
+    private ClientEntity client;
 
     @OneToOne
     @JoinColumn(name="type_id")
@@ -40,7 +40,7 @@ public class MissionsEntity extends BaseEntity {
             inverseJoinColumns=@JoinColumn(name="skills_id")
     )
 
-    private List <SkillsEntity> skills;
+    private List <SkillEntity> skills;
 
     @Override
     public int getId() {
@@ -83,12 +83,12 @@ public class MissionsEntity extends BaseEntity {
         this.description = description;
     }
 
-    public ClientsEntity getClientId() {
-        return this.clientId;
+    public ClientEntity getClient() {
+        return this.client;
     }
 
-    public void setClientId(ClientsEntity clientId) {
-        this.clientId = clientId;
+    public void setClient(ClientEntity client) {
+        this.client = client;
     }
 
     public TypeMissionsEntity getTypeMissions() {
@@ -99,11 +99,11 @@ public class MissionsEntity extends BaseEntity {
         this.typeMissions = typeMissions;
     }
 
-    public List<SkillsEntity> getSkills() {
+    public List<SkillEntity> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<SkillsEntity> skills) {
+    public void setSkills(List<SkillEntity> skills) {
         this.skills = skills;
     }
 

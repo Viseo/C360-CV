@@ -13,16 +13,16 @@ import java.util.List;
 @Component
 public interface AccountDAO extends CrudRepository<UsersEntity, Long> {
 
-    @Query("SELECT U FROM UsersEntity U WHERE U.mail = ?1 AND U.password = ?2")
+    @Query("SELECT U FROM UsersEntity U JOIN FETCH U.missions WHERE U.mail = ?1 AND U.password = ?2")
     UsersEntity findByCredential(String mail, String password);
 
-    @Query("SELECT U FROM UsersEntity U WHERE U.mail = ?1")
+    @Query("SELECT U FROM UsersEntity U JOIN FETCH U.missions WHERE U.mail = ?1")
     UsersEntity findByMail(String mail);
 
-    @Query("SELECT U FROM UsersEntity U WHERE U.id = ?1")
+    @Query("SELECT U FROM UsersEntity U JOIN FETCH U.missions WHERE U.id = ?1")
     UsersEntity findById(int id);
 
-    @Query("SELECT U FROM UsersEntity U")
+    @Query("SELECT U FROM UsersEntity U JOIN FETCH U.missions")
     List<UsersEntity> getAll();
 
 }

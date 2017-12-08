@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.viseo.c360.cv.controllers.AccountController;
-import com.viseo.c360.cv.converters.UserToDtoConverter;
+import com.viseo.c360.cv.converters.UserEntityToDtoConverter;
 import com.viseo.c360.cv.models.dto.UserDto;
 import com.viseo.c360.cv.models.entities.UsersEntity;
 import com.viseo.c360.cv.services.AccountService;
@@ -62,7 +62,7 @@ public class ConsumerMessageHandler {
                 } else  {
                     UsersEntity c = this.accountService.mailExist(collaborator.getMail());
                     if (c != null){
-                        connectionMessageResponse.setUserDto(new UserToDtoConverter().convert(c));
+                        connectionMessageResponse.setUserDto(new UserEntityToDtoConverter().convert(c));
                         if (!connectionMessageResponse.getNameFileResponse().equals(responseCV.getName())) {
                             ObjectMapper mapper = new ObjectMapper();
                             mapper.registerModule(new Hibernate5Module());

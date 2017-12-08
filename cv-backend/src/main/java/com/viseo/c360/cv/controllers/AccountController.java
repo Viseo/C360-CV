@@ -8,9 +8,7 @@ import com.viseo.c360.cv.amqp.ConnectionMessage;
 import com.viseo.c360.cv.amqp.MessageType;
 import com.viseo.c360.cv.amqp.RabbitMsg;
 import com.viseo.c360.cv.amqp.ResolveMsgFactory;
-import com.viseo.c360.cv.converters.UserToDtoConverter;
-import com.viseo.c360.cv.converters.UserToEntityConverter;
-import com.viseo.c360.cv.models.dto.ClientDto;
+import com.viseo.c360.cv.converters.UserEntityToDtoConverter;
 import com.viseo.c360.cv.models.dto.UserDto;
 import com.viseo.c360.cv.models.entities.UsersEntity;
 import com.viseo.c360.cv.services.AccountService;
@@ -25,11 +23,7 @@ import org.springframework.amqp.rabbit.core.ChannelCallback;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.support.ReplaceOverride;
-import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -350,7 +344,7 @@ public class AccountController {
         if (myUser == null){
             if(receivedUser.getPassword().equals(password)){
                 receivedUser.setId(0);
-                addedUser  = new UserToDtoConverter().convert(this.accountService.add(receivedUser));
+                addedUser  = new UserEntityToDtoConverter().convert(this.accountService.add(receivedUser));
                 System.out.println("Adding User : " + addedUser.getMail());
                 return addedUser;
             }
@@ -359,7 +353,7 @@ public class AccountController {
             }
         }
         else {
-            UserDto storedUserDto = new UserToDtoConverter().convert(myUser);
+            UserDto storedUserDto = new UserEntityToDtoConverter().convert(myUser);
             if(receivedUser == null
                     || receivedUser.getFirstName() == null
                     || (storedUserDto.getPassword().equals(receivedUser.getPassword())
@@ -370,7 +364,7 @@ public class AccountController {
             else if ((password.equals(receivedUser.getPassword()))
                     && storedUserDto.getLastUpdateDate().before(receivedUser.getLastUpdateDate())){
                 storedUserDto.setPassword(password);
-                return new UserToDtoConverter().convert(updateUser(storedUserDto));
+                return new UserEntityToDtoConverter().convert(updateUser(storedUserDto));
             }
             else{
                 System.out.println("MOT DE PASSE MOINS RECENT");
