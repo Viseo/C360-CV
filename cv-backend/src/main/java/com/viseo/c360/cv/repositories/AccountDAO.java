@@ -13,20 +13,24 @@ import java.util.List;
 @Component
 public interface AccountDAO extends CrudRepository<UsersEntity, Long> {
 
-    @Query("SELECT U FROM UsersEntity U JOIN FETCH U.missions " +
-            "LEFT JOIN FETCH U.languages " +
+    @Query("SELECT U FROM UsersEntity U JOIN FETCH U.missions M " +
+            "JOIN FETCH U.languages " +
+            "JOIN FETCH M.skills " +
             "WHERE U.mail = ?1 AND U.password = ?2")
     UsersEntity findByCredential(String mail, String password);
 
-    @Query("SELECT U FROM UsersEntity U JOIN FETCH U.missions " +
-            "LEFT JOIN FETCH U.languages WHERE U.mail = ?1")
+    @Query("SELECT U FROM UsersEntity U JOIN FETCH U.missions M " +
+            "JOIN FETCH U.languages " +
+            "JOIN FETCH M.skills WHERE U.mail = ?1")
     UsersEntity findByMail(String mail);
 
-    @Query("SELECT U FROM UsersEntity U JOIN FETCH U.missions " +
-            "LEFT JOIN FETCH U.languages WHERE U.id = ?1")
+    @Query("SELECT U FROM UsersEntity U JOIN FETCH U.missions M " +
+            "JOIN FETCH U.languages " +
+            "JOIN FETCH M.skills WHERE U.id = ?1")
     UsersEntity findById(int id);
 
-    @Query("SELECT U FROM UsersEntity U JOIN FETCH U.missions " +
-            "LEFT JOIN FETCH U.languages")
+    @Query("SELECT U FROM UsersEntity U JOIN FETCH U.missions M " +
+            "JOIN FETCH U.languages " +
+            "JOIN FETCH M.skills")
     List<UsersEntity> getAll();
 }

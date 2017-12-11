@@ -22,11 +22,7 @@ public class MissionDtoToEntityConverter implements Converter<MissionDto,Mission
         missionsEntity.setEndDate(missionDto.getEndDate());
         missionsEntity.setTitle(missionDto.getTitle());
         missionsEntity.setClient(new ClientDtoToEntityConverter().convert(missionDto.getClient()));
-        List<SkillEntity> skillEntityList = new ArrayList<>();
-        for (int i=0;i<missionDto.getSkills().size();i++){
-            skillEntityList.add(skillDtoToEntityConverter.convert(missionDto.getSkills().get(i)));
-        }
-        missionsEntity.setSkills(skillEntityList);
+        missionsEntity.setSkills(skillDtoToEntityConverter.convert(missionDto.getSkills()));
         missionsEntity.setTypeMissions(new TypeMissionDtoToEntityConverter().convert(missionDto.getTypeMissions()));
 
         return missionsEntity;

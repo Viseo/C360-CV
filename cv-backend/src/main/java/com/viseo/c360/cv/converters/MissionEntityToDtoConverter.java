@@ -26,11 +26,7 @@ public class MissionEntityToDtoConverter implements Converter<MissionEntity,Miss
         missionDto.setTitle(missionEntity.getTitle());
         missionDto.setDescription(missionEntity.getDescription());
         missionDto.setTypeMissions(new TypeMissionEntityToDtoConverter().convert(missionEntity.getTypeMissions()));
-        List<SkillDto> skillDtoList = new ArrayList<>();
-        for (int i=0;i<missionEntity.getSkills().size();i++){
-            skillDtoList.add(skillEntityToDtoConverter.convert(missionEntity.getSkills().get(i)));
-        }
-        missionDto.setSkills(skillDtoList);
+        missionDto.setSkills(skillEntityToDtoConverter.convert(missionEntity.getSkills()));
         return missionDto;
     }
 

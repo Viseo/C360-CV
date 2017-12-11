@@ -10,6 +10,9 @@ INSERT INTO missions (id, title, begin_date, end_date, client_id, description, t
 INSERT INTO users_missions VALUES (200000,1);
 INSERT INTO users_languages (user_id, language_id) VALUES
   (200000,1);
+INSERT INTO skills (id, label, domain) VALUES
+  (1,'Taiga','Outils');
+INSERT INTO missions_skills(missions_id, skills_id) VALUES (1, 1);
 
 /*
 INSERT INTO users (first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES

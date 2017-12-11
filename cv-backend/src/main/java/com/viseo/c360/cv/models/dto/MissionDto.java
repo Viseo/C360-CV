@@ -2,6 +2,7 @@ package com.viseo.c360.cv.models.dto;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by ELE3653 on 07/08/2017.
@@ -22,7 +23,7 @@ public class MissionDto {
 
     private TypeMissionsDto typeMissions;
 
-    private List<SkillDto> skills;
+    private Set<SkillDto> skills;
 
     public int getId() {
         return id;
@@ -80,11 +81,11 @@ public class MissionDto {
         this.typeMissions = typeMissions;
     }
 
-    public List<SkillDto> getSkills() {
+    public Set<SkillDto> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<SkillDto> skills) {
+    public void setSkills(Set<SkillDto> skills) {
         this.skills = skills;
     }
 

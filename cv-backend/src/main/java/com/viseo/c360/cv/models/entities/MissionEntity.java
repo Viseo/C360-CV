@@ -3,6 +3,7 @@ package com.viseo.c360.cv.models.entities;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "missions")
@@ -40,7 +41,7 @@ public class MissionEntity extends BaseEntity {
             inverseJoinColumns=@JoinColumn(name="skills_id")
     )
 
-    private List <SkillEntity> skills;
+    private Set<SkillEntity> skills;
 
     @Override
     public int getId() {
@@ -99,11 +100,11 @@ public class MissionEntity extends BaseEntity {
         this.typeMissions = typeMissions;
     }
 
-    public List<SkillEntity> getSkills() {
+    public Set<SkillEntity> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<SkillEntity> skills) {
+    public void setSkills(Set<SkillEntity> skills) {
         this.skills = skills;
     }
 

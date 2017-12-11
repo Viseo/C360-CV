@@ -5,6 +5,9 @@ import com.viseo.c360.cv.models.entities.SkillEntity;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by YGU3747 on 08/12/2017
  */
@@ -18,5 +21,13 @@ public class SkillEntityToDtoConverter implements Converter<SkillEntity, SkillDt
         skillDto.setId(skillEntity.getId());
         skillDto.setLabel(skillEntity.getLabel());
         return skillDto;
+    }
+
+    public Set<SkillDto> convert(Set<SkillEntity> skillEntitySet) {
+        Set<SkillDto> skillDtoSet = new HashSet<>();
+        for(SkillEntity skillEntity : skillEntitySet){
+            skillDtoSet.add(this.convert(skillEntity));
+        }
+        return skillDtoSet;
     }
 }
