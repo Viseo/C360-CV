@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDto {
@@ -37,7 +38,7 @@ public class UserDto {
 
     private Date lastUpdateDate;
 
-    private List<LanguageDto> languages;
+    private Set<LanguageDto> languages;
 
     private List<MissionDto> missions;
 
@@ -125,11 +126,11 @@ public class UserDto {
         this.birth_date = birth_date;
     }
 
-    public List<LanguageDto> getLanguages() {
+    public Set<LanguageDto> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(List<LanguageDto> languages) {
+    public void setLanguages(Set<LanguageDto> languages) {
         this.languages = languages;
     }
 

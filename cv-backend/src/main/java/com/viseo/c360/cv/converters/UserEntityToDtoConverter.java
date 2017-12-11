@@ -9,7 +9,9 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by ELE3653 on 07/08/2017.
@@ -36,18 +38,10 @@ public class UserEntityToDtoConverter implements Converter <UsersEntity,UserDto>
         userDto.setPosition(usersEntity.getPosition());
         userDto.setPicture(usersEntity.getPicture());
         userDto.setExperience(usersEntity.getExperience());
-        List<MissionDto> missionDtoList= new ArrayList<>();
-        for(int i=0;i<usersEntity.getMissions().size();i++){
-            missionDtoList.add(missionEntityToDtoConverter.convert(usersEntity.getMissions().get(i)));
-        }
-        userDto.setMissions(missionDtoList);
+        userDto.setMissions(missionEntityToDtoConverter.convert(usersEntity.getMissions()));
         userDto.setId(usersEntity.getId());
         userDto.setLastUpdateDate(usersEntity.getLastUpdateDate());
-        List<LanguageDto> languageDtoList = new ArrayList<>();
-        for (int i=0;i<usersEntity.getLanguages().size();i++){
-            languageDtoList.add(languageEntityToDtoConverter.convert(usersEntity.getLanguages().get(i)));
-        }
-        userDto.setLanguages(languageDtoList);
+        userDto.setLanguages(languageEntityToDtoConverter.convert(usersEntity.getLanguages()));
 
         return userDto;
     }

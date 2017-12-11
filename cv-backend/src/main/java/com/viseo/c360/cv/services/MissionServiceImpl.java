@@ -1,20 +1,26 @@
 package com.viseo.c360.cv.services;
 
 import com.viseo.c360.cv.models.dto.MissionDto;
+import com.viseo.c360.cv.models.entities.MissionEntity;
+import com.viseo.c360.cv.repositories.MissionDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class MissionServiceImpl implements MissionService {
+    @Autowired
+    private MissionDAO missionDAO;
+
     @Override
-    public MissionDto add(MissionDto missionDto) {
-        return null;
+    public MissionEntity add(MissionEntity missionEntity) {
+        return missionDAO.save(missionEntity);
     }
 
     @Override
-    public MissionDto getById(int userId, int id) {
-        return null;
+    public MissionEntity getById(int userId, int id) {
+        return missionDAO.findById(id);
     }
 
     @Override
@@ -23,12 +29,12 @@ public class MissionServiceImpl implements MissionService {
     }
 
     @Override
-    public MissionDto update() {
-        return null;
+    public MissionEntity update(MissionEntity missionEntity) {
+        return missionDAO.save(missionEntity);
     }
 
     @Override
-    public List<MissionDto> getAll(int userId) {
-        return null;
+    public List<MissionEntity> getAll(int userId) {
+        return missionDAO.getAll();
     }
 }

@@ -33,4 +33,13 @@ public class MissionEntityToDtoConverter implements Converter<MissionEntity,Miss
         missionDto.setSkills(skillDtoList);
         return missionDto;
     }
+
+    @Nullable
+    public List<MissionDto> convert(List<MissionEntity> missionEntityList){
+        List<MissionDto> missionDtoList = new ArrayList<>();
+        for (MissionEntity missionEntity:missionEntityList){
+            missionDtoList.add(this.convert(missionEntity));
+        }
+        return missionDtoList;
+    }
 }

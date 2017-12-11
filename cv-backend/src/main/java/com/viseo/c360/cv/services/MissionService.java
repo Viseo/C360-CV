@@ -1,6 +1,6 @@
 package com.viseo.c360.cv.services;
 
-import com.viseo.c360.cv.models.dto.MissionDto;
+import com.viseo.c360.cv.models.entities.MissionEntity;
 
 import java.util.List;
 
@@ -9,13 +9,13 @@ import java.util.List;
  */
 public interface MissionService {
 
-    MissionDto add(MissionDto missionDto);
+    MissionEntity add(MissionEntity missionEntity);
 
-    MissionDto getById(int userId, int missionId);
+    MissionEntity getById(int userId, int missionId);
 
     Boolean delete(int userId, int missionId);
 
-    MissionDto update();
+    MissionEntity update(MissionEntity missionEntity);
 
-    List <MissionDto> getAll(int userId);
+    List <MissionEntity> getAll(int userId);
 }

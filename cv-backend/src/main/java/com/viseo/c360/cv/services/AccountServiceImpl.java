@@ -3,6 +3,7 @@ package com.viseo.c360.cv.services;
 import com.viseo.c360.cv.converters.UserEntityToDtoConverter;
 import com.viseo.c360.cv.converters.UserDtoToEntityConverter;
 import com.viseo.c360.cv.models.dto.UserDto;
+import com.viseo.c360.cv.models.entities.MissionEntity;
 import com.viseo.c360.cv.models.entities.UsersEntity;
 import com.viseo.c360.cv.repositories.AccountDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,6 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private AccountDAO accountDAO;
 
-    @Autowired
-    private UserDtoToEntityConverter userDtoToEntityConverter;
-
-    @Autowired
-    private UserEntityToDtoConverter userEntityToDtoConverter;
-
     @Override
     public UsersEntity exist(String mail, String password) {
 
@@ -32,10 +27,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public UsersEntity add(UserDto user) {
+    public UsersEntity add(UsersEntity user) {
         user.setLastUpdateDate(new Date());
-        UsersEntity convertedUser = userDtoToEntityConverter.convert(user);
-        return accountDAO.save(convertedUser);
+        return accountDAO.save(user);
     }
 
     public UsersEntity mailExist(String mail) {
@@ -51,10 +45,8 @@ public class AccountServiceImpl implements AccountService {
         return accountDAO.getAll();
     }
 
-    public UsersEntity updateUser(UserDto user){
+    public UsersEntity updateUser(UsersEntity user){
         user.setLastUpdateDate(new Date());
-        UsersEntity convertedUser = userDtoToEntityConverter.convert(user);
-
-        return accountDAO.save(convertedUser);
+        return accountDAO.save(user);
     }
 }

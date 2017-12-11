@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.Map;
 import java.util.function.Function;
 

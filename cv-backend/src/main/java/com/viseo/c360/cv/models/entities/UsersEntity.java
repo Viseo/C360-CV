@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -66,7 +67,7 @@ public class UsersEntity extends BaseEntity {
             joinColumns=@JoinColumn(name="user_id"),
             inverseJoinColumns=@JoinColumn(name="language_id")
     )
-    private List <LanguageEntity> languages;
+    private Set<LanguageEntity> languages;
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
@@ -154,11 +155,11 @@ public class UsersEntity extends BaseEntity {
         this.password = password;
     }
 
-    public List<LanguageEntity> getLanguages() {
+    public Set<LanguageEntity> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(List<LanguageEntity> languages) {
+    public void setLanguages(Set<LanguageEntity> languages) {
         this.languages = languages;
     }
 

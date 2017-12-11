@@ -1,6 +1,8 @@
 package com.viseo.c360.cv.controllers;
 
+import com.viseo.c360.cv.converters.MissionEntityToDtoConverter;
 import com.viseo.c360.cv.models.dto.MissionDto;
+import com.viseo.c360.cv.models.entities.MissionEntity;
 import com.viseo.c360.cv.services.MissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +20,13 @@ public class MissionController {
     private MissionService missionService;
 
     @RequestMapping(method = POST)
-    public MissionDto add(@RequestBody MissionDto missionDto) {
-        return this.missionService.add(missionDto);
+    public MissionDto add(@RequestBody MissionEntity missionEntity) {
+        return new MissionEntityToDtoConverter().convert(this.missionService.add(missionEntity));
     }
 
     @RequestMapping(method = PUT)
-    public MissionDto update() {
-        return this.missionService.update();
+    public MissionDto update(@RequestBody MissionEntity missionEntity) {
+        return new MissionEntityToDtoConverter().convert(this.missionService.update(missionEntity));
     }
 
     @RequestMapping( method = DELETE)
@@ -34,12 +36,12 @@ public class MissionController {
 
     @RequestMapping( method = GET)
     public List<MissionDto> getAll(int userId) {
-        return this.missionService.getAll(userId);
+        return new MissionEntityToDtoConverter().convert(this.missionService.getAll(userId));
     }
 
     @RequestMapping( path= "/{missionId}", method = GET)
     public MissionDto getById(@PathParam("missionId") int missionId, @RequestParam int userId) {
-        return this.missionService.getById(userId, missionId);
+        return new MissionEntityToDtoConverter().convert(this.missionService.getById(userId, missionId));
     }
 }
 

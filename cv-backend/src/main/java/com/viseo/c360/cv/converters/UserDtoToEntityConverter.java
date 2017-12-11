@@ -8,7 +8,9 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class UserDtoToEntityConverter implements Converter<UserDto, UsersEntity> {
 
@@ -33,11 +35,7 @@ public class UserDtoToEntityConverter implements Converter<UserDto, UsersEntity>
         usersEntity.setPosition(userDto.getPosition());
         usersEntity.setId(userDto.getId());
         usersEntity.setLastUpdateDate(userDto.getLastUpdateDate());
-        List<LanguageEntity> languageEntityList = new ArrayList<>();
-        for(int i=0;i<userDto.getLanguages().size();i++){
-            languageEntityList.add(languageDtoToEntityConverter.convert(userDto.getLanguages().get(i)));
-        }
-        usersEntity.setLanguages(languageEntityList);
+        usersEntity.setLanguages(languageDtoToEntityConverter.convert(userDto.getLanguages()));
         List<MissionEntity> missionEntityList = new ArrayList<>();
         for(int i=0;i<userDto.getMissions().size();i++){
             missionEntityList.add(missionDtoToEntityConverter.convert(userDto.getMissions().get(i)));

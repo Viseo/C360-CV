@@ -8,6 +8,7 @@ import com.viseo.c360.cv.amqp.ConnectionMessage;
 import com.viseo.c360.cv.amqp.MessageType;
 import com.viseo.c360.cv.amqp.RabbitMsg;
 import com.viseo.c360.cv.amqp.ResolveMsgFactory;
+import com.viseo.c360.cv.converters.UserDtoToEntityConverter;
 import com.viseo.c360.cv.converters.UserEntityToDtoConverter;
 import com.viseo.c360.cv.models.dto.UserDto;
 import com.viseo.c360.cv.models.entities.UsersEntity;
@@ -162,7 +163,7 @@ public class AccountController {
     private String addUserDirectly(UserDto user){
         try{
             user.setAdmin(false);
-            this.accountService.add(user);
+            this.accountService.add(new UserDtoToEntityConverter().convert(user));
             compactJws = createSecurityToken(user);
             this.mapUserCache.put(compactJws, user);
             return compactJws;
@@ -213,7 +214,7 @@ public class AccountController {
     @CrossOrigin (origins =  "${server.front}")
     @RequestMapping(path = "/updateUser", method = POST)
     public UsersEntity updateUser(@RequestBody @Valid UserDto user) {
-        return this.accountService.updateUser(user);
+        return this.accountService.updateUser(new UserDtoToEntityConverter().convert(user));
     }
 
     @CrossOrigin (origins =  "${server.front}")
@@ -344,7 +345,7 @@ public class AccountController {
         if (myUser == null){
             if(receivedUser.getPassword().equals(password)){
                 receivedUser.setId(0);
-                addedUser  = new UserEntityToDtoConverter().convert(this.accountService.add(receivedUser));
+                addedUser  = new UserEntityToDtoConverter().convert(this.accountService.add(new UserDtoToEntityConverter().convert(receivedUser)));
                 System.out.println("Adding User : " + addedUser.getMail());
                 return addedUser;
             }

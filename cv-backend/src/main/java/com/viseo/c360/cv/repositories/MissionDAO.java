@@ -14,6 +14,10 @@ import java.util.List;
 
 @Transactional
 public interface MissionDAO extends CrudRepository <MissionEntity,Long>{
+
+    @Query("SELECT M FROM MissionEntity M JOIN FETCH M.skills WHERE M.id = ?1")
+    MissionEntity findById(int id);
+
     @Query("SELECT M FROM MissionEntity M JOIN FETCH M.skills")
     List<MissionEntity> getAll();
 }
