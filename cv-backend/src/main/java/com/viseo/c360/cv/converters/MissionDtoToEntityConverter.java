@@ -28,4 +28,12 @@ public class MissionDtoToEntityConverter implements Converter<MissionDto,Mission
         return missionsEntity;
 
     }
+
+    public List<MissionEntity> convert(List<MissionDto> missionDtoList){
+        List<MissionEntity> missionEntityList = new ArrayList<>();
+        for(MissionDto missionDto : missionDtoList){
+            missionEntityList.add(this.convert(missionDto));
+        }
+        return missionEntityList;
+    }
 }

@@ -35,14 +35,12 @@ public class UserDtoToEntityConverter implements Converter<UserDto, UsersEntity>
         usersEntity.setPosition(userDto.getPosition());
         usersEntity.setId(userDto.getId());
         usersEntity.setLastUpdateDate(userDto.getLastUpdateDate());
-        usersEntity.setLanguages(languageDtoToEntityConverter.convert(userDto.getLanguages()));
-        List<MissionEntity> missionEntityList = new ArrayList<>();
-        for(int i=0;i<userDto.getMissions().size();i++){
-            missionEntityList.add(missionDtoToEntityConverter.convert(userDto.getMissions().get(i)));
+        if (userDto.getLanguages() != null){
+            usersEntity.setLanguages(languageDtoToEntityConverter.convert(userDto.getLanguages()));
         }
-        usersEntity.setMissions(missionEntityList);
-
-
+        if(userDto.getMissions() != null){
+            usersEntity.setMissions(missionDtoToEntityConverter.convert(userDto.getMissions()));
+        }
         return usersEntity;
     }
 }
