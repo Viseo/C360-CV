@@ -354,9 +354,10 @@
         styleCal:stylePictoCal,
         photoProfileSrc: "../../static/png/viseo-logo.png",
         pictoTelSrc:"../../static/png/flag-fr.png",
+        infoUser : this.$store.state.userLogged
       };
     },
-    props:["infoUser","today"]
+    props:["today"]
   }
 </script>
 

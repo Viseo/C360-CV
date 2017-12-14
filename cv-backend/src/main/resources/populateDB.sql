@@ -7,7 +7,10 @@ INSERT INTO clients (id,label, domain, description) VALUES
   (1,'Henri','CONSEIL','Projet pour Henri comme ilearning et un supermarché virtuel');
 INSERT INTO missions (id, title, begin_date, end_date, client_id, description, type_id) VALUES
   (1,'Viseo Intern','01/01/2016','01/01/2017','1','Développement du démonstrateur DigiMarket','1');
+-- INSERT INTO missions (id, title, begin_date, end_date, client_id, description, type_id) VALUES
+--   (2,'DigiMarket','06/15/2017','07/15/2017','2','Implémentation nouvel espace de vente','1');
 INSERT INTO users_missions VALUES (200000,1);
+-- INSERT INTO users_missions VALUES (200000,2);
 INSERT INTO users_languages (user_id, language_id) VALUES
   (200000,1);
 INSERT INTO skills (id, label, domain) VALUES

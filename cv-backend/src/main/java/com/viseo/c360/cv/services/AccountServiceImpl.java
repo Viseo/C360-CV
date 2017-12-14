@@ -1,9 +1,5 @@
 package com.viseo.c360.cv.services;
 
-import com.viseo.c360.cv.converters.UserEntityToDtoConverter;
-import com.viseo.c360.cv.converters.UserDtoToEntityConverter;
-import com.viseo.c360.cv.models.dto.UserDto;
-import com.viseo.c360.cv.models.entities.MissionEntity;
 import com.viseo.c360.cv.models.entities.UsersEntity;
 import com.viseo.c360.cv.repositories.AccountDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +11,7 @@ import javax.persistence.PersistenceContext;
 import java.util.Date;
 import java.util.List;
 
-import static org.springframework.util.CollectionUtils.isEmpty;
+
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -28,9 +24,15 @@ public class AccountServiceImpl implements AccountService {
 
     public UsersEntity findByCredential(String mail, String password){
         try{
-            return em.createQuery("SELECT U FROM UsersEntity U JOIN FETCH U.missions M " +
-                    "JOIN FETCH U.languages " +
-                    "JOIN FETCH M.skills " +
+            em.createQuery("SELECT U FROM UsersEntity U " +
+                    "LEFT JOIN FETCH U.missions M " +
+                    "LEFT JOIN FETCH M.skills " +
+                    "WHERE U.mail = ?1 AND U.password = ?2",UsersEntity.class)
+                    .setParameter(1,mail)
+                    .setParameter(2,password)
+                    .getSingleResult();
+            return em.createQuery("SELECT U FROM UsersEntity U " +
+                    "LEFT JOIN FETCH U.languages " +
                     "WHERE U.mail = ?1 AND U.password = ?2",UsersEntity.class)
                     .setParameter(1,mail)
                     .setParameter(2,password)
@@ -93,15 +95,13 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<UsersEntity> getAll(){
-        try{
-            return em.createQuery("SELECT U FROM UsersEntity U JOIN FETCH U.missions M " +
-                    "JOIN FETCH U.languages " +
-                    "JOIN FETCH M.skills", UsersEntity.class).getResultList();
-        }
-        catch (NoResultException nre){
-            //Ignore this because as per our logic this is ok!
-        }
-        return null;
+         em.createQuery("SELECT U FROM UsersEntity U " +
+                "JOIN FETCH U.missions M " +
+                "JOIN FETCH M.skills",
+                UsersEntity.class).getResultList();
+         return em.createQuery("SELECT U FROM UsersEntity U " +
+                        "JOIN FETCH U.languages ",
+                UsersEntity.class).getResultList();
     }
 
     public UsersEntity updateUser(UsersEntity user){
