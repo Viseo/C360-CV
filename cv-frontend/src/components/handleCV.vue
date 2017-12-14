@@ -3,7 +3,7 @@
     <banner :page="'Gestion CV'"></banner>
     <div class="mycv">
       <div class="infoUser">
-        <informationForm :infoUser="infoUser" :today="today"></informationForm>
+        <informationForm :today="today"></informationForm>
         <saving :missions="missions" @getInfoMission="getInfoMission" @saveData="updateUserBDD"></saving>
       </div>
       <div class="mission">
@@ -28,7 +28,7 @@
     </div>
     <div v-show="showPDF" class="grayer" @click="closePDF"></div>
     <img v-show="showPDF" class="closePDF" src="../../static/png/icone-supprimer.png" @click="closePDF">
-    <curriPDF :infoPerso="infoUser" :infoMission="missions" v-show="showPDF" id="PDF"></curriPDF>
+    <curriPDF :infoPerso="infoUser" v-show="showPDF" id="PDF"></curriPDF>
   </div>
 </template>
 

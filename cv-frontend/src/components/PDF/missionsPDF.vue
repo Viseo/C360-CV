@@ -2,18 +2,20 @@
     <div class="missions">
         <div class="line"></div>
         <div class="detailMission">
-            <div><p>{{infoMission.typeMissions.label}} chez {{infoMission.clientId.label}}</p></div>
+          <div><p>{{infoMission.typeMissions.label}} chez {{infoMission.client.label}}</p></div>
         </div>
         <div class="titreMission">
             <p>{{infoMission.title}}</p>
         </div>
         <div class="dateMission">
             <div class="arrow"></div>
-            <div><p>Du {{giveDate(infoMission.beginDate)}} au {{giveDate(infoMission.endDate)}}</p></div>
+            <div><p>Du {{infoMission.beginDate}} au {{infoMission.endDate}}</p></div>
         </div>
         <div class="appType" v-if="type=chooseAppType(infoMission.skills)">
+          <div class="appType" >
             <div class="arrow"></div>
             <div class="descriptionMission"><p>{{type}}</p></div>
+          </div>
         </div>
         <div class="contentMission">
             <div class="arrow"></div>
@@ -29,26 +31,15 @@
     export default {
       data: function () {
         return {
-          skills : [
-            ["Android","Ios","React Native","Xamarin"],
-            ["Axure","Balsamiq","Jira","Taiga","Photoshop"],
-            ["Cycle en V", "Kanban", "Lean", "Lean startup", "Less", "Rup", "Scrum", "Safe"],
-            ["Angular", "Bootstrap", "CSS", "Html", "Java", "Javascript", "Python",'SVG'],
-            ["Apache Derby", "Microsoft Access", "Microsoft SQL Server", "MySQL", "Oracle Database", "PostgreSQL"],
-            ["Bootstrap", "Cake PHP", "Google Guava", "Hibernate", "JUnit", "JQuery", "Node.js", "Laravel", "Phalcon", "PHPUnit", "Spring", "Symfony", "Zend",'Vue.js']
-          ],
           categories : [
             "MOBILE","OUTILS","MÉTHODOLOGIE","WEB","BASE DE DONNEES","FRAMEWORK"
-          ],
-          colors : [
-            "#00B6E8","#D13040","#7E7995","#FFC15E","#DC7633","#154360"
-          ],
-          styleSkills: {
-            'background-color': '#FFC15E'
-              }
+          ]
         }
       },
       props: ['infoMission'],
+      beforeMount:function(){
+        console.log(this.infoMission);
+      },
       methods: {
         chooseColor: function (target) {
             for(let i in this.skills){
@@ -72,7 +63,7 @@
         },
         isWebApp(skills){
           for(let skill of skills){
-            let webList=this.skills[this.categories.indexOf('WEB')]
+            let webList = skills[this.categories.indexOf('WEB')]
             for (let k in webList) {
               if (skill.label == webList[k]) {
                 return 'Web';
@@ -83,7 +74,7 @@
         },
         isMobileApp(skills){
           for(let skill of skills){
-            let mobileList=this.skills[this.categories.indexOf('MOBILE')]
+            let mobileList=skills[this.categories.indexOf('MOBILE')]
             for (let k in mobileList) {
               if (skill.label == mobileList[k]) {
                 return 'Mobile';
@@ -91,7 +82,8 @@
             }
           }
           return '';
-        },
+        }
+        /*
         giveDate(date){
           let thisDate = new Date(date);
           let thisDay, thisMonth;
@@ -99,6 +91,7 @@
           thisDate.getMonth() + 1 < 10 ? thisMonth = '0' + parseInt(thisDate.getMonth() + 1) : thisMonth = parseInt(thisDate.getMonth() + 1);
           return thisDay  + '/' + thisMonth  + '/' + thisDate.getFullYear() ;
         }
+        */
       }
     }
 </script>

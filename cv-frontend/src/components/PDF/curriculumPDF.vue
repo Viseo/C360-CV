@@ -22,9 +22,9 @@
       },
       data: function () {
           return {
+            infoPerso : this.$store.state.userLogged
           }
       },
-    props: ['infoPerso','infoMission'],
     methods: {
       closePDF: function(){
         this.$emit('closePDF');

@@ -25,8 +25,10 @@ public class LanguageDtoToEntityConverter implements Converter <LanguageDto,Lang
 
     public Set<LanguageEntity> convert(Set<LanguageDto> languageDtoSet){
         Set<LanguageEntity> languageEntitySet = new HashSet<>();
-        for(LanguageDto languageDto : languageDtoSet){
-            languageEntitySet.add(this.convert(languageDto));
+        if (languageDtoSet.size()>0){
+            for(LanguageDto languageDto : languageDtoSet){
+                languageEntitySet.add(this.convert(languageDto));
+            }
         }
         return languageEntitySet;
     }
