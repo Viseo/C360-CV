@@ -49,12 +49,17 @@
   export default {
     data: function () {
       return {
+        infoUser: this.$store.state.userLogged
       }
     },
-    props: ['infoUser'],
     methods: {
       computeAge: function () {
-        return Math.floor((new Date().getTime()-this.infoUser.birth)/(1000*3600*24*365));
+        var dateString  = this.infoUser.birth_date; //yyyy-mm-dd
+        var year        = dateString.substring(0,4);
+        var month       = dateString.substring(5,7);
+        var day         = dateString.substring(8,10);
+        var birthday    = new Date(year, month - 1, day);
+        return Math.floor((new Date().getTime()-birthday)/(1000*3600*24*365));
       }
     }
   }

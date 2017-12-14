@@ -37,9 +37,6 @@
         }
       },
       props: ['infoMission'],
-      beforeMount:function(){
-        console.log(this.infoMission);
-      },
       methods: {
         chooseColor: function (target) {
             for(let i in this.skills){
