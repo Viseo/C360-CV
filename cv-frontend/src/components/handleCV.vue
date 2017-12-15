@@ -3,7 +3,7 @@
     <banner :page="'Gestion CV'"></banner>
     <div class="mycv">
       <div class="infoUser">
-        <informationForm :today="today"></informationForm>
+        <informationForm></informationForm>
         <saving :missions="missions" @getInfoMission="getInfoMission" @saveData="updateUserBDD"></saving>
       </div>
       <div class="mission">
@@ -63,15 +63,6 @@
           domain:""
         }
     },
-    computed:{
-      today:function(){
-        let date = new Date();
-        let thisDay, thisMonth;
-        date.getDate() < 10 ? thisDay = '0' + date.getDate() : thisDay = date.getDate();
-        date.getMonth() + 1 < 10 ? thisMonth = '0' + parseInt(date.getMonth() + 1) : thisMonth = parseInt(date.getMonth() + 1);
-        return date.getFullYear() + '-' + thisMonth + '-' + thisDay;
-      }
-    },
     methods:{
         getInfoMission(index){
             this.$store.commit('setCurrentMissionBlock', index);
@@ -109,14 +100,12 @@
           }
         },
         updateMission:function(name,client,dateB,dateE,descr,type){
-          /*
             this.missions[this.currentBlock].title=name;
             this.missions[this.currentBlock].clientId.label=client;
             this.missions[this.currentBlock].beginDate=dateB;
             this.missions[this.currentBlock].endDate=dateE;
             this.missions[this.currentBlock].description=descr;
             this.missions[this.currentBlock].typeMissions.label=type;
-            */
         },
         updateUserBDD:function(){
           let birth = this.infoUser.birthDate.split("-");

@@ -32,7 +32,7 @@
       <label v-bind:style = "stylep">Age</label>
       <div class="inputWithPicto">
         <i class="fa fa-birthday-cake fa-2x picto" aria-hidden="true"></i>
-        <input class="inputInfo date" name="birth" type="date" placeHolder="" v-model="infoUser.birthDate">
+        <input class="inputInfo date" name="birth" type="date" v-model="infoUser.birthDate">
         <span><i id="calendar_icon" class="fa fa-calendar pictoInput" aria-hidden="true"></i> </span>
       </div>
     </div>
@@ -335,7 +335,7 @@
         }
       },
       computeAge: function(){
-        Math.floor((new Date(this.today).getTime()-new Date(infoPerso[field]).getTime())/(1000*3600*24*365));
+        Math.floor((new Date().getTime()-new Date(infoPerso[field]).getTime())/(1000*3600*24*365));
       }
     },
     data: function () {
@@ -356,8 +356,7 @@
         pictoTelSrc:"../../static/png/flag-fr.png",
         infoUser : this.$store.state.userLogged
       };
-    },
-    props:["today"]
+    }
   }
 </script>
 

@@ -61,7 +61,6 @@ export const store = new Vuex.Store({
           state.userLogged.languages = [];
         }
       },
-
       setCurrentMissionBlock(state, block){
         state.currentBlock = block;
       },
@@ -89,7 +88,23 @@ export const store = new Vuex.Store({
       }
     },
     getters: {
-
+      getCurrentMission: state => {
+        for (let i=0;i<state.userLogged.missions.length;i++){
+          if(state.userLogged.missions[i].id == state.currentBlock){
+            return state.userLogged.missions[i];
+          }
+          return {
+            beginDate: "",
+            endDate: "",
+            title: "",
+            skills: [],
+            client: {},
+            typeMission: {},
+            id: "",
+            description: ""
+          };
+        }
+      }
     },
     actions: {
       checkIfTokenValide(context){

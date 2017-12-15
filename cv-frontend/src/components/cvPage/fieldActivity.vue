@@ -2,7 +2,7 @@
   <div>
     <div v-if="currentClient != ''" class="sectorContent">
       <span class="spanActivities" v-if=" currentDomain != '' " v-on:click="updateChamps"
-            v-bind:style="applyStyle(fieldsOfActivities.indexOf(currentDomain))" >{{domain}}</span>
+            v-bind:style="applyStyle(fieldsOfActivities.indexOf(currentDomain))" >{{currentDomain}}</span>
       <span class="spanActivities" v-else="currentDomain == ''"  v-for="(sector,index) in fieldsOfActivities"
             v-show="toShow[index]" v-on:click="selectedSector(index)" v-bind:style="applyStyle(index)">{{sector}}</span>
     </div>
@@ -21,7 +21,7 @@
           '#ffccff', '#ffd11a', '#8533ff', '#800080'],
         toShow: [true,true,true,true,true,true,true,true,true,true,true],
         sectorCurrent: "",
-        currentDomain: this.domain,
+        currentDomain: this.client.domain,
         currentClient: this.client
       }
     },
@@ -47,15 +47,16 @@
         }
       }
     },
-    props: ['client','domain'],
-    watch:{
-      domain: function () {
-        this.currentDomain = this.domain;
-      },
-      client: function () {
-        this.currentClient = this.client;
-      }
-    }
+    //props: ['client','domain'],
+    props: ['client']
+//    watch:{
+//      domain: function () {
+//        this.currentDomain = this.domain;
+//      },
+//      client: function () {
+//        this.currentClient = this.client;
+//      }
+//    }
   }
 </script>
 

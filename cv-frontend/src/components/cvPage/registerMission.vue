@@ -14,7 +14,7 @@
         <i class="fa fa-file-text fa-2x"></i>
         <div>
           <label id="Type Title">Type</label>
-          <select v-model="typeMission" v-on:click="updateBlock()" :value="typeM">
+          <select v-model="typeMission" v-on:click="updateBlock()">
             <option >Mission</option>
             <option>Séminaire</option>
           </select>
@@ -26,7 +26,7 @@
         <div>
           <label id="Start Title">Début</label>
           <div class="inputCalendar">
-            <input id="Start Calendar Date" :value="beginDate" v-model="beginInput" class="inputDate" type="date" v-on:click="updateBlock()" @input="updateBlock()">
+            <input id="Start Calendar Date" :value="currentMission.beginDate" v-model="beginInput" class="inputDate" type="date" v-on:click="updateBlock()" @input="updateBlock()">
           </div>
         </div>
       </div>
@@ -36,7 +36,7 @@
         <div>
           <label id="Fin Title">Fin</label>
           <div class="inputCalendar">
-            <input id="End Calendar Date" :value="endDate" v-model="endInput" class="inputDate" type="date" v-on:click="updateBlock()" @input="updateBlock()">
+            <input id="End Calendar Date" :value="currentMission.endDate" v-model="endInput" class="inputDate" type="date" v-on:click="updateBlock()" @input="updateBlock()">
           </div>
           <div v-if="endInput==today" id="checkboxNow"><input id="Until Now Box" type="checkbox" checked @click="endInput='';updateBlock()">Jusqu'à ce jour</div>
           <div v-else id="checkboxNow"><input id="Until Now Box" type="checkbox" @click="endInput=today;updateBlock()">Jusqu'à ce jour</div>
@@ -54,9 +54,9 @@
         </div>
       </div>
       <div class="listSector">
-        <span class="messageError" v-if="client == ''">Veuillez entrer un client</span>
-        <span v-else="client != ''">
-          <sector  :client="client" :domain="domain" @updateSector="updateSector"></sector>
+        <span class="messageError" v-if="clientMission == ''">Veuillez entrer un client</span>
+        <span v-else="clientMission != ''">
+          <sector  :client="clientMission" @updateSector="updateSector"></sector>
         </span>
 
       </div>
@@ -87,18 +87,46 @@
     components:{
       sector: fieldActivity
     },
-    props: ['beginDate','endDate','titleMission','description','client','typeM','currentBlock','today','domain'],
+    //props: ['beginDate','endDate','titleMission','description','client','typeM','currentBlock','today','domain'],
     data: function() {
       return {
-        labelTitleClass: this.titleMission != "" ? "label-full" : "label-empty",
-        nameMission: this.titleMission,
-        labelClientClass: this.client != "" ? "label-full" : "label-empty",
-        clientMission: this.client,
-        labelDescriptionClass: this.description != "" ? "labelDescription-full" : "labelDescription-empty",
-        descriptionMission: this.description,
-        beginInput: this.beginDate,
-        endInput: this.endInput,
-        typeMission:this.typeM
+        endInput: ""
+      }
+    },
+    computed:{
+      currentMission:function() {
+        return this.$store.getters.getCurrentMission;
+      },
+      typeMission:function(){
+        return this.currentMission.typeMission.label;
+      },
+      beginInput:function(){
+        return this.currentMission.beginDate;
+      },
+      descriptionMission:function(){
+        return this.currentMission.description;
+      },
+      nameMission:function(){
+        return this.currentMission.title;
+      },
+      labelTitleClass:function(){
+        return this.currentMission.title != "" ? "label-full" : "label-empty";
+      },
+      labelClientClass:function(){
+        return this.currentMission.client != "" ? "label-full" : "label-empty";
+      },
+      clientMission: function(){
+        return this.currentMission.client;
+      },
+      labelDescriptionClass:function(){
+        return this.currentMission.description != "" ? "labelDescription-full" : "labelDescription-empty";
+      },
+      today:function(){
+        let date = new Date();
+        let thisDay, thisMonth;
+        date.getDate() < 10 ? thisDay = '0' + date.getDate() : thisDay = date.getDate();
+        date.getMonth() + 1 < 10 ? thisMonth = '0' + parseInt(date.getMonth() + 1) : thisMonth = parseInt(date.getMonth() + 1);
+        return date.getFullYear() + '-' + thisMonth + '-' + thisDay;
       }
     },
     methods:{
@@ -137,30 +165,30 @@
       updateSector(sector){
         this.$emit('updateSector',sector);
       }
-    },
-    watch: {
-      titleMission: function () {
-        this.nameMission=this.titleMission;
-        this.labelTitleClass=this.titleMission!=""?"label-full":"label-empty";
-      },
-      client: function () {
-        this.labelClientClass=this.client!=""?"label-full":"label-empty";
-        this.clientMission=this.client;
-      },
-      description: function (value) {
-        this.labelDescriptionClass=value!=""?"labelDescription-full":"labelDescription-empty";
-        this.descriptionMission=value
-      },
-      beginDate: function(value){
-          this.beginInput=value;
-      },
-      endDate: function(value){
-        this.endInput=value;
-      },
-      typeM:function(value){
-        this.typeMission=value;
-      }
     }
+//    watch: {
+//      titleMission: function () {
+//        this.nameMission=this.titleMission;
+//        this.labelTitleClass=this.titleMission!=""?"label-full":"label-empty";
+//      },
+//      client: function () {
+//        this.labelClientClass=this.client!=""?"label-full":"label-empty";
+//        this.clientMission=this.client;
+//      },
+//      description: function (value) {
+//        this.labelDescriptionClass=value!=""?"labelDescription-full":"labelDescription-empty";
+//        this.descriptionMission=value
+//      },
+//      beginDate: function(value){
+//          this.beginInput=value;
+//      },
+//      endDate: function(value){
+//        this.endInput=value;
+//      },
+//      typeM:function(value){
+//        this.typeMission=value;
+//      }
+//    }
   }
 </script>
 
