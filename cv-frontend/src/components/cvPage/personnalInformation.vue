@@ -32,7 +32,7 @@
       <label v-bind:style = "stylep">Age</label>
       <div class="inputWithPicto">
         <i class="fa fa-birthday-cake fa-2x picto" aria-hidden="true"></i>
-        <input class="inputInfo date" name="birth" type="date" v-model="infoUser.birthDate">
+        <input class="inputInfo date" name="birth" type="date" v-model="infoUser.birth_date">
         <span><i id="calendar_icon" class="fa fa-calendar pictoInput" aria-hidden="true"></i> </span>
       </div>
     </div>
