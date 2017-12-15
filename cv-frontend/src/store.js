@@ -24,7 +24,8 @@ var storeInit = {
       missions:[],
       languages:[]
     },
-    token : ''
+    token : '',
+    currentBlock: 0
 };
 
 export const store = new Vuex.Store({
@@ -61,6 +62,9 @@ export const store = new Vuex.Store({
         }
       },
 
+      setCurrentMissionBlock(state, block){
+        state.currentBlock = block;
+      },
       resetStore(state) {
         Object.assign(state, {
           userLogged:{
@@ -79,7 +83,8 @@ export const store = new Vuex.Store({
             missions:[],
             languages:[]
           },
-          token : ''
+          token : '',
+          currentBlock: 0
         });
       }
     },

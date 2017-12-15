@@ -57,7 +57,6 @@
   ];
 
   export default {
-    props:["currentSkills","block"],
     data: function () {
       return {
         skills: skills,
@@ -77,7 +76,18 @@
         resultSearch:"Recherche Vide",
         colorSearch:"color:white",
         search:"",
-        idMission:this.block
+        idMission:this.$store.state.currentBlock,
+        block:this.$store.state.currentBlock
+      }
+    },
+    computed:{
+      currentSkills:function () {
+        if(this.$store.state.userLogged.missions.length>0){
+          return this.$store.state.userLogged.missions[this.block].skills;
+        }
+        else{
+          return null;
+        }
       }
     },
     methods: {

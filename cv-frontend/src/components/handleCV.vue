@@ -19,10 +19,9 @@
                          @updateSector="updateSector" @updateProps="updateMission"></registermission>
         -->
         <registermission></registermission>
-        <!--
-        <skills v-bind:currentSkills="missions[currentBlock].skills" :block="currentBlock" v-on:updateSkills="updateSkills"></skills>
-        -->
-        <skills></skills>
+
+        <skills v-on:updateSkills="updateSkills"></skills>
+
         <listMissions @getInfoMission="getInfoMission" :block="currentBlock" v-on:addMission="addMission" v-on:deleteMission="deleteMission"></listMissions>
       </div>
     </div>
@@ -60,7 +59,7 @@
           showPDF: false,
           infoUser: this.$store.state.userLogged,
           missions: this.$store.state.userLogged.missions,
-          currentBlock:0,
+          currentBlock: this.$store.state.currentBlock,
           domain:""
         }
     },
@@ -75,7 +74,7 @@
     },
     methods:{
         getInfoMission(index){
-            this.currentBlock=index;
+            this.$store.commit('setCurrentMissionBlock', index);
         },
         addMission() {
           /*
@@ -87,7 +86,7 @@
         },
         deleteMission(){
             setTimeout(()=>{
-              this.currentBlock=0;
+              this.$store.commit('setCurrentMissionBlock', 0);
               this.getInfoMission(0);
             },100);
         },
