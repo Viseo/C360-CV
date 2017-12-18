@@ -31,7 +31,7 @@ var storeInit = {
       title: "",
       skills: [],
       client: {},
-      typeMission: {},
+      typeMissions: {},
       id: "",
       description: ""
     }
@@ -98,7 +98,7 @@ export const store = new Vuex.Store({
             title: "",
             skills: [],
             client: {},
-            typeMission: {},
+            typeMissions: {},
             id: "",
             description: ""
           }

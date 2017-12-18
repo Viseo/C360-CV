@@ -26,7 +26,7 @@
         <div>
           <label id="Start Title">Début</label>
           <div class="inputCalendar">
-            <input id="Start Calendar Date" :value="currentMission.beginDate" v-model="beginInput" class="inputDate" type="date" v-on:click="updateBlock()" @input="updateBlock()">
+            <input id="Start Calendar Date" v-model="currentMission.beginDate" class="inputDate" type="date" v-on:click="updateBlock()" @input="updateBlock()">
           </div>
         </div>
       </div>
@@ -36,7 +36,7 @@
         <div>
           <label id="Fin Title">Fin</label>
           <div class="inputCalendar">
-            <input id="End Calendar Date" :value="currentMission.endDate" v-model="endInput" class="inputDate" type="date" v-on:click="updateBlock()" @input="updateBlock()">
+            <input id="End Calendar Date" v-model="currentMission.endDate" class="inputDate" type="date" v-on:click="updateBlock()" @input="updateBlock()">
           </div>
           <div v-if="endInput==today" id="checkboxNow"><input id="Until Now Box" type="checkbox" checked @click="endInput='';updateBlock()">Jusqu'à ce jour</div>
           <div v-else id="checkboxNow"><input id="Until Now Box" type="checkbox" @click="endInput=today;updateBlock()">Jusqu'à ce jour</div>
@@ -89,13 +89,15 @@
     },
     data: function() {
       return {
-        endInput: "",
-        currentMission: this.$store.state.currentMission
+
       }
     },
     computed:{
+      currentMission:function(){
+        return this.$store.state.currentMission;
+      },
       typeMission:function(){
-        return this.currentMission.typeMission.label;
+        return this.currentMission.typeMissions.label;
       },
       beginInput:function(){
         return this.currentMission.beginDate;
@@ -107,7 +109,7 @@
         return this.currentMission.title;
       },
       labelTitleClass:function(){
-        return this.currentMission.title != "" ? "label-empty" : "label-full";
+        return this.currentMission.title != "" ? "label-full" : "label-empty";
       },
       labelClientClass:function(){
         return this.currentMission.client != "" ? "label-full" : "label-empty";
