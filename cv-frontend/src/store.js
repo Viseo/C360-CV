@@ -25,7 +25,16 @@ var storeInit = {
       languages:[]
     },
     token : '',
-    currentBlock: 0
+    currentMission:{
+      beginDate: "",
+      endDate: "",
+      title: "",
+      skills: [],
+      client: {},
+      typeMission: {},
+      id: "",
+      description: ""
+    }
 };
 
 export const store = new Vuex.Store({
@@ -83,17 +92,7 @@ export const store = new Vuex.Store({
             languages:[]
           },
           token : '',
-          currentBlock: 0
-        });
-      }
-    },
-    getters: {
-      getCurrentMission: state => {
-        for (let i=0;i<state.userLogged.missions.length;i++){
-          if(state.userLogged.missions[i].id == state.currentBlock){
-            return state.userLogged.missions[i];
-          }
-          return {
+          currentMission:{
             beginDate: "",
             endDate: "",
             title: "",
@@ -102,8 +101,11 @@ export const store = new Vuex.Store({
             typeMission: {},
             id: "",
             description: ""
-          };
-        }
+          }
+        });
+      },
+      setCurrentMission(state,missionSelected){
+        state.currentMission = missionSelected;
       }
     },
     actions: {

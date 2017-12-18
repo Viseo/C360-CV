@@ -9,15 +9,15 @@
         <i v-bind:class="chevronLeft" v-on:click="moveMissionsToLeft" v-if="missions.length>4"></i>
         <div id="containerMissions" class="containerMissions">
           <div id="listAnimate" v-bind:style="styleAnimatingList">
-            <transition-group name="list-complete" tag="div">
-                 <span v-bind:style="block==index?styleObjectChecked:styleObject" v-for="(item,index) in missions" v-bind:key="index" @click="getInfoMission(index)"
+              <transition-group name="list-complete" tag="div">
+                 <span v-bind:style="currentMissionId==item.id?styleObjectChecked:styleObject" :key="item.id" v-for="item in missions" @click="getInfoMission(item)"
                        class="list-complete-item missionItem">
                     <div v-bind:style="styleTitle">{{ item.title!=""?item.title:"Nouvelle Mission" }}</div>
                     <div v-bind:style="styleDate">{{ item.beginDate }} to {{ item.endDate!=""?item.endDate:"now" }}</div>
-                    <i v-on:mouseover="trashToRed" v-on:mouseleave="trashToBlack" v-on:click="deleteMission(index)"
+                    <i v-on:mouseover="trashToRed" v-on:mouseleave="trashToBlack" v-on:click="deleteMission(item)"
                        v-bind:class="trash":style="styleTrash"></i>
                  </span>
-            </transition-group>
+              </transition-group>
             <div v-bind:style="styleObject" id="add-mission" class="missionItem list-complete-item" v-on:click="addMission">
               <i class="fa fa-plus fa-2x"></i>
               <div v-bind:style="styleDate">Ajouter une nouvelle Mission</div>
@@ -112,7 +112,8 @@
         chevronLeft:"fa fa-angle-left fa-3x",
         chevronRight:"fa fa-angle-right fa-3x",
         trash:"fa fa-trash",
-        missions:this.$store.state.userLogged.missions
+        missions:this.$store.state.userLogged.missions,
+        currentMissionId:this.$store.state.currentMission.id
       }
     },
     methods:{
@@ -206,6 +207,7 @@
 
         var id = setInterval(frame, 1);
       },
+      // TO MODIFY!!!!!!!!!!!!!!!!!!
       deleteMission(index){
         this.missions.splice(index,1);
 
@@ -217,37 +219,34 @@
           this.$emit('deleteMission');
         },500);
       },
-      getInfoMission(index){
-          this.$emit('getInfoMission',index);
+      getInfoMission(item){
+          this.$store.commit('setCurrentMission',item)
       },
       addMission(){
         this.$emit('addMission');
-      },
-      getStyleMission(item){
-        if(this.block==item.id){
-          return {
-            color: 'white',
-            width: "11.5vw",
-            height:"4vh",
-            "padding-top": "3vh",
-            "padding-bottom": "8vh",
-            margin: "0.5vw",
-            "text-align": "center",
-            "border-radius":"10px",
-            "float":"left",
-            position:"relative",
-            "background-image":"linear-gradient(to bottom, #3498db, #2980b9)",
-          };
-        }
-        else{
-          return this.styleObject;
-        }
-
       }
-    },
-    props:[
-      "block"
-    ]
+//      getStyleMission(item){
+//        if(this.block==item.id){
+//          return {
+//            color: 'white',
+//            width: "11.5vw",
+//            height:"4vh",
+//            "padding-top": "3vh",
+//            "padding-bottom": "8vh",
+//            margin: "0.5vw",
+//            "text-align": "center",
+//            "border-radius":"10px",
+//            "float":"left",
+//            position:"relative",
+//            "background-image":"linear-gradient(to bottom, #3498db, #2980b9)",
+//          };
+//        }
+//        else{
+//          return this.styleObject;
+//        }
+//
+//      }
+    }
   }
 </script>
 

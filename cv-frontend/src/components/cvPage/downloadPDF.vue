@@ -24,9 +24,6 @@
       saveButton: function () {
         this.$emit("saveData");
       },
-      getInfoMission: function (id) {
-        this.$emit('getInfoMission',id);
-      },
       printPDF: function () {
           let toShow = false;
           let messageError = document.getElementById("toValidate");

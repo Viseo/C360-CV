@@ -4,7 +4,7 @@
     <div class="mycv">
       <div class="infoUser">
         <informationForm></informationForm>
-        <saving :missions="missions" @getInfoMission="getInfoMission" @saveData="updateUserBDD"></saving>
+        <saving :missions="missions" @saveData="updateUserBDD"></saving>
       </div>
       <div class="mission">
         <div class="bannerMission">
@@ -22,7 +22,7 @@
 
         <skills v-on:updateSkills="updateSkills"></skills>
 
-        <listMissions @getInfoMission="getInfoMission" :block="currentBlock" v-on:addMission="addMission" v-on:deleteMission="deleteMission"></listMissions>
+        <listMissions v-on:addMission="addMission" v-on:deleteMission="deleteMission"></listMissions>
       </div>
     </div>
     <div v-show="showPDF" class="grayer" @click="closePDF"></div>
@@ -59,14 +59,10 @@
           showPDF: false,
           infoUser: this.$store.state.userLogged,
           missions: this.$store.state.userLogged.missions,
-          currentBlock: this.$store.state.currentBlock,
           domain:""
         }
     },
     methods:{
-        getInfoMission(index){
-            this.$store.commit('setCurrentMissionBlock', index);
-        },
         addMission() {
           /*
             this.missions.push({id:0,title: "", beginDate: "",
@@ -78,34 +74,34 @@
         deleteMission(){
             setTimeout(()=>{
               this.$store.commit('setCurrentMissionBlock', 0);
-              this.getInfoMission(0);
+              //this.getInfoMission(0);
             },100);
         },
         updateSkills(skillsSelected){
-          for(let mission in this.missions) {
-            if (this.currentBlock === this.missions[mission].id) {
-              this.missions[mission].skills = skillsSelected;
-            }
-          }
+//          for(let mission in this.missions) {
+//            if (this.currentBlock === this.missions[mission].id) {
+//              this.missions[mission].skills = skillsSelected;
+//            }
+//          }
         },
         closePDF: function () {
           this.showPDF=!this.showPDF
         },
         updateSector: function (sector) {
-          for(let i = 0; i<this.missions.length;i++) {
-            if (this.currentBlock === i) {
-              this.missions[i].clientId.domain = sector;
-              this.domain = sector;
-            }
-          }
+//          for(let i = 0; i<this.missions.length;i++) {
+//            if (this.currentBlock === i) {
+//              this.missions[i].clientId.domain = sector;
+//              this.domain = sector;
+//            }
+//          }
         },
         updateMission:function(name,client,dateB,dateE,descr,type){
-            this.missions[this.currentBlock].title=name;
-            this.missions[this.currentBlock].clientId.label=client;
-            this.missions[this.currentBlock].beginDate=dateB;
-            this.missions[this.currentBlock].endDate=dateE;
-            this.missions[this.currentBlock].description=descr;
-            this.missions[this.currentBlock].typeMissions.label=type;
+//            this.missions[this.currentBlock].title=name;
+//            this.missions[this.currentBlock].clientId.label=client;
+//            this.missions[this.currentBlock].beginDate=dateB;
+//            this.missions[this.currentBlock].endDate=dateE;
+//            this.missions[this.currentBlock].description=descr;
+//            this.missions[this.currentBlock].typeMissions.label=type;
         },
         updateUserBDD:function(){
           let birth = this.infoUser.birthDate.split("-");

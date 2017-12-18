@@ -87,16 +87,13 @@
     components:{
       sector: fieldActivity
     },
-    //props: ['beginDate','endDate','titleMission','description','client','typeM','currentBlock','today','domain'],
     data: function() {
       return {
-        endInput: ""
+        endInput: "",
+        currentMission: this.$store.state.currentMission
       }
     },
     computed:{
-      currentMission:function() {
-        return this.$store.getters.getCurrentMission;
-      },
       typeMission:function(){
         return this.currentMission.typeMission.label;
       },
