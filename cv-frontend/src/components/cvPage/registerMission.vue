@@ -49,7 +49,7 @@
         <i class="fa fa-id-card-o fa-2x"></i>
         <div>
           <label id="Client" v-bind:class="labelClientClass">Client</label>
-          <input id="Client Form" v-model="clientMission" type="text" v-on:keyup="updateBlock()" class="inputText"
+          <input id="Client Form" v-model="clientMission.label" type="text" v-on:keyup="updateBlock()" class="inputText"
                  @focus="setFocusLabelClass(2)" @blur="changeLabelClass(clientMission,2)">
         </div>
       </div>
@@ -110,7 +110,7 @@
         return this.currentMission.title;
       },
       labelTitleClass:function(){
-        return this.currentMission.title != "" ? "label-full" : "label-empty";
+        return this.currentMission.title != "" ? "label-empty" : "label-full";
       },
       labelClientClass:function(){
         return this.currentMission.client != "" ? "label-full" : "label-empty";
