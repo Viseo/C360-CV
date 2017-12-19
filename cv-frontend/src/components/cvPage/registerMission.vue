@@ -38,8 +38,8 @@
           <div class="inputCalendar">
             <input id="End Calendar Date" v-model="currentMission.endDate" class="inputDate" type="date" v-on:click="updateBlock()" @input="updateBlock()">
           </div>
-          <div v-if="endInput==today" id="checkboxNow"><input id="Until Now Box" type="checkbox" checked @click="endInput='';updateBlock()">Jusqu'à ce jour</div>
-          <div v-else id="checkboxNow"><input id="Until Now Box" type="checkbox" @click="endInput=today;updateBlock()">Jusqu'à ce jour</div>
+          <div v-if="currentMission.endDate==today" id="checkboxNow"><input id="Until Now Box" type="checkbox" checked @click="currentMission.endDate='';updateBlock()">Jusqu'à ce jour</div>
+          <div v-else id="checkboxNow"><input id="Until Now Box" type="checkbox" @click="currentMission.endDate=today;updateBlock()">Jusqu'à ce jour</div>
         </div>
       </div>
     </div>
@@ -130,16 +130,16 @@
     },
     methods:{
       updateBlock(){
-        if(event.target.id=='Until Now Box' && event.target.checked){
-          document.getElementById('End Calendar Date').value=this.today;
-        }else if(event.target.id=='End Calendar Date'){
-          if(event.target.value==this.today){
-            document.getElementById('Until Now Box').checked=true;
-          }else{
-            document.getElementById('Until Now Box').checked=false;
-          }
-        }
-        this.$emit('updateProps',this.nameMission,this.clientMission,this.beginInput,this.endInput,this.descriptionMission,this.typeMission);
+//        if(event.target.id=='Until Now Box' && event.target.checked){
+//          document.getElementById('End Calendar Date').value=this.today;
+//        }else if(event.target.id=='End Calendar Date'){
+//          if(event.target.value==this.today){
+//            document.getElementById('Until Now Box').checked=true;
+//          }else{
+//            document.getElementById('Until Now Box').checked=false;
+//          }
+//        }
+//        this.$emit('updateProps',this.nameMission,this.clientMission,this.beginInput,this.endInput,this.descriptionMission,this.typeMission);
       },
       toggleShowMenu() {
         this.showMenu=!this.showMenu;

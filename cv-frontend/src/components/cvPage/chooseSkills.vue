@@ -75,19 +75,12 @@
         items : [false, false, false, false,false,false],
         resultSearch:"Recherche Vide",
         colorSearch:"color:white",
-        search:"",
-        idMission:this.$store.state.currentBlock,
-        block:this.$store.state.currentBlock
+        search:""
       }
     },
     computed:{
       currentSkills:function () {
-        if(this.$store.state.userLogged.missions.length>0){
-          return this.$store.state.userLogged.missions[this.block].skills;
-        }
-        else{
-          return null;
-        }
+        return this.$store.state.currentMission.skills;
       }
     },
     methods: {
