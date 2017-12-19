@@ -12,7 +12,9 @@
           <div class="colonnesHeader1">
             <div class="userInfo">
               <span class="luggageIcon"></span>
-              <p>{{infoUser.position}}, {{infoUser.experience}} d'expérience</p>
+              <p>{{infoUser.position}},</p>
+              <p style="margin-left:4px;" v-if="infoUser.experience>1">{{infoUser.experience}} ans d'expérience</p>
+              <p style="margin-left:4px;" v-if="infoUser.experience==1">{{infoUser.experience}} an d'expérience</p>
             </div>
             <div class="userInfo">
               <span class="enveloppe"></span>
