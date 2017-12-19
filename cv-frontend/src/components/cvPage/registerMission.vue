@@ -4,8 +4,8 @@
       <div class="inputDiv">
         <i class="fa fa-suitcase fa-2x"></i>
         <div>
-          <label v-bind:class="labelTitleClass">Titre de la mission</label>
-          <input id="Title Mission" v-model="nameMission" type='text' class="inputText" @focus="setFocusLabelClass(1)"
+          <label v-bind:class="currentMission.title != '' ? 'label-full' : 'label-empty'">Titre de la mission</label>
+          <input id="Title Mission" v-model="currentMission.title" type='text' class="inputText" @focus="setFocusLabelClass(1)"
                  @keyup="updateBlock()" @blur="changeLabelClass(nameMission,1)">
         </div>
       </div>
@@ -105,20 +105,32 @@
       descriptionMission:function(){
         return this.currentMission.description;
       },
-      nameMission:function(){
-        return this.currentMission.title;
+      nameMission: {
+        get:function(){
+          return this.currentMission.title;
+        },
+        set:function(newValue){
+          this.currentMission.title = newValue;
+        }
       },
-      labelTitleClass:function(){
-        return this.currentMission.title != "" ? "label-full" : "label-empty";
-      },
-      labelClientClass:function(){
-        return this.currentMission.client != "" ? "label-full" : "label-empty";
+      labelClientClass:{
+        get:function(){
+          return this.currentMission.client != "" ? "label-full" : "label-empty";
+        },
+        set:function(){
+          this.labelClientClass = this.currentMission.client != "" ? "label-full" : "label-empty";
+        }
       },
       clientMission: function(){
         return this.currentMission.client;
       },
-      labelDescriptionClass:function(){
-        return this.currentMission.description != "" ? "labelDescription-full" : "labelDescription-empty";
+      labelDescriptionClass:{
+        get:function(){
+          return this.currentMission.description != "" ? "labelDescription-full" : "labelDescription-empty";
+        },
+        set:function(){
+          this.labelDescriptionClass = this.currentMission.description != "" ? "labelDescription-full" : "labelDescription-empty";
+        }
       },
       today:function(){
         let date = new Date();
@@ -145,21 +157,21 @@
         this.showMenu=!this.showMenu;
       },
       changeLabelClass(text,numLabel){
-        if(text!=""){
-          if(numLabel==1) this.labelTitleClass = "label-full";
-          else if(numLabel==2) this.labelClientClass = "label-full";
-          else if(numLabel==3) this.labelDescriptionClass = "labelDescription-full";
-        }
-        else{
-          if(numLabel==1) this.labelTitleClass = "label-empty";
-          else if(numLabel==2) this.labelClientClass = "label-empty";
-          else if(numLabel==3) this.labelDescriptionClass = "labelDescription-empty";
-        }
+//        if(text!=""){
+//          if(numLabel==1) this.labelTitleClass = "label-full";
+//          else if(numLabel==2) this.labelClientClass = "label-full";
+//          else if(numLabel==3) this.labelDescriptionClass = "labelDescription-full";
+//        }
+//        else{
+//          if(numLabel==1) this.labelTitleClass = "label-empty";
+//          else if(numLabel==2) this.labelClientClass = "label-empty";
+//          else if(numLabel==3) this.labelDescriptionClass = "labelDescription-empty";
+//        }
       },
       setFocusLabelClass(numLabel){
-        if(numLabel==1) this.labelTitleClass = "label-full";
-        else if(numLabel==2) this.labelClientClass = "label-full";
-        else if(numLabel==3) this.labelDescriptionClass = "labelDescription-full";
+//        if(numLabel==1) this.labelTitleClass = "label-full";
+//        else if(numLabel==2) this.labelClientClass = "label-full";
+//        else if(numLabel==3) this.labelDescriptionClass = "labelDescription-full";
       },
       updateSector(sector){
         this.$emit('updateSector',sector);

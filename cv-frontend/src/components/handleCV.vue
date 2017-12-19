@@ -22,7 +22,7 @@
 
         <skills v-on:updateSkills="updateSkills"></skills>
 
-        <listMissions v-on:addMission="addMission" v-on:deleteMission="deleteMission"></listMissions>
+        <listMissions v-on:deleteMission="deleteMission"></listMissions>
       </div>
     </div>
     <div v-show="showPDF" class="grayer" @click="closePDF"></div>
@@ -59,95 +59,86 @@
           showPDF: false,
           infoUser: this.$store.state.userLogged,
           missions: this.$store.state.userLogged.missions,
-          domain:""
+          domain:"",
         }
     },
     methods:{
-        addMission() {
-          /*
-            this.missions.push({id:0,title: "", beginDate: "",
-              endDate: "", clientId:{id:0,label:"",domain:""}, description: "",typeMissions:{id:1,label:'mission'},skills:[]});
-            this.currentBlock=this.missions.length-1;
-            this.getInfoMission(this.missions.length-1);
-            */
-        },
-        deleteMission(){
-            setTimeout(()=>{
-              this.$store.commit('setCurrentMissionBlock', 0);
-              //this.getInfoMission(0);
-            },100);
-        },
-        updateSkills(skillsSelected){
+      deleteMission(){
+          setTimeout(()=>{
+            this.$store.commit('setCurrentMissionBlock', 0);
+            //this.getInfoMission(0);
+          },100);
+      },
+      updateSkills(skillsSelected){
 //          for(let mission in this.missions) {
 //            if (this.currentBlock === this.missions[mission].id) {
 //              this.missions[mission].skills = skillsSelected;
 //            }
 //          }
-        },
-        closePDF: function () {
-          this.showPDF=!this.showPDF
-        },
-        updateSector: function (sector) {
+      },
+      closePDF: function () {
+        this.showPDF=!this.showPDF
+      },
+      updateSector: function (sector) {
 //          for(let i = 0; i<this.missions.length;i++) {
 //            if (this.currentBlock === i) {
 //              this.missions[i].clientId.domain = sector;
 //              this.domain = sector;
 //            }
 //          }
-        },
-        updateMission:function(name,client,dateB,dateE,descr,type){
+      },
+      updateMission:function(name,client,dateB,dateE,descr,type){
 //            this.missions[this.currentBlock].title=name;
 //            this.missions[this.currentBlock].clientId.label=client;
 //            this.missions[this.currentBlock].beginDate=dateB;
 //            this.missions[this.currentBlock].endDate=dateE;
 //            this.missions[this.currentBlock].description=descr;
 //            this.missions[this.currentBlock].typeMissions.label=type;
-        },
-        updateUserBDD:function(){
-          let birth = this.infoUser.birthDate.split("-");
-          let user = {
-            id:this.infoUser.id,
-            login:this.infoUser.login,
-            lastName: this.infoUser.lastName,
-            firstName: this.infoUser.firstName,
-            birth_date: new Date(this.infoUser.birthDate).getTime(),
-            position: this.infoUser.position,
-            experience: this.infoUser.experience,
-            mail: this.infoUser.mail,
-            telephone: this.infoUser.telephone,
-            hobbies: this.infoUser.hobbies,
-            languages: this.infoUser.languages,
-            picture: this.infoUser.picture,
-            password: this.infoUser.password,
-            admin: this.infoUser.admin
-          };
-          user.missions = this.missions;
+      },
+      updateUserBDD:function(){
+        let birth = this.infoUser.birthDate.split("-");
+        let user = {
+          id:this.infoUser.id,
+          login:this.infoUser.login,
+          lastName: this.infoUser.lastName,
+          firstName: this.infoUser.firstName,
+          birth_date: new Date(this.infoUser.birthDate).getTime(),
+          position: this.infoUser.position,
+          experience: this.infoUser.experience,
+          mail: this.infoUser.mail,
+          telephone: this.infoUser.telephone,
+          hobbies: this.infoUser.hobbies,
+          languages: this.infoUser.languages,
+          picture: this.infoUser.picture,
+          password: this.infoUser.password,
+          admin: this.infoUser.admin
+        };
+        user.missions = this.missions;
 
-          //TEST CODE
-          user.languages = [];
+        //TEST CODE
+        user.languages = [];
 
-          axios.post(config.server + '/api/updateUser', user)
-            .then((response)=>{
-              console.log(response);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
+        axios.post(config.server + '/api/updateUser', user)
+          .then((response)=>{
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
 
-          for (let i in this.missions) {
-            let tmp = new Date(this.missions[i].beginDate);
-            let tmpEnd = new Date(this.missions[i].endDate);
+        for (let i in this.missions) {
+          let tmp = new Date(this.missions[i].beginDate);
+          let tmpEnd = new Date(this.missions[i].endDate);
 
-            this.missions[i].beginDate = tmp.getFullYear() + "-" +
-              ("0" + (parseInt(tmp.getMonth()))).slice(-2) + "-" +
-              ("0" + tmp.getDate()).slice(-2);
+          this.missions[i].beginDate = tmp.getFullYear() + "-" +
+            ("0" + (parseInt(tmp.getMonth()))).slice(-2) + "-" +
+            ("0" + tmp.getDate()).slice(-2);
 
-            this.missions[i].endDate = tmpEnd.getFullYear() + "-" +
-              ("0" + (parseInt(tmpEnd.getMonth()))).slice(-2) + "-" +
-              ("0" + tmpEnd.getDate()).slice(-2);
-          }
-
+          this.missions[i].endDate = tmpEnd.getFullYear() + "-" +
+            ("0" + (parseInt(tmpEnd.getMonth()))).slice(-2) + "-" +
+            ("0" + tmpEnd.getDate()).slice(-2);
         }
+      }
     }
   }
 

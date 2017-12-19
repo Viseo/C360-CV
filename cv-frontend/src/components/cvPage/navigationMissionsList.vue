@@ -220,10 +220,10 @@
         },500);
       },
       getInfoMission(item){
-          this.$store.commit('setCurrentMission',item)
+        this.$store.commit('setCurrentMission',item);
       },
       addMission(){
-        this.$emit('addMission');
+        console.log(this.$store.state.currentMission);
       }
 //      getStyleMission(item){
 //        if(this.block==item.id){
