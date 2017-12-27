@@ -78,9 +78,14 @@
     },
     methods:{
       showMission(){
-        var self = this;
-        this.showMissionInfo = false;
-        setTimeout(function(){ self.showMissionInfo = true; }, 500);
+        if (!this.showMissionInfo){
+          this.showMissionInfo = true;
+        }
+        else{
+          var self = this;
+          this.showMissionInfo = false;
+          setTimeout(function(){ self.showMissionInfo = true; }, 100);
+        }
       },
       addMission(){
         console.log("Adding new mission: ");

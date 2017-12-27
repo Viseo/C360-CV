@@ -224,7 +224,6 @@
         this.$store.commit('setCurrentMission',item);
       },
       addMission(){
-        this.$emit('showMission');
         this.$store.state.userLogged.missions.push({
           beginDate: "",
           endDate: "",
@@ -274,6 +273,7 @@
     padding-bottom: 0.2em;
     border: none;
     border-bottom: 1px solid dimgrey;
+    background-color:#FF9200;
   }
 
   .listMissions{

@@ -26,7 +26,7 @@
         <div>
           <label id="Start Title">Début</label>
           <div class="inputCalendar">
-            <input id="Start Calendar Date" v-model="currentMission.beginDate" class="inputDate" type="date">
+            <input id="Start Calendar Date" v-model="currentMission.beginDate" class="inputDate" type="date" @input="checkBeginDate()">
           </div>
         </div>
       </div>
@@ -36,7 +36,7 @@
         <div>
           <label id="Fin Title">Fin</label>
           <div class="inputCalendar">
-            <input id="End Calendar Date" v-model="currentMission.endDate" class="inputDate" type="date">
+            <input id="End Calendar Date" v-model="currentMission.endDate" class="inputDate" type="date" @input="checkEndDate()">
           </div>
           <div v-if="currentMission.endDate==today" id="checkboxNow"><input id="Until Now Box" type="checkbox" checked @click="currentMission.endDate='';">Jusqu'à ce jour</div>
           <div v-else id="checkboxNow"><input id="Until Now Box" type="checkbox" @click="currentMission.endDate=today;">Jusqu'à ce jour</div>
@@ -80,7 +80,6 @@
 
 
 <script>
-  import { bus } from '../../EventBus.js';
   import fieldActivity from './fieldActivity.vue'
 
   export default{
@@ -105,37 +104,35 @@
       }
     },
     methods:{
-      updateBlock(){
-//        if(event.target.id=='Until Now Box' && event.target.checked){
-//          document.getElementById('End Calendar Date').value=this.today;
-//        }else if(event.target.id=='End Calendar Date'){
-//          if(event.target.value==this.today){
-//            document.getElementById('Until Now Box').checked=true;
-//          }else{
-//            document.getElementById('Until Now Box').checked=false;
-//          }
-//        }
-//        this.$emit('updateProps',this.nameMission,this.clientMission,this.beginInput,this.endInput,this.descriptionMission,this.typeMission);
+      checkBeginDate(){
+        if(this.currentMission.beginDate>this.currentMission.endDate && this.currentMission.endDate!=''){
+          this.currentMission.endDate = this.currentMission.beginDate;
+        }
+      },
+      checkEndDate(){
+        if(this.currentMission.beginDate>this.currentMission.endDate && this.currentMission.beginDate!=''){
+          this.currentMission.beginDate = this.currentMission.endDate;
+        }
       },
       toggleShowMenu() {
         this.showMenu=!this.showMenu;
       },
       changeLabelClass(text,numLabel){
-//        if(text!=""){
-//          if(numLabel==1) this.labelTitleClass = "label-full";
-//          else if(numLabel==2) this.labelClientClass = "label-full";
-//          else if(numLabel==3) this.labelDescriptionClass = "labelDescription-full";
-//        }
-//        else{
-//          if(numLabel==1) this.labelTitleClass = "label-empty";
-//          else if(numLabel==2) this.labelClientClass = "label-empty";
-//          else if(numLabel==3) this.labelDescriptionClass = "labelDescription-empty";
-//        }
+        if(text!=""){
+          if(numLabel==1) this.labelTitleClass = "label-full";
+          else if(numLabel==2) this.labelClientClass = "label-full";
+          else if(numLabel==3) this.labelDescriptionClass = "labelDescription-full";
+        }
+        else{
+          if(numLabel==1) this.labelTitleClass = "label-empty";
+          else if(numLabel==2) this.labelClientClass = "label-empty";
+          else if(numLabel==3) this.labelDescriptionClass = "labelDescription-empty";
+        }
       },
       setFocusLabelClass(numLabel){
-//        if(numLabel==1) this.labelTitleClass = "label-full";
-//        else if(numLabel==2) this.labelClientClass = "label-full";
-//        else if(numLabel==3) this.labelDescriptionClass = "labelDescription-full";
+        if(numLabel==1) this.labelTitleClass = "label-full";
+        else if(numLabel==2) this.labelClientClass = "label-full";
+        else if(numLabel==3) this.labelDescriptionClass = "labelDescription-full";
       },
       updateSector(sector){
         this.$emit('updateSector',sector);
