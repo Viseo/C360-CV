@@ -92,9 +92,6 @@
     },
     props:['currentMission'],
     computed:{
-      clientMission: function(){
-        return this.currentMission.client;
-      },
       today:function(){
         let date = new Date();
         let thisDay, thisMonth;

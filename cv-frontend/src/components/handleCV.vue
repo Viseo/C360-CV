@@ -88,8 +88,13 @@
         }
       },
       addMission(){
-        console.log("Adding new mission: ");
         console.log(this.$store.state.currentMission);
+        if(this.$store.state.currentMission.id != ''){
+          console.log('updating the mission...');
+        }
+        else{
+          console.log('adding new mission...');
+        }
       },
       deleteMission(){
           setTimeout(()=>{
