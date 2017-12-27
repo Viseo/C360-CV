@@ -31,7 +31,7 @@ var storeInit = {
       title: "",
       skills: [],
       client: {},
-      typeMissions: {},
+      typeMissions: {label:''},
       id: "",
       description: ""
     }
@@ -98,10 +98,22 @@ export const store = new Vuex.Store({
             title: "",
             skills: [],
             client: {},
-            typeMissions: {},
+            typeMissions: {label:''},
             id: "",
             description: ""
           }
+        });
+      },
+      restoreCurrentMission(state){
+        Object.assign(state.currentMission,{
+          beginDate: "",
+          endDate: "",
+          title: "",
+          skills: [],
+          client: {},
+          typeMissions: {label:''},
+          id: "",
+          description: ""
         });
       },
       setCurrentMission(state,missionSelected){

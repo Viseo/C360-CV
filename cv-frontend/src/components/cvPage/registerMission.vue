@@ -6,7 +6,7 @@
         <div>
           <label v-bind:class="currentMission.title != '' ? 'label-full' : 'label-empty'">Titre de la mission</label>
           <input id="Title Mission" v-model="currentMission.title" type='text' class="inputText" @focus="setFocusLabelClass(1)"
-                 @keyup="updateBlock()" @blur="changeLabelClass(nameMission,1)">
+                 @blur="changeLabelClass(currentMission.title,1)">
         </div>
       </div>
 
@@ -14,7 +14,7 @@
         <i class="fa fa-file-text fa-2x"></i>
         <div>
           <label id="Type Title">Type</label>
-          <select v-model="typeMission" v-on:click="updateBlock()">
+          <select v-model="currentMission.typeMissions.label">
             <option >Mission</option>
             <option>Séminaire</option>
           </select>
@@ -26,7 +26,7 @@
         <div>
           <label id="Start Title">Début</label>
           <div class="inputCalendar">
-            <input id="Start Calendar Date" v-model="currentMission.beginDate" class="inputDate" type="date" v-on:click="updateBlock()" @input="updateBlock()">
+            <input id="Start Calendar Date" v-model="currentMission.beginDate" class="inputDate" type="date">
           </div>
         </div>
       </div>
@@ -36,10 +36,10 @@
         <div>
           <label id="Fin Title">Fin</label>
           <div class="inputCalendar">
-            <input id="End Calendar Date" v-model="currentMission.endDate" class="inputDate" type="date" v-on:click="updateBlock()" @input="updateBlock()">
+            <input id="End Calendar Date" v-model="currentMission.endDate" class="inputDate" type="date">
           </div>
-          <div v-if="currentMission.endDate==today" id="checkboxNow"><input id="Until Now Box" type="checkbox" checked @click="currentMission.endDate='';updateBlock()">Jusqu'à ce jour</div>
-          <div v-else id="checkboxNow"><input id="Until Now Box" type="checkbox" @click="currentMission.endDate=today;updateBlock()">Jusqu'à ce jour</div>
+          <div v-if="currentMission.endDate==today" id="checkboxNow"><input id="Until Now Box" type="checkbox" checked @click="currentMission.endDate='';">Jusqu'à ce jour</div>
+          <div v-else id="checkboxNow"><input id="Until Now Box" type="checkbox" @click="currentMission.endDate=today;">Jusqu'à ce jour</div>
         </div>
       </div>
     </div>
@@ -48,15 +48,15 @@
       <div class="clientDiv">
         <i class="fa fa-id-card-o fa-2x"></i>
         <div>
-          <label id="Client" v-bind:class="labelClientClass">Client</label>
-          <input id="Client Form" v-model="clientMission.label" type="text" v-on:keyup="updateBlock()" class="inputText"
-                 @focus="setFocusLabelClass(2)" @blur="changeLabelClass(clientMission,2)">
+          <label id="Client" v-bind:class="currentMission.client != '' ? 'label-full' : 'label-empty'">Client</label>
+          <input id="Client Form" v-model="currentMission.client.label" type="text" class="inputText"
+                 @focus="setFocusLabelClass(2)" @blur="changeLabelClass(currentMission.client,2)">
         </div>
       </div>
       <div class="listSector">
-        <span class="messageError" v-if="clientMission == ''">Veuillez entrer un client</span>
-        <span v-else="clientMission != ''">
-          <sector  :client="clientMission" @updateSector="updateSector"></sector>
+        <span class="messageError" v-if="currentMission.client == ''">Veuillez entrer un client</span>
+        <span v-else="currentMission.client != ''">
+          <sector  :client="currentMission.client" @updateSector="updateSector"></sector>
         </span>
 
       </div>
@@ -66,10 +66,10 @@
       <div class="descDiv">
         <i class="fa fa-pencil-square-o fa-2x"></i>
         <div>
-          <label id="descriptionLabel" v-bind:class="labelDescriptionClass">Description</label>
-          <textarea id="Description" v-model="descriptionMission" @input="updateBlock" class="inputTextArea" rows="4"
-                    @focus="setFocusLabelClass(3)" @blur="changeLabelClass(descriptionMission,3)"/>
-          <span class="messageError" v-if="descriptionMission == ''" style="display:block; position: relative; top: 3em;">Veuillez entrer une description de mission</span>
+          <label id="descriptionLabel" v-bind:class="currentMission.description != '' ? 'labelDescription-full' : 'labelDescription-empty'">Description</label>
+          <textarea id="Description" v-model="currentMission.description" class="inputTextArea" rows="4"
+                    @focus="setFocusLabelClass(3)" @blur="changeLabelClass(currentMission.description,3)"/>
+          <span class="messageError" v-if="currentMission.description == ''" style="display:block; position: relative; top: 3em;">Veuillez entrer une description de mission</span>
         </div>
       </div>
     </div>
@@ -89,48 +89,12 @@
     },
     data: function() {
       return {
-
       }
     },
+    props:['currentMission'],
     computed:{
-      currentMission:function(){
-        return this.$store.state.currentMission;
-      },
-      typeMission:function(){
-        return this.currentMission.typeMissions.label;
-      },
-      beginInput:function(){
-        return this.currentMission.beginDate;
-      },
-      descriptionMission:function(){
-        return this.currentMission.description;
-      },
-      nameMission: {
-        get:function(){
-          return this.currentMission.title;
-        },
-        set:function(newValue){
-          this.currentMission.title = newValue;
-        }
-      },
-      labelClientClass:{
-        get:function(){
-          return this.currentMission.client != "" ? "label-full" : "label-empty";
-        },
-        set:function(){
-          this.labelClientClass = this.currentMission.client != "" ? "label-full" : "label-empty";
-        }
-      },
       clientMission: function(){
         return this.currentMission.client;
-      },
-      labelDescriptionClass:{
-        get:function(){
-          return this.currentMission.description != "" ? "labelDescription-full" : "labelDescription-empty";
-        },
-        set:function(){
-          this.labelDescriptionClass = this.currentMission.description != "" ? "labelDescription-full" : "labelDescription-empty";
-        }
       },
       today:function(){
         let date = new Date();

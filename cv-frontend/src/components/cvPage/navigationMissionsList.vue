@@ -220,10 +220,21 @@
         },500);
       },
       getInfoMission(item){
+        this.$emit('showMission');
         this.$store.commit('setCurrentMission',item);
       },
       addMission(){
-        console.log(this.$store.state.currentMission);
+        this.$emit('showMission');
+        this.$store.state.userLogged.missions.push({
+          beginDate: "",
+          endDate: "",
+          title: "",
+          skills: [],
+          client: {},
+          typeMissions: {label:''},
+          id: "",
+          description: ""
+        })
       }
 //      getStyleMission(item){
 //        if(this.block==item.id){

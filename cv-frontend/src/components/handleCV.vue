@@ -7,22 +7,30 @@
         <saving :missions="missions" @saveData="updateUserBDD"></saving>
       </div>
       <div class="mission">
-        <div class="bannerMission">
-          <div style="display: flex; flex-direction: row;"><i class="fa fa-briefcase fa-lg briefcase"></i><p style="margin: 0">Gestion des Missions</p></div>
-          <div style="display: flex; flex-direction: row;margin-right: 10px; cursor: pointer;" @click="showPDF=!showPDF"><div style="display: flex;margin-right: 10px">Afficher aperçu PDF</div><i class="fa fa-binoculars"></i></div>
-        </div>
-        <!--
-        <registermission :currentBlock="currentBlock" :titleMission="missions[currentBlock].title" :beginDate="missions[currentBlock].beginDate"
-                         :client="missions[currentBlock].clientId?missions[currentBlock].clientId.label:''" :description="missions[currentBlock].description"
-                         :typeM="missions[currentBlock].clientId?missions[currentBlock].typeMissions.label:''"
-                         :today="today" :domain="missions[currentBlock].clientId?missions[currentBlock].clientId.domain:''" :endDate="missions[currentBlock].endDate"
-                         @updateSector="updateSector" @updateProps="updateMission"></registermission>
-        -->
-        <registermission></registermission>
 
-        <skills v-on:updateSkills="updateSkills"></skills>
+        <transition name="fade">
+          <div v-show="showMissionInfo">
+            <div class="bannerMission" >
+              <div style="display: flex; flex-direction: row;"><i class="fa fa-briefcase fa-lg briefcase"></i><p style="margin: 0">Gestion des Missions</p></div>
+              <div style="display: flex; flex-direction: row;margin-right: 10px; cursor: pointer;" @click="showPDF=!showPDF"><div style="display: flex;margin-right: 10px">Afficher aperçu PDF</div><i class="fa fa-binoculars"></i></div>
+              <div style="display: flex; flex-direction: row;margin-right: 10px; cursor: pointer;" @click="addMission()"><div style="display: flex;margin-right: 10px">Sauvegarder la mission</div><i class="fa fa-floppy-o"></i></div>
+            </div>
+            <registermission :currentMission="currentMission"></registermission>
+            <skills v-on:updateSkills="updateSkills"></skills>
+          </div>
+          <!--
+          <registermission :currentBlock="currentBlock" :titleMission="missions[currentBlock].title" :beginDate="missions[currentBlock].beginDate"
+                           :client="missions[currentBlock].clientId?missions[currentBlock].clientId.label:''" :description="missions[currentBlock].description"
+                           :typeM="missions[currentBlock].clientId?missions[currentBlock].typeMissions.label:''"
+                           :today="today" :domain="missions[currentBlock].clientId?missions[currentBlock].clientId.domain:''" :endDate="missions[currentBlock].endDate"
+                           @updateSector="updateSector" @updateProps="updateMission"></registermission>
+          -->
 
-        <listMissions v-on:deleteMission="deleteMission"></listMissions>
+
+        </transition>
+        <listMissions v-on:deleteMission="deleteMission" @showMission="showMission"></listMissions>
+
+
       </div>
     </div>
     <div v-show="showPDF" class="grayer" @click="closePDF"></div>
@@ -57,12 +65,27 @@
         return {
           show: false,
           showPDF: false,
+          showMissionInfo:false,
           infoUser: this.$store.state.userLogged,
           missions: this.$store.state.userLogged.missions,
-          domain:"",
+          domain:""
         }
     },
+    computed:{
+      currentMission:function(){
+        return this.$store.state.currentMission;
+      }
+    },
     methods:{
+      showMission(){
+        var self = this;
+        this.showMissionInfo = false;
+        setTimeout(function(){ self.showMissionInfo = true; }, 500);
+      },
+      addMission(){
+        console.log("Adding new mission: ");
+        console.log(this.$store.state.currentMission);
+      },
       deleteMission(){
           setTimeout(()=>{
             this.$store.commit('setCurrentMissionBlock', 0);
