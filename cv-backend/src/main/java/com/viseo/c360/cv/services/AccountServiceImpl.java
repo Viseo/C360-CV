@@ -46,9 +46,9 @@ public class AccountServiceImpl implements AccountService {
 
     public UsersEntity findByMail(String mail){
         try{
-            return  em.createQuery("SELECT U FROM UsersEntity U JOIN FETCH U.missions M " +
-                    "JOIN FETCH U.languages " +
-                    "JOIN FETCH M.skills WHERE U.mail = ?1", UsersEntity.class)
+            return  em.createQuery("SELECT U FROM UsersEntity U LEFT JOIN FETCH U.missions M " +
+                    "LEFT JOIN FETCH U.languages " +
+                    "LEFT JOIN FETCH M.skills WHERE U.mail = ?1", UsersEntity.class)
                     .setParameter(1, mail).getSingleResult();
         }
         catch (NoResultException nre){
@@ -59,9 +59,9 @@ public class AccountServiceImpl implements AccountService {
 
     public UsersEntity findById(int id){
         try{
-            return em.createQuery("SELECT U FROM UsersEntity U JOIN FETCH U.missions M " +
-                    "JOIN FETCH U.languages " +
-                    "JOIN FETCH M.skills WHERE U.id = ?1", UsersEntity.class)
+            return em.createQuery("SELECT U FROM UsersEntity U LEFT JOIN FETCH U.missions M " +
+                    "LEFT JOIN FETCH U.languages " +
+                    "LEFT JOIN FETCH M.skills WHERE U.id = ?1", UsersEntity.class)
                     .setParameter(1,id).getSingleResult();
         }
         catch (NoResultException nre){
@@ -96,11 +96,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<UsersEntity> getAll(){
          em.createQuery("SELECT U FROM UsersEntity U " +
-                "JOIN FETCH U.missions M " +
-                "JOIN FETCH M.skills",
+                "LEFT JOIN FETCH U.missions M " +
+                "LEFT JOIN FETCH M.skills",
                 UsersEntity.class).getResultList();
          return em.createQuery("SELECT U FROM UsersEntity U " +
-                        "JOIN FETCH U.languages ",
+                        "LEFT JOIN FETCH U.languages ",
                 UsersEntity.class).getResultList();
     }
 

@@ -94,6 +94,13 @@
         }
         else{
           console.log('adding new mission...');
+          axios.post(config.server +  '/api/missions',{
+
+          }).then(function(response){
+
+          }).catch(function(error){
+
+          });
         }
       },
       deleteMission(){

@@ -28,6 +28,7 @@
   import listCollab from "./adminPageComponents/listCollab.vue"
   import curriPDF from './PDF/curriculumPDF.vue'
   import axios from 'axios'
+  import config from '../config/config'
 
   const skills = [
     ["Android","Ios","React Native","Xamarin"],
@@ -165,7 +166,7 @@
 
     },
     created: function () {
-        return axios.get('/api/getUsers')
+        return axios.get(config.server +  '/api/getUsers')
           .then(response=>{
             if(response.data.length>0){
               this.collaborators = response.data;

@@ -1,7 +1,5 @@
 package com.viseo.c360.cv.services;
 
-import com.viseo.c360.cv.models.dto.UserDto;
-import com.viseo.c360.cv.models.entities.MissionEntity;
 import com.viseo.c360.cv.models.entities.UsersEntity;
 
 import java.util.List;
