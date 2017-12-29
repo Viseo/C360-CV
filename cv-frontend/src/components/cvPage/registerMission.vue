@@ -49,16 +49,23 @@
         <i class="fa fa-id-card-o fa-2x"></i>
         <div>
           <label id="Client" v-bind:class="currentMission.client != '' ? 'label-full' : 'label-empty'">Client</label>
-          <input id="Client Form" v-model="currentMission.client.label" type="text" class="inputText"
-                 @focus="setFocusLabelClass(2)" @blur="changeLabelClass(currentMission.client,2)">
+          <div style="height:30px;margin-left:15px;">
+            <button v-if="currentMission.client.label != undefined"
+                    class="button button-primary button-pill button-small" @click="showClientModal = true">
+              {{currentMission.client.label}}
+            </button>
+            <button class="button button-action button-circle button-small" @click="showClientModal = true" v-else>
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+          <clientModal v-if="showClientModal" @close="showClientModal = false">
+            <!--
+              you can use custom content here to overwrite
+              default content
+            -->
+            <!--<h3 slot="header">custom hdsdqeader</h3>-->
+          </clientModal>
         </div>
-      </div>
-      <div class="listSector">
-        <span class="messageError" v-if="currentMission.client == ''">Veuillez entrer un client</span>
-        <span v-else="currentMission.client != ''">
-          <sector  :client="currentMission.client" @updateSector="updateSector"></sector>
-        </span>
-
       </div>
     </div>
 
@@ -80,14 +87,16 @@
 
 
 <script>
-  import fieldActivity from './fieldActivity.vue'
+
+  import clientModal from "../cvPage/clientModal.vue"
 
   export default{
     components:{
-      sector: fieldActivity
+      clientModal:clientModal
     },
     data: function() {
       return {
+        showClientModal: false
       }
     },
     props:['currentMission'],
@@ -193,7 +202,6 @@
   .descDiv > div{display: flex; flex-direction: column; width: 100%}
   .descDiv textarea{border: none; border-bottom: 1px solid dimgray; margin-left: 8px; width: 95%; z-index: 1; background: transparent; height: 5em}
   .descDiv span{display:flex !important; flex-direction:row; justify-content: center; align-items: center; position: absolute !important; top: 5em !important; }
-
 
 
 </style>
