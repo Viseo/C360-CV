@@ -1,54 +1,103 @@
 <template>
 
     <transition name="clientModal">
+      <!--attach a client-->
       <div class="clientModal-mask" v-if="newClientOrNot">
         <div class="clientModal-wrapper">
           <div class="clientModal-container">
+
             <div class="clientModal-header">
               <slot name="header">
-                B
+                <h3>
+                  Lier votre mission à un client
+                  <button style="float:right"
+                          class="clientModal-default-button button button-caution button-circle button-tiny"
+                          @click="$emit('close')">
+                    <i class="fa fa-times"></i>
+                  </button>
+                </h3>
+
               </slot>
             </div>
 
             <div class="clientModal-body">
               <slot name="body">
-                default body
+                <div style="width:100%;">
+                  <div style="float:left; width:25%;"> This is left  </div>
+                  <div style="float:right; width:75%;"> This is right  </div>
+                </div>
               </slot>
             </div>
 
             <div class="clientModal-footer">
-              <slot name="footer">
-                default footer
-                <button class="clientModal-default-button" @click="$emit('close')">
-                  OK
+              <slot name="footer" >
+                <button class="button button-action button-pill button-small"
+                        @click="$emit('close')">
+                  Confirmer
                 </button>
+
               </slot>
             </div>
           </div>
         </div>
       </div>
+      <!--change or verify the attached client -->
       <div class="clientModal-mask" v-else>
         <div class="clientModal-wrapper">
           <div class="clientModal-container">
 
             <div class="clientModal-header">
               <slot name="header">
-                default header
+                <h3>
+                  Les details du client
+                  <button style="float:right"
+                          class="clientModal-default-button button button-caution button-circle button-tiny"
+                          @click="$emit('close')">
+                    <i class="fa fa-times"></i>
+                  </button>
+                </h3>
+
               </slot>
             </div>
 
             <div class="clientModal-body">
               <slot name="body">
-                default body
+                <table>
+                  <tr>
+                    <td>
+                      Client
+                    </td>
+                    <td>
+                      {{currentMissionClient.label}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Domaine
+                    </td>
+                    <td>
+                      {{currentMissionClient.domain}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Description
+                    </td>
+                    <td>
+                      {{currentMissionClient.description}}
+                    </td>
+                  </tr>
+                </table>
               </slot>
             </div>
 
             <div class="clientModal-footer">
-              <slot name="footer">
-                default footer
-                <button class="clientModal-default-button" @click="$emit('close')">
-                  OK
+              <slot name="footer" >
+                <button class="button button-action button-pill button-small"
+                        @click="$emit('close')">
+                  Changer client
                 </button>
+
               </slot>
             </div>
           </div>
@@ -62,7 +111,8 @@
   export default {
     data:function(){
       return{
-        newClientOrNot:(this.$store.state.currentMission.client.id == undefined)
+        newClientOrNot:(this.$store.state.currentMission.client.id == undefined),
+        currentMissionClient:this.$store.state.currentMission.client
       }
     }
   }
@@ -87,9 +137,9 @@
   }
 
   .clientModal-container {
-    width: 300px;
+    width: 600px;
     margin: 0px auto;
-    padding: 20px 30px;
+    padding: 30px 30px;
     background-color: #fff;
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
@@ -106,9 +156,12 @@
     margin: 20px 0;
   }
 
-  .clientModal-default-button {
-    float: right;
+  .clientModal-default-button{
+    position:relative;
+    top:-40px;
+    right:-40px;
   }
+
 
   /*
    * The following styles are auto-applied to elements with
@@ -132,6 +185,19 @@
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
   }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  tr:hover {background-color:#f5f5f5;}
 
 </style>
 
