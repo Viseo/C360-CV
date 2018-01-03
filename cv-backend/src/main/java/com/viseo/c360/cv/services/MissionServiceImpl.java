@@ -24,8 +24,8 @@ public class MissionServiceImpl implements MissionService {
     }
 
     @Override
-    public Boolean delete(int userId, int missionId) {
-        return null;
+    public void delete(int missionId) {
+        missionDAO.deleteById((long)missionId);
     }
 
     @Override

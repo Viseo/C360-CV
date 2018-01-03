@@ -5,6 +5,9 @@ import com.viseo.c360.cv.models.entities.ClientEntity;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by YGU3747 on 08/12/2017
  */
@@ -18,5 +21,14 @@ public class ClientEntityToDtoConverter  implements Converter<ClientEntity, Clie
         clientDto.setDomain(clientsEntity.getDomain());
         clientDto.setLabel(clientsEntity.getLabel());
         return clientDto;
+    }
+
+    @Nullable
+    public List<ClientDto> convert(List<ClientEntity> clientEntityList){
+        List<ClientDto> clientDtoList = new ArrayList<>();
+        for (ClientEntity clientEntity:clientEntityList){
+            clientDtoList.add(this.convert(clientEntity));
+        }
+        return clientDtoList;
     }
 }

@@ -13,7 +13,7 @@ public interface MissionService {
 
     MissionEntity getById(int userId, int missionId);
 
-    Boolean delete(int userId, int missionId);
+    void delete(int missionId);
 
     MissionEntity update(MissionEntity missionEntity);
 

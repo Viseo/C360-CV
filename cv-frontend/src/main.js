@@ -3,7 +3,6 @@ import Router from 'vue-router'
 import router from './config/router'
 import Vuex from 'vuex'
 import {store} from './store'
-//import sha1 from 'sha1'
 import sha256 from '../node_modules/js-sha256/src/sha256'
 var jwtDecode = require('jwt-decode');
 

@@ -108,12 +108,25 @@
 </template>
 
 <script>
+  import axios from 'axios';
+  import config from '../../config/config';
+
   export default {
     data:function(){
       return{
         newClientOrNot:(this.$store.state.currentMission.client.id == undefined),
-        currentMissionClient:this.$store.state.currentMission.client
+        currentMissionClient:this.$store.state.currentMission.client,
+        clients:''
       }
+    },
+    mounted:function(){
+      axios.get(config.server + '/api/clients').then(response =>{
+        console.log("clients:");
+        console.log(response.data);
+      })
+      .catch(error => {
+
+      })
     }
   }
 </script>

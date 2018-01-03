@@ -30,8 +30,8 @@ public class MissionController {
     }
 
     @RequestMapping( method = DELETE)
-    public boolean delete(@RequestParam int userId, @RequestParam int missionId) {
-        return this.missionService.delete(userId,missionId);
+    public void delete(@RequestParam int missionId) {
+        this.missionService.delete(missionId);
     }
 
     @RequestMapping( method = GET)
