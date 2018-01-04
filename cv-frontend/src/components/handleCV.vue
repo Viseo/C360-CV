@@ -12,8 +12,12 @@
           <div v-show="showMissionInfo">
             <div class="bannerMission" >
               <div style="display: flex; flex-direction: row;"><i class="fa fa-briefcase fa-lg briefcase"></i><p style="margin: 0">Gestion des Missions</p></div>
-              <div style="display: flex; flex-direction: row;margin-right: 10px; cursor: pointer;" @click="showPDF=!showPDF"><div style="display: flex;margin-right: 10px">Afficher aperçu PDF</div><i class="fa fa-binoculars"></i></div>
-              <div style="display: flex; flex-direction: row;margin-right: 10px; cursor: pointer;" @click="addMission()"><div style="display: flex;margin-right: 10px">Sauvegarder la mission</div><i class="fa fa-floppy-o"></i></div>
+              <button class="button button-primary button-rounded" @click="showPDF=!showPDF">
+                Afficher aperçu PDF<i class="fa fa-binoculars" style="padding-left: 10px"></i>
+              </button>
+              <button class="button button-action button-rounded" @click="addMission()">
+                Sauvegarder la mission<i class="fa fa-floppy-o" style="padding-left: 10px"></i>
+              </button>
             </div>
             <registermission :currentMission="currentMission"></registermission>
             <skills v-on:updateSkills="updateSkills"></skills>
@@ -94,13 +98,13 @@
         }
         else{
           console.log('adding new mission...');
-          axios.post(config.server +  '/api/missions',{
-
-          }).then(function(response){
-
-          }).catch(function(error){
-
-          });
+//          axios.post(config.server +  '/api/missions',{
+//
+//          }).then(function(response){
+//
+//          }).catch(function(error){
+//
+//          });
         }
       },
       deleteMission(){

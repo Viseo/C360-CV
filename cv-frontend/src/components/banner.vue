@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="banner" v-bind:style="styleBanner">
-      <div  class="bannerText" v-bind:style="styleBannerText">Collaborateur 360</div>
+    <div class="banner styleBanner">
+      <div class="bannerText styleBannerText">Collaborateur 360</div>
       <div class="menus">
         <div>{{page}}</div>
         <div>
@@ -9,7 +9,7 @@
           <menuProfil :showMenuProfil="showMenuProfil"  @toggledMenuProfil="toggleShowMenuProfil" @signOut="signOut"></menuProfil>
         </div>
         <div @click="toggleShowMenu"  class="bannerIcon">
-          <i class="fa fa-th" v-bind:style="styleColorIcon"></i>
+          <i class="fa fa-th styleColorIcon"></i>
         </div>
       </div>
 
@@ -33,27 +33,7 @@
       return {
         showMenu: false,
         showMenuProfil: false,
-        styleBanner: {
-          display:'flex',
-          'flex-orientation': 'row',
-          'justify-content': 'space-between',
-          'align-items': 'center',
-          'background-color' : 'rgb(255,255,255)',
-          'margin-bottom':'1%',
-          'font-family': 'Arial',
-          'color' : 'rgb(255,146,0)',
-        },
-        styleBannerText:{
-          'padding-top':"1%",
-          'padding-left':"1%",
-          'padding-bottom':"1%",
-        },
-        styleBannerIcon:{
-        },
-        styleColorIcon:{
-          color:'rgb(255,146,0)',
-          cursor: 'pointer'
-        }
+
       }
     },
 
@@ -125,5 +105,26 @@
 
   .bannerIcon{
     margin-left: 3em;
+  }
+
+  .styleBanner{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color : rgb(255,255,255);
+    margin-bottom:1%;
+    font-family: Arial;
+    color : rgb(255,146,0);
+  }
+
+  .styleBannerText{
+    padding-top:15px;
+    padding-left:30px;
+    padding-bottom:10px;
+  }
+
+  .styleColorIcon{
+    color:rgb(255,146,0);
+    cursor: pointer;
   }
 </style>
