@@ -22,16 +22,16 @@
 
             <div class="clientModal-body">
               <slot name="body">
-                <div style="width:100%;">
-                  <div style="float:left; width:25%;"> This is left  </div>
-                  <div style="float:right; width:75%;"> This is right  </div>
-                </div>
+                <button class="button button-royal button-small" v-for="client in clients"
+                        style="margin-right: 15px;margin-bottom: 10px;" @click="chooseClient(client)">
+                  {{client.label}}
+                </button>
               </slot>
             </div>
 
             <div class="clientModal-footer">
               <slot name="footer" >
-                <button class="button button-action button-pill button-small"
+                  <button class="button button-action button-pill button-small"
                         @click="$emit('close')">
                   Confirmer
                 </button>
@@ -94,7 +94,7 @@
             <div class="clientModal-footer">
               <slot name="footer" >
                 <button class="button button-action button-pill button-small"
-                        @click="$emit('close')">
+                        @click="changeClient()">
                   Changer client
                 </button>
 
@@ -121,12 +121,24 @@
     },
     mounted:function(){
       axios.get(config.server + '/api/clients').then(response =>{
-        console.log("clients:");
-        console.log(response.data);
+        this.clients = response.data;
+        this.clients.sort((a, b) => a.label.localeCompare(b.label));
       })
       .catch(error => {
 
       })
+    },
+    methods:{
+      chooseClient:function(client){
+        this.$store.state.currentMission.client = client;
+        this.newClientOrNot = false;
+        this.currentMissionClient = client;
+      },
+      changeClient:function(){
+        this.$store.state.currentMission.client = '';
+        this.newClientOrNot = true;
+        this.currentMissionClient = '';
+      }
     }
   }
 </script>
@@ -150,7 +162,7 @@
   }
 
   .clientModal-container {
-    width: 600px;
+    width: 800px;
     margin: 0px auto;
     padding: 30px 30px;
     background-color: #fff;

@@ -5,10 +5,27 @@ INSERT INTO users (last_update_date,id, first_name, last_name, mail, login, posi
   (TIMESTAMP 'yesterday', 200000, 'GU', 'Leo', 'test1@test.com','AAA1221','Stagiaire','2','01/01/1994','mastermind actions','0614253647','bcb15f821479b4d5772bd0ca866c00ad5f926e3580720659cc80d39c9d09802a','../../static/users/maxime.png','false');
 INSERT INTO users (last_update_date,id, first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES
   (TIMESTAMP 'yesterday', 100000, 'GU', 'Admin', 'test2@test.com','AAA1222','Manager','30','01/01/1960','mastermind actions','0614253647','bcb15f821479b4d5772bd0ca866c00ad5f926e3580720659cc80d39c9d09802a','../../static/users/henri.png','true');
+
 INSERT INTO clients (id,label, domain, description) VALUES
   (1,'Henri','CONSEIL','Projet pour Henri comme ilearning et un supermarché virtuel');
 INSERT INTO clients (id,label, domain, description) VALUES
   (2,'Orange','FINANCE','Interface pour faire des traitements de données , big data');
+INSERT INTO clients (id,label, domain, description) VALUES
+  (3,'Orange2','FINANCE','Interface pour faire des traitements de données , big data');
+INSERT INTO clients (id,label, domain, description) VALUES
+  (4,'Orange3','FINANCE','Interface pour faire des traitements de données , big data');
+INSERT INTO clients (id,label, domain, description) VALUES
+  (5,'fsd','FINANCE','Interface pour faire des traitements de données , big data');
+INSERT INTO clients (id,label, domain, description) VALUES
+  (6,'Oragzenge','FINANCE','Interface pour faire des traitements de données , big data');
+INSERT INTO clients (id,label, domain, description) VALUES
+  (7,'cw','FINANCE','Interface pour faire des traitements de données , big data');
+INSERT INTO clients (id,label, domain, description) VALUES
+  (8,'efdsg','FINANCE','Interface pour faire des traitements de données , big data');
+INSERT INTO clients (id,label, domain, description) VALUES
+  (9,'dqa','FINANCE','Interface pour faire des traitements de données , big data');
+
+
 INSERT INTO missions (id, title, begin_date, end_date, client_id, description, type_id) VALUES
   (1,'Viseo Intern','01/01/2016','01/01/2017','1','Développement du démonstrateur DigiMarket','1');
 INSERT INTO missions (id, title, begin_date, end_date, client_id, description, type_id) VALUES

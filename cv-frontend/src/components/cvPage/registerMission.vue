@@ -48,7 +48,7 @@
       <div class="clientDiv">
         <i class="fa fa-id-card-o fa-2x"></i>
         <div>
-          <label id="Client" v-bind:class="currentMission.client != '' ? 'label-full' : 'label-empty'">Client</label>
+          <label id="Client" v-bind:class="label-full">Client</label>
           <div style="height:30px;margin-left:15px;">
             <button v-if="currentMission.client.label != undefined"
                     class="button button-primary button-pill button-small" @click="showClientModal = true">
