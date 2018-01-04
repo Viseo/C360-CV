@@ -38,7 +38,6 @@
       </div>
     </div>
     <div v-show="showPDF" class="grayer" @click="closePDF"></div>
-    <img v-show="showPDF" class="closePDF" src="../../static/png/icone-supprimer.png" @click="closePDF">
     <curriPDF :infoPerso="infoUser" v-show="showPDF" id="PDF"></curriPDF>
   </div>
 </template>
