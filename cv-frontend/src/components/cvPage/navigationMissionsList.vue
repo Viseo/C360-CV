@@ -221,6 +221,7 @@
       },
       getInfoMission(item){
         this.$emit('showMission');
+        this.$emit('initializeSaveButton');
         this.$store.commit('setCurrentMission',item);
       },
       addMission(){

@@ -10,29 +10,21 @@
 
         <transition name="fade">
           <div v-show="showMissionInfo">
-            <div class="bannerMission" >
-              <div style="display: flex; flex-direction: row;"><i class="fa fa-briefcase fa-lg briefcase"></i><p style="margin: 0">Gestion des Missions</p></div>
-              <button class="button button-primary button-rounded" @click="showPDF=!showPDF">
-                Afficher aperçu PDF<i class="fa fa-binoculars" style="padding-left: 10px"></i>
+            <div class="bannerMission" style="width:100%">
+              <div style="display: flex; flex-direction: row;width:60%;"><i class="fa fa-briefcase fa-lg briefcase"></i><p style="margin: 0">Gestion des Missions</p></div>
+              <button class="button button-primary button-square" @click="showPDF=!showPDF" style="width:20%">
+                PDF<i class="fa fa-binoculars" style="padding-left: 5px"></i>
               </button>
-              <button class="button button-action button-rounded" @click="addMission()">
-                Sauvegarder la mission<i class="fa fa-floppy-o" style="padding-left: 10px"></i>
+              <button class="button button-action button-square" @click="addMission()" style="width:20%" v-show="showSaveButton == 2">
+                Sauvegarder<i class="fa fa-floppy-o" style="padding-left: 5px"></i>
               </button>
             </div>
             <registermission :currentMission="currentMission"></registermission>
             <skills v-on:updateSkills="updateSkills"></skills>
           </div>
-          <!--
-          <registermission :currentBlock="currentBlock" :titleMission="missions[currentBlock].title" :beginDate="missions[currentBlock].beginDate"
-                           :client="missions[currentBlock].clientId?missions[currentBlock].clientId.label:''" :description="missions[currentBlock].description"
-                           :typeM="missions[currentBlock].clientId?missions[currentBlock].typeMissions.label:''"
-                           :today="today" :domain="missions[currentBlock].clientId?missions[currentBlock].clientId.domain:''" :endDate="missions[currentBlock].endDate"
-                           @updateSector="updateSector" @updateProps="updateMission"></registermission>
-          -->
-
-
         </transition>
-        <listMissions v-on:deleteMission="deleteMission" @showMission="showMission"></listMissions>
+        <listMissions v-on:deleteMission="deleteMission" @showMission="showMission"
+                      @initializeSaveButton="initializeSaveButton"></listMissions>
 
 
       </div>
@@ -71,7 +63,8 @@
           showMissionInfo:false,
           infoUser: this.$store.state.userLogged,
           missions: this.$store.state.userLogged.missions,
-          domain:""
+          domain:"",
+          showSaveButton: 0
         }
     },
     computed:{
@@ -79,7 +72,21 @@
         return this.$store.state.currentMission;
       }
     },
+    watch:{
+      currentMission: {
+        handler(val){
+          if (this.showSaveButton<2){
+            this.showSaveButton++ ;
+          }
+        },
+        deep: true
+      }
+    },
     methods:{
+      initializeSaveButton(){
+        this.showSaveButton = 0;
+        console.log('aaaaaaaa');
+      },
       showMission(){
         if (!this.showMissionInfo){
           this.showMissionInfo = true;
@@ -94,9 +101,17 @@
         console.log(this.$store.state.currentMission);
         if(this.$store.state.currentMission.id != ''){
           console.log('updating the mission...');
+
         }
         else{
           console.log('adding new mission...');
+          axios.post(config.server +  '/api/missions', this.$store.state.currentMission)
+            .then(function (response) {
+              console.log(response.data);
+            })
+            .catch(function (error) {
+              console.log('error');
+            });
 //          axios.post(config.server +  '/api/missions',{
 //
 //          }).then(function(response){

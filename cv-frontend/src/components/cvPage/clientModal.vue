@@ -22,7 +22,7 @@
 
             <div class="clientModal-body">
               <slot name="body">
-                <button class="button button-royal button-small" v-for="client in clients"
+                <button class="button button-royal button-small button-rounded" v-for="client in clients"
                         style="margin-right: 15px;margin-bottom: 10px;" @click="chooseClient(client)">
                   {{client.label}}
                 </button>
@@ -97,7 +97,10 @@
                         @click="changeClient()">
                   Changer client
                 </button>
-
+                <button class="button button-royal button-pill button-small"
+                        @click="$emit('close')" style="float:right">
+                  OK
+                </button>
               </slot>
             </div>
           </div>
