@@ -8,8 +8,12 @@ import com.viseo.c360.cv.amqp.ConnectionMessage;
 import com.viseo.c360.cv.amqp.MessageType;
 import com.viseo.c360.cv.amqp.RabbitMsg;
 import com.viseo.c360.cv.amqp.ResolveMsgFactory;
+import com.viseo.c360.cv.converters.MissionEntityToDtoConverter;
+import com.viseo.c360.cv.converters.TypeMissionEntityToDtoConverter;
 import com.viseo.c360.cv.converters.UserDtoToEntityConverter;
 import com.viseo.c360.cv.converters.UserEntityToDtoConverter;
+import com.viseo.c360.cv.models.dto.MissionDto;
+import com.viseo.c360.cv.models.dto.TypeMissionsDto;
 import com.viseo.c360.cv.models.dto.UserDto;
 import com.viseo.c360.cv.models.entities.UsersEntity;
 import com.viseo.c360.cv.services.AccountService;
@@ -275,6 +279,8 @@ public class AccountController {
             throw new RuntimeException(e);
         }
     }
+
+
 
     private UserDto checkIfUserExistElsewhere(String mail, String password){
         UserDto inputUserDto = new UserDto();

@@ -1,7 +1,7 @@
 INSERT INTO languages VALUES (1,'Français');
 INSERT INTO type_missions (id,label) VALUES
-  (0, 'Mission'),
-  (1, 'Séminaire');
+  (1, 'Mission'),
+  (2, 'Séminaire');
 INSERT INTO users (last_update_date,id, first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES
   (TIMESTAMP 'yesterday', 200000, 'GU', 'Leo', 'test1@test.com','AAA1221','Stagiaire','2','01/01/1994','mastermind actions','0614253647','bcb15f821479b4d5772bd0ca866c00ad5f926e3580720659cc80d39c9d09802a','../../static/users/maxime.png','false');
 INSERT INTO users (last_update_date,id, first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES
@@ -28,16 +28,16 @@ INSERT INTO clients (id,label, domain, description) VALUES
 
 
 INSERT INTO missions (id, title, begin_date, end_date, client_id, description, type_id) VALUES
-  (1,'Viseo Intern','01/01/2016','01/01/2017','1','Développement du démonstrateur DigiMarket','1');
+  (100,'Viseo Intern','01/01/2016','01/01/2017','1','Développement du démonstrateur DigiMarket','1');
 INSERT INTO missions (id, title, begin_date, end_date, client_id, description, type_id) VALUES
-  (2,'DigiMarket','15/06/2017','15/07/2017','1','Implémentation nouvel espace de vente','1');
-INSERT INTO users_missions VALUES (200000,1);
-INSERT INTO users_missions VALUES (200000,2);
+  (200,'DigiMarket','15/06/2017','15/07/2017','1','Implémentation nouvel espace de vente','1');
+INSERT INTO users_missions VALUES (200000,100);
+INSERT INTO users_missions VALUES (200000,200);
 INSERT INTO users_languages (user_id, language_id) VALUES
   (200000,1);
 INSERT INTO skills (id, label, domain) VALUES
   (1,'Taiga','Outils');
-INSERT INTO missions_skills(missions_id, skills_id) VALUES (1, 1);
+INSERT INTO missions_skills(missions_id, skills_id) VALUES (100, 1);
 
 /*
 INSERT INTO users (first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES

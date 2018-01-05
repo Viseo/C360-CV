@@ -14,9 +14,8 @@
         <i class="fa fa-file-text fa-2x"></i>
         <div>
           <label id="Type Title">Type*</label>
-          <select v-model="currentMission.typeMissions.label">
-            <option >Mission</option>
-            <option>Séminaire</option>
+          <select v-model="currentMission.typeMissions">
+            <option v-for="type in typeMissions" v-bind:value="type">{{type.label}}</option>
           </select>
         </div>
       </div>
@@ -89,6 +88,8 @@
 <script>
 
   import clientModal from "../cvPage/clientModal.vue"
+  import axios from 'axios'
+  import config from '../../config/config'
 
   export default{
     components:{
@@ -96,7 +97,8 @@
     },
     data: function() {
       return {
-        showClientModal: false
+        showClientModal: false,
+        typeMissions:[]
       }
     },
     props:['currentMission'],
@@ -143,6 +145,15 @@
       updateSector(sector){
         this.$emit('updateSector',sector);
       }
+    },
+    mounted:function(){
+      console.log('aaa')
+      axios.get(config.server + '/api/typeMissions')
+      .then(response =>{
+        this.typeMissions = response.data
+      }).catch(e =>{
+        ;
+      })
     }
 //    watch: {
 //      titleMission: function () {

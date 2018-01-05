@@ -114,11 +114,11 @@
             missionToSave.endDate = this.toDate(missionToSave.endDate);
             console.log(missionToSave);
             axios.post(config.server +  '/api/missions', missionToSave)
-              .then(function (response) {
+              .then(response => {
                 console.log(response.data);
               })
-              .catch(function (error) {
-                console.log('error');
+              .catch(e => {
+                console.log(e);
               });
           }
         }
@@ -166,7 +166,7 @@
           .then((response)=>{
             console.log(response);
           })
-          .catch(function (error) {
+          .catch((error)=> {
             console.log(error);
           });
 
@@ -185,7 +185,7 @@
       },
       toDate:function(dateStr){
         var parts = dateStr.split("-");
-        return new Date(parts[2], parts[1] - 1, parts[0]);
+        return new Date(parts[0], parts[1] - 1, parts[2]);
       }
     }
   }

@@ -27,7 +27,7 @@ public class MissionEntity extends BaseEntity {
     @JoinColumn(name="client_id")
     private ClientEntity client;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="type_id")
     private TypeMissionsEntity typeMissions;
 
@@ -37,7 +37,6 @@ public class MissionEntity extends BaseEntity {
             joinColumns=@JoinColumn(name="missions_id"),
             inverseJoinColumns=@JoinColumn(name="skills_id")
     )
-
     private Set<SkillEntity> skills;
 
 
