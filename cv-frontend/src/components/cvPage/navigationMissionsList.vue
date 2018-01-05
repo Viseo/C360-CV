@@ -236,27 +236,6 @@
           description: ""
         })
       }
-//      getStyleMission(item){
-//        if(this.block==item.id){
-//          return {
-//            color: 'white',
-//            width: "11.5vw",
-//            height:"4vh",
-//            "padding-top": "3vh",
-//            "padding-bottom": "8vh",
-//            margin: "0.5vw",
-//            "text-align": "center",
-//            "border-radius":"10px",
-//            "float":"left",
-//            position:"relative",
-//            "background-image":"linear-gradient(to bottom, #3498db, #2980b9)",
-//          };
-//        }
-//        else{
-//          return this.styleObject;
-//        }
-//
-//      }
     }
   }
 </script>

@@ -4,7 +4,7 @@
       <div class="inputDiv">
         <i class="fa fa-suitcase fa-2x"></i>
         <div>
-          <label v-bind:class="currentMission.title != '' ? 'label-full' : 'label-empty'">Titre de la mission</label>
+          <label v-bind:class="currentMission.title != '' ? 'label-full' : 'label-empty'">Titre de la mission*</label>
           <input id="Title Mission" v-model="currentMission.title" type='text' class="inputText" @focus="setFocusLabelClass(1)"
                  @blur="changeLabelClass(currentMission.title,1)">
         </div>
@@ -13,7 +13,7 @@
       <div class="inputDiv">
         <i class="fa fa-file-text fa-2x"></i>
         <div>
-          <label id="Type Title">Type</label>
+          <label id="Type Title">Type*</label>
           <select v-model="currentMission.typeMissions.label">
             <option >Mission</option>
             <option>Séminaire</option>
@@ -24,7 +24,7 @@
       <div id="StartCalendar" class="inputDiv">
         <i class="fa fa-calendar fa-2x"></i>
         <div>
-          <label id="Start Title">Début</label>
+          <label id="Start Title">Début*</label>
           <div class="inputCalendar">
             <input id="Start Calendar Date" v-model="currentMission.beginDate" class="inputDate" type="date" @input="checkBeginDate()">
           </div>
@@ -34,7 +34,7 @@
       <div id="EndCalendar" class="inputDiv">
         <i class="fa fa-calendar fa-2x cal"></i>
         <div>
-          <label id="Fin Title">Fin</label>
+          <label id="Fin Title">Fin*</label>
           <div class="inputCalendar">
             <input id="End Calendar Date" v-model="currentMission.endDate" class="inputDate" type="date" @input="checkEndDate()">
           </div>
@@ -48,7 +48,7 @@
       <div class="clientDiv">
         <i class="fa fa-id-card-o fa-2x"></i>
         <div>
-          <label id="Client" class="label-full">Client</label>
+          <label id="Client" class="label-full">Client*</label>
           <div style="height:30px;margin-left:15px;">
             <button v-if="currentMission.client.label != undefined"
                     class="button button-primary button-pill button-small" @click="showClientModal = true">

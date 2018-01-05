@@ -10,9 +10,6 @@ import java.util.Set;
 public class MissionEntity extends BaseEntity {
 
     @Column
-    private int id;
-
-    @Column
     private String title;
 
     @Column
@@ -26,7 +23,7 @@ public class MissionEntity extends BaseEntity {
     @Column
     private String description;
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="client_id")
     private ClientEntity client;
 
@@ -34,7 +31,7 @@ public class MissionEntity extends BaseEntity {
     @JoinColumn(name="type_id")
     private TypeMissionsEntity typeMissions;
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name="MISSIONS_SKILLS",
             joinColumns=@JoinColumn(name="missions_id"),
@@ -43,14 +40,6 @@ public class MissionEntity extends BaseEntity {
 
     private Set<SkillEntity> skills;
 
-    @Override
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;

@@ -19,26 +19,31 @@ public class MissionController {
     @Autowired
     private MissionService missionService;
 
+    @CrossOrigin (origins =  "${server.front}")
     @RequestMapping(method = POST)
     public MissionDto add(@RequestBody MissionEntity missionEntity) {
         return new MissionEntityToDtoConverter().convert(this.missionService.add(missionEntity));
     }
 
+    @CrossOrigin (origins =  "${server.front}")
     @RequestMapping(method = PUT)
     public MissionDto update(@RequestBody MissionEntity missionEntity) {
         return new MissionEntityToDtoConverter().convert(this.missionService.update(missionEntity));
     }
 
+    @CrossOrigin (origins =  "${server.front}")
     @RequestMapping( method = DELETE)
     public void delete(@RequestParam int missionId) {
         this.missionService.delete(missionId);
     }
 
+    @CrossOrigin (origins =  "${server.front}")
     @RequestMapping( method = GET)
     public List<MissionDto> getAll(int userId) {
         return new MissionEntityToDtoConverter().convert(this.missionService.getAll(userId));
     }
 
+    @CrossOrigin (origins =  "${server.front}")
     @RequestMapping( path= "/{missionId}", method = GET)
     public MissionDto getById(@PathParam("missionId") int missionId, @RequestParam int userId) {
         return new MissionEntityToDtoConverter().convert(this.missionService.getById(userId, missionId));

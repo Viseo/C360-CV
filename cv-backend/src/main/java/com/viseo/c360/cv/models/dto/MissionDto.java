@@ -7,9 +7,7 @@ import java.util.Set;
 /**
  * Created by ELE3653 on 07/08/2017.
  */
-public class MissionDto {
-
-    private int id;
+public class MissionDto extends BaseDto{
 
     private String title;
 
@@ -24,14 +22,6 @@ public class MissionDto {
     private TypeMissionsDto typeMissions;
 
     private Set<SkillDto> skills;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -109,7 +99,7 @@ public class MissionDto {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int)id;
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (beginDate != null ? beginDate.hashCode() : 0);
         result = 31 * result + (endDate != null ? endDate.hashCode() : 0);

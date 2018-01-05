@@ -1,13 +1,10 @@
 package com.viseo.c360.cv.models.dto;
 
-import java.util.List;
 
 /**
  * Created by ELE3653 on 07/08/2017.
  */
-public class ClientDto {
-
-    private int id;
+public class ClientDto extends BaseDto{
 
     private String label;
 
@@ -39,10 +36,6 @@ public class ClientDto {
         this.domain = domain;
     }
 
-    public int getId() {
-        return id;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -59,7 +52,7 @@ public class ClientDto {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int)id;
         result = 31 * result + (label != null ? label.hashCode() : 0);
         result = 31 * result + (domain != null ? domain.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);

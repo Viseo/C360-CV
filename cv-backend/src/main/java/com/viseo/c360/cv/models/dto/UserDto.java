@@ -8,9 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserDto {
-
-    private int id;
+public class UserDto extends BaseDto{
 
     private String login;
 
@@ -41,14 +39,6 @@ public class UserDto {
     private Set<LanguageDto> languages;
 
     private List<MissionDto> missions;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -208,7 +198,7 @@ public class UserDto {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int)id;
         result = 31 * result + (login != null ? login.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);

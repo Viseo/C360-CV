@@ -85,7 +85,6 @@
     methods:{
       initializeSaveButton(){
         this.showSaveButton = 0;
-        console.log('aaaaaaaa');
       },
       showMission(){
         if (!this.showMissionInfo){
@@ -98,27 +97,30 @@
         }
       },
       addMission(){
-        console.log(this.$store.state.currentMission);
-        if(this.$store.state.currentMission.id != ''){
+        var missionToSave = this.$store.state.currentMission // avoid date convert pb
+
+        if(missionToSave.id != ''){
           console.log('updating the mission...');
 
         }
         else{
           console.log('adding new mission...');
-          axios.post(config.server +  '/api/missions', this.$store.state.currentMission)
-            .then(function (response) {
-              console.log(response.data);
-            })
-            .catch(function (error) {
-              console.log('error');
-            });
-//          axios.post(config.server +  '/api/missions',{
-//
-//          }).then(function(response){
-//
-//          }).catch(function(error){
-//
-//          });
+          if(!(missionToSave.title && missionToSave.client.label
+                && missionToSave.beginDate && missionToSave.endDate && missionToSave.typeMissions)){
+            alert("Veuillez compeleter tous les champs obligatoires!");
+          }
+          else{
+            missionToSave.beginDate = this.toDate(missionToSave.beginDate);
+            missionToSave.endDate = this.toDate(missionToSave.endDate);
+            console.log(missionToSave);
+            axios.post(config.server +  '/api/missions', missionToSave)
+              .then(function (response) {
+                console.log(response.data);
+              })
+              .catch(function (error) {
+                console.log('error');
+              });
+          }
         }
       },
       deleteMission(){
@@ -136,22 +138,6 @@
       },
       closePDF: function () {
         this.showPDF=!this.showPDF
-      },
-      updateSector: function (sector) {
-//          for(let i = 0; i<this.missions.length;i++) {
-//            if (this.currentBlock === i) {
-//              this.missions[i].clientId.domain = sector;
-//              this.domain = sector;
-//            }
-//          }
-      },
-      updateMission:function(name,client,dateB,dateE,descr,type){
-//            this.missions[this.currentBlock].title=name;
-//            this.missions[this.currentBlock].clientId.label=client;
-//            this.missions[this.currentBlock].beginDate=dateB;
-//            this.missions[this.currentBlock].endDate=dateE;
-//            this.missions[this.currentBlock].description=descr;
-//            this.missions[this.currentBlock].typeMissions.label=type;
       },
       updateUserBDD:function(){
         let birth = this.infoUser.birthDate.split("-");
@@ -196,6 +182,10 @@
             ("0" + (parseInt(tmpEnd.getMonth()))).slice(-2) + "-" +
             ("0" + tmpEnd.getDate()).slice(-2);
         }
+      },
+      toDate:function(dateStr){
+        var parts = dateStr.split("-");
+        return new Date(parts[2], parts[1] - 1, parts[0]);
       }
     }
   }
