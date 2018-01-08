@@ -42,7 +42,7 @@ public class UserEntityToDtoConverter implements Converter <UsersEntity,UserDto>
         userDto.setId(usersEntity.getId());
         userDto.setLastUpdateDate(usersEntity.getLastUpdateDate());
         userDto.setLanguages(languageEntityToDtoConverter.convert(usersEntity.getLanguages()));
-
+        userDto.setVersion(usersEntity.getVersion());
         return userDto;
     }
 }

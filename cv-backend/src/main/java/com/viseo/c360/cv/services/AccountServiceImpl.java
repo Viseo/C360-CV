@@ -57,7 +57,7 @@ public class AccountServiceImpl implements AccountService {
         return null;
     }
 
-    public UsersEntity findById(int id){
+    public UsersEntity findById(long id){
         try{
             return em.createQuery("SELECT U FROM UsersEntity U LEFT JOIN FETCH U.missions M " +
                     "LEFT JOIN FETCH U.languages " +
@@ -90,7 +90,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     public UsersEntity getUserById(int id) {
-        return this.findById(id);
+        return this.findById((long)id);
     }
 
     @Override

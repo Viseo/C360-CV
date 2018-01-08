@@ -21,6 +21,7 @@ public class ClientEntityToDtoConverter  implements Converter<ClientEntity, Clie
         clientDto.setDomain(clientsEntity.getDomain());
         clientDto.setLabel(clientsEntity.getLabel());
         clientDto.setId(clientsEntity.getId());
+        clientDto.setVersion(clientsEntity.getVersion());
         return clientDto;
     }
 

@@ -61,7 +61,7 @@ public class UsersEntity extends BaseEntity {
     @Column
     private Date lastUpdateDate;
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany(cascade=CascadeType.PERSIST)
     @JoinTable(
             name="USERS_LANGUAGES",
             joinColumns=@JoinColumn(name="user_id"),

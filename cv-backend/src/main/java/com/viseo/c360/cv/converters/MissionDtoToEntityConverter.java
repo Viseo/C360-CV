@@ -24,7 +24,7 @@ public class MissionDtoToEntityConverter implements Converter<MissionDto,Mission
         missionsEntity.setClient(new ClientDtoToEntityConverter().convert(missionDto.getClient()));
         missionsEntity.setSkills(skillDtoToEntityConverter.convert(missionDto.getSkills()));
         missionsEntity.setTypeMissions(new TypeMissionDtoToEntityConverter().convert(missionDto.getTypeMissions()));
-
+        missionsEntity.setVersion(missionDto.getVersion());
         return missionsEntity;
 
     }

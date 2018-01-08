@@ -41,6 +41,7 @@ public class UserDtoToEntityConverter implements Converter<UserDto, UsersEntity>
         if(userDto.getMissions() != null){
             usersEntity.setMissions(missionDtoToEntityConverter.convert(userDto.getMissions()));
         }
+        usersEntity.setVersion(userDto.getVersion());
         return usersEntity;
     }
 }

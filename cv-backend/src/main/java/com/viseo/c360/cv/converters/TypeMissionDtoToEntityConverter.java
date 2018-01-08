@@ -16,6 +16,7 @@ public class TypeMissionDtoToEntityConverter implements Converter<TypeMissionsDt
         TypeMissionsEntity typeMissionsEntity = new TypeMissionsEntity();
         typeMissionsEntity.setLabel(typeMissionsDto.getLabel());
         typeMissionsEntity.setId(typeMissionsDto.getId());
+        typeMissionsEntity.setVersion(typeMissionsDto.getVersion());
         return typeMissionsEntity;
     }
 }

@@ -19,7 +19,8 @@ public class LanguageDtoToEntityConverter implements Converter <LanguageDto,Lang
 
         LanguageEntity languageEntity = new LanguageEntity();
         languageEntity.setLabel(languageDto.getLabel());
-
+        languageEntity.setVersion(languageDto.getVersion());
+        languageEntity.setId(languageDto.getId());
         return languageEntity;
     }
 

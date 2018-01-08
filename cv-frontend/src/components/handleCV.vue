@@ -113,7 +113,7 @@
             missionToSave.beginDate = this.toDate(missionToSave.beginDate);
             missionToSave.endDate = this.toDate(missionToSave.endDate);
             console.log(missionToSave);
-            axios.post(config.server +  '/api/missions', missionToSave)
+            axios.post(config.server +  '/api/missions?userId=' + this.$store.state.userLogged.id, missionToSave)
               .then(response => {
                 console.log(response.data);
               })
