@@ -8,7 +8,7 @@ public class BaseEntity implements Serializable{
 
     @Id
     @Column
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
 
     @Version

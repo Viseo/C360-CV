@@ -35,9 +35,50 @@ INSERT INTO users_missions VALUES (200000,100);
 INSERT INTO users_missions VALUES (200000,200);
 INSERT INTO users_languages (user_id, language_id) VALUES
   (200000,1);
-INSERT INTO skills (version, id, label, domain) VALUES
-  (0, 100,'Taiga','Outils');
-INSERT INTO missions_skills(missions_id, skills_id) VALUES (100, 100);
+/* temp code before connecting C360 Compétence*/
+INSERT INTO skills (version, label, domain) VALUES
+  (0,'Taiga','Outils'),
+  (0,'Axure','Outils'),
+  (0,'Balsamiq','Outils'),
+  (0,'Jira','Outils'),
+  (0,'Photoshop','Outils'),
+  (0,'React Native','Mobile'),
+  (0,'Android','Mobile'),
+  (0,'iOS','Mobile'),
+  (0,'Cycle en V','Méthodologie'),
+  (0,'Kanban','Méthodologie'),
+  (0,'Lean','Méthodologie'),
+  (0,'Scrum','Méthodologie'),
+  (0,'Lean startup','Méthodologie'),
+  (0,'Less','Méthodologie'),
+  (0,'Rup','Méthodologie'),
+  (0,'Safe','Méthodologie'),
+  (0,'Javascript','Web'),
+  (0,'Angular','Web'),
+  (0,'Bootstrap','Web'),
+  (0,'CSS','Web'),
+  (0,'HTML','Web'),
+  (0,'Python','Web'),
+  (0,'Apache Derby','Base de données'),
+  (0,'Microsoft Access','Base de données'),
+  (0,'Microsoft SQL Server','Base de données'),
+  (0,'MySQL','Base de données'),
+  (0,'Oracle Database','Base de données'),
+  (0,'PostgreSQL','Base de données'),
+  (0,'Bootstrap','Frameworks'),
+  (0,'Cake PHP','Frameworks'),
+  (0,'Google Guava','Frameworks'),
+  (0,'Hibernate','Frameworks'),
+  (0,'JUnit','Frameworks'),
+  (0,'JQuery','Frameworks'),
+  (0,'Node.js','Frameworks'),
+  (0,'Laravel','Frameworks'),
+  (0,'Phalcon','Frameworks'),
+  (0,'PHPUnit','Frameworks'),
+  (0,'Spring','Frameworks'),
+  (0,'Symfony','Frameworks'),
+  (0,'Zend','Frameworks');
+INSERT INTO missions_skills(missions_id, skills_id) VALUES (100, 1);
 
 /*
 INSERT INTO users (first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES
