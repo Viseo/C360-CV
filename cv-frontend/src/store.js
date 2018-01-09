@@ -35,6 +35,7 @@ var storeInit = {
       id: "",
       description: ""
     },
+    currentSkills:[]
 };
 
 export const store = new Vuex.Store({
@@ -104,7 +105,8 @@ export const store = new Vuex.Store({
             typeMissions: {label:'', id:''},
             id: "",
             description: ""
-          }
+          },
+          currentSkills:[]
         });
       },
       restoreCurrentMission(state){

@@ -15,12 +15,14 @@
               <button class="button button-primary button-square" @click="showPDF=!showPDF" style="width:20%">
                 PDF<i class="fa fa-binoculars" style="padding-left: 5px"></i>
               </button>
-              <button class="button button-action button-square" @click="addMission()" style="width:20%" v-show="showSaveButton == 2">
-                Sauvegarder<i class="fa fa-floppy-o" style="padding-left: 5px"></i>
+              <button class="button button-action button-square" @click="addMission()"
+                      style="width:20%" v-show="showSaveButton == 2">
+                Sauvegarder
+                <i class="fa fa-floppy-o" style="padding-left: 5px"></i>
               </button>
             </div>
             <registermission :currentMission="currentMission"></registermission>
-            <skills v-on:updateSkills="updateSkills"></skills>
+            <skills :currentSkills="currentSkills"></skills>
           </div>
         </transition>
         <listMissions v-on:deleteMission="deleteMission" @showMission="showMission"
@@ -69,6 +71,9 @@
     computed:{
       currentMission:function(){
         return this.$store.state.currentMission;
+      },
+      currentSkills:function(){
+        return this.$store.state.currentSkills;
       }
     },
     mounted:function(){
@@ -116,7 +121,18 @@
 
         if(missionToSave.id != ''){
           console.log('updating the mission...');
-
+          if(!(missionToSave.title && missionToSave.client.label
+              && missionToSave.beginDate && missionToSave.endDate && missionToSave.typeMissions)){
+            alert("Veuillez compeleter tous les champs obligatoires!");
+          }
+          console.log(missionToSave);
+          axios.put(config.server + '/api/missions', missionToSave)
+            .then(response =>{
+              console.log(response.data);
+            })
+            .catch(e => {
+              console.log(e);
+            })
         }
         else{
           console.log('adding new mission...');
@@ -125,8 +141,8 @@
             alert("Veuillez compeleter tous les champs obligatoires!");
           }
           else{
-            missionToSave.beginDate = this.toDateString(missionToSave.beginDate);
-            missionToSave.endDate = this.toDateString(missionToSave.endDate);
+//            missionToSave.beginDate = this.toDateString(missionToSave.beginDate);
+//            missionToSave.endDate = this.toDateString(missionToSave.endDate);
             console.log(missionToSave);
             var self = this;
             axios.post(config.server +  '/api/missions?userId=' + this.$store.state.userLogged.id, missionToSave)
@@ -151,13 +167,6 @@
             this.$store.commit('setCurrentMissionBlock', 0);
             //this.getInfoMission(0);
           },100);
-      },
-      updateSkills(skillsSelected){
-//          for(let mission in this.missions) {
-//            if (this.currentBlock === this.missions[mission].id) {
-//              this.missions[mission].skills = skillsSelected;
-//            }
-//          }
       },
       closePDF: function () {
         this.showPDF=!this.showPDF

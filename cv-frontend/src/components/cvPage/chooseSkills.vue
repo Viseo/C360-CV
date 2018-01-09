@@ -16,13 +16,13 @@
     </div>
     <div id="tab-skills" class="containerCv">
       <transition-group name="transition-skills">
-        <div v-for="(item,index) in categories" v-bind:key="item">
+        <div v-for="item in categories" v-bind:key="item">
           <div v-bind:style="findColor(item)" class="categorie-style" v-on:click="toggleActive(item)">
-            {{ categories[index] }}
+            {{ item }}
           </div>
           <transition name="fade">
             <div v-if="findActive(item)" class="skill-list" v-bind:style="applyHeight(item)" >
-              <a v-for="(i,num) in findSkills(item)" class="skill-style" v-bind:style="backgroundSelected(i)" v-on:click="select(i)"
+              <a v-for="(i,num) in findSkills(item)" class="skill-style" v-bind:style="backgroundSelected(i)" v-on:click="select(i,item)"
                  v-on:mouseover="changeColorToSelec" v-on:mouseleave="changeColorToUnselec(i,$event)">
                 <span>{{ i }}</span>
                 <i v-if="checkSelected(i)" v-bind:class="checked" class="icon-skill"></i>
@@ -57,6 +57,7 @@
   ];
 
   export default {
+    props:['currentSkills'],
     data: function () {
       return {
         skills: skills,
@@ -76,11 +77,6 @@
         resultSearch:"Recherche Vide",
         colorSearch:"color:white",
         search:""
-      }
-    },
-    computed:{
-      currentSkills:function () {
-        return this.$store.state.currentMission.skills;
       }
     },
     methods: {
@@ -111,7 +107,7 @@
           "color:" + (!this.checkSelected(skill) ? "black;" : "white;");
       },
       select(skill,cat){
-        if (!this.checkSelected(skill)) this.currentSkills.push({label:skill,domain:cat,id:0});
+        if (!this.checkSelected(skill)) this.currentSkills.push({label:skill,domain:cat,id:-1});
         else {
           this.currentSkills.splice(this.checkSelected(skill), 1);
         }

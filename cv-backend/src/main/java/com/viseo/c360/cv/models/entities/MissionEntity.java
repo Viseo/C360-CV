@@ -31,7 +31,7 @@ public class MissionEntity extends BaseEntity {
     @JoinColumn(name="type_id")
     private TypeMissionsEntity typeMissions;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name="MISSIONS_SKILLS",
             joinColumns=@JoinColumn(name="missions_id"),

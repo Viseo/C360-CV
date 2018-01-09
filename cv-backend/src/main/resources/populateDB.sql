@@ -36,8 +36,8 @@ INSERT INTO users_missions VALUES (200000,200);
 INSERT INTO users_languages (user_id, language_id) VALUES
   (200000,1);
 INSERT INTO skills (version, id, label, domain) VALUES
-  (0, 1,'Taiga','Outils');
-INSERT INTO missions_skills(missions_id, skills_id) VALUES (100, 1);
+  (0, 100,'Taiga','Outils');
+INSERT INTO missions_skills(missions_id, skills_id) VALUES (100, 100);
 
 /*
 INSERT INTO users (first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES
