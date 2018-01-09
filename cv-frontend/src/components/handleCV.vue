@@ -77,7 +77,8 @@
       }
     },
     mounted:function(){
-      axios.get(config.server + "/api/missions/getMissionByUser?userId=" + this.$store.state.userLogged.id).then(
+      axios.get(config.server + "/api/missions/getMissionByUser?userId="
+        + this.$store.state.userLogged.id).then(
         response => {
           var missions = response.data;
           for (let i=0;i<missions.length;i++){

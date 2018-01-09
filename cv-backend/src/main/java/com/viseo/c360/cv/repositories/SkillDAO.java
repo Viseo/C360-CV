@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by YGU3747 on 09/01/2018
@@ -14,5 +14,5 @@ import java.util.List;
 public interface SkillDAO extends CrudRepository<SkillEntity, Long>{
 
     @Query("SELECT S FROM SkillEntity S")
-    List<SkillEntity> getAll();
+    Set<SkillEntity> getAll();
 }
