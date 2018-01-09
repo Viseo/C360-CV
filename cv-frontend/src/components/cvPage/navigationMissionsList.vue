@@ -112,9 +112,13 @@
         chevronLeft:"fa fa-angle-left fa-3x",
         chevronRight:"fa fa-angle-right fa-3x",
         trash:"fa fa-trash",
-        missions:this.$store.state.userLogged.missions,
         currentMissionId:this.$store.state.currentMission.id
       }
+    },
+    computed:{
+      missions:function(){
+          return this.$store.state.userLogged.missions
+        }
     },
     methods:{
       trashToRed(e){
@@ -225,6 +229,7 @@
         this.$store.commit('setCurrentMission',item);
       },
       addMission(){
+        console.log("adding new mission...")
         this.$store.state.userLogged.missions.push({
           beginDate: "",
           endDate: "",

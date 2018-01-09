@@ -20,4 +20,7 @@ public interface MissionDAO extends CrudRepository <MissionEntity,Long>{
 
     @Query("SELECT M FROM MissionEntity M JOIN FETCH M.skills")
     List<MissionEntity> getAll();
+
+    @Query("SELECT M FROM MissionEntity M LEFT OUTER JOIN UsersEntity U ON U.id = ?1")
+    List<MissionEntity> getMissionsByUser(long userId);
 }

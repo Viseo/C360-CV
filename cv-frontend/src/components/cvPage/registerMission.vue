@@ -147,37 +147,13 @@
       }
     },
     mounted:function(){
-      console.log('aaa')
       axios.get(config.server + '/api/typeMissions')
       .then(response =>{
         this.typeMissions = response.data
       }).catch(e =>{
         ;
-      })
+      });
     }
-//    watch: {
-//      titleMission: function () {
-//        this.nameMission=this.titleMission;
-//        this.labelTitleClass=this.titleMission!=""?"label-full":"label-empty";
-//      },
-//      client: function () {
-//        this.labelClientClass=this.client!=""?"label-full":"label-empty";
-//        this.clientMission=this.client;
-//      },
-//      description: function (value) {
-//        this.labelDescriptionClass=value!=""?"labelDescription-full":"labelDescription-empty";
-//        this.descriptionMission=value
-//      },
-//      beginDate: function(value){
-//          this.beginInput=value;
-//      },
-//      endDate: function(value){
-//        this.endInput=value;
-//      },
-//      typeM:function(value){
-//        this.typeMission=value;
-//      }
-//    }
   }
 </script>
 

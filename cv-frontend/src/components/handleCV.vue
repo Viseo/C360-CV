@@ -4,7 +4,7 @@
     <div class="mycv">
       <div class="infoUser">
         <informationForm></informationForm>
-        <saving :missions="missions" @saveData="updateUserBDD"></saving>
+        <!--<saving :missions="" @saveData="updateUserBDD"></saving>-->
       </div>
       <div class="mission">
 
@@ -62,7 +62,6 @@
           showPDF: false,
           showMissionInfo:false,
           infoUser: this.$store.state.userLogged,
-          missions: this.$store.state.userLogged.missions,
           domain:"",
           showSaveButton: 0
         }
@@ -71,6 +70,22 @@
       currentMission:function(){
         return this.$store.state.currentMission;
       }
+    },
+    mounted:function(){
+      axios.get(config.server + "/api/missions/getMissionByUser?userId=" + this.$store.state.userLogged.id).then(
+        response => {
+          var missions = response.data;
+          for (let i=0;i<missions.length;i++){
+            missions[i].beginDate = this.toDateString(missions[i].beginDate);
+            missions[i].endDate = this.toDateString(missions[i].endDate);
+          }
+          console.log(missions);
+          this.$store.state.userLogged.missions = missions;
+          console.log(this.$store.state.userLogged.missions);
+        }
+      ).catch( e => {
+        console.log(e);
+      })
     },
     watch:{
       currentMission: {
@@ -110,12 +125,13 @@
             alert("Veuillez compeleter tous les champs obligatoires!");
           }
           else{
-            missionToSave.beginDate = this.toDate(missionToSave.beginDate);
-            missionToSave.endDate = this.toDate(missionToSave.endDate);
+            missionToSave.beginDate = this.toDateString(missionToSave.beginDate);
+            missionToSave.endDate = this.toDateString(missionToSave.endDate);
             console.log(missionToSave);
             axios.post(config.server +  '/api/missions?userId=' + this.$store.state.userLogged.id, missionToSave)
               .then(response => {
                 console.log(response.data);
+                //self.$store.state.userLogged.missions.push(response.data);
               })
               .catch(e => {
                 console.log(e);
@@ -159,9 +175,6 @@
         };
         user.missions = this.missions;
 
-        //TEST CODE
-        user.languages = [];
-
         axios.post(config.server + '/api/updateUser', user)
           .then((response)=>{
             console.log(response);
@@ -169,23 +182,18 @@
           .catch((error)=> {
             console.log(error);
           });
-
-        for (let i in this.missions) {
-          let tmp = new Date(this.missions[i].beginDate);
-          let tmpEnd = new Date(this.missions[i].endDate);
-
-          this.missions[i].beginDate = tmp.getFullYear() + "-" +
-            ("0" + (parseInt(tmp.getMonth()))).slice(-2) + "-" +
-            ("0" + tmp.getDate()).slice(-2);
-
-          this.missions[i].endDate = tmpEnd.getFullYear() + "-" +
-            ("0" + (parseInt(tmpEnd.getMonth()))).slice(-2) + "-" +
-            ("0" + tmpEnd.getDate()).slice(-2);
-        }
       },
-      toDate:function(dateStr){
-        var parts = dateStr.split("-");
-        return new Date(parts[0], parts[1] - 1, parts[2]);
+
+      toDateString:function (date){
+        var d = new Date(date),
+          month = '' + (d.getMonth() + 1),
+          day = '' + d.getDate(),
+          year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [year, month, day].join('-');
       }
     }
   }

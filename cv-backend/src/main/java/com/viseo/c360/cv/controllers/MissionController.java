@@ -32,11 +32,12 @@ public class MissionController {
     @RequestMapping(method = POST)
     public MissionDto add(@RequestBody MissionEntity missionEntity, @RequestParam("userId") int userId) {
         UsersEntity user = accountController.getUser((userId));
+        MissionDto missionDto = new MissionEntityToDtoConverter().convert(this.missionService.add(missionEntity));
         List<MissionEntity> missions = user.getMissions();
         missions.add(missionEntity);
         user.setMissions(missions);
         accountController.updateUser(new UserEntityToDtoConverter().convert(user));
-        return new MissionEntityToDtoConverter().convert(this.missionService.add(missionEntity));
+        return missionDto;
     }
 
     @CrossOrigin (origins =  "${server.front}")
@@ -56,11 +57,17 @@ public class MissionController {
     public List<MissionDto> getAll(int userId) {
         return new MissionEntityToDtoConverter().convert(this.missionService.getAll(userId));
     }
+//
+//    @CrossOrigin (origins =  "${server.front}")
+//    @RequestMapping( path= "/{missionId}", method = GET)
+//    public MissionDto getById(@PathParam("missionId") int missionId, @RequestParam int userId) {
+//        return new MissionEntityToDtoConverter().convert(this.missionService.getById(userId, missionId));
+//    }
 
     @CrossOrigin (origins =  "${server.front}")
-    @RequestMapping( path= "/{missionId}", method = GET)
-    public MissionDto getById(@PathParam("missionId") int missionId, @RequestParam int userId) {
-        return new MissionEntityToDtoConverter().convert(this.missionService.getById(userId, missionId));
+    @RequestMapping(path = "/getMissionByUser", method = GET)
+    public List<MissionDto> getMissionByUser(@RequestParam("userId") long userId){
+        return new MissionEntityToDtoConverter().convert(this.missionService.getMissionsByUser(userId));
     }
 }
 

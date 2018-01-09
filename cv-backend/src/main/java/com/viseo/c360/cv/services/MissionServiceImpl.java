@@ -43,4 +43,9 @@ public class MissionServiceImpl implements MissionService {
     public List<MissionEntity> getAll(int userId) {
         return missionDAO.getAll();
     }
+
+    @Override
+    public List<MissionEntity> getMissionsByUser(long userId){
+        return missionDAO.getMissionsByUser(userId);
+    }
 }

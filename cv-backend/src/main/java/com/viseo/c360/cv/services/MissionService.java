@@ -17,5 +17,7 @@ public interface MissionService {
 
     MissionEntity update(MissionEntity missionEntity);
 
-    List <MissionEntity> getAll(int userId);
+    List<MissionEntity> getAll(int userId);
+
+    List<MissionEntity> getMissionsByUser(long userId);
 }
