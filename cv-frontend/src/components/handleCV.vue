@@ -128,9 +128,16 @@
             missionToSave.beginDate = this.toDateString(missionToSave.beginDate);
             missionToSave.endDate = this.toDateString(missionToSave.endDate);
             console.log(missionToSave);
+            var self = this;
             axios.post(config.server +  '/api/missions?userId=' + this.$store.state.userLogged.id, missionToSave)
               .then(response => {
-                console.log(response.data);
+                let m = response.data;
+                m.beginDate = this.toDateString(m.beginDate);
+                m.endDate = this.toDateString(m.endDate);
+                self.$store.commit("setCurrentMission", m);
+                self.$store.state.userLogged.missions.pop();
+                self.$store.state.userLogged.missions.push(m);
+                console.log(self.$store.state.currentMission);
                 //self.$store.state.userLogged.missions.push(response.data);
               })
               .catch(e => {
@@ -183,7 +190,10 @@
             console.log(error);
           });
       },
-
+      toDate:function(dateStr) {
+        var parts = dateStr.split("-");
+        return new Date(parts[0], parts[1] - 1, parts[2]);
+      },
       toDateString:function (date){
         var d = new Date(date),
           month = '' + (d.getMonth() + 1),

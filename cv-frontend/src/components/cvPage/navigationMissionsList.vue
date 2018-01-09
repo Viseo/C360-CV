@@ -10,7 +10,7 @@
         <div id="containerMissions" class="containerMissions">
           <div id="listAnimate" v-bind:style="styleAnimatingList">
               <transition-group name="list-complete" tag="div">
-                 <span v-bind:style="currentMissionId==item.id?styleObjectChecked:styleObject" :key="item.id" v-for="item in missions" @click="getInfoMission(item)"
+                 <span v-bind:style="checkStyle(item)" :key="item.id" v-for="item in missions" @click="getInfoMission(item)"
                        class="list-complete-item missionItem">
                     <div v-bind:style="styleTitle">{{ item.title!=""?item.title:"Nouvelle Mission" }}</div>
                     <div v-bind:style="styleDate">{{ item.beginDate }} to {{ item.endDate!=""?item.endDate:"now" }}</div>
@@ -33,7 +33,7 @@
 <script>
   import { bus } from '../../EventBus';
 
-  var styleMissionBox = {
+  var styleObject = {
     color: 'white',
     width: "11.5vw",
     height:"4vh",
@@ -46,10 +46,24 @@
     position:"relative",
     "background-image":'linear-gradient(to bottom, #3498db, #2980b9)',
     cursor: 'pointer',
-
   };
 
-  var styleMissionBoxChecked = {
+  var styleUnsavedObject = {
+    color: 'white',
+    width: "11.5vw",
+    height:"4vh",
+    "padding-top": "3vh",
+    "padding-bottom": "8vh",
+    margin: "0.5vw",
+    "text-align": "center",
+    "border-radius":"10px",
+    "float":"left",
+    position:"relative",
+    "background-image":'linear-gradient(to bottom, #11998e, #38ef7d)',
+    cursor: 'pointer',
+  };
+
+  var styleObjectChecked = {
     color: 'white',
     width: "11.5vw",
     height:"4vh",
@@ -102,8 +116,9 @@
   export default {
     data:function(){
       return {
-        styleObject: styleMissionBox,
-        styleObjectChecked: styleMissionBoxChecked,
+        styleUnsavedObject: styleUnsavedObject,
+        styleObject: styleObject,
+        styleObjectChecked: styleObjectChecked,
         styleTitle: styleMissionBoxTitle,
         styleDate: styleMissionBoxDate,
         styleTrash : styleTrash,
@@ -111,16 +126,24 @@
         imageLink:"static/img/add.png",
         chevronLeft:"fa fa-angle-left fa-3x",
         chevronRight:"fa fa-angle-right fa-3x",
-        trash:"fa fa-trash",
-        currentMissionId:this.$store.state.currentMission.id
+        trash:"fa fa-trash"
       }
     },
     computed:{
       missions:function(){
           return this.$store.state.userLogged.missions
-        }
+      },
+      currentMissionId:function () {
+        return this.$store.state.currentMission.id
+      }
     },
     methods:{
+      checkStyle(item){
+        if (item.id == ""){
+          return styleUnsavedObject;
+        }
+        return this.currentMissionId==item.id?styleObjectChecked:styleObject;
+      },
       trashToRed(e){
         e.target.style.color="red";
       },

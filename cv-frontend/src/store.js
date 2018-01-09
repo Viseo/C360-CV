@@ -40,6 +40,9 @@ var storeInit = {
 export const store = new Vuex.Store({
     state : storeInit,
     mutations: {
+      setCurrentMission(state, m){
+        state.currentMission = m;
+      },
       setToken(state, userToken){
         state.token = userToken;
         Object.assign(state.userLogged, jwtDecode(userToken));
