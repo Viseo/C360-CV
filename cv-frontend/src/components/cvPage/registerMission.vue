@@ -37,8 +37,15 @@
           <div class="inputCalendar">
             <input id="End Calendar Date" v-model="currentMission.endDate" class="inputDate" type="date" @input="checkEndDate()">
           </div>
-          <div v-if="currentMission.endDate==today" id="checkboxNow"><input id="Until Now Box" type="checkbox" checked @click="currentMission.endDate='';">Jusqu'à ce jour</div>
-          <div v-else id="checkboxNow"><input id="Until Now Box" type="checkbox" @click="currentMission.endDate=today;">Jusqu'à ce jour</div>
+          <div id="checkboxNow">
+            <!--<input id="Until Now Box" type="checkbox" checked @click="currentMission.endDate='';">-->
+            <input id="Until Now Box" type="checkbox" checked @click="checkBoxUntilNow()">
+            Jusqu'à ce jour
+          </div>
+          <!--<div v-else id="checkboxNow">-->
+            <!--<input id="Until Now Box" type="checkbox" @click="currentMission.endDate=today;">-->
+            <!--Jusqu'à ce jour-->
+          <!--</div>-->
         </div>
       </div>
     </div>
@@ -102,6 +109,16 @@
       }
     },
     props:['currentMission'],
+    watch:{
+      currentMission:function () {
+        if (this.currentMission.endDate == this.today){
+          document.getElementById("Until Now Box").checked = true;
+        }
+        else{
+          document.getElementById("Until Now Box").checked = false;
+        }
+      }
+    },
     computed:{
       today:function(){
         let date = new Date();
@@ -112,6 +129,15 @@
       }
     },
     methods:{
+      checkBoxUntilNow(){
+        var lastCheckedState = document.getElementById("Until Now Box").checked;
+        if (lastCheckedState){
+          this.currentMission.endDate = this.today;
+        }
+        else{
+          this.currentMission.endDate='';
+        }
+      },
       checkBeginDate(){
         if(this.currentMission.beginDate>this.currentMission.endDate && this.currentMission.endDate!=''){
           this.currentMission.endDate = this.currentMission.beginDate;
