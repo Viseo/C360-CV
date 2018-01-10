@@ -16,9 +16,9 @@
     </div>
     <div id="tab-skills" class="containerCv">
       <transition-group name="transition-skills">
-        <div v-for="item in categories" v-bind:key="item">
+        <div v-for="item in categories" v-bind:key="item.id">
           <div v-bind:style="findColor(item)" class="categorie-style" v-on:click="toggleActive(item)">
-            {{ item }}
+            {{ item.label }}
           </div>
           <transition name="fade">
             <div v-if="findActive(item)" class="skill-list" v-bind:style="applyHeight(item)" >
@@ -48,10 +48,6 @@
     ["Bootstrap", "Cake PHP", "Google Guava", "Hibernate", "JUnit", "JQuery", "Node.js", "Laravel", "Phalcon", "PHPUnit", "Spring", "Symfony", "Zend","Vue.js"]
   ];
 
-  const categories = [
-    "MOBILE","OUTILS","MÉTHODOLOGIE","WEB","BASE DE DONNEES","FRAMEWORK"
-  ];
-
   const colors = [
     "#00B6E8","#D13040","#7E7995","#FFC15E","#DC7633","#154360"
   ];
@@ -69,8 +65,6 @@
           ["Apache Derb", "Microsoft Access", "Microsoft SQL Server", "MySQL", "Oracle Database", "PostgreSQL"],
           ["Bootstrap", "Cake PHP", "Google Guava", "Hibernate", "JUnit", "JQuery", "Node.js", "Laravel", "Phalcon", "PHPUnit", "Spring", "Symfony", "Zend","Vue.js"]
         ],
-        categories : categories,
-        colors : colors,
         checked : "fa fa-check-circle-o fa-2x",
         unchecked: "fa fa-plus-circle fa-2x",
         items : [false, false, false, false,false,false],
@@ -79,22 +73,27 @@
         search:""
       }
     },
+    computed:{
+      categories:function(){
+        return this.$store.state.skillDomains;
+      }
+    },
     methods: {
       findColor(cat){
-        return "background-color:" + colors[categories.indexOf(cat)];
+        return "background-color:" + colors[this.categories.indexOf(cat)%6];
       },
       applyHeight(cat){
         let space = 11;
-        return "height:" + (Math.ceil(skills[categories.indexOf(cat)].length / 6) * space) + "vh;";
+        return "height:" + (Math.ceil(skills[this.categories.indexOf(cat)].length / 6) * space) + "vh;";
       },
       toggleActive(cat){
-        this.items.splice(categories.indexOf(cat), 1, !this.items[categories.indexOf(cat)]);
+        this.items.splice(this.categories.indexOf(cat), 1, !this.items[this.categories.indexOf(cat)]);
       },
       findActive(cat){
-        return this.items[categories.indexOf(cat)];
+        return this.items[this.categories.indexOf(cat)];
       },
       findSkills(cat){
-        return this.skills[categories.indexOf(cat)];
+        return this.skills[this.categories.indexOf(cat)];
       },
       checkSelected(skill){
           for(let i in this.currentSkills){
@@ -124,46 +123,46 @@
         }
       },
       searchSkill(){
-        if (this.search != "") {
-          let done = false;
-          for (let i in categories) {
-            if (categories[i].toLowerCase() == this.search.toLowerCase()) {
-              this.categories = [categories[i]];
-              this.resultSearch = "Recherche réussie";
-              this.colorSearch = "color:green";
-              this.items.splice(i, 1, true);
-              done = true;
-              break;
-            }
-          }
-
-          for (let i in this.skills) {
-            for (let j in this.skills[i]){
-              if (this.skills[i][j].toLowerCase() == this.search.toLowerCase()) {
-                this.skills[i] = [this.skills[i][j]];
-                this.categories = [categories[i]];
-                this.resultSearch = "Recherche réussie";
-                this.colorSearch = "color:green";
-                this.items.splice(i, 1, true);
-                done = true;
-                break;
-              }
-            }
-          }
-
-          if (!done) {
-            this.categories = [];
-            this.resultSearch = "Aucun Résultat";
-            this.colorSearch = "color:red";
-          }
-        }
-        else {
-          this.categories = categories;
-          this.skills = this.defaultSkills;
-          this.resultSearch = "Recherche vide";
-          this.colorSearch = "color:white";
-          this.items = [false, false, false, false,false,false];
-        }
+//        if (this.search != "") {
+//          let done = false;
+//          for (let i in categories) {
+//            if (categories[i].toLowerCase() == this.search.toLowerCase()) {
+//              this.categories = [categories[i]];
+//              this.resultSearch = "Recherche réussie";
+//              this.colorSearch = "color:green";
+//              this.items.splice(i, 1, true);
+//              done = true;
+//              break;
+//            }
+//          }
+//
+//          for (let i in this.skills) {
+//            for (let j in this.skills[i]){
+//              if (this.skills[i][j].toLowerCase() == this.search.toLowerCase()) {
+//                this.skills[i] = [this.skills[i][j]];
+//                this.categories = [categories[i]];
+//                this.resultSearch = "Recherche réussie";
+//                this.colorSearch = "color:green";
+//                this.items.splice(i, 1, true);
+//                done = true;
+//                break;
+//              }
+//            }
+//          }
+//
+//          if (!done) {
+//            this.categories = [];
+//            this.resultSearch = "Aucun Résultat";
+//            this.colorSearch = "color:red";
+//          }
+//        }
+//        else {
+//          this.categories = categories;
+//          this.skills = this.defaultSkills;
+//          this.resultSearch = "Recherche vide";
+//          this.colorSearch = "color:white";
+//          this.items = [false, false, false, false,false,false];
+//        }
       },
       deleteSearch(){
         this.search = "";
@@ -225,7 +224,7 @@
   }
 
   .skill-style{
-    width : 11vw;
+    width : auto;
     height : 8vh;
     margin : 0.5vw;
     border:2px solid #50BDAC;
@@ -237,6 +236,7 @@
     font-family: "Arial", Arial, sans-serif;
     font-size:2vh;
     cursor: pointer;
+    padding:5px 10px 5px 10px;
   }
 
   .skill-list{
@@ -246,7 +246,7 @@
   .icon-skill{
     position : relative;
     float:right;
-    right:0.4vw;
+    padding-left:5px;
     color:white;
     line-height:8vh;
   }

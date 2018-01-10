@@ -35,7 +35,8 @@ var storeInit = {
       id: "",
       description: ""
     },
-    currentSkills:[]
+    currentSkills:[],
+    skillDomains:[]
 };
 
 export const store = new Vuex.Store({
@@ -106,7 +107,8 @@ export const store = new Vuex.Store({
             id: "",
             description: ""
           },
-          currentSkills:[]
+          currentSkills:[],
+          skillDomains:[]
         });
       },
       restoreCurrentMission(state){
