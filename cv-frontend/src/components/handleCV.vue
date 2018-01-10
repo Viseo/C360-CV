@@ -98,7 +98,14 @@
         }
       ).catch(e => {
         console.log(e);
-      })
+      });
+      axios.get(config.server + "/api/skillDomains").then(
+        response =>{
+          console.log(response.data);
+        }
+      ).catch(e => {
+        console.log(e);
+      });
     },
     watch:{
       currentMission: {

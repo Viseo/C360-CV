@@ -17,7 +17,7 @@ public class SkillEntityToDtoConverter implements Converter<SkillEntity, SkillDt
     @Override
     public SkillDto convert(SkillEntity skillEntity) {
         SkillDto skillDto = new SkillDto();
-        skillDto.setDomain(skillEntity.getDomain());
+        skillDto.setDomain(new SkillDomainEntityToDtoConverter().convert(skillEntity.getDomain()));
         skillDto.setId(skillEntity.getId());
         skillDto.setLabel(skillEntity.getLabel());
         skillDto.setVersion(skillEntity.getVersion());

@@ -1,8 +1,6 @@
 package com.viseo.c360.cv.models.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by ELE3653 on 19/07/2017.
@@ -13,8 +11,9 @@ public class SkillEntity extends BaseEntity {
     @Column
     private String label;
 
-    @Column
-    private String domain;
+    @ManyToOne
+    @JoinColumn(name="domain_id")
+    private SkillDomainEntity domain;
 
     public String getLabel() {
         return label;
@@ -24,11 +23,11 @@ public class SkillEntity extends BaseEntity {
         this.label = label;
     }
 
-    public String getDomain() {
+    public SkillDomainEntity getDomain() {
         return domain;
     }
 
-    public void setDomain(String domain) {
+    public void setDomain(SkillDomainEntity domain) {
         this.domain = domain;
     }
 }

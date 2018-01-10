@@ -1,6 +1,8 @@
 package com.viseo.c360.cv.models.dto;
 
 
+import com.viseo.c360.cv.models.entities.SkillDomainEntity;
+
 /**
  * Created by ELE3653 on 07/08/2017.
  */
@@ -8,7 +10,7 @@ public class SkillDto extends BaseDto{
 
     private String label;
 
-    private String domain;
+    private SkillDomainDto domain;
 
     public String getLabel() {
         return label;
@@ -18,11 +20,11 @@ public class SkillDto extends BaseDto{
         this.label = label;
     }
 
-    public String getDomain() {
+    public SkillDomainDto getDomain() {
         return domain;
     }
 
-    public void setDomain(String domain) {
+    public void setDomain(SkillDomainDto domain) {
         this.domain = domain;
     }
 
