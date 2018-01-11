@@ -9,7 +9,11 @@
         <i class="fa fa-search picto-search" v-on:click="searchSkill"></i>
         <input type=text maxlength="25" class="search-skill" placeholder="Recherche" v-model="search"
                v-on:keyup.enter="searchSkill" v-on:keyup.delete="cancelSearch">
-        <div class="result-search" v-bind:style="colorSearch">{{ resultSearch }}</div>
+        <transition name="fade">
+          <div class="result-search" v-bind:style="colorSearch" v-if="resultSearch!='Recherche vide'">
+            {{ resultSearch }}
+          </div>
+        </transition>
 
         <i class="fa fa-times fa-2x picto-cancel" v-on:click="deleteSearch"></i>
       </div>
@@ -50,7 +54,7 @@
         checked : "fa fa-check-circle-o fa-2x",
         unchecked: "fa fa-plus-circle fa-2x",
         items : [false, false, false, false,false,false],
-        resultSearch:"Recherche Vide",
+        resultSearch:"Recherche vide",
         colorSearch:"color:white",
         search:""
       }
@@ -112,50 +116,43 @@
         }
       },
       searchSkill(){
-//        if (this.search != "") {
-//          let done = false;
-//          for (let i in categories) {
-//            if (categories[i].toLowerCase() == this.search.toLowerCase()) {
-//              this.categories = [categories[i]];
-//              this.resultSearch = "Recherche réussie";
-//              this.colorSearch = "color:green";
-//              this.items.splice(i, 1, true);
-//              done = true;
-//              break;
-//            }
-//          }
-//
-//          for (let i in this.skills) {
-//            for (let j in this.skills[i]){
-//              if (this.skills[i][j].toLowerCase() == this.search.toLowerCase()) {
-//                this.skills[i] = [this.skills[i][j]];
-//                this.categories = [categories[i]];
-//                this.resultSearch = "Recherche réussie";
-//                this.colorSearch = "color:green";
-//                this.items.splice(i, 1, true);
-//                done = true;
-//                break;
-//              }
-//            }
-//          }
-//
-//          if (!done) {
-//            this.categories = [];
-//            this.resultSearch = "Aucun Résultat";
-//            this.colorSearch = "color:red";
-//          }
-//        }
-//        else {
-//          this.categories = categories;
-//          this.skills = this.defaultSkills;
-//          this.resultSearch = "Recherche vide";
-//          this.colorSearch = "color:white";
-//          this.items = [false, false, false, false,false,false];
-//        }
+        if (this.search != "") {
+          let done = false;
+          for (let i in this.categories) {
+            if (this.categories[i].label.toLowerCase() == this.search.toLowerCase()) {
+              this.resultSearch = "Recherche réussie";
+              this.colorSearch = "color:green;font-weight: bold;";
+              this.items.splice(i, 1, true);
+              done = true;
+              break;
+            }
+          }
+          for (let i in this.categories){
+            for (let j in this.categories[i].skills){
+              if(this.categories[i].skills[j].label.toLowerCase() == this.search.toLowerCase()){
+                this.resultSearch = "Recherche réussie";
+                this.colorSearch = "color:green;font-weight: bold;";
+                this.items.splice(i, 1, true);
+                this.$store.state.currentMission.skills.push(this.categories[i].skills[j]);
+                console.log(this.$store.state.currentMission.skills);
+                done = true;
+                break;
+              }
+            }
+          }
+          if (!done) {
+            this.resultSearch = "Aucun Résultat";
+            this.colorSearch = "color:red;font-weight: bold;";
+          }
+        }
+        else {
+          this.resultSearch = "Recherche vide";
+          this.colorSearch = "color:white";
+          this.items = [false, false, false, false,false,false];
+        }
       },
       deleteSearch(){
         this.search = "";
-        this.categories = categories;
         this.resultSearch = "Recherche vide";
         this.colorSearch = "color:white";
         this.items = [false, false, false, false,false,false];
@@ -163,7 +160,6 @@
       },
       cancelSearch(){
         if (this.search == "") {
-          this.categories = categories;
           this.resultSearch = "Recherche vide";
           this.colorSearch = "color:white";
           this.items = [false, false, false, false,false,false];
