@@ -93,7 +93,7 @@
       });
       axios.get(config.server + "/api/skills").then(
         response =>{
-          //console.log(response.data);
+          this.$store.state.currentSkills = response.data;
         }
       ).catch(e => {
         console.log(e);

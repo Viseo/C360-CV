@@ -39,15 +39,6 @@
 <script>
   import { bus } from '../../EventBus.js';
 
-  let skills = [
-    ["Android","Ios","React Native","Xamarin"],
-    ["Axure","Balsamiq","Jira","Taiga","Photoshop"],
-    ["Cycle en V", "Kanban", "Lean", "Lean startup", "Less", "Rup", "Scrum", "Safe"],
-    ["Angular", "Bootstrap", "CSS", "Html", "Java", "Javascript", "Python","SVG"],
-    ["Apache Derb", "Microsoft Access", "Microsoft SQL Server", "MySQL", "Oracle Database", "PostgreSQL"],
-    ["Bootstrap", "Cake PHP", "Google Guava", "Hibernate", "JUnit", "JQuery", "Node.js", "Laravel", "Phalcon", "PHPUnit", "Spring", "Symfony", "Zend","Vue.js"]
-  ];
-
   const colors = [
     "#00B6E8","#D13040","#7E7995","#FFC15E","#DC7633","#154360"
   ];
@@ -56,7 +47,6 @@
     props:['currentSkills'],
     data: function () {
       return {
-        skills: skills,
         defaultSkills :[
           ["Android","Ios","React Native","Xamarin"],
           ["Axure","Balsamiq","Jira","Taiga","Photoshop"],
@@ -76,6 +66,9 @@
     computed:{
       categories:function(){
         return this.$store.state.skillDomains;
+      },
+      skills:function(){
+        return this.currentSkills;
       }
     },
     methods: {
@@ -84,7 +77,7 @@
       },
       applyHeight(cat){
         let space = 11;
-        return "height:" + (Math.ceil(skills[this.categories.indexOf(cat)].length / 6) * space) + "vh;";
+        return "height:" + (Math.ceil(this.skills[this.categories.indexOf(cat)].length / 6) * space) + "vh;";
       },
       toggleActive(cat){
         this.items.splice(this.categories.indexOf(cat), 1, !this.items[this.categories.indexOf(cat)]);
