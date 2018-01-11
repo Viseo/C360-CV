@@ -22,10 +22,10 @@
           </div>
           <transition name="fade">
             <div v-if="findActive(item)" class="skill-list" v-bind:style="applyHeight(item)" >
-              <a v-for="(i,num) in findSkills(item)" class="skill-style" v-bind:style="backgroundSelected(i)" v-on:click="select(i,item)"
-                 v-on:mouseover="changeColorToSelec" v-on:mouseleave="changeColorToUnselec(i,$event)">
-                <span>{{ i }}</span>
-                <i v-if="checkSelected(i)" v-bind:class="checked" class="icon-skill"></i>
+              <a v-for="skill in item.skills" class="skill-style" v-bind:style="backgroundSelected(skill)" v-on:click="select(skill)"
+                 v-on:mouseover="changeColorToSelec" v-on:mouseleave="changeColorToUnselec(skill,$event)">
+                <span>{{ skill.label }}</span>
+                <i v-if="checkSelected(skill)" v-bind:class="checked" class="icon-skill"></i>
                 <i v-else v-bind:class="unchecked" class="icon-skill" style="color:black"></i>
               </a>
             </div>
@@ -47,14 +47,6 @@
     props:['currentSkills'],
     data: function () {
       return {
-        defaultSkills :[
-          ["Android","Ios","React Native","Xamarin"],
-          ["Axure","Balsamiq","Jira","Taiga","Photoshop"],
-          ["Cycle en V", "Kanban", "Lean", "Lean startup", "Less", "Rup", "Scrum", "Safe"],
-          ["Angular", "Bootstrap", "CSS", "Html", "Java", "Javascript", "Python","SVG"],
-          ["Apache Derb", "Microsoft Access", "Microsoft SQL Server", "MySQL", "Oracle Database", "PostgreSQL"],
-          ["Bootstrap", "Cake PHP", "Google Guava", "Hibernate", "JUnit", "JQuery", "Node.js", "Laravel", "Phalcon", "PHPUnit", "Spring", "Symfony", "Zend","Vue.js"]
-        ],
         checked : "fa fa-check-circle-o fa-2x",
         unchecked: "fa fa-plus-circle fa-2x",
         items : [false, false, false, false,false,false],
@@ -76,8 +68,7 @@
         return "background-color:" + colors[this.categories.indexOf(cat)%6];
       },
       applyHeight(cat){
-        let space = 11;
-        return "height:" + (Math.ceil(this.skills[this.categories.indexOf(cat)].length / 6) * space) + "vh;";
+        return "height:" + cat.skills.length  + "vh;";
       },
       toggleActive(cat){
         this.items.splice(this.categories.indexOf(cat), 1, !this.items[this.categories.indexOf(cat)]);
@@ -89,8 +80,8 @@
         return this.skills[this.categories.indexOf(cat)];
       },
       checkSelected(skill){
-          for(let i in this.currentSkills){
-              if(this.currentSkills[i].label==skill) return i;
+          for(let i in this.$store.state.currentMission.skills){
+              if(this.$store.state.currentMission.skills[i].label==skill.label) return i;
           }
           return false;
       },
@@ -98,12 +89,17 @@
         return "background-color:" + (!this.checkSelected(skill) ? "white;" : "#50BDAC;") +
           "color:" + (!this.checkSelected(skill) ? "black;" : "white;");
       },
-      select(skill,cat){
-        if (!this.checkSelected(skill)) this.currentSkills.push({label:skill,domain:cat,id:-1});
-        else {
-          this.currentSkills.splice(this.checkSelected(skill), 1);
+      select(skill){
+        if (!this.checkSelected(skill)){
+          this.$store.state.currentMission.skills.push(skill);
+          console.log("adding skill...");
+          console.log(this.$store.state.currentMission.skills);
         }
-        this.updateSkills();
+        else {
+          this.$store.state.currentMission.skills.splice(this.checkSelected(skill), 1);
+          console.log("removing skill...");
+          console.log(this.$store.state.currentMission.skills);
+        }
       },
       changeColorToSelec(e){
         if (e.target.classList.value.includes("skill-style")) e.target.style.backgroundColor = "#50BDAC";
@@ -175,16 +171,13 @@
         }
       },
       resetSkills(){
-        this.skills = [];
-        for (let i in this.defaultSkills) {
-          this.skills.push([]);
-          for (let j in this.defaultSkills[i]) {
-            this.skills[i].push(this.defaultSkills[i][j]);
-          }
-        }
-      },
-      updateSkills: function () {
-        this.$emit('updateSkills',this.currentSkills);
+//        this.skills = [];
+//        for (let i in this.defaultSkills) {
+//          this.skills.push([]);
+//          for (let j in this.defaultSkills[i]) {
+//            this.skills[i].push(this.defaultSkills[i][j]);
+//          }
+//        }
       }
     }
   }

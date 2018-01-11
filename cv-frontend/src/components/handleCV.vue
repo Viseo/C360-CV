@@ -100,6 +100,9 @@
       });
       axios.get(config.server + "/api/skillDomains").then(
         response =>{
+          for (let i=0;i<response.data.length;i++){
+            response.data[i].skills.sort((a,b) => a.label.localeCompare(b.label));
+          }
           console.log(response.data);
           this.$store.state.skillDomains = response.data;
         }
