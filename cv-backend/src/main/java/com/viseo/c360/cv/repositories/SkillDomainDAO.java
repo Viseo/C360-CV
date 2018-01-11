@@ -1,7 +1,6 @@
 package com.viseo.c360.cv.repositories;
 
 import com.viseo.c360.cv.models.entities.SkillDomainEntity;
-import com.viseo.c360.cv.models.entities.SkillEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

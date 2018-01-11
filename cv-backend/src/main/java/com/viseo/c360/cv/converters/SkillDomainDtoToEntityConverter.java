@@ -16,6 +16,7 @@ public class SkillDomainDtoToEntityConverter implements Converter<SkillDomainDto
         SkillDomainEntity skillDomainEntity = new SkillDomainEntity();
         skillDomainEntity.setLabel(source.getLabel());
         skillDomainEntity.setId(source.getId());
+        skillDomainEntity.setSkills(new SkillDtoToEntityConverter().convert(source.getSkills()));
         return skillDomainEntity;
     }
 }

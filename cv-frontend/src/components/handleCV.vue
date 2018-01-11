@@ -85,7 +85,6 @@
             missions[i].beginDate = this.toDateString(missions[i].beginDate);
             missions[i].endDate = this.toDateString(missions[i].endDate);
           }
-          console.log(missions);
           this.$store.state.userLogged.missions = missions;
           console.log(this.$store.state.userLogged.missions);
         }
@@ -94,7 +93,7 @@
       });
       axios.get(config.server + "/api/skills").then(
         response =>{
-          console.log(response.data);
+          //console.log(response.data);
         }
       ).catch(e => {
         console.log(e);

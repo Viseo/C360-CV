@@ -11,9 +11,17 @@ public class SkillEntity extends BaseEntity {
     @Column
     private String label;
 
-    @ManyToOne
-    @JoinColumn(name="domain_id")
-    private SkillDomainEntity domain;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "domain_id")
+    private SkillDomainEntity skillDomain;
+
+    public SkillDomainEntity getSkillDomain() {
+        return skillDomain;
+    }
+
+    public void setSkillDomain(SkillDomainEntity skillDomain) {
+        this.skillDomain = skillDomain;
+    }
 
     public String getLabel() {
         return label;
@@ -23,11 +31,4 @@ public class SkillEntity extends BaseEntity {
         this.label = label;
     }
 
-    public SkillDomainEntity getDomain() {
-        return domain;
-    }
-
-    public void setDomain(SkillDomainEntity domain) {
-        this.domain = domain;
-    }
 }

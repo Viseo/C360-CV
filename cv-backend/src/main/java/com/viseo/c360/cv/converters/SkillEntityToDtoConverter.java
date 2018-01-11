@@ -13,11 +13,11 @@ import java.util.Set;
  */
 
 public class SkillEntityToDtoConverter implements Converter<SkillEntity, SkillDto> {
+    // don't contain domain info cause it'll cause an infinite loop
     @Nullable
     @Override
     public SkillDto convert(SkillEntity skillEntity) {
         SkillDto skillDto = new SkillDto();
-        skillDto.setDomain(new SkillDomainEntityToDtoConverter().convert(skillEntity.getDomain()));
         skillDto.setId(skillEntity.getId());
         skillDto.setLabel(skillEntity.getLabel());
         skillDto.setVersion(skillEntity.getVersion());

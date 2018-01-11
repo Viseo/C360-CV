@@ -15,4 +15,5 @@ public interface SkillDAO extends CrudRepository<SkillEntity, Long>{
 
     @Query("SELECT S FROM SkillEntity S")
     Set<SkillEntity> getAll();
+
 }
