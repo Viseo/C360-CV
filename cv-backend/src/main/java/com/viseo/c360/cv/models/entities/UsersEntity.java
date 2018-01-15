@@ -69,7 +69,7 @@ public class UsersEntity extends BaseEntity {
     )
     private Set<LanguageEntity> languages;
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany(cascade=CascadeType.PERSIST)
     @JoinTable(
             name="USERS_MISSIONS",
             joinColumns=@JoinColumn(name="user_id"),

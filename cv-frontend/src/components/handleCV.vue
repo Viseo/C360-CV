@@ -135,8 +135,7 @@
         }
       },
       addMission(){
-        var missionToSave = this.$store.state.currentMission // avoid date convert pb
-
+        var missionToSave = this.$store.state.currentMission; // avoid date convert pb
         if(missionToSave.id != ''){
           console.log('updating the mission...');
           if(!(missionToSave.title && missionToSave.client.label
@@ -146,7 +145,8 @@
           console.log(missionToSave);
           axios.put(config.server + '/api/missions', missionToSave)
             .then(response =>{
-              console.log(response.data);
+              this.$store.state.currentMission.version++;
+              console.log(this.$store.state.currentMission.version);
             })
             .catch(e => {
               console.log(e);

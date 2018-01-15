@@ -105,7 +105,8 @@ export const store = new Vuex.Store({
             client: {},
             typeMissions: {label:'', id:''},
             id: "",
-            description: ""
+            description: "",
+            version:""
           },
           currentSkills:[],
           skillDomains:[]

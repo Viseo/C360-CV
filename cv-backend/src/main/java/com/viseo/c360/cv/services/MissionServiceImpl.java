@@ -4,10 +4,7 @@ import com.viseo.c360.cv.models.entities.MissionEntity;
 import com.viseo.c360.cv.repositories.MissionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Service
@@ -15,11 +12,7 @@ public class MissionServiceImpl implements MissionService {
     @Autowired
     private MissionDAO missionDAO;
 
-//    @PersistenceContext
-//    private EntityManager em;
-
     @Override
-//    @Transactional
     public MissionEntity add(MissionEntity missionEntity) {
         return missionDAO.save(missionEntity);
     }
@@ -36,7 +29,30 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     public MissionEntity update(MissionEntity missionEntity) {
+//        missionDAO.findById(missionEntity.getId())
+//                .ifPresent(updateMissionEntity -> {
+//                    updateMissionEntity.setSkills(missionEntity.getSkills());
+//                    updateMissionEntity.setVersion(missionEntity.getVersion());
+//                    updateMissionEntity.setTypeMissions(missionEntity.getTypeMissions());
+//                    updateMissionEntity.setClient(missionEntity.getClient());
+//                    updateMissionEntity.setBeginDate(missionEntity.getBeginDate());
+//                    updateMissionEntity.setDescription(missionEntity.getDescription());
+//                    updateMissionEntity.setEndDate(missionEntity.getEndDate());
+//                    updateMissionEntity.setTitle(missionEntity.getTitle());
+//                });
+//        return missionEntity;
+
         return missionDAO.save(missionEntity);
+
+//        missionEntity = em.merge(missionEntity);//because of version of the front haven't been well saved
+//        em.flush();
+//        return missionEntity;
+
+//        missionDAO.findById(missionEntity.getId())
+//        .ifPresent(updateMissionEntity -> {
+//            updateMissionEntity = missionEntity;
+//        });
+//        return missionEntity;
     }
 
     @Override
