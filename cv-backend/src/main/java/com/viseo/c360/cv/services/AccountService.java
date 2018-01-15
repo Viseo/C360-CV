@@ -19,4 +19,6 @@ public interface AccountService {
 
     UsersEntity updateUser(UsersEntity user);
 
+    UsersEntity updateOnlyUserProfile(UsersEntity user);
+
 }

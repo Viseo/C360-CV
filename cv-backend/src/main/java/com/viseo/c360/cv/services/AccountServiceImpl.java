@@ -6,9 +6,8 @@ import com.viseo.c360.cv.repositories.AccountDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
@@ -105,9 +104,32 @@ public class AccountServiceImpl implements AccountService {
                 UsersEntity.class).getResultList();
     }
 
+    @Override
     public UsersEntity updateUser(UsersEntity user){
         user.setLastUpdateDate(new Date());
         return accountDAO.save(user);
+    }
+
+    @Override
+    @Transactional
+    public UsersEntity updateOnlyUserProfile(UsersEntity user) {
+        String request = "UPDATE users SET" +
+                "first_name = ?firstName, last_name = ?lastName" +
+                "position = ?position, birth_day = ?birthday" +
+                "experience = ?experience, telephone = ?telephone, hobbies = ?hobbies" +
+                "language = ?language";
+        Query query = em.createQuery(request);
+        query.setParameter("firstName", user.getFirstName())
+                .setParameter("lastName", user.getLastName())
+                .setParameter("position", user.getPosition())
+                .setParameter("birthday", user.getBirth_date())
+                .setParameter("experience", user.getExperience())
+                .setParameter("telephone", user.getExperience())
+                .setParameter("hobbies", user.getHobbies())
+                .setParameter("language", user.getLanguages());
+        query.executeUpdate();
+        em.flush();
+        return this.findById(user.getId());
     }
 
 }

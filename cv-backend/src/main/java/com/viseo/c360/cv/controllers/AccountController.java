@@ -38,6 +38,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @RestController
 @RequestMapping("/api")
@@ -213,6 +214,13 @@ public class AccountController {
     @RequestMapping(path = "/updateUser", method = POST)
     public UsersEntity updateUser(@RequestBody @Valid UserDto user) {
         return this.accountService.updateUser(new UserDtoToEntityConverter().convert(user));
+    }
+
+    @CrossOrigin (origins = "${server.front}")
+    @RequestMapping(path = "/updateOnlyUserProfile", method = PUT)
+    public UsersEntity updateOnlyUserProfile(@RequestBody UserDto user){
+        return this.accountService
+                .updateOnlyUserProfile(new UserDtoToEntityConverter().convert(user));
     }
 
     @CrossOrigin (origins =  "${server.front}")

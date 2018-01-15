@@ -52,8 +52,7 @@
           }
 
       }
-    },
-    props:['missions','infoUser']
+    }
   }
 
 </script>

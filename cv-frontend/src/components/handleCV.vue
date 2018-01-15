@@ -4,7 +4,7 @@
     <div class="mycv">
       <div class="infoUser">
         <informationForm></informationForm>
-        <!--<saving :missions="" @saveData="updateUserBDD"></saving>-->
+        <saving @saveData="updateUserBDD"></saving>
       </div>
       <div class="mission">
 
@@ -190,25 +190,6 @@
         this.showPDF=!this.showPDF
       },
       updateUserBDD:function(){
-        let birth = this.infoUser.birthDate.split("-");
-        let user = {
-          id:this.infoUser.id,
-          login:this.infoUser.login,
-          lastName: this.infoUser.lastName,
-          firstName: this.infoUser.firstName,
-          birth_date: new Date(this.infoUser.birthDate).getTime(),
-          position: this.infoUser.position,
-          experience: this.infoUser.experience,
-          mail: this.infoUser.mail,
-          telephone: this.infoUser.telephone,
-          hobbies: this.infoUser.hobbies,
-          languages: this.infoUser.languages,
-          picture: this.infoUser.picture,
-          password: this.infoUser.password,
-          admin: this.infoUser.admin
-        };
-        user.missions = this.missions;
-
         axios.post(config.server + '/api/updateUser', user)
           .then((response)=>{
             console.log(response);

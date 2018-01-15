@@ -65,15 +65,15 @@ export const store = new Vuex.Store({
         state.userLogged.birth_date = new Date(state.userLogged.birth_date).getFullYear() + "-" +
           ("0" + (parseInt(new Date(state.userLogged.birth_date).getMonth()) + 1)).slice(-2) + "-" +
           ("0" + new Date(state.userLogged.birth_date).getDate()).slice(-2);
-        if (state.userLogged.languages != undefined){
-          state.userLogged.languages = state.userLogged.languages.map(
-            function (elem) {
-              return elem.label;
-            }).join(" ");
-        }
-        else{
-          state.userLogged.languages = [];
-        }
+        // if (state.userLogged.languages != undefined){
+        //   state.userLogged.languages = state.userLogged.languages.map(
+        //     function (elem) {
+        //       return elem.label;
+        //     }).join(" ");
+        // }
+        // else{
+        //   state.userLogged.languages = [];
+        // }
       },
       setCurrentMissionBlock(state, block){
         state.currentBlock = block;

@@ -101,100 +101,9 @@
 <script>
 
 
-  var style = {
-    height:"9px",
-    width:"100%",
-    color: "rgb(180,180,180)",
-    'text-indent' : "15%",
-    'font-family': "Caflisch Script Pro",
-    'font-style': "italic",
-    'font-size': "11px"
-  };
-
-  var styleInput = {
-    border: "none",
-    'border-bottom': "0.5px solid rgb(180,180,180)",
-    width: "100%",
-    'font-size':"90%",
-    'font-family': "New Century Schoolbook, serif",
-    'background-color': '#F2F3F4'
-  };
-
-  var stylePhoto ={
-    height : "80px",
-    width: "80px",
-    'border-radius': "50%",
-  };
-
-  var styleMainDiv = {
-    display: 'flex',
-    'flex-direction':'column',
-    'align-items': 'center',
-    'justify-content': 'space-between',
-    height: "100%",
-    width: "100%",
-    'background-color': '#F2F3F4',
-    'margin-left': "2%"
-  };
-
-  var stylePictoHeader = {
-    'margin-right':'0.5em'
-  };
-
-  var styleHeader = {
-    display: 'flex',
-    'justify-content': 'center',
-    'align-items':'center',
-    'background-color': "#229954",
-    'text-align': "center",
-    height:"2.5em",
-    width: "100%",
-    'font-family': "New Century Schoolbook, serif",
-    color: 'white',
-  };
-
-  var styleA = {
-    position: "relative",
-    'text-align': "center"
-  };
-
-  var styleSpan ={
-    position: 'absolute',
-    'text-shadow': "0.1em 0.1em 0.2em black",
-    color: "white",
-    cursor: "pointer",
-    padding: '30px 12px',
-    'text-align':'center',
-    'border-radius':'50%',
-    opacity: "1",
-    '-webkit-transition': "opacity 500ms",
-    '-moz-transition': "opacity 500ms",
-    '-o-transition': "opacity 500ms",
-    transition: "opacity 500ms",
-    'z-index': "-2",
-  };
-
-
-
-  var stylePictoTel= {
-    "height": '18px',
-    "width":'18px',
-    "position":'relative',
-    "left":'8px',
-    "top":'3px'
-  };
-
-  var stylePictoCal={
-    height: "1em",
-    position: "relative",
-    left: "-1em",
-    'pointer-events': "none",
-    'background-color': "white"
-  };
-
-  let occur = 0;
 
   export default{
+
     methods:{
       changePhoto: function () {
         let text = document.getElementById("textChange");
@@ -358,6 +267,100 @@
       };
     }
   }
+
+  var style = {
+    height:"9px",
+    width:"100%",
+    color: "rgb(180,180,180)",
+    'text-indent' : "15%",
+    'font-family': "Caflisch Script Pro",
+    'font-style': "italic",
+    'font-size': "11px"
+  };
+
+  var styleInput = {
+    border: "none",
+    'border-bottom': "0.5px solid rgb(180,180,180)",
+    width: "100%",
+    'font-size':"90%",
+    'font-family': "New Century Schoolbook, serif",
+    'background-color': '#F2F3F4'
+  };
+
+  var stylePhoto ={
+    height : "80px",
+    width: "80px",
+    'border-radius': "50%",
+  };
+
+  var styleMainDiv = {
+    display: 'flex',
+    'flex-direction':'column',
+    'align-items': 'center',
+    'justify-content': 'space-between',
+    height: "100%",
+    width: "100%",
+    'background-color': '#F2F3F4',
+    'margin-left': "2%"
+  };
+
+  var stylePictoHeader = {
+    'margin-right':'0.5em'
+  };
+
+  var styleHeader = {
+    display: 'flex',
+    'justify-content': 'center',
+    'align-items':'center',
+    'background-color': "#229954",
+    'text-align': "center",
+    height:"2.5em",
+    width: "100%",
+    'font-family': "New Century Schoolbook, serif",
+    color: 'white',
+  };
+
+  var styleA = {
+    position: "relative",
+    'text-align': "center"
+  };
+
+  var styleSpan ={
+    position: 'absolute',
+    'text-shadow': "0.1em 0.1em 0.2em black",
+    color: "white",
+    cursor: "pointer",
+    padding: '30px 12px',
+    'text-align':'center',
+    'border-radius':'50%',
+    opacity: "1",
+    '-webkit-transition': "opacity 500ms",
+    '-moz-transition': "opacity 500ms",
+    '-o-transition': "opacity 500ms",
+    transition: "opacity 500ms",
+    'z-index': "-2",
+  };
+
+
+
+  var stylePictoTel= {
+    "height": '18px',
+    "width":'18px',
+    "position":'relative',
+    "left":'8px',
+    "top":'3px'
+  };
+
+  var stylePictoCal={
+    height: "1em",
+    position: "relative",
+    left: "-1em",
+    'pointer-events': "none",
+    'background-color': "white"
+  };
+
+  let occur = 0;
+
 </script>
 
 <style>
