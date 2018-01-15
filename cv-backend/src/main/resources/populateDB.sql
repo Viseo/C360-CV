@@ -1,4 +1,13 @@
-INSERT INTO languages VALUES (1,0,'Français');
+INSERT INTO languages(version, label) VALUES (0,'Français');
+INSERT INTO languages(version, label) VALUES (0,'Anglais');
+INSERT INTO languages(version, label) VALUES (0,'Italien');
+INSERT INTO languages(version, label) VALUES (0,'Espagnol');
+INSERT INTO languages(version, label) VALUES (0,'Allemande');
+INSERT INTO languages(version, label) VALUES (0,'Chinois');
+INSERT INTO languages(version, label) VALUES (0,'Arabe');
+INSERT INTO languages(version, label) VALUES (0,'Russe');
+INSERT INTO languages(version, label) VALUES (0,'Japonais');
+INSERT INTO languages(version, label) VALUES (0,'Finlandais');
 INSERT INTO type_missions VALUES
   (1, 0, 'Mission'),
   (2, 0, 'Séminaire');
@@ -35,6 +44,16 @@ INSERT INTO users_missions VALUES (200000,100);
 INSERT INTO users_missions VALUES (200000,200);
 INSERT INTO users_languages (user_id, language_id) VALUES
   (200000,1);
+-- INSERT INTO users_languages (user_id, language_id) VALUES
+--   (200000,2);
+-- INSERT INTO users_languages (user_id, language_id) VALUES
+--   (200000,3);
+-- INSERT INTO users_languages (user_id, language_id) VALUES
+--   (200000,4);
+-- INSERT INTO users_languages (user_id, language_id) VALUES
+--   (200000,7);
+-- INSERT INTO users_languages (user_id, language_id) VALUES
+--   (200000,6);
 /* temp code before connecting C360 Compétence*/
 INSERT INTO domain(version, label) VALUES (0, 'Outils');
 INSERT INTO domain(version, label) VALUES (0, 'Méthodologie');

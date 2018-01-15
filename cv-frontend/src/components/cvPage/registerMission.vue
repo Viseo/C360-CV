@@ -99,9 +99,7 @@
   import config from '../../config/config'
 
   export default{
-    components:{
-      clientModal:clientModal
-    },
+    components:{ clientModal},
     data: function() {
       return {
         showClientModal: false,
