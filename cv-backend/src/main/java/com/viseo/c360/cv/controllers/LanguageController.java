@@ -1,0 +1,39 @@
+package com.viseo.c360.cv.controllers;
+
+import com.viseo.c360.cv.converters.LanguageDtoToEntityConverter;
+import com.viseo.c360.cv.converters.LanguageEntityToDtoConverter;
+import com.viseo.c360.cv.models.dto.LanguageDto;
+import com.viseo.c360.cv.services.LanguageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+
+import java.util.Set;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
+/**
+ * Created by YGU3747 on 15/01/2018
+ */
+@RestController
+@RequestMapping("/api/languages")
+public class LanguageController {
+
+    @Autowired
+    private LanguageService languageService;
+
+    @CrossOrigin (origins =  "${server.front}")
+    @RequestMapping(method = GET)
+    public Set<LanguageDto> getAllLanguages(){
+        return new LanguageEntityToDtoConverter().convert(languageService.getAll());
+    }
+
+    @CrossOrigin (origins =  "${server.front}")
+    @RequestMapping(method = POST)
+    public void addLanguage(LanguageDto language){
+        languageService.addLanguage(new LanguageDtoToEntityConverter().convert(language));
+    }
+}
