@@ -94,13 +94,14 @@
           "color:" + (!this.checkSelected(skill) ? "black;" : "white;");
       },
       select(skill){
-        if (!this.checkSelected(skill)){
+        var i = this.checkSelected(skill)
+        if (!i){
           this.$store.state.currentMission.skills.push(skill);
           console.log("adding skill...");
           console.log(this.$store.state.currentMission.skills);
         }
         else {
-          this.$store.state.currentMission.skills.splice(this.checkSelected(skill), 1);
+          this.$store.state.currentMission.skills.splice(i, 1);
           console.log("removing skill...");
           console.log(this.$store.state.currentMission.skills);
         }

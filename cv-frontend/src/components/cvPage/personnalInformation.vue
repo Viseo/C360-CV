@@ -1,9 +1,5 @@
 <template>
   <div v-bind:style="styleDv">
-
-    <language-modal v-if="showLanguageModal" @close="showLanguageModal = false">
-    </language-modal>
-
     <div v-bind:style="styleHead"><i v-bind:style = "stylePicT" class="fa fa-address-card-o fa-lg" aria-hidden="true"></i> {{title}}</div>
     <div class="photoUser">
       <img id="photoP" v-bind:src = "photoProfileSrc" v-on:mouseover="changePhoto" v-bind:style="stylePh" aria-hidden="true">
@@ -80,18 +76,13 @@
       </div>
     </div>
 
-    <div class="containerInput" style="height: 80px;">
+    <div class="containerInput" style="height: auto">
       <label v-bind:style = "stylep">Langues</label>
 
       <div class="inputWithPicto" >
         <i class="fa fa-language fa-2x picto" aria-hidden="true"></i>
-        <button class="button button-action button-tiny" @click="showLanguageModal=true" style="height: 48px;">
-          <span v-for="language in infoUser.languages">
-            {{language.label}};
-          </span>
-        </button>
-        <!--<input class="inputInfo" name="languages" v-on:keyup="verificationChar" maxlength="50" placeHolder="langues"-->
-               <!--v-model="infoUser.languages">-->
+        <vSelect multiple v-model="infoUser.languages" taggable push-tags
+                 :options="languages" class="selectorStyle"></vSelect>
         <span id="alM3" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer une langue valide</span>
       </div>
     </div>
@@ -110,10 +101,11 @@
 
 <script>
 
-import languageModal from "../cvPage/languageModal.vue"
-
+import axios from "axios"
+import config from "../../config/config"
+import vSelect from 'vue-select'
   export default{
-    components:{languageModal},
+    components:{vSelect},
     methods:{
       changePhoto: function () {
         let text = document.getElementById("textChange");
@@ -259,7 +251,6 @@ import languageModal from "../cvPage/languageModal.vue"
     },
     data: function () {
       return {
-        showLanguageModal:false,
         occur:0,
         title: 'Informations personnelles',
         stylep: style,
@@ -273,8 +264,17 @@ import languageModal from "../cvPage/languageModal.vue"
         styleTel:stylePictoTel,
         styleCal:stylePictoCal,
         photoProfileSrc: "../../static/png/viseo-logo.png",
-        pictoTelSrc:"../../static/png/flag-fr.png"
+        pictoTelSrc:"../../static/png/flag-fr.png",
+        languages:""
       };
+    },
+    mounted:function(){
+      axios.get(config.server + "/api/languages").then(response => {
+        response.data = response.data.sort((a,b) => a.label.localeCompare(b.label))
+        this.languages = response.data;
+      }).catch(error => {
+
+      })
     },
     computed:{
       infoUser:function(){
@@ -424,6 +424,10 @@ import languageModal from "../cvPage/languageModal.vue"
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .selectorStyle{
+    margin: 10px 0px 5px 0px;
   }
 
 </style>

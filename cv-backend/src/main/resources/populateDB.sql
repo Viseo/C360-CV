@@ -44,10 +44,10 @@ INSERT INTO users_missions VALUES (200000,100);
 INSERT INTO users_missions VALUES (200000,200);
 INSERT INTO users_languages (user_id, language_id) VALUES
   (200000,1);
--- INSERT INTO users_languages (user_id, language_id) VALUES
---   (200000,2);
--- INSERT INTO users_languages (user_id, language_id) VALUES
---   (200000,3);
+INSERT INTO users_languages (user_id, language_id) VALUES
+  (200000,2);
+INSERT INTO users_languages (user_id, language_id) VALUES
+  (200000,3);
 -- INSERT INTO users_languages (user_id, language_id) VALUES
 --   (200000,4);
 -- INSERT INTO users_languages (user_id, language_id) VALUES
