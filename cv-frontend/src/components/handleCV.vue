@@ -3,8 +3,8 @@
     <banner :page="'Gestion CV'"></banner>
     <div class="mycv">
       <div class="infoUser">
-        <informationForm></informationForm>
-        <saving @saveData="updateUserBDD"></saving>
+        <informationForm :infoPerso="infoUser" :saveSuccessfully="saveSuccessfully"></informationForm>
+        <saving :infoUser="infoUser"></saving>
       </div>
       <div class="mission">
 
@@ -65,7 +65,8 @@
           showMissionInfo:false,
           infoUser: this.$store.state.userLogged,
           domain:"",
-          showSaveButton: 0
+          showSaveButton: 0,
+          saveSuccessfully:""
         }
     },
     computed:{
@@ -188,15 +189,6 @@
       },
       closePDF: function () {
         this.showPDF=!this.showPDF
-      },
-      updateUserBDD:function(){
-        axios.post(config.server + '/api/updateUser', user)
-          .then((response)=>{
-            console.log(response);
-          })
-          .catch((error)=> {
-            console.log(error);
-          });
       },
       toDate:function(dateStr) {
         var parts = dateStr.split("-");

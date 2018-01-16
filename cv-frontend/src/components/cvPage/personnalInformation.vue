@@ -13,7 +13,7 @@
       <div class="inputWithPicto">
         <i class="fa fa-user-o fa-2x picto" aria-hidden="true"></i>
         <input class="inputInfo" name = "firstName" v-on:keyup="verificationChar" maxlength="125" type="text" placeholder="Prenom"
-               v-model="infoUser.firstName">
+               v-model="infoPerso.firstName">
         <span id="alM" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un prénom valide</span>
       </div>
     </div>
@@ -22,8 +22,8 @@
       <label v-bind:style = "stylep">Nom</label>
       <div class="inputWithPicto">
         <i class="fa fa-user-o fa-2x picto" aria-hidden="true"></i>
-        <input class="inputInfo" name="name" v-on:keyup="verificationChar" @input="infoUser.lastName=infoUser.lastName.toUpperCase()" placeHolder="Nom"
-               v-model="infoUser.lastName">
+        <input class="inputInfo" name="name" v-on:keyup="verificationChar" @input="infoPerso.lastName=infoPerso.lastName.toUpperCase()" placeHolder="Nom"
+               v-model="infoPerso.lastName">
         <span id="alM1" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un nom valide</span>
       </div>
     </div>
@@ -32,7 +32,7 @@
       <label v-bind:style = "stylep">Age</label>
       <div class="inputWithPicto">
         <i class="fa fa-birthday-cake fa-2x picto" aria-hidden="true"></i>
-        <input class="inputInfo date" name="birth" type="date" v-model="infoUser.birth_date">
+        <input class="inputInfo date" name="birth" type="date" v-model="infoPerso.birth_date">
         <span><i id="calendar_icon" class="fa fa-calendar pictoInput" aria-hidden="true"></i> </span>
       </div>
     </div>
@@ -42,7 +42,7 @@
       <div class="inputWithPicto">
         <i class="fa fa-tag fa-2x picto" aria-hidden="true"></i>
         <input class="inputInfo" name="fonction" v-on:keyup="verificationChar" maxlength="125" placeHolder="Poste"
-               v-model="infoUser.position">
+               v-model="infoPerso.position">
         <span id="alM2" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer une fonction valide</span>
       </div>
     </div>
@@ -52,7 +52,7 @@
       <div class="inputWithPicto">
         <i  class="fa fa-tachometer fa-2x picto" aria-hidden="true"></i>
         <input class="inputInfo" name="experience" v-on:keyup="verificationChar" placeHolder="Années d'expérience"
-               v-model="infoUser.experience">
+               v-model="infoPerso.experience">
         <span id="alM5" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un nombre d'années valide</span>
       </div>
     </div>
@@ -62,7 +62,7 @@
       <div class="inputWithPicto">
         <i  class="fa fa-envelope-o fa-2x picto" aria-hidden="true"></i>
         <input class="inputInfo" name="email" type="email" v-on:keyup="verificationEmail" placeHolder="mail@viseo.fr"
-               v-model="infoUser.mail">
+               v-model="infoPerso.mail">
         <span id="alM6" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer une adresse email valide</span>
       </div>
     </div>
@@ -71,7 +71,7 @@
       <label v-bind:style = "stylep">Téléphone</label>
       <div class="inputWithPicto">
         <i class="fa fa-phone fa-2x picto" aria-hidden="true"></i>
-        <input class="inputInfo" name="telephone" placeholder="tel" v-model="infoUser.telephone">
+        <input class="inputInfo" name="telephone" placeholder="tel" v-model="infoPerso.telephone">
         <img v-bind:src="pictoTelSrc" :style="styleTel" class="pictoInput">
       </div>
     </div>
@@ -81,7 +81,7 @@
 
       <div class="inputWithPicto" >
         <i class="fa fa-language fa-2x picto" aria-hidden="true"></i>
-        <vSelect multiple v-model="infoUser.languages" taggable push-tags
+        <vSelect multiple v-model="infoPerso.languages" taggable
                  :options="languages" class="selectorStyle"></vSelect>
         <span id="alM3" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer une langue valide</span>
       </div>
@@ -92,7 +92,7 @@
       <div class="inputWithPicto">
         <i class="fa fa-gamepad fa-2x picto" aria-hidden="true"></i>
         <input class="inputInfo" name="hobbies" v-on:keyup="verificationChar" maxlength="50" placeHolder="hobbies"
-               v-model="infoUser.hobbies">
+               v-model="infoPerso.hobbies">
         <span id="alM4" style="opacity: 0; font-size: 10px; display: none">Veuillez entrer un hobbie valide</span>
       </div>
     </div>
@@ -244,9 +244,6 @@ import vSelect from 'vue-select'
           alertMessage.style.color="rgb(255,0,0)";
           alertMessage.style.textAlign= "center";
         }
-      },
-      computeAge: function(){
-        Math.floor((new Date().getTime()-new Date(infoPerso[field]).getTime())/(1000*3600*24*365));
       }
     },
     data: function () {
@@ -265,7 +262,7 @@ import vSelect from 'vue-select'
         styleCal:stylePictoCal,
         photoProfileSrc: "../../static/png/viseo-logo.png",
         pictoTelSrc:"../../static/png/flag-fr.png",
-        languages:""
+        languages:[]
       };
     },
     mounted:function(){
@@ -276,11 +273,12 @@ import vSelect from 'vue-select'
 
       })
     },
-    computed:{
-      infoUser:function(){
-        return this.$store.state.userLogged;
-      }
-    }
+//    computed:{
+//      computeAge: function(){
+//        Math.floor((new Date().getTime()-new Date(this.infoPerso[field]).getTime())/(1000*3600*24*365));
+//      }
+//    },
+    props:['infoPerso']
   }
 
   var style = {

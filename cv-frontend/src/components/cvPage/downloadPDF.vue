@@ -2,11 +2,14 @@
 
   <div>
     <div class="toPDF">
-      <div class="savePDF" @click="saveButton">Sauvegarder</div>
+      <div class="savePDF" @click="updateUserProfileOnly">Sauvegarder</div>
       <div class="downloadPDF" @click="printPDF">Télécharger le PDF</div>
     </div>
-    <span id="toValidate" style="opacity: 0; font-size: 10px; display: none">Veuillez remplir correctement le formulaire</span>
-    <span style="color:green;" v-show="saveSuccessfully">Enregistrement avec succès!</span>
+    <div style="text-align: center;">
+      <span id="toValidate" style="color:red;" v-show="saveSuccessfully==0">
+        Veuillez remplir correctement le formulaire</span>
+      <span style="color:green;" v-show="saveSuccessfully==1">Enregistrement avec succès!</span>
+    </div>
   </div>
 
 </template>
@@ -15,14 +18,28 @@
 
 
   export default {
-    data(){
-      return {
-        saveSuccessfully : false
+    props:['infoUser'],
+    data:function(){
+      return{
+        saveSuccessfully:undefined
       }
     },
     methods:{
-      saveButton: function () {
-        this.$emit("saveData");
+      updateUserProfileOnly:function(){
+        console.log(this.infoUser);
+        if(this.infoUser.mail == "" || this.infoUser.firstName == "" || this.infoUser.lastName == ""){
+          this.saveSuccessfully=0;
+        }
+        else{
+          this.saveSuccessfully=1;
+        }
+//        axios.post(config.server + '/api/updateUser', user)
+//          .then((response)=>{
+//            console.log(response);
+//          })
+//          .catch((error)=> {
+//            console.log(error);
+//          });
       },
       printPDF: function () {
           let toShow = false;

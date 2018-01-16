@@ -31,8 +31,9 @@
               <p>{{computeAge()}} ans</p>
             </div>
             <div class="userInfo">
-              <span class="netIcon"></span>
-              <p>{{infoUser.languages}}</p>
+              <span class="netIcon" style="padding-right: 10px;"></span>
+              <span v-for="(language,i) in infoUser.languages">{{language.label}}<span v-if="i != infoUser.languages.length-1">,</span>
+              </span>
             </div>
             <div class="userInfo">
               <span class="gamePad"></span>
