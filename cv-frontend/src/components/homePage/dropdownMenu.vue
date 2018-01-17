@@ -31,7 +31,7 @@
   export default {
     data: function() {
       return {
-        token:this.$store.state.token,
+        token:localStorage.getItem("token"),
         toggledShowMenu: this.showMenu,
         classes: {
           classFade: 'fadeMenu'

@@ -67,15 +67,10 @@
         var token = window.location.href.slice(d+6,window.location.href.length);
         if(token != null && token!= 'undefined'){
           axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-          console.log(token);
+          console.log("Receive token:" + token);
           axios.get(config.server + "/api/getuserifalreadyconnectedelsewhere?token=" + token).then((response) => {
-            this.$store.commit('setUser', response.data);
-            if(this.$store.state.userLogged.admin){
-              this.$router.push('/admincv');
-            }
-            else{
-              this.$router.push('/mycv');
-            }
+            localStorage.setItem("token",response.data);
+            this.$store.dispatch('checkIfTokenValide', response.data);
           }, response => {
             console.log(response);
           });

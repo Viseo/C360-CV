@@ -221,7 +221,8 @@ public class AccountController {
             ConnectionMessage request = new ConnectionMessage();
             UUID personalMessageSequence = UUID.randomUUID();
             request.setSequence(personalMessageSequence)
-                    .setToken(theToken.substring(0, theToken.length() - 1)) //why there's a '=' at the end?
+//                    .setToken(theToken.substring(0, theToken.length() - 1)) //why there's a '=' at the end?
+                    .setToken(theToken)
                     .setMessageDate(new Date())
                     .setNameFileResponse(responseCV.getName());
             ObjectMapper mapper = new ObjectMapper();
