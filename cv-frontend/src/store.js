@@ -24,7 +24,6 @@ var storeInit = {
       missions:[],
       languages:[]
     },
-    token : '',
     currentMission:{
       beginDate: "",
       endDate: "",
@@ -96,7 +95,6 @@ export const store = new Vuex.Store({
             missions:[],
             languages:[]
           },
-          token : '',
           currentMission:{
             beginDate: "",
             endDate: "",
@@ -133,7 +131,7 @@ export const store = new Vuex.Store({
         console.log("TEST if token is valid");
         axios.get(config.server + '/api/identification?token=' + localStorage.getItem("token")).then(
           response => {
-            if(response.data != null){
+            if(response.data != ""){
               console.log("Token valide");
               context.commit('setUser',response.data);
               if(context.state.userLogged.admin){

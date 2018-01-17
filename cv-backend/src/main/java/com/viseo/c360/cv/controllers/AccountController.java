@@ -88,6 +88,13 @@ public class AccountController {
         return compactJws;
     }
 
+    @CrossOrigin (origins = "${server.front}")
+    @RequestMapping("/logout")
+    @ResponseBody
+    public void logout(@RequestParam(value="token") String token){
+        mapUserCache.remove(token);
+    }
+
     @CrossOrigin (origins =  "${server.front}")
     @RequestMapping(path = "/register", method = POST)
     public String register(@RequestBody UserDto user){
@@ -208,8 +215,8 @@ public class AccountController {
     }
 
     @CrossOrigin (origins =  "${server.front}")
-    @RequestMapping(path = "/getuserifalreadyconnectedelsewhere", method = POST)
-    public String getUserIfAlreadyConnectedElseWhere(@RequestBody String theToken){
+    @RequestMapping(path = "/getuserifalreadyconnectedelsewhere", method = GET)
+    public String getUserIfAlreadyConnectedElseWhere(@RequestParam("token") String theToken){
         try{
             ConnectionMessage request = new ConnectionMessage();
             UUID personalMessageSequence = UUID.randomUUID();

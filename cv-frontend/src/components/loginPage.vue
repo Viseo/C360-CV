@@ -443,12 +443,20 @@
               var token = response.data;
               localStorage.setItem('token', token);
               axios.get(config.server + "/api/identification?token=" + token).then(response => {
-                this.$store.commit('setUser', response.data);
-                if(this.$store.state.userLogged.admin){
-                  this.$router.push('/admincv');
+                if(response.data == ""){
+                  console.log("Token non valide");
+                  localStorage.removeItem("token")
+                  this.$store.commit('resetStore');
+                  this.$router.push('/login');
                 }
                 else{
-                  this.$router.push('/mycv');
+                  this.$store.commit('setUser', response.data);
+                  if(this.$store.state.userLogged.admin){
+                    this.$router.push('/admincv');
+                  }
+                  else{
+                    this.$router.push('/mycv');
+                  }
                 }
               })
             }
@@ -458,7 +466,11 @@
 
           })
           .catch((error) => {
-            console.log(error);
+            console.log("error" + error);
+            console.log("Token non valide");
+            localStorage.removeItem("token")
+            this.$store.commit('resetStore');
+            this.$router.push('/login');
           });
         }
         else{

@@ -51,9 +51,14 @@
         this.showMenuProfil=!this.showMenuProfil;
       },
       signOut:function(){
-        localStorage.removeItem("token");
-        this.$store.commit('resetStore');
-        this.$router.push('/');
+        axios.get(config.server + "/api/logout?token=" + localStorage.getItem("token")).then(response => {
+          localStorage.removeItem("token");
+          this.$store.commit('resetStore');
+          this.$router.push('/');
+        }).catch( e => {
+          console.log("error: " + e);
+        })
+
       }
     },
     beforeMount:function(){
@@ -63,7 +68,7 @@
         if(token != null && token!= 'undefined'){
           axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
           console.log(token);
-          axios.post(config.server + "/api/getuserifalreadyconnectedelsewhere",token).then((response) => {
+          axios.get(config.server + "/api/getuserifalreadyconnectedelsewhere?token=" + token).then((response) => {
             this.$store.commit('setUser', response.data);
             if(this.$store.state.userLogged.admin){
               this.$router.push('/admincv');
