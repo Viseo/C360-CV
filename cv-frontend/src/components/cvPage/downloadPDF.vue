@@ -79,12 +79,13 @@
                 .then((response)=>{
                   console.log(response.data);
                   this.$store.state.userLogged = response.data;
+                  this.saveSuccessfully=1;
                 })
                 .catch((error)=> {
-                  console.log(error);
+                  console.log("error: " + error);
                 });
             }).catch(e =>{
-
+              console.log("error: " + e);
             });
           }
 
