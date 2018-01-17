@@ -440,15 +440,17 @@
           })
           .then((response) => {
             if (response.data) {
-              localStorage.setItem('token', response.data);
-              let data = jwtDecode(response.data);
-              this.$store.commit('setToken', response.data);
-              if(data.admin){
-                this.$router.push('/admincv');
-              }
-              else {
-                this.$router.push('/mycv');
-              }
+              var token = response.data;
+              localStorage.setItem('token', token);
+              axios.get(config.server + "/api/identification?token=" + token).then(response => {
+                this.$store.commit('setUser', response.data);
+                if(this.$store.state.userLogged.admin){
+                  this.$router.push('/admincv');
+                }
+                else{
+                  this.$router.push('/mycv');
+                }
+              })
             }
             else {
               alert("Login Failed.");

@@ -66,20 +66,10 @@ public class AccountController {
     private String createSecurityToken(UserDto user){
         return Jwts.builder()
                 .setSubject(user.getMail())
-                .claim("firstName", user.getFirstName())
-                .claim("lastName", user.getLastName())
                 .claim("admin", user.getAdmin())
                 .claim("id", user.getId())
                 .claim("login", user.getLogin())
                 .claim("mail", user.getMail())
-                .claim("birth_date", user.getBirth_date())
-                .claim("experience", user.getExperience())
-                .claim("hobbies", user.getHobbies())
-                .claim("languages", user.getLanguages())
-                .claim("position", user.getPosition())
-                .claim("picture",user.getPicture())
-                .claim("telephone", user.getTelephone())
-                .claim("languages", user.getLanguages())
                 //.signWith(SignatureAlgorithm.HS512, generateKey())
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
@@ -180,20 +170,15 @@ public class AccountController {
     }
 
     @CrossOrigin (origins =  "${server.front}")
-    @RequestMapping(path = "/identification", method = POST)
+    @RequestMapping(path = "/identification", method = GET)
     @ResponseBody
-    public String checkIsAlreadyConnected(@RequestBody String token) {
+    public UsersEntity checkIsAlreadyConnected(@RequestParam("token") String token) {
         System.out.println("Request successfully received! Received token : " + token);
         try{
             token = token.replace("=", "");
             UserDto user = mapUserCache.get(token);
             if (user != null){
-                if (user.getAdmin()){
-                    return "admin";
-                }
-                else{
-                    return "notAdmin";
-                }
+                return new UserDtoToEntityConverter().convert(user);
             }
             else{
                 return null;
@@ -219,8 +204,7 @@ public class AccountController {
     @CrossOrigin (origins = "${server.front}")
     @RequestMapping(path = "/updateOnlyUserProfile", method = PUT)
     public UsersEntity updateOnlyUserProfile(@RequestBody UserDto user){
-        return this.accountService
-                .updateOnlyUserProfile(new UserDtoToEntityConverter().convert(user));
+        return this.accountService.updateOnlyUserProfile(new UserDtoToEntityConverter().convert(user));
     }
 
     @CrossOrigin (origins =  "${server.front}")

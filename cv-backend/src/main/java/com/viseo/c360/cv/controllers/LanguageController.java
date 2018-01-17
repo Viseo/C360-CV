@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -33,7 +35,13 @@ public class LanguageController {
 
     @CrossOrigin (origins =  "${server.front}")
     @RequestMapping(method = POST)
-    public void addLanguage(LanguageDto language){
-        languageService.addLanguage(new LanguageDtoToEntityConverter().convert(language));
+    public List<LanguageDto> addLanguage(List<LanguageDto> languages){
+        List<LanguageDto> result = new ArrayList<>();
+        for (LanguageDto language:languages) {
+            result.add(new LanguageEntityToDtoConverter()
+                    .convert(languageService.addLanguage(new LanguageDtoToEntityConverter().convert(language)))) ;
+        }
+        return result;
+
     }
 }

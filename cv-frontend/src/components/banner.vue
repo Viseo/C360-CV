@@ -64,9 +64,7 @@
           axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
           console.log(token);
           axios.post(config.server + "/api/getuserifalreadyconnectedelsewhere",token).then((response) => {
-            this.$store.commit('resetStore');
-            localStorage.setItem('token',response.data);
-            this.$store.commit('setToken', response.data);
+            this.$store.commit('setUser', response.data);
             if(this.$store.state.userLogged.admin){
               this.$router.push('/admincv');
             }
@@ -79,7 +77,6 @@
         }
       }
       if (localStorage.getItem('token') != null){
-        this.$store.commit('setToken', localStorage.getItem('token'));
         this.$store.dispatch('checkIfTokenValide');
       }
       else{

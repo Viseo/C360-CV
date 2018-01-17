@@ -12,5 +12,5 @@ public interface LanguageService {
 
     Set<LanguageEntity> getAll();
 
-    void addLanguage(LanguageEntity language);
+    LanguageEntity addLanguage(LanguageEntity language);
 }

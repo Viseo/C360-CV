@@ -261,24 +261,18 @@ import vSelect from 'vue-select'
         styleTel:stylePictoTel,
         styleCal:stylePictoCal,
         photoProfileSrc: "../../static/png/viseo-logo.png",
-        pictoTelSrc:"../../static/png/flag-fr.png",
-        languages:[]
+        pictoTelSrc:"../../static/png/flag-fr.png"
       };
     },
     mounted:function(){
-      axios.get(config.server + "/api/languages").then(response => {
-        response.data = response.data.sort((a,b) => a.label.localeCompare(b.label))
-        this.languages = response.data;
-      }).catch(error => {
 
-      })
     },
 //    computed:{
 //      computeAge: function(){
 //        Math.floor((new Date().getTime()-new Date(this.infoPerso[field]).getTime())/(1000*3600*24*365));
 //      }
 //    },
-    props:['infoPerso']
+    props:['infoPerso','languages']
   }
 
   var style = {

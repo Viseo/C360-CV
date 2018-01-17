@@ -3,8 +3,8 @@
     <banner :page="'Gestion CV'"></banner>
     <div class="mycv">
       <div class="infoUser">
-        <informationForm :infoPerso="infoUser" :saveSuccessfully="saveSuccessfully"></informationForm>
-        <saving :infoUser="infoUser"></saving>
+        <informationForm :infoPerso="infoUser" :saveSuccessfully="saveSuccessfully" :languages="languages"></informationForm>
+        <saving :infoUser="infoUser" :languages="languages"></saving>
       </div>
       <div class="mission">
 
@@ -63,13 +63,16 @@
           show: false,
           showPDF: false,
           showMissionInfo:false,
-          infoUser: this.$store.state.userLogged,
           domain:"",
           showSaveButton: 0,
-          saveSuccessfully:""
+          saveSuccessfully:"",
+          languages:[]
         }
     },
     computed:{
+      infoUser:function(){
+        return this.$store.state.userLogged;
+      },
       currentMission:function(){
         return this.$store.state.currentMission;
       },
@@ -78,6 +81,12 @@
       }
     },
     mounted:function(){
+      axios.get(config.server + "/api/languages").then(response => {
+        response.data = response.data.sort((a,b) => a.label.localeCompare(b.label))
+        this.languages = response.data;
+      }).catch(error => {
+
+      });
       axios.get(config.server + "/api/missions/getMissionByUser?userId="
         + this.$store.state.userLogged.id).then(
         response => {
@@ -189,10 +198,6 @@
       },
       closePDF: function () {
         this.showPDF=!this.showPDF
-      },
-      toDate:function(dateStr) {
-        var parts = dateStr.split("-");
-        return new Date(parts[0], parts[1] - 1, parts[2]);
       },
       toDateString:function (date){
         var d = new Date(date),

@@ -22,7 +22,7 @@ public class LanguageServiceImpl implements LanguageService {
     }
 
     @Override
-    public void addLanguage(LanguageEntity language) {
-        languageDAO.save(language);
+    public LanguageEntity addLanguage(LanguageEntity language) {
+        return languageDAO.save(language);
     }
 }

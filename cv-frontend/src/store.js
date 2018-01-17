@@ -5,10 +5,10 @@ import config from '../src/config/config'
 import router from '../src/config/router'
 
 Vue.use(Vuex);
-var jwtDecode = require('jwt-decode');
 
 var storeInit = {
     userLogged:{
+      version:0,
       id: -1,
       admin: false,
       birth_date: "",
@@ -45,9 +45,8 @@ export const store = new Vuex.Store({
       setCurrentMission(state, m){
         state.currentMission = m;
       },
-      setToken(state, userToken){
-        state.token = userToken;
-        Object.assign(state.userLogged, jwtDecode(userToken));
+      setUser(state, user){
+        Object.assign(state.userLogged, user);
         //convert missions date to yyyy-mm-dd type
         for (let i in state.userLogged.missions) {
           state.userLogged.missions[i].beginDate = new Date(state.userLogged.missions[i].beginDate).toUTCString();
@@ -81,6 +80,7 @@ export const store = new Vuex.Store({
       resetStore(state) {
         Object.assign(state, {
           userLogged:{
+            version:0,
             id: -1,
             admin: false,
             birth_date: "",
@@ -131,17 +131,16 @@ export const store = new Vuex.Store({
     actions: {
       checkIfTokenValide(context){
         console.log("TEST if token is valid");
-        axios.post(config.server + '/api/identification', localStorage.getItem("token")).then(
+        axios.get(config.server + '/api/identification?token=' + localStorage.getItem("token")).then(
           response => {
-            if(response.data != ""){
+            if(response.data != null){
               console.log("Token valide");
-              if (response.data == "admin"){
-                console.log("Admin");
-                context.state.isAdmin = true;
+              context.commit('setUser',response.data);
+              if(context.state.userLogged.admin){
+                router.push('/admincv');
               }
               else{
-                console.log("Not admin");
-                context.state.isAdmin = false;
+                router.push('/mycv');
               }
             }
             else{
@@ -150,12 +149,12 @@ export const store = new Vuex.Store({
               context.commit('resetStore');
               router.push('/login');
             }
-          }, response => {
-            console.log("Token non valide");
-            localStorage.removeItem("token")
-            context.commit('resetStore');
-            router.push('/login');
-          })
+          }).catch(e => {
+          console.log("token non valide" + e);
+          localStorage.removeItem("token")
+          context.commit('resetStore');
+          router.push('/login');
+        })
       }
 
     }
