@@ -59,10 +59,17 @@ public class AccountServiceImpl implements AccountService {
 
     public UsersEntity findById(long id){
         try{
-            return em.createQuery("SELECT U FROM UsersEntity U LEFT JOIN FETCH U.missions M " +
-                    "LEFT JOIN FETCH U.languages " +
-                    "LEFT JOIN FETCH M.skills WHERE U.id = ?1", UsersEntity.class)
+            em.createQuery("SELECT U FROM UsersEntity U LEFT JOIN FETCH U.missions M " +
+                    "LEFT JOIN FETCH M.skills " +
+                    "WHERE U.id = ?1", UsersEntity.class)
                     .setParameter(1,id).getSingleResult();
+            return em.createQuery("SELECT U FROM UsersEntity U LEFT JOIN FETCH U.languages " +
+                    "WHERE U.id = ?1", UsersEntity.class)
+                    .setParameter(1,id).getSingleResult();
+//            return em.createQuery("SELECT U FROM UsersEntity U LEFT JOIN FETCH U.missions M " +
+//                    "LEFT JOIN FETCH U.languages " +
+//                    "LEFT JOIN FETCH M.skills WHERE U.id = ?1", UsersEntity.class)
+//                    .setParameter(1,id).getSingleResult();
         }
         catch (NoResultException nre){
             //Ignore this because as per our logic this is ok!
@@ -89,8 +96,8 @@ public class AccountServiceImpl implements AccountService {
         return this.findByMail(mail);
     }
 
-    public UsersEntity getUserById(int id) {
-        return this.findById((long)id);
+    public UsersEntity getUserById(long id) {
+        return this.findById(id);
     }
 
     @Override
@@ -110,26 +117,29 @@ public class AccountServiceImpl implements AccountService {
         return accountDAO.save(user);
     }
 
-    @Override
-    @Transactional
-    public UsersEntity updateOnlyUserProfile(UsersEntity user) {
-        String request = "UPDATE users SET" +
-                "first_name = ?firstName, last_name = ?lastName" +
-                "position = ?position, birth_day = ?birthday" +
-                "experience = ?experience, telephone = ?telephone, hobbies = ?hobbies" +
-                "language = ?language";
-        Query query = em.createQuery(request);
-        query.setParameter("firstName", user.getFirstName())
-                .setParameter("lastName", user.getLastName())
-                .setParameter("position", user.getPosition())
-                .setParameter("birthday", user.getBirth_date())
-                .setParameter("experience", user.getExperience())
-                .setParameter("telephone", user.getExperience())
-                .setParameter("hobbies", user.getHobbies())
-                .setParameter("language", user.getLanguages());
-        query.executeUpdate();
-        em.flush();
-        return this.findById(user.getId());
-    }
+//    @Override
+//    @Transactional
+//    public UsersEntity updateOnlyUserProfile(UsersEntity user) {
+//        user = em.merge(user);
+//        em.flush();
+//        return user;
+////        String request = "UPDATE UsersEntity SET " +
+////                "firstName = :firstName, lastName = :lastName, " +
+////                "position = :position, birth_day = :birthday, " +
+////                "experience = :experience, telephone = :telephone, hobbies = :hobbies, " +
+////                "languages = :languages";
+////        Query query = em.createQuery(request);
+////        query.setParameter("firstName", user.getFirstName())
+////                .setParameter("lastName", user.getLastName())
+////                .setParameter("position", user.getPosition())
+////                .setParameter("birthday", user.getBirth_date())
+////                .setParameter("experience", user.getExperience())
+////                .setParameter("telephone", user.getExperience())
+////                .setParameter("hobbies", user.getHobbies())
+////                .setParameter("languages", user.getLanguages());
+////        query.executeUpdate();
+////        em.flush();
+////        return this.findById(user.getId());
+//    }
 
 }

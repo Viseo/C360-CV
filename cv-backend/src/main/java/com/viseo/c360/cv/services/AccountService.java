@@ -13,12 +13,12 @@ public interface AccountService {
 
     UsersEntity mailExist(String mail);
 
-    UsersEntity getUserById(int id);
+    UsersEntity getUserById(long id);
 
     List<UsersEntity> getAll();
 
     UsersEntity updateUser(UsersEntity user);
 
-    UsersEntity updateOnlyUserProfile(UsersEntity user);
+//    UsersEntity updateOnlyUserProfile(UsersEntity user);
 
 }

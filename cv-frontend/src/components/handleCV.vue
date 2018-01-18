@@ -3,7 +3,7 @@
     <banner :page="'Gestion CV'"></banner>
     <div class="mycv">
       <div class="infoUser">
-        <informationForm :infoPerso="infoUser" :saveSuccessfully="saveSuccessfully" :languages="languages"></informationForm>
+        <informationForm :infoPerso="infoUser" :languages="languages"></informationForm>
         <saving :infoUser="infoUser" :languages="languages"></saving>
       </div>
       <div class="mission">
@@ -65,7 +65,6 @@
           showMissionInfo:false,
           domain:"",
           showSaveButton: 0,
-          saveSuccessfully:"",
           languages:[]
         }
     },

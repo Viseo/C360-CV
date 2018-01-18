@@ -61,7 +61,7 @@ public class UsersEntity extends BaseEntity {
     @Column
     private Date lastUpdateDate;
 
-    @ManyToMany(cascade=CascadeType.PERSIST)
+    @ManyToMany(cascade=CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(
             name="USERS_LANGUAGES",
             joinColumns=@JoinColumn(name="user_id"),
@@ -69,7 +69,7 @@ public class UsersEntity extends BaseEntity {
     )
     private Set<LanguageEntity> languages;
 
-    @ManyToMany(cascade=CascadeType.PERSIST)
+    @ManyToMany(cascade=CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(
             name="USERS_MISSIONS",
             joinColumns=@JoinColumn(name="user_id"),

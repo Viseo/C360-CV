@@ -171,21 +171,23 @@ public class AccountController {
 
     @CrossOrigin (origins =  "${server.front}")
     @RequestMapping(path = "/getUser", method = GET)
-    public UsersEntity getUser(@RequestParam(value = "id") @NotEmpty int id) {
-
-        return this.accountService.getUserById(id);
+    public UserDto getUser(@RequestParam(value = "id") @NotEmpty int id) {
+        UserDto userDto = new UserEntityToDtoConverter().convert(this.accountService.getUserById(id));
+        userDto.setPassword("");
+        return userDto;
     }
 
     @CrossOrigin (origins =  "${server.front}")
     @RequestMapping(path = "/identification", method = GET)
     @ResponseBody
-    public UsersEntity checkIsAlreadyConnected(@RequestParam("token") String token) {
+    public UserDto checkIsAlreadyConnected(@RequestParam("token") String token) {
         System.out.println("Request successfully received! Received token : " + token);
         try{
             token = token.replace("=", "");
             UserDto user = mapUserCache.get(token);
             if (user != null){
-                return new UserDtoToEntityConverter().convert(user);
+                user.setPassword("");
+                return user;
             }
             else{
                 return null;
@@ -210,8 +212,20 @@ public class AccountController {
 
     @CrossOrigin (origins = "${server.front}")
     @RequestMapping(path = "/updateOnlyUserProfile", method = PUT)
-    public UsersEntity updateOnlyUserProfile(@RequestBody UserDto user){
-        return this.accountService.updateOnlyUserProfile(new UserDtoToEntityConverter().convert(user));
+    public UserDto updateOnlyUserProfile(@RequestBody UserDto user){
+        UserDto oldUser = new UserEntityToDtoConverter().convert(this.accountService.getUserById(user.getId()));
+        user.setMissions(oldUser.getMissions());
+        UserDto updatedUser = new UserEntityToDtoConverter()
+                                .convert(this.accountService.updateUser(new UserDtoToEntityConverter().convert(user)));
+
+        mapUserCache.forEach((token, userRecorded) -> {
+            if (userRecorded.getId() == updatedUser.getId()){
+                mapUserCache.remove(token);
+                mapUserCache.put(token, updatedUser);
+            }
+        });
+        updatedUser.setPassword("");
+        return updatedUser;
     }
 
     @CrossOrigin (origins =  "${server.front}")

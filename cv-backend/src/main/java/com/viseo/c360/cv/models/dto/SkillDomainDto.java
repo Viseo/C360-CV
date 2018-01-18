@@ -1,6 +1,5 @@
 package com.viseo.c360.cv.models.dto;
 
-import com.viseo.c360.cv.models.entities.SkillEntity;
 
 import java.util.Set;
 
