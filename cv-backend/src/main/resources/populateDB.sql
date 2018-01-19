@@ -106,7 +106,10 @@ INSERT INTO skills (version, label,domain_id) VALUES
 
 
 INSERT INTO missions_skills(missions_id, skills_id) VALUES (100, 1);
-
+INSERT INTO missions_skills(missions_id, skills_id) VALUES (100, 2);
+INSERT INTO missions_skills(missions_id, skills_id) VALUES (100, 3);
+INSERT INTO missions_skills(missions_id, skills_id) VALUES (100, 4);
+INSERT INTO missions_skills(missions_id, skills_id) VALUES (100, 10);
 /*
 INSERT INTO users (first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES
   ('Maxime', 'Zarrin', 'maxime.zarrin@viseo.com','MZA4571','Stagiaire','3','10/06/1994','mastermind actions','0614253647','fd907eb6a93e49bb0ca5aa22f68bb2d66e0218dc','../../static/users/maxime.png','false'),

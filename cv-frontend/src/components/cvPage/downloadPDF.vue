@@ -74,7 +74,7 @@
               axios.post(config.server + '/api/updateOnlyUserProfile', userTosave)
                 .then((response)=>{
                   console.log(response.data);
-                  this.$store.state.userLogged = response.data;
+                  this.$store.commit("setUserWithoutMission",response.data);
                   this.showSuccess();
                 })
                 .catch((error)=> {
@@ -91,7 +91,7 @@
             axios.put(config.server + '/api/updateOnlyUserProfile', userTosave)
               .then((response)=>{
                 console.log(response.data);
-                this.$store.commit("setUser",response.data);
+                this.$store.commit("setUserWithoutMission",response.data);
                 this.showSuccess();
               })
               .catch((error)=> {

@@ -70,17 +70,34 @@ public class AccountServiceImpl implements AccountService {
 
     public UsersEntity findById(long id){
         try{
-            em.createQuery("SELECT U FROM UsersEntity U LEFT JOIN FETCH U.missions M " +
+            //
+            //n+1 probleme pour les codes ci-dessous
+//            em.createQuery("SELECT U FROM UsersEntity U " +
+//                    "LEFT JOIN FETCH U.missions M " +
+//                    "WHERE U.id = ?1", UsersEntity.class)
+//                    .setParameter(1,id).getSingleResult();
+//
+//            UsersEntity usersEntity = em.createQuery("SELECT U FROM UsersEntity U LEFT JOIN FETCH U.languages " +
+//                    "WHERE U.id = ?1", UsersEntity.class)
+//                    .setParameter(1,id).getSingleResult();
+//            return usersEntity;
+            em.createQuery("SELECT M FROM UsersEntity U " +
+                    "JOIN U.missions M " +
                     "LEFT JOIN FETCH M.skills " +
+                    "WHERE U.id = ?1", MissionEntity.class)
+                    .setParameter(1,id).getResultList();
+            return em.createQuery("SELECT U FROM UsersEntity U " +
+                    "LEFT JOIN FETCH U.languages " +
                     "WHERE U.id = ?1", UsersEntity.class)
                     .setParameter(1,id).getSingleResult();
-            return em.createQuery("SELECT U FROM UsersEntity U LEFT JOIN FETCH U.languages " +
-                    "WHERE U.id = ?1", UsersEntity.class)
-                    .setParameter(1,id).getSingleResult();
+
 //            return em.createQuery("SELECT U FROM UsersEntity U LEFT JOIN FETCH U.missions M " +
 //                    "LEFT JOIN FETCH U.languages " +
 //                    "LEFT JOIN FETCH M.skills WHERE U.id = ?1", UsersEntity.class)
 //                    .setParameter(1,id).getSingleResult();
+
+
+
         }
         catch (NoResultException nre){
             //Ignore this because as per our logic this is ok!

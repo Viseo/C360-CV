@@ -4,6 +4,7 @@ import com.viseo.c360.cv.converters.MissionEntityToDtoConverter;
 import com.viseo.c360.cv.converters.UserDtoToEntityConverter;
 import com.viseo.c360.cv.converters.UserEntityToDtoConverter;
 import com.viseo.c360.cv.models.dto.MissionDto;
+import com.viseo.c360.cv.models.dto.UserDto;
 import com.viseo.c360.cv.models.entities.MissionEntity;
 import com.viseo.c360.cv.models.entities.UsersEntity;
 import com.viseo.c360.cv.services.MissionService;
@@ -27,7 +28,7 @@ public class MissionController {
     @CrossOrigin (origins =  "${server.front}")
     @RequestMapping(method = POST)
     public MissionDto add(@RequestBody MissionEntity missionEntity, @RequestParam("userId") int userId) {
-        UsersEntity user = new UserDtoToEntityConverter().convert(accountController.getUser((userId)));
+        UsersEntity user = new UserDtoToEntityConverter().convert(accountController.getFullUser((userId)));
         MissionDto missionDto = new MissionEntityToDtoConverter().convert(this.missionService.add(missionEntity));
         List<MissionEntity> missions = user.getMissions();
         missions.add(missionEntity);

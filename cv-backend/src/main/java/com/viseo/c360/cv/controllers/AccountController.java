@@ -177,6 +177,11 @@ public class AccountController {
         return userDto;
     }
 
+    public UserDto getFullUser(long id){
+        UserDto userDto = new UserEntityToDtoConverter().convert(this.accountService.getUserById(id));
+        return userDto;
+    }
+
     @CrossOrigin (origins =  "${server.front}")
     @RequestMapping(path = "/identification", method = GET)
     @ResponseBody
@@ -214,7 +219,8 @@ public class AccountController {
     @RequestMapping(path = "/updateOnlyUserProfile", method = PUT)
     public UserDto updateOnlyUserProfile(@RequestBody UserDto user){
         UserDto oldUser = new UserEntityToDtoConverter().convert(this.accountService.getUserById(user.getId()));
-        user.setMissions(oldUser.getMissions());
+        user.setMissions(oldUser.getMissions());//not update user
+        user.setPassword(oldUser.getPassword());//not clear the db password
         UserDto updatedUser = new UserEntityToDtoConverter()
                                 .convert(this.accountService.updateUser(new UserDtoToEntityConverter().convert(user)));
 

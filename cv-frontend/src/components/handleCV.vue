@@ -122,6 +122,7 @@
     watch:{
       currentMission: {
         handler(val){
+          console.log("change!");
           if (this.showSaveButton<2){
             this.showSaveButton++ ;
           }
@@ -155,6 +156,7 @@
           axios.put(config.server + '/api/missions', missionToSave)
             .then(response =>{
               this.$store.state.currentMission.version++;
+              this.showSaveButton = 0;
               console.log(this.$store.state.currentMission.version);
             })
             .catch(e => {
@@ -181,6 +183,7 @@
                 self.$store.state.userLogged.missions.pop();
                 self.$store.state.userLogged.missions.push(m);
                 self.$store.state.userLogged.version++;
+                this.showSaveButton = 0;
                 console.log(self.$store.state.currentMission);
                 //self.$store.state.userLogged.missions.push(response.data);
               })

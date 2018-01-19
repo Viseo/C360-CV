@@ -56,15 +56,15 @@ public class ConsumerMessageHandler {
             RabbitMsg rabbitMsgResponse = factory.get(jo.get("type")).apply(jo);
             if (rabbitMsgResponse instanceof ConnectionMessage){
                 ConnectionMessage connectionMessageResponse = (ConnectionMessage) rabbitMsgResponse;
-                UserDto collaborator = connectionMessageResponse.getUserDto();
-                System.out.println("Halelujah j'ai reçu ça   : " + request);
-                if (connectionMessageResponse.getToken() != null) {
-                    ws.checkIfAlreadyConnected(connectionMessageResponse);
-                } else  {
-                    UsersEntity c = this.accountService.mailExist(collaborator.getMail());
-                    if (c != null){
-                        connectionMessageResponse.setUserDto(new UserEntityToDtoConverter().convert(c));
-                        if (!connectionMessageResponse.getNameFileResponse().equals(responseCV.getName())) {
+                if (!connectionMessageResponse.getNameFileResponse().equals(responseCV.getName())){
+                    UserDto collaborator = connectionMessageResponse.getUserDto();
+                    System.out.println("Halelujah j'ai reçu ça   : " + request);
+                    if (connectionMessageResponse.getToken() != null) {
+                        ws.checkIfAlreadyConnected(connectionMessageResponse);
+                    } else  {
+                        UsersEntity c = this.accountService.mailExist(collaborator.getMail());
+                        if (c != null){
+                            connectionMessageResponse.setUserDto(new UserEntityToDtoConverter().convert(c));
                             ObjectMapper mapper = new ObjectMapper();
                             mapper.registerModule(new Hibernate5Module());
                             try{
