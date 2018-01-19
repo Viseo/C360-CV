@@ -3,6 +3,7 @@ package com.viseo.c360.cv.services;
 import com.viseo.c360.cv.models.entities.MissionEntity;
 import com.viseo.c360.cv.models.entities.UsersEntity;
 import com.viseo.c360.cv.repositories.AccountDAO;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,10 +47,20 @@ public class AccountServiceImpl implements AccountService {
 
     public UsersEntity findByMail(String mail){
         try{
-            return  em.createQuery("SELECT U FROM UsersEntity U LEFT JOIN FETCH U.missions M " +
-                    "LEFT JOIN FETCH U.languages " +
-                    "LEFT JOIN FETCH M.skills WHERE U.mail = ?1", UsersEntity.class)
+            em.createQuery("SELECT U FROM UsersEntity U " +
+                    "LEFT JOIN FETCH U.missions M " +
+                    "LEFT JOIN FETCH M.skills " +
+                    "WHERE U.mail =?1", UsersEntity.class)
                     .setParameter(1, mail).getSingleResult();
+            return em.createQuery("SELECT U FROM UsersEntity U " +
+                    "LEFT JOIN FETCH U.languages " +
+                    "WHERE U.mail = ?1", UsersEntity.class)
+                    .setParameter(1, mail).getSingleResult();
+
+//            return  em.createQuery("SELECT U FROM UsersEntity U LEFT JOIN FETCH U.missions M " +
+//                    "LEFT JOIN FETCH U.languages " +
+//                    "LEFT JOIN FETCH M.skills WHERE U.mail = ?1", UsersEntity.class)
+//                    .setParameter(1, mail).getSingleResult();
         }
         catch (NoResultException nre){
             //Ignore this because as per our logic this is ok!

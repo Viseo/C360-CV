@@ -180,6 +180,7 @@
                 self.$store.commit("setCurrentMission", m);
                 self.$store.state.userLogged.missions.pop();
                 self.$store.state.userLogged.missions.push(m);
+                self.$store.state.userLogged.version++;
                 console.log(self.$store.state.currentMission);
                 //self.$store.state.userLogged.missions.push(response.data);
               })
