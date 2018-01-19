@@ -105,7 +105,6 @@
       },
       printPDF: function () {
           let toShow = false;
-          let messageError = document.getElementById("toValidate");
           /*
           Test!!!!!!
           for(let mission of this.missions){
@@ -121,7 +120,6 @@
           }
           */
           if(!toShow){
-              messageError.style.display = "none";
               var printContents = document.getElementById('PDF').innerHTML;
               var originalContents = document.body.innerHTML;
               document.body.innerHTML = printContents;
