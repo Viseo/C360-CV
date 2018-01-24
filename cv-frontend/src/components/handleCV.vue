@@ -149,24 +149,26 @@
           console.log('updating the mission...');
           if(!(missionToSave.title && missionToSave.client.label
               && missionToSave.beginDate && missionToSave.endDate && missionToSave.typeMissions)){
-            alert("Veuillez compeleter tous les champs obligatoires!");
+            this.showWarning();
           }
           console.log(missionToSave);
           axios.put(config.server + '/api/missions', missionToSave)
             .then(response =>{
               this.$store.state.currentMission.version++;
               this.showSaveButton = 0;
+              this.showSuccess();
               console.log(this.$store.state.currentMission.version);
             })
             .catch(e => {
               console.log(e);
+              this.showError();
             })
         }
         else{
           console.log('adding new mission...');
           if(!(missionToSave.title && missionToSave.client.label
                 && missionToSave.beginDate && missionToSave.endDate && missionToSave.typeMissions)){
-            alert("Veuillez compeleter tous les champs obligatoires!");
+            this.showWarning();
           }
           else{
 //            missionToSave.beginDate = this.toDateString(missionToSave.beginDate);
@@ -184,10 +186,12 @@
                 self.$store.state.userLogged.version++;
                 this.showSaveButton = 0;
                 console.log(self.$store.state.currentMission);
+                this.showSuccess();
                 //self.$store.state.userLogged.missions.push(response.data);
               })
               .catch(e => {
                 console.log(e);
+                this.showError();
               });
           }
         }
@@ -211,6 +215,23 @@
         if (day.length < 2) day = '0' + day;
 
         return [year, month, day].join('-');
+      }
+    },
+    notifications: {
+      showError: { // You can have any name you want instead of 'showLoginError'
+        title: 'La mise à jour a échoué',
+        message: 'Impossible de mettre à jour l\'utilisateur',
+        type: 'error' // You also can use 'VueNotifications.types.error' instead of 'error'
+      },
+      showWarning: {
+        title: 'Données invalides',
+        message: 'Veuillez compléter toutes les données nécessaire',
+        type: 'warn'
+      },
+      showSuccess: {
+        title: 'Succès',
+        message: 'La mise à jour a été bien enregistrée',
+        type: 'success'
       }
     }
   }
