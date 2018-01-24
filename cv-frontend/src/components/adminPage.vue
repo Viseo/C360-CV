@@ -17,7 +17,6 @@
         <listCollab class="collabZone" :collaborators="collaborators" @showPDF="showPDFUser" @downloadPDF="downloadPDF"></listCollab>
     </div>
     <div v-show="showPDF" class="grayer" @click="closePDF"></div>
-    <img v-show="showPDF" class="closePDF" src="../../static/png/icone-supprimer.png" @click="closePDF">
     <curriPDF :infoPerso="infoUser" :infoMission="missions" v-show="showPDF" id="PDF"></curriPDF>
   </div>
 </template>
@@ -28,6 +27,7 @@
   import listCollab from "./adminPageComponents/listCollab.vue"
   import curriPDF from './PDF/curriculumPDF.vue'
   import axios from 'axios'
+  import config from '../config/config'
 
   const skills = [
     ["Android","Ios","React Native","Xamarin"],
@@ -165,7 +165,7 @@
 
     },
     created: function () {
-        return axios.get('/api/getUsers')
+        return axios.get(config.server +  '/api/getUsers')
           .then(response=>{
             if(response.data.length>0){
               this.collaborators = response.data;

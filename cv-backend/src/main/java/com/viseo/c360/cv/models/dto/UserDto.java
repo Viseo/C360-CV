@@ -2,15 +2,13 @@ package com.viseo.c360.cv.models.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.viseo.c360.cv.models.entities.MissionsEntity;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserDto {
-
-    private int id;
+public class UserDto extends BaseDto{
 
     private String login;
 
@@ -38,17 +36,9 @@ public class UserDto {
 
     private Date lastUpdateDate;
 
-    private List<LanguageDto> languages;
+    private Set<LanguageDto> languages;
 
-    private List<MissionsEntity> missions;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    private List<MissionDto> missions;
 
     public String getFirstName() {
         return firstName;
@@ -126,19 +116,19 @@ public class UserDto {
         this.birth_date = birth_date;
     }
 
-    public List<LanguageDto> getLanguages() {
+    public Set<LanguageDto> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(List<LanguageDto> languages) {
+    public void setLanguages(Set<LanguageDto> languages) {
         this.languages = languages;
     }
 
-    public List<MissionsEntity> getMissions() {
+    public List<MissionDto> getMissions() {
         return missions;
     }
 
-    public void setMissions(List<MissionsEntity> missions) {
+    public void setMissions(List<MissionDto> missions) {
         this.missions = missions;
     }
 
@@ -208,7 +198,7 @@ public class UserDto {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int)id;
         result = 31 * result + (login != null ? login.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);

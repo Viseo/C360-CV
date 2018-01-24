@@ -4,19 +4,18 @@
       <div class="inputDiv">
         <i class="fa fa-suitcase fa-2x"></i>
         <div>
-          <label v-bind:class="labelTitleClass">Titre de la mission</label>
-          <input id="Title Mission" v-model="nameMission" type='text' class="inputText" @focus="setFocusLabelClass(1)"
-                 @keyup="updateBlock()" @blur="changeLabelClass(nameMission,1)">
+          <label v-bind:class="currentMission.title != '' ? 'label-full' : 'label-empty'">Titre de la mission*</label>
+          <input id="Title Mission" v-model="currentMission.title" type='text' class="inputText" @focus="setFocusLabelClass(1)"
+                 @blur="changeLabelClass(currentMission.title,1)">
         </div>
       </div>
 
       <div class="inputDiv">
         <i class="fa fa-file-text fa-2x"></i>
         <div>
-          <label id="Type Title">Type</label>
-          <select v-model="typeMission" v-on:click="updateBlock()" :value="typeM">
-            <option >Mission</option>
-            <option>Séminaire</option>
+          <label id="Type Title">Type*</label>
+          <select v-model="currentMission.typeMissions">
+            <option v-for="type in typeMissions" v-bind:value="type">{{type.label}}</option>
           </select>
         </div>
       </div>
@@ -24,9 +23,9 @@
       <div id="StartCalendar" class="inputDiv">
         <i class="fa fa-calendar fa-2x"></i>
         <div>
-          <label id="Start Title">Début</label>
+          <label id="Start Title">Début*</label>
           <div class="inputCalendar">
-            <input id="Start Calendar Date" :value="beginDate" v-model="beginInput" class="inputDate" type="date" v-on:click="updateBlock()" @input="updateBlock()">
+            <input id="Start Calendar Date" v-model="currentMission.beginDate" class="inputDate" type="date" @input="checkBeginDate()">
           </div>
         </div>
       </div>
@@ -34,12 +33,19 @@
       <div id="EndCalendar" class="inputDiv">
         <i class="fa fa-calendar fa-2x cal"></i>
         <div>
-          <label id="Fin Title">Fin</label>
+          <label id="Fin Title">Fin*</label>
           <div class="inputCalendar">
-            <input id="End Calendar Date" :value="endDate" v-model="endInput" class="inputDate" type="date" v-on:click="updateBlock()" @input="updateBlock()">
+            <input id="End Calendar Date" v-model="currentMission.endDate" class="inputDate" type="date" @input="checkEndDate()">
           </div>
-          <div v-if="endInput==today" id="checkboxNow"><input id="Until Now Box" type="checkbox" checked @click="endInput='';updateBlock()">Jusqu'à ce jour</div>
-          <div v-else id="checkboxNow"><input id="Until Now Box" type="checkbox" @click="endInput=today;updateBlock()">Jusqu'à ce jour</div>
+          <div id="checkboxNow">
+            <!--<input id="Until Now Box" type="checkbox" checked @click="currentMission.endDate='';">-->
+            <input id="Until Now Box" type="checkbox" checked @click="checkBoxUntilNow()">
+            Jusqu'à ce jour
+          </div>
+          <!--<div v-else id="checkboxNow">-->
+            <!--<input id="Until Now Box" type="checkbox" @click="currentMission.endDate=today;">-->
+            <!--Jusqu'à ce jour-->
+          <!--</div>-->
         </div>
       </div>
     </div>
@@ -48,17 +54,24 @@
       <div class="clientDiv">
         <i class="fa fa-id-card-o fa-2x"></i>
         <div>
-          <label id="Client" v-bind:class="labelClientClass">Client</label>
-          <input id="Client Form" v-model="clientMission" type="text" v-on:keyup="updateBlock()" class="inputText"
-                 @focus="setFocusLabelClass(2)" @blur="changeLabelClass(clientMission,2)">
+          <label id="Client" class="label-full">Client*</label>
+          <div style="height:30px;margin-left:15px;">
+            <button v-if="currentMission.client.label != undefined"
+                    class="button button-primary button-pill button-small" @click="showClientModal = true">
+              {{currentMission.client.label}}
+            </button>
+            <button class="button button-action button-circle button-small" @click="showClientModal = true" v-else>
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+          <clientModal v-if="showClientModal" @close="showClientModal = false">
+            <!--
+              you can use custom content here to overwrite
+              default content
+            -->
+            <!--<h3 slot="header">custom hdsdqeader</h3>-->
+          </clientModal>
         </div>
-      </div>
-      <div class="listSector">
-        <span class="messageError" v-if="client == ''">Veuillez entrer un client</span>
-        <span v-else="client != ''">
-          <sector  :client="client" :domain="domain" @updateSector="updateSector"></sector>
-        </span>
-
       </div>
     </div>
 
@@ -66,10 +79,10 @@
       <div class="descDiv">
         <i class="fa fa-pencil-square-o fa-2x"></i>
         <div>
-          <label id="descriptionLabel" v-bind:class="labelDescriptionClass">Description</label>
-          <textarea id="Description" v-model="descriptionMission" @input="updateBlock" class="inputTextArea" rows="4"
-                    @focus="setFocusLabelClass(3)" @blur="changeLabelClass(descriptionMission,3)"/>
-          <span class="messageError" v-if="descriptionMission == ''" style="display:block; position: relative; top: 3em;">Veuillez entrer une description de mission</span>
+          <label id="descriptionLabel" v-bind:class="currentMission.description != '' ? 'labelDescription-full' : 'labelDescription-empty'">Description</label>
+          <textarea id="Description" v-model="currentMission.description" class="inputTextArea" rows="4"
+                    @focus="setFocusLabelClass(3)" @blur="changeLabelClass(currentMission.description,3)"/>
+          <span class="messageError" v-if="currentMission.description == ''" style="display:block; position: relative; top: 3em;">Veuillez entrer une description de mission</span>
         </div>
       </div>
     </div>
@@ -80,39 +93,58 @@
 
 
 <script>
-  import { bus } from '../../EventBus.js';
-  import fieldActivity from './fieldActivity.vue'
+
+  import clientModal from "../cvPage/clientModal.vue"
+  import axios from 'axios'
+  import config from '../../config/config'
 
   export default{
-    components:{
-      sector: fieldActivity
-    },
-    props: ['beginDate','endDate','titleMission','description','client','typeM','currentBlock','today','domain'],
+    components:{ clientModal},
     data: function() {
       return {
-        labelTitleClass: this.titleMission != "" ? "label-full" : "label-empty",
-        nameMission: this.titleMission,
-        labelClientClass: this.client != "" ? "label-full" : "label-empty",
-        clientMission: this.client,
-        labelDescriptionClass: this.description != "" ? "labelDescription-full" : "labelDescription-empty",
-        descriptionMission: this.description,
-        beginInput: this.beginDate,
-        endInput: this.endInput,
-        typeMission:this.typeM
+        showClientModal: false,
+        typeMissions:[]
+      }
+    },
+    props:['currentMission'],
+    watch:{
+      currentMission:function () {
+        if (this.currentMission.endDate == this.today){
+          document.getElementById("Until Now Box").checked = true;
+        }
+        else{
+          document.getElementById("Until Now Box").checked = false;
+        }
+      }
+    },
+    computed:{
+      today:function(){
+        let date = new Date();
+        let thisDay, thisMonth;
+        date.getDate() < 10 ? thisDay = '0' + date.getDate() : thisDay = date.getDate();
+        date.getMonth() + 1 < 10 ? thisMonth = '0' + parseInt(date.getMonth() + 1) : thisMonth = parseInt(date.getMonth() + 1);
+        return date.getFullYear() + '-' + thisMonth + '-' + thisDay;
       }
     },
     methods:{
-      updateBlock(){
-        if(event.target.id=='Until Now Box' && event.target.checked){
-          document.getElementById('End Calendar Date').value=this.today;
-        }else if(event.target.id=='End Calendar Date'){
-          if(event.target.value==this.today){
-            document.getElementById('Until Now Box').checked=true;
-          }else{
-            document.getElementById('Until Now Box').checked=false;
-          }
+      checkBoxUntilNow(){
+        var lastCheckedState = document.getElementById("Until Now Box").checked;
+        if (lastCheckedState){
+          this.currentMission.endDate = this.today;
         }
-        this.$emit('updateProps',this.nameMission,this.clientMission,this.beginInput,this.endInput,this.descriptionMission,this.typeMission);
+        else{
+          this.currentMission.endDate='';
+        }
+      },
+      checkBeginDate(){
+        if(this.currentMission.beginDate>this.currentMission.endDate && this.currentMission.endDate!=''){
+          this.currentMission.endDate = this.currentMission.beginDate;
+        }
+      },
+      checkEndDate(){
+        if(this.currentMission.beginDate>this.currentMission.endDate && this.currentMission.beginDate!=''){
+          this.currentMission.beginDate = this.currentMission.endDate;
+        }
       },
       toggleShowMenu() {
         this.showMenu=!this.showMenu;
@@ -138,28 +170,13 @@
         this.$emit('updateSector',sector);
       }
     },
-    watch: {
-      titleMission: function () {
-        this.nameMission=this.titleMission;
-        this.labelTitleClass=this.titleMission!=""?"label-full":"label-empty";
-      },
-      client: function () {
-        this.labelClientClass=this.client!=""?"label-full":"label-empty";
-        this.clientMission=this.client;
-      },
-      description: function (value) {
-        this.labelDescriptionClass=value!=""?"labelDescription-full":"labelDescription-empty";
-        this.descriptionMission=value
-      },
-      beginDate: function(value){
-          this.beginInput=value;
-      },
-      endDate: function(value){
-        this.endInput=value;
-      },
-      typeM:function(value){
-        this.typeMission=value;
-      }
+    mounted:function(){
+      axios.get(config.server + '/api/typeMissions')
+      .then(response =>{
+        this.typeMissions = response.data
+      }).catch(e =>{
+        ;
+      });
     }
   }
 </script>
@@ -196,7 +213,6 @@
   .descDiv > div{display: flex; flex-direction: column; width: 100%}
   .descDiv textarea{border: none; border-bottom: 1px solid dimgray; margin-left: 8px; width: 95%; z-index: 1; background: transparent; height: 5em}
   .descDiv span{display:flex !important; flex-direction:row; justify-content: center; align-items: center; position: absolute !important; top: 5em !important; }
-
 
 
 </style>

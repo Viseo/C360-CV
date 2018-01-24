@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="banner" v-bind:style="styleBanner">
-      <div  class="bannerText" v-bind:style="styleBannerText">Collaborateur 360</div>
+    <div class="banner styleBanner">
+      <div class="bannerText styleBannerText">Collaborateur 360</div>
       <div class="menus">
         <div>{{page}}</div>
         <div>
@@ -9,7 +9,7 @@
           <menuProfil :showMenuProfil="showMenuProfil"  @toggledMenuProfil="toggleShowMenuProfil" @signOut="signOut"></menuProfil>
         </div>
         <div @click="toggleShowMenu"  class="bannerIcon">
-          <i class="fa fa-th" v-bind:style="styleColorIcon"></i>
+          <i class="fa fa-th styleColorIcon"></i>
         </div>
       </div>
 
@@ -33,27 +33,7 @@
       return {
         showMenu: false,
         showMenuProfil: false,
-        styleBanner: {
-          display:'flex',
-          'flex-orientation': 'row',
-          'justify-content': 'space-between',
-          'align-items': 'center',
-          'background-color' : 'rgb(255,255,255)',
-          'margin-bottom':'1%',
-          'font-family': 'Arial',
-          'color' : 'rgb(255,146,0)',
-        },
-        styleBannerText:{
-          'padding-top':"1%",
-          'padding-left':"1%",
-          'padding-bottom':"1%",
-        },
-        styleBannerIcon:{
-        },
-        styleColorIcon:{
-          color:'rgb(255,146,0)',
-          cursor: 'pointer'
-        }
+
       }
     },
 
@@ -71,9 +51,14 @@
         this.showMenuProfil=!this.showMenuProfil;
       },
       signOut:function(){
-        localStorage.removeItem("token");
-        this.$store.commit('resetStore');
-        this.$router.push('/');
+        axios.get(config.server + "/api/logout?token=" + localStorage.getItem("token")).then(response => {
+          localStorage.removeItem("token");
+          this.$store.commit('resetStore');
+          this.$router.push('/');
+        }).catch( e => {
+          console.log("error: " + e);
+        })
+
       }
     },
     beforeMount:function(){
@@ -82,24 +67,16 @@
         var token = window.location.href.slice(d+6,window.location.href.length);
         if(token != null && token!= 'undefined'){
           axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-          console.log(token);
-          axios.post(config.server + "/api/getuserifalreadyconnectedelsewhere",token).then((response) => {
-            this.$store.commit('resetStore');
-            localStorage.setItem('token',response.data);
-            this.$store.commit('setToken', response.data);
-            if(this.$store.state.userLogged.admin){
-              this.$router.push('/admincv');
-            }
-            else{
-              this.$router.push('/mycv');
-            }
+          console.log("Receive token:" + token);
+          axios.get(config.server + "/api/getuserifalreadyconnectedelsewhere?token=" + token).then((response) => {
+            localStorage.setItem("token",response.data);
+            this.$store.dispatch('checkIfTokenValide', response.data);
           }, response => {
             console.log(response);
           });
         }
       }
       if (localStorage.getItem('token') != null){
-        this.$store.commit('setToken', localStorage.getItem('token'));
         this.$store.dispatch('checkIfTokenValide');
       }
       else{
@@ -125,5 +102,26 @@
 
   .bannerIcon{
     margin-left: 3em;
+  }
+
+  .styleBanner{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color : rgb(255,255,255);
+    margin-bottom:1%;
+    font-family: Arial;
+    color : rgb(255,146,0);
+  }
+
+  .styleBannerText{
+    padding-top:15px;
+    padding-left:30px;
+    padding-bottom:10px;
+  }
+
+  .styleColorIcon{
+    color:rgb(255,146,0);
+    cursor: pointer;
   }
 </style>

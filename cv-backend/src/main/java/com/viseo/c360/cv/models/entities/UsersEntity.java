@@ -3,14 +3,16 @@ package com.viseo.c360.cv.models.entities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -59,25 +61,21 @@ public class UsersEntity extends BaseEntity {
     @Column
     private Date lastUpdateDate;
 
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    //@LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade=CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(
             name="USERS_LANGUAGES",
             joinColumns=@JoinColumn(name="user_id"),
             inverseJoinColumns=@JoinColumn(name="language_id")
     )
-    private List <LanguagesEntity> languages;
+    private Set<LanguageEntity> languages;
 
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    //@LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade=CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(
             name="USERS_MISSIONS",
             joinColumns=@JoinColumn(name="user_id"),
             inverseJoinColumns=@JoinColumn(name="missions_id")
     )
-    private List <MissionsEntity> missions;
+    private List <MissionEntity> missions;
 
 
     public String getFirstName() {
@@ -157,19 +155,19 @@ public class UsersEntity extends BaseEntity {
         this.password = password;
     }
 
-    public List<LanguagesEntity> getLanguages() {
+    public Set<LanguageEntity> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(List<LanguagesEntity> languages) {
+    public void setLanguages(Set<LanguageEntity> languages) {
         this.languages = languages;
     }
 
-    public List<MissionsEntity> getMissions() {
+    public List<MissionEntity> getMissions() {
         return missions;
     }
 
-    public void setMissions(List<MissionsEntity> missions) {
+    public void setMissions(List<MissionEntity> missions) {
         this.missions = missions;
     }
 

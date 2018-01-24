@@ -440,15 +440,25 @@
           })
           .then((response) => {
             if (response.data) {
-              localStorage.setItem('token', response.data);
-              let data = jwtDecode(response.data);
-              this.$store.commit('setToken', response.data);
-              if(data.admin){
-                this.$router.push('/admincv');
-              }
-              else {
-                this.$router.push('/mycv');
-              }
+              var token = response.data;
+              localStorage.setItem('token', token);
+              axios.get(config.server + "/api/identification?token=" + token).then(response => {
+                if(response.data == ""){
+                  console.log("Token non valide");
+                  localStorage.removeItem("token")
+                  this.$store.commit('resetStore');
+                  this.$router.push('/login');
+                }
+                else{
+                  this.$store.commit('setUser', response.data);
+                  if(this.$store.state.userLogged.admin){
+                    this.$router.push('/admincv');
+                  }
+                  else{
+                    this.$router.push('/mycv');
+                  }
+                }
+              })
             }
             else {
               alert("Login Failed.");
@@ -456,7 +466,11 @@
 
           })
           .catch((error) => {
-            console.log(error);
+            console.log("error" + error);
+            console.log("Token non valide");
+            localStorage.removeItem("token")
+            this.$store.commit('resetStore');
+            this.$router.push('/login');
           });
         }
         else{

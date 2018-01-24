@@ -5,11 +5,11 @@
         <img :style="style.styleImg" src="../../../static/png/GCV.png">
         <p :style="style.styleText">GCV</p>
       </div>
-      <div :style="style.styleDivImg">
+      <div :style="style.styleDivImg" @click="gotoCompetence">
         <img :style="style.styleImg" src="../../../static/png/GCon.png">
         <p :style="style.styleText">GCom</p>
       </div>
-      <div :style="style.styleDivImg">
+      <div :style="style.styleDivImg" @click="gotoFormation">
         <img :style="style.styleImg" src="../../../static/png/GForm.png">
         <p :style="style.styleText">GF</p>
       </div>
@@ -26,10 +26,12 @@
   import inputTextMail from './inputTextMail.vue'
   import inputSubmitButton from './inputSubmitButton.vue'
   import inputCheck from './inputCheck.vue'
+  import config from '../../config/config'
 
   export default {
     data: function() {
       return {
+        token:localStorage.getItem("token"),
         toggledShowMenu: this.showMenu,
         classes: {
           classFade: 'fadeMenu'
@@ -77,6 +79,12 @@
       }
     },
     methods: {
+      gotoFormation(){
+        window.location.replace(config.formationServer + this.token);
+      },
+      gotoCompetence(){
+        window.location.replace(config.competenceServer + this.token);
+      },
       toggleShowMenu: function () {
         this.toggledShowMenu = !this.toggledShowMenu;
         this.$emit('toggledMenu');

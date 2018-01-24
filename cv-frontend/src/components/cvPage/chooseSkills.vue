@@ -9,23 +9,27 @@
         <i class="fa fa-search picto-search" v-on:click="searchSkill"></i>
         <input type=text maxlength="25" class="search-skill" placeholder="Recherche" v-model="search"
                v-on:keyup.enter="searchSkill" v-on:keyup.delete="cancelSearch">
-        <div class="result-search" v-bind:style="colorSearch">{{ resultSearch }}</div>
+        <transition name="fade">
+          <div class="result-search" v-bind:style="colorSearch" v-if="resultSearch!='Recherche vide'">
+            {{ resultSearch }}
+          </div>
+        </transition>
 
         <i class="fa fa-times fa-2x picto-cancel" v-on:click="deleteSearch"></i>
       </div>
     </div>
     <div id="tab-skills" class="containerCv">
       <transition-group name="transition-skills">
-        <div v-for="(item,index) in categories" v-bind:key="item">
+        <div v-for="item in categories" v-bind:key="item.id">
           <div v-bind:style="findColor(item)" class="categorie-style" v-on:click="toggleActive(item)">
-            {{ categories[index] }}
+            {{ item.label }}
           </div>
           <transition name="fade">
             <div v-if="findActive(item)" class="skill-list" v-bind:style="applyHeight(item)" >
-              <a v-for="(i,num) in findSkills(item)" class="skill-style" v-bind:style="backgroundSelected(i)" v-on:click="select(i)"
-                 v-on:mouseover="changeColorToSelec" v-on:mouseleave="changeColorToUnselec(i,$event)">
-                <span>{{ i }}</span>
-                <i v-if="checkSelected(i)" v-bind:class="checked" class="icon-skill"></i>
+              <a v-for="skill in item.skills" class="skill-style" v-bind:style="backgroundSelected(skill)" v-on:click="select(skill)"
+                 v-on:mouseover="changeColorToSelec" v-on:mouseleave="changeColorToUnselec(skill,$event)">
+                <span>{{ skill.label }}</span>
+                <i v-if="checkSelected(skill)" v-bind:class="checked" class="icon-skill"></i>
                 <i v-else v-bind:class="unchecked" class="icon-skill" style="color:black"></i>
               </a>
             </div>
@@ -39,67 +43,49 @@
 <script>
   import { bus } from '../../EventBus.js';
 
-  let skills = [
-    ["Android","Ios","React Native","Xamarin"],
-    ["Axure","Balsamiq","Jira","Taiga","Photoshop"],
-    ["Cycle en V", "Kanban", "Lean", "Lean startup", "Less", "Rup", "Scrum", "Safe"],
-    ["Angular", "Bootstrap", "CSS", "Html", "Java", "Javascript", "Python","SVG"],
-    ["Apache Derb", "Microsoft Access", "Microsoft SQL Server", "MySQL", "Oracle Database", "PostgreSQL"],
-    ["Bootstrap", "Cake PHP", "Google Guava", "Hibernate", "JUnit", "JQuery", "Node.js", "Laravel", "Phalcon", "PHPUnit", "Spring", "Symfony", "Zend","Vue.js"]
-  ];
-
-  const categories = [
-    "MOBILE","OUTILS","MÉTHODOLOGIE","WEB","BASE DE DONNEES","FRAMEWORK"
-  ];
-
   const colors = [
     "#00B6E8","#D13040","#7E7995","#FFC15E","#DC7633","#154360"
   ];
 
   export default {
-    props:["currentSkills","block"],
+    props:['currentSkills'],
     data: function () {
       return {
-        skills: skills,
-        defaultSkills :[
-          ["Android","Ios","React Native","Xamarin"],
-          ["Axure","Balsamiq","Jira","Taiga","Photoshop"],
-          ["Cycle en V", "Kanban", "Lean", "Lean startup", "Less", "Rup", "Scrum", "Safe"],
-          ["Angular", "Bootstrap", "CSS", "Html", "Java", "Javascript", "Python","SVG"],
-          ["Apache Derb", "Microsoft Access", "Microsoft SQL Server", "MySQL", "Oracle Database", "PostgreSQL"],
-          ["Bootstrap", "Cake PHP", "Google Guava", "Hibernate", "JUnit", "JQuery", "Node.js", "Laravel", "Phalcon", "PHPUnit", "Spring", "Symfony", "Zend","Vue.js"]
-        ],
-        categories : categories,
-        colors : colors,
         checked : "fa fa-check-circle-o fa-2x",
         unchecked: "fa fa-plus-circle fa-2x",
         items : [false, false, false, false,false,false],
-        resultSearch:"Recherche Vide",
+        resultSearch:"Recherche vide",
         colorSearch:"color:white",
-        search:"",
-        idMission:this.block
+        search:""
+      }
+    },
+    computed:{
+      categories:function(){
+        return this.$store.state.skillDomains;
+      },
+      skills:function(){
+        return this.currentSkills;
       }
     },
     methods: {
       findColor(cat){
-        return "background-color:" + colors[categories.indexOf(cat)];
+        return "background-color:" + colors[this.categories.indexOf(cat)%6];
       },
       applyHeight(cat){
-        let space = 11;
-        return "height:" + (Math.ceil(skills[categories.indexOf(cat)].length / 6) * space) + "vh;";
+        return "height:" + cat.skills.length  + "vh;";
       },
       toggleActive(cat){
-        this.items.splice(categories.indexOf(cat), 1, !this.items[categories.indexOf(cat)]);
+        this.items.splice(this.categories.indexOf(cat), 1, !this.items[this.categories.indexOf(cat)]);
       },
       findActive(cat){
-        return this.items[categories.indexOf(cat)];
+        return this.items[this.categories.indexOf(cat)];
       },
       findSkills(cat){
-        return this.skills[categories.indexOf(cat)];
+        return this.skills[this.categories.indexOf(cat)];
       },
       checkSelected(skill){
-          for(let i in this.currentSkills){
-              if(this.currentSkills[i].label==skill) return i;
+          for(let i in this.$store.state.currentMission.skills){
+              if(this.$store.state.currentMission.skills[i].label==skill.label) return i;
           }
           return false;
       },
@@ -107,12 +93,18 @@
         return "background-color:" + (!this.checkSelected(skill) ? "white;" : "#50BDAC;") +
           "color:" + (!this.checkSelected(skill) ? "black;" : "white;");
       },
-      select(skill,cat){
-        if (!this.checkSelected(skill)) this.currentSkills.push({label:skill,domain:cat,id:0});
-        else {
-          this.currentSkills.splice(this.checkSelected(skill), 1);
+      select(skill){
+        var i = this.checkSelected(skill)
+        if (!i){
+          this.$store.state.currentMission.skills.push(skill);
+          console.log("adding skill...");
+          console.log(this.$store.state.currentMission.skills);
         }
-        this.updateSkills();
+        else {
+          this.$store.state.currentMission.skills.splice(i, 1);
+          console.log("removing skill...");
+          console.log(this.$store.state.currentMission.skills);
+        }
       },
       changeColorToSelec(e){
         if (e.target.classList.value.includes("skill-style")) e.target.style.backgroundColor = "#50BDAC";
@@ -127,40 +119,34 @@
       searchSkill(){
         if (this.search != "") {
           let done = false;
-          for (let i in categories) {
-            if (categories[i].toLowerCase() == this.search.toLowerCase()) {
-              this.categories = [categories[i]];
+          for (let i in this.categories) {
+            if (this.categories[i].label.toLowerCase() == this.search.toLowerCase()) {
               this.resultSearch = "Recherche réussie";
-              this.colorSearch = "color:green";
+              this.colorSearch = "color:green;font-weight: bold;";
               this.items.splice(i, 1, true);
               done = true;
               break;
             }
           }
-
-          for (let i in this.skills) {
-            for (let j in this.skills[i]){
-              if (this.skills[i][j].toLowerCase() == this.search.toLowerCase()) {
-                this.skills[i] = [this.skills[i][j]];
-                this.categories = [categories[i]];
+          for (let i in this.categories){
+            for (let j in this.categories[i].skills){
+              if(this.categories[i].skills[j].label.toLowerCase() == this.search.toLowerCase()){
                 this.resultSearch = "Recherche réussie";
-                this.colorSearch = "color:green";
+                this.colorSearch = "color:green;font-weight: bold;";
                 this.items.splice(i, 1, true);
+                this.$store.state.currentMission.skills.push(this.categories[i].skills[j]);
+                console.log(this.$store.state.currentMission.skills);
                 done = true;
                 break;
               }
             }
           }
-
           if (!done) {
-            this.categories = [];
             this.resultSearch = "Aucun Résultat";
-            this.colorSearch = "color:red";
+            this.colorSearch = "color:red;font-weight: bold;";
           }
         }
         else {
-          this.categories = categories;
-          this.skills = this.defaultSkills;
           this.resultSearch = "Recherche vide";
           this.colorSearch = "color:white";
           this.items = [false, false, false, false,false,false];
@@ -168,7 +154,6 @@
       },
       deleteSearch(){
         this.search = "";
-        this.categories = categories;
         this.resultSearch = "Recherche vide";
         this.colorSearch = "color:white";
         this.items = [false, false, false, false,false,false];
@@ -176,7 +161,6 @@
       },
       cancelSearch(){
         if (this.search == "") {
-          this.categories = categories;
           this.resultSearch = "Recherche vide";
           this.colorSearch = "color:white";
           this.items = [false, false, false, false,false,false];
@@ -184,16 +168,13 @@
         }
       },
       resetSkills(){
-        this.skills = [];
-        for (let i in this.defaultSkills) {
-          this.skills.push([]);
-          for (let j in this.defaultSkills[i]) {
-            this.skills[i].push(this.defaultSkills[i][j]);
-          }
-        }
-      },
-      updateSkills: function () {
-        this.$emit('updateSkills',this.currentSkills);
+//        this.skills = [];
+//        for (let i in this.defaultSkills) {
+//          this.skills.push([]);
+//          for (let j in this.defaultSkills[i]) {
+//            this.skills[i].push(this.defaultSkills[i][j]);
+//          }
+//        }
       }
     }
   }
@@ -226,7 +207,7 @@
   }
 
   .skill-style{
-    width : 11vw;
+    width : auto;
     height : 8vh;
     margin : 0.5vw;
     border:2px solid #50BDAC;
@@ -238,6 +219,7 @@
     font-family: "Arial", Arial, sans-serif;
     font-size:2vh;
     cursor: pointer;
+    padding:5px 10px 5px 10px;
   }
 
   .skill-list{
@@ -247,7 +229,7 @@
   .icon-skill{
     position : relative;
     float:right;
-    right:0.4vw;
+    padding-left:5px;
     color:white;
     line-height:8vh;
   }

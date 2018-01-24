@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.viseo.c360.cv.controllers.AccountController;
-import com.viseo.c360.cv.converters.UserToDtoConverter;
+import com.viseo.c360.cv.converters.UserEntityToDtoConverter;
 import com.viseo.c360.cv.models.dto.UserDto;
 import com.viseo.c360.cv.models.entities.UsersEntity;
 import com.viseo.c360.cv.services.AccountService;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -55,15 +56,15 @@ public class ConsumerMessageHandler {
             RabbitMsg rabbitMsgResponse = factory.get(jo.get("type")).apply(jo);
             if (rabbitMsgResponse instanceof ConnectionMessage){
                 ConnectionMessage connectionMessageResponse = (ConnectionMessage) rabbitMsgResponse;
-                UserDto collaborator = connectionMessageResponse.getUserDto();
-                System.out.println("Halelujah j'ai reçu ça   : " + request);
-                if (connectionMessageResponse.getToken() != null) {
-                    ws.checkIfAlreadyConnected(connectionMessageResponse);
-                } else  {
-                    UsersEntity c = this.accountService.mailExist(collaborator.getMail());
-                    if (c != null){
-                        connectionMessageResponse.setUserDto(new UserToDtoConverter().convert(c));
-                        if (!connectionMessageResponse.getNameFileResponse().equals(responseCV.getName())) {
+                if (!connectionMessageResponse.getNameFileResponse().equals(responseCV.getName())){
+                    UserDto collaborator = connectionMessageResponse.getUserDto();
+                    System.out.println("Halelujah j'ai reçu ça   : " + request);
+                    if (connectionMessageResponse.getToken() != null) {
+                        ws.checkIfAlreadyConnected(connectionMessageResponse);
+                    } else  {
+                        UsersEntity c = this.accountService.mailExist(collaborator.getMail());
+                        if (c != null){
+                            connectionMessageResponse.setUserDto(new UserEntityToDtoConverter().convert(c));
                             ObjectMapper mapper = new ObjectMapper();
                             mapper.registerModule(new Hibernate5Module());
                             try{

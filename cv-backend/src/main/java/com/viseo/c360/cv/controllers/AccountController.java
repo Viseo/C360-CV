@@ -8,9 +8,8 @@ import com.viseo.c360.cv.amqp.ConnectionMessage;
 import com.viseo.c360.cv.amqp.MessageType;
 import com.viseo.c360.cv.amqp.RabbitMsg;
 import com.viseo.c360.cv.amqp.ResolveMsgFactory;
-import com.viseo.c360.cv.converters.UserToDtoConverter;
-import com.viseo.c360.cv.converters.UserToEntityConverter;
-import com.viseo.c360.cv.models.dto.ClientDto;
+import com.viseo.c360.cv.converters.UserDtoToEntityConverter;
+import com.viseo.c360.cv.converters.UserEntityToDtoConverter;
 import com.viseo.c360.cv.models.dto.UserDto;
 import com.viseo.c360.cv.models.entities.UsersEntity;
 import com.viseo.c360.cv.services.AccountService;
@@ -25,11 +24,7 @@ import org.springframework.amqp.rabbit.core.ChannelCallback;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.support.ReplaceOverride;
-import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -43,6 +38,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @RestController
 @RequestMapping("/api")
@@ -70,20 +66,10 @@ public class AccountController {
     private String createSecurityToken(UserDto user){
         return Jwts.builder()
                 .setSubject(user.getMail())
-                .claim("firstName", user.getFirstName())
-                .claim("lastName", user.getLastName())
                 .claim("admin", user.getAdmin())
                 .claim("id", user.getId())
                 .claim("login", user.getLogin())
                 .claim("mail", user.getMail())
-                .claim("birth_date", user.getBirth_date())
-                .claim("experience", user.getExperience())
-                .claim("hobbies", user.getHobbies())
-                .claim("missions", user.getMissions())
-                .claim("languages", user.getLanguages())
-                .claim("position", user.getPosition())
-                .claim("picture",user.getPicture())
-                .claim("telephone", user.getTelephone())
                 //.signWith(SignatureAlgorithm.HS512, generateKey())
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
@@ -100,6 +86,13 @@ public class AccountController {
         compactJws = createSecurityToken(userFound);
         this.mapUserCache.put(compactJws, userFound);
         return compactJws;
+    }
+
+    @CrossOrigin (origins = "${server.front}")
+    @RequestMapping("/logout")
+    @ResponseBody
+    public void logout(@RequestParam(value="token") String token){
+        mapUserCache.remove(token);
     }
 
     @CrossOrigin (origins =  "${server.front}")
@@ -166,7 +159,7 @@ public class AccountController {
     private String addUserDirectly(UserDto user){
         try{
             user.setAdmin(false);
-            this.accountService.add(user);
+            this.accountService.add(new UserDtoToEntityConverter().convert(user));
             compactJws = createSecurityToken(user);
             this.mapUserCache.put(compactJws, user);
             return compactJws;
@@ -178,26 +171,28 @@ public class AccountController {
 
     @CrossOrigin (origins =  "${server.front}")
     @RequestMapping(path = "/getUser", method = GET)
-    public UsersEntity getUser(@RequestParam(value = "id") @NotEmpty int id) {
+    public UserDto getUser(@RequestParam(value = "id") @NotEmpty int id) {
+        UserDto userDto = new UserEntityToDtoConverter().convert(this.accountService.getUserById(id));
+        userDto.setPassword("");
+        return userDto;
+    }
 
-        return this.accountService.getUserById(id);
+    public UserDto getFullUser(long id){
+        UserDto userDto = new UserEntityToDtoConverter().convert(this.accountService.getUserById(id));
+        return userDto;
     }
 
     @CrossOrigin (origins =  "${server.front}")
-    @RequestMapping(path = "/identification", method = POST)
+    @RequestMapping(path = "/identification", method = GET)
     @ResponseBody
-    public String checkIsAlreadyConnected(@RequestBody String token) {
+    public UserDto checkIsAlreadyConnected(@RequestParam("token") String token) {
         System.out.println("Request successfully received! Received token : " + token);
         try{
             token = token.replace("=", "");
             UserDto user = mapUserCache.get(token);
             if (user != null){
-                if (user.getAdmin()){
-                    return "admin";
-                }
-                else{
-                    return "notAdmin";
-                }
+                user.setPassword("");
+                return user;
             }
             else{
                 return null;
@@ -217,17 +212,37 @@ public class AccountController {
     @CrossOrigin (origins =  "${server.front}")
     @RequestMapping(path = "/updateUser", method = POST)
     public UsersEntity updateUser(@RequestBody @Valid UserDto user) {
-        return this.accountService.updateUser(user);
+        return this.accountService.updateUser(new UserDtoToEntityConverter().convert(user));
+    }
+
+    @CrossOrigin (origins = "${server.front}")
+    @RequestMapping(path = "/updateOnlyUserProfile", method = PUT)
+    public UserDto updateOnlyUserProfile(@RequestBody UserDto user){
+        UserDto oldUser = new UserEntityToDtoConverter().convert(this.accountService.getUserById(user.getId()));
+        user.setMissions(oldUser.getMissions());//not update user
+        user.setPassword(oldUser.getPassword());//not clear the db password
+        UserDto updatedUser = new UserEntityToDtoConverter()
+                                .convert(this.accountService.updateUser(new UserDtoToEntityConverter().convert(user)));
+
+        mapUserCache.forEach((token, userRecorded) -> {
+            if (userRecorded.getId() == updatedUser.getId()){
+                mapUserCache.remove(token);
+                mapUserCache.put(token, updatedUser);
+            }
+        });
+        updatedUser.setPassword("");
+        return updatedUser;
     }
 
     @CrossOrigin (origins =  "${server.front}")
-    @RequestMapping(path = "/getuserifalreadyconnectedelsewhere", method = POST)
-    public String getUserIfAlreadyConnectedElseWhere(@RequestBody String theToken){
+    @RequestMapping(path = "/getuserifalreadyconnectedelsewhere", method = GET)
+    public String getUserIfAlreadyConnectedElseWhere(@RequestParam("token") String theToken){
         try{
             ConnectionMessage request = new ConnectionMessage();
             UUID personalMessageSequence = UUID.randomUUID();
             request.setSequence(personalMessageSequence)
-                    .setToken(theToken.substring(0, theToken.length() - 1)) //why there's a '=' at the end?
+//                    .setToken(theToken.substring(0, theToken.length() - 1)) //why there's a '=' at the end?
+                    .setToken(theToken)
                     .setMessageDate(new Date())
                     .setNameFileResponse(responseCV.getName());
             ObjectMapper mapper = new ObjectMapper();
@@ -278,6 +293,7 @@ public class AccountController {
             throw new RuntimeException(e);
         }
     }
+
 
     private UserDto checkIfUserExistElsewhere(String mail, String password){
         UserDto inputUserDto = new UserDto();
@@ -348,7 +364,7 @@ public class AccountController {
         if (myUser == null){
             if(receivedUser.getPassword().equals(password)){
                 receivedUser.setId(0);
-                addedUser  = new UserToDtoConverter().convert(this.accountService.add(receivedUser));
+                addedUser  = new UserEntityToDtoConverter().convert(this.accountService.add(new UserDtoToEntityConverter().convert(receivedUser)));
                 System.out.println("Adding User : " + addedUser.getMail());
                 return addedUser;
             }
@@ -357,7 +373,7 @@ public class AccountController {
             }
         }
         else {
-            UserDto storedUserDto = new UserToDtoConverter().convert(myUser);
+            UserDto storedUserDto = new UserEntityToDtoConverter().convert(myUser);
             if(receivedUser == null
                     || receivedUser.getFirstName() == null
                     || (storedUserDto.getPassword().equals(receivedUser.getPassword())
@@ -368,7 +384,7 @@ public class AccountController {
             else if ((password.equals(receivedUser.getPassword()))
                     && storedUserDto.getLastUpdateDate().before(receivedUser.getLastUpdateDate())){
                 storedUserDto.setPassword(password);
-                return new UserToDtoConverter().convert(updateUser(storedUserDto));
+                return new UserEntityToDtoConverter().convert(updateUser(storedUserDto));
             }
             else{
                 System.out.println("MOT DE PASSE MOINS RECENT");

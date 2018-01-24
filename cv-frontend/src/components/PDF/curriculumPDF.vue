@@ -4,7 +4,7 @@
       <img class="viseoLogo" src="../../../static/png/logoviseo.png" >
     </div>
     <div class="line"></div>
-    <headerPDF :infoUser="infoPerso"></headerPDF>
+    <headerPDF></headerPDF>
     <div class="titles">MISSIONS - PROJETS</div>
     <div v-for="mission in infoPerso.missions">
       <missionsPDF :infoMission="mission"></missionsPDF>
@@ -22,9 +22,9 @@
       },
       data: function () {
           return {
+            infoPerso : this.$store.state.userLogged
           }
       },
-    props: ['infoPerso','infoMission'],
     methods: {
       closePDF: function(){
         this.$emit('closePDF');

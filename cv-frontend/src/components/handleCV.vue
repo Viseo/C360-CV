@@ -3,27 +3,36 @@
     <banner :page="'Gestion CV'"></banner>
     <div class="mycv">
       <div class="infoUser">
-        <informationForm :infoUser="infoUser" :today="today"></informationForm>
-        <saving :missions="missions" @getInfoMission="getInfoMission" @saveData="updateUserBDD"></saving>
+        <informationForm :infoPerso="infoUser" :languages="languages"></informationForm>
+        <saving :infoUser="infoUser" :languages="languages"></saving>
       </div>
       <div class="mission">
-        <div class="bannerMission">
-          <div style="display: flex; flex-direction: row;"><i class="fa fa-briefcase fa-lg briefcase"></i><p style="margin: 0">Gestion des Missions</p></div>
-          <div style="display: flex; flex-direction: row;margin-right: 10px; cursor: pointer;" @click="showPDF=!showPDF"><div style="display: flex;margin-right: 10px">Afficher aperçu PDF</div><i class="fa fa-binoculars"></i></div>
-        </div>
-        <registermission :currentBlock="currentBlock" :titleMission="missions[currentBlock].title" :beginDate="missions[currentBlock].beginDate"
-                         :client="missions[currentBlock].clientId?missions[currentBlock].clientId.label:''" :description="missions[currentBlock].description"
-                         :typeM="missions[currentBlock].clientId?missions[currentBlock].typeMissions.label:''"
-                         :today="today" :domain="missions[currentBlock].clientId?missions[currentBlock].clientId.domain:''" :endDate="missions[currentBlock].endDate"
-                         @updateSector="updateSector" @updateProps="updateMission"></registermission>
 
-        <skills v-bind:currentSkills="missions[currentBlock].skills" :block="currentBlock" v-on:updateSkills="updateSkills"></skills>
-        <listMissions @getInfoMission="getInfoMission" v-bind:missions="missions" :block="currentBlock" v-on:addMission="addMission" v-on:deleteMission="deleteMission"></listMissions>
+        <transition name="fade">
+          <div v-show="showMissionInfo">
+            <div class="bannerMission" style="width:100%">
+              <div style="display: flex; flex-direction: row;width:60%;"><i class="fa fa-briefcase fa-lg briefcase"></i><p style="margin: 0">Gestion des Missions</p></div>
+              <button class="button button-primary button-square" @click="showPDF=!showPDF" style="width:20%">
+                PDF<i class="fa fa-binoculars" style="padding-left: 5px"></i>
+              </button>
+              <button class="button button-action button-square" @click="addMission()"
+                      style="width:20%" v-show="(showSaveButton == 2) || (currentMission.id == '')">
+                Sauvegarder
+                <i class="fa fa-floppy-o" style="padding-left: 5px"></i>
+              </button>
+            </div>
+            <registermission :currentMission="currentMission"></registermission>
+            <skills :currentSkills="currentSkills"></skills>
+          </div>
+        </transition>
+        <listMissions v-on:deleteMission="deleteMission" @showMission="showMission"
+                      @initializeSaveButton="initializeSaveButton"></listMissions>
+
+
       </div>
     </div>
     <div v-show="showPDF" class="grayer" @click="closePDF"></div>
-    <img v-show="showPDF" class="closePDF" src="../../static/png/icone-supprimer.png" @click="closePDF">
-    <curriPDF :infoPerso="infoUser" :infoMission="missions" v-show="showPDF" id="PDF"></curriPDF>
+    <curriPDF :infoPerso="infoUser" v-show="showPDF" id="PDF"></curriPDF>
   </div>
 </template>
 
@@ -39,20 +48,6 @@
   import axios from 'axios'
   import config from '../config/config'
 
-  let initInfoPerso = {
-    lastName: 'Collab',
-    firstName: 'Viseo',
-    birth: '1999-01-01',
-    position: 'Awesome Engineer',
-    experience: '18 ans',
-    mail: 'viseo@viseo.com',
-    telephone: '0615482659',
-    hobbies: 'Développement Agile',
-    languages: 'Anglais',
-    picture: '../../static/users/mocha.svg',
-    age: '18',
-  };
-
   export default {
     components: {
       informationForm: formulaire,
@@ -67,195 +62,156 @@
         return {
           show: false,
           showPDF: false,
-          infoUser: initInfoPerso,
-          missions:[{id:0,name: "", beginDate: new Date(),
-            endDate: new Date(), client: "", description: "",type: 'mission',skills:[]}],
-          currentBlock:0,
-          domain:""
+          showMissionInfo:false,
+          domain:"",
+          showSaveButton: 0,
+          languages:[]
         }
     },
     computed:{
-      today:function(){
-        let date = new Date();
-        let thisDay, thisMonth;
-        date.getDate() < 10 ? thisDay = '0' + date.getDate() : thisDay = date.getDate();
-        date.getMonth() + 1 < 10 ? thisMonth = '0' + parseInt(date.getMonth() + 1) : thisMonth = parseInt(date.getMonth() + 1);
-        return date.getFullYear() + '-' + thisMonth + '-' + thisDay;
+      infoUser:function(){
+        return this.$store.state.userLogged;
+      },
+      currentMission:function(){
+        return this.$store.state.currentMission;
+      },
+      currentSkills:function(){
+        return this.$store.state.currentSkills;
       }
     },
-    /*
-    beforeMount:function(){
-      if(this.$store.state.userLogged.id === -1) {
-        this.$router.push('/');
-      }
-    },
-    */
-    mounted: function(){
-      let id = this.$store.state.userLogged.id;
-      console.log(id);
-      axios.get(config.server + '/api/getUser', {
-        params: {
-          id: id
+    mounted:function(){
+      axios.get(config.server + "/api/languages").then(response => {
+        response.data = response.data.sort((a,b) => a.label.localeCompare(b.label))
+        this.languages = response.data;
+      }).catch(error => {
+
+      });
+      axios.get(config.server + "/api/missions/getMissionByUser?userId="
+        + this.$store.state.userLogged.id).then(
+        response => {
+          var missions = response.data;
+          for (let i=0;i<missions.length;i++){
+            missions[i].beginDate = this.toDateString(missions[i].beginDate);
+            missions[i].endDate = this.toDateString(missions[i].endDate);
+          }
+          this.$store.state.userLogged.missions = missions;
+          console.log(this.$store.state.userLogged.missions);
         }
-      })
-        .then((response) => {
-
-         // var birthDate = new Date(response.data.birth_date);
-          var languages = response.data.languages;
-          if (languages != undefined){
-            languages = response.data.languages.map(
-              function (elem) {
-                return elem.label;
-              }).join(" ");
+      ).catch( e => {
+        console.log(e);
+      });
+      axios.get(config.server + "/api/skills").then(
+        response =>{
+          this.$store.state.currentSkills = response.data;
+        }
+      ).catch(e => {
+        console.log(e);
+      });
+      axios.get(config.server + "/api/skillDomains").then(
+        response =>{
+          for (let i=0;i<response.data.length;i++){
+            response.data[i].skills.sort((a,b) => a.label.localeCompare(b.label));
           }
-          else{
-            languages = [];
+          console.log(response.data);
+          this.$store.state.skillDomains = response.data;
+        }
+      ).catch(e => {
+        console.log(e);
+      });
+    },
+    watch:{
+      currentMission: {
+        handler(val){
+          if (this.showSaveButton<2){
+            this.showSaveButton++ ;
           }
-          if (response.data.missions == undefined){
-            response.data.missions = [];
-          }
-          this.infoUser = {
-            id:response.data.id,
-            login:response.data.login,
-            lastName: response.data.lastName,
-            firstName: response.data.firstName,
-            birth: response.data.birth_date,
-            birthDate: new Date(response.data.birth_date).getFullYear() + "-" +
-            ("0" + (parseInt(new Date(response.data.birth_date).getMonth()) + 1)).slice(-2) + "-" +
-            ("0" + new Date(response.data.birth_date).getDate()).slice(-2),
-            position: response.data.position,
-            experience: response.data.experience,
-            mail: response.data.mail,
-            telephone: response.data.telephone,
-            hobbies: response.data.hobbies,
-            languages: languages,
-            picture: response.data.picture,
-            admin: response.data.admin,
-            password: response.data.password
-          };
-          if(response.data.missions != undefined || response.data.missions.length==0){
-            this.missions=[
-              {id:0,title: "", beginDate: new Date(),
-                endDate: new Date(), clientId:{id:0,label:"",domain:""}, description: "",typeMissions:{id:1,label:'mission'},skills:[]}
-            ];
-            this.currentBlock=this.missions.length-1;
-            this.getInfoMission(this.missions.length-1);
-
-          }
-          else {
-            this.missions = response.data.missions;
-          }
-
-          for (let i in this.missions) {
-            let tmp = new Date(this.missions[i].beginDate);
-            let tmpEnd = new Date(this.missions[i].endDate);
-
-            this.missions[i].beginDate = tmp.getFullYear() + "-" +
-              ("0" + (parseInt(tmp.getMonth()) + 1)).slice(-2) + "-" +
-              ("0" + tmp.getDate()).slice(-2);
-
-            this.missions[i].endDate = tmpEnd.getFullYear() + "-" +
-              ("0" + (parseInt(tmpEnd.getMonth()) + 1)).slice(-2) + "-" +
-              ("0" + tmpEnd.getDate()).slice(-2);
-          }
-
-          this.currentBlock = 0;
-
-        })
-        .catch(function (error) {
-          console.log("Error loading user \n" + error);
-        });
+        },
+        deep: true
+      }
     },
     methods:{
-        getInfoMission(index){
-            this.currentBlock=index;
-        },
-        addMission() {
-            this.missions.push({id:0,title: "", beginDate: "",
-              endDate: "", clientId:{id:0,label:"",domain:""}, description: "",typeMissions:{id:1,label:'mission'},skills:[]});
-            this.currentBlock=this.missions.length-1;
-            this.getInfoMission(this.missions.length-1);
-        },
-        deleteMission(){
-            setTimeout(()=>{
-              this.currentBlock=0;
-              this.getInfoMission(0);
-            },100);
-        },
-        updateSkills(skillsSelected){
-          for(let mission in this.missions) {
-            if (this.currentBlock === this.missions[mission].id) {
-              this.missions[mission].skills = skillsSelected;
-            }
-          }
-        },
-        closePDF: function () {
-          this.showPDF=!this.showPDF
-        },
-        updateSector: function (sector) {
-          for(let i = 0; i<this.missions.length;i++) {
-            if (this.currentBlock === i) {
-              this.missions[i].clientId.domain = sector;
-              this.domain = sector;
-            }
-          }
-        },
-        updateMission:function(name,client,dateB,dateE,descr,type){
-            this.missions[this.currentBlock].title=name;
-            this.missions[this.currentBlock].clientId.label=client;
-            this.missions[this.currentBlock].beginDate=dateB;
-            this.missions[this.currentBlock].endDate=dateE;
-            this.missions[this.currentBlock].description=descr;
-            this.missions[this.currentBlock].typeMissions.label=type;
-        },
-        updateUserBDD:function(){
-          let birth = this.infoUser.birthDate.split("-");
-          let user = {
-            id:this.infoUser.id,
-            login:this.infoUser.login,
-            lastName: this.infoUser.lastName,
-            firstName: this.infoUser.firstName,
-            birth_date: new Date(this.infoUser.birthDate).getTime(),
-            position: this.infoUser.position,
-            experience: this.infoUser.experience,
-            mail: this.infoUser.mail,
-            telephone: this.infoUser.telephone,
-            hobbies: this.infoUser.hobbies,
-            languages: this.infoUser.languages,
-            picture: this.infoUser.picture,
-            password: this.infoUser.password,
-            admin: this.infoUser.admin
-          };
-          user.missions = this.missions;
-          for (let i in user.missions) {
-            user.missions[i].beginDate = new Date(user.missions[i].beginDate).toUTCString();
-            user.missions[i].endDate = new Date(user.missions[i].endDate).toUTCString();
-          }
-          //TEST CODE
-          user.languages = [];
-
-          axios.post(config.server + '/api/updateUser', user)
-            .then((response)=>{
-              console.log(response);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-
-          for (let i in this.missions) {
-            let tmp = new Date(this.missions[i].beginDate);
-            let tmpEnd = new Date(this.missions[i].endDate);
-
-            this.missions[i].beginDate = tmp.getFullYear() + "-" +
-              ("0" + (parseInt(tmp.getMonth()))).slice(-2) + "-" +
-              ("0" + tmp.getDate()).slice(-2);
-
-            this.missions[i].endDate = tmpEnd.getFullYear() + "-" +
-              ("0" + (parseInt(tmpEnd.getMonth()))).slice(-2) + "-" +
-              ("0" + tmpEnd.getDate()).slice(-2);
-          }
-
+      initializeSaveButton(){
+        this.showSaveButton = 0;
+      },
+      showMission(){
+        if (!this.showMissionInfo){
+          this.showMissionInfo = true;
         }
+        else{
+          var self = this;
+          this.showMissionInfo = false;
+          setTimeout(function(){ self.showMissionInfo = true; }, 100);
+        }
+      },
+      addMission(){
+        var missionToSave = this.$store.state.currentMission; // avoid date convert pb
+        if(missionToSave.id != ''){
+          console.log('updating the mission...');
+          if(!(missionToSave.title && missionToSave.client.label
+              && missionToSave.beginDate && missionToSave.endDate && missionToSave.typeMissions)){
+            alert("Veuillez compeleter tous les champs obligatoires!");
+          }
+          console.log(missionToSave);
+          axios.put(config.server + '/api/missions', missionToSave)
+            .then(response =>{
+              this.$store.state.currentMission.version++;
+              this.showSaveButton = 0;
+              console.log(this.$store.state.currentMission.version);
+            })
+            .catch(e => {
+              console.log(e);
+            })
+        }
+        else{
+          console.log('adding new mission...');
+          if(!(missionToSave.title && missionToSave.client.label
+                && missionToSave.beginDate && missionToSave.endDate && missionToSave.typeMissions)){
+            alert("Veuillez compeleter tous les champs obligatoires!");
+          }
+          else{
+//            missionToSave.beginDate = this.toDateString(missionToSave.beginDate);
+//            missionToSave.endDate = this.toDateString(missionToSave.endDate);
+            console.log(missionToSave);
+            var self = this;
+            axios.post(config.server +  '/api/missions?userId=' + this.$store.state.userLogged.id, missionToSave)
+              .then(response => {
+                let m = response.data;
+                m.beginDate = this.toDateString(m.beginDate);
+                m.endDate = this.toDateString(m.endDate);
+                self.$store.commit("setCurrentMission", m);
+                self.$store.state.userLogged.missions.pop();
+                self.$store.state.userLogged.missions.push(m);
+                self.$store.state.userLogged.version++;
+                this.showSaveButton = 0;
+                console.log(self.$store.state.currentMission);
+                //self.$store.state.userLogged.missions.push(response.data);
+              })
+              .catch(e => {
+                console.log(e);
+              });
+          }
+        }
+      },
+      deleteMission(){
+          setTimeout(()=>{
+            this.$store.commit('setCurrentMissionBlock', 0);
+            //this.getInfoMission(0);
+          },100);
+      },
+      closePDF: function () {
+        this.showPDF=!this.showPDF
+      },
+      toDateString:function (date){
+        var d = new Date(date),
+          month = '' + (d.getMonth() + 1),
+          day = '' + d.getDate(),
+          year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [year, month, day].join('-');
+      }
     }
   }
 

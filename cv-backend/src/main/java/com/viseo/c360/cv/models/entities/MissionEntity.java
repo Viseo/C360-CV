@@ -3,13 +3,11 @@ package com.viseo.c360.cv.models.entities;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "missions")
-public class MissionsEntity extends BaseEntity {
-
-    @Column
-    private int id;
+public class MissionEntity extends BaseEntity {
 
     @Column
     private String title;
@@ -25,31 +23,22 @@ public class MissionsEntity extends BaseEntity {
     @Column
     private String description;
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="client_id")
-    private ClientsEntity clientId;
+    private ClientEntity client;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="type_id")
     private TypeMissionsEntity typeMissions;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name="MISSIONS_SKILLS",
             joinColumns=@JoinColumn(name="missions_id"),
             inverseJoinColumns=@JoinColumn(name="skills_id")
     )
+    private Set<SkillEntity> skills;
 
-    private List <SkillsEntity> skills;
-
-    @Override
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -83,12 +72,12 @@ public class MissionsEntity extends BaseEntity {
         this.description = description;
     }
 
-    public ClientsEntity getClientId() {
-        return this.clientId;
+    public ClientEntity getClient() {
+        return this.client;
     }
 
-    public void setClientId(ClientsEntity clientId) {
-        this.clientId = clientId;
+    public void setClient(ClientEntity client) {
+        this.client = client;
     }
 
     public TypeMissionsEntity getTypeMissions() {
@@ -99,11 +88,11 @@ public class MissionsEntity extends BaseEntity {
         this.typeMissions = typeMissions;
     }
 
-    public List<SkillsEntity> getSkills() {
+    public Set<SkillEntity> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<SkillsEntity> skills) {
+    public void setSkills(Set<SkillEntity> skills) {
         this.skills = skills;
     }
 

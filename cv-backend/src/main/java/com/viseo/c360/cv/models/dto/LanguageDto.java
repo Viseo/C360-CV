@@ -3,9 +3,7 @@ package com.viseo.c360.cv.models.dto;
 /**
  * Created by ELE3653 on 07/08/2017.
  */
-public class LanguageDto {
-
-    private int id;
+public class LanguageDto extends BaseDto {
 
     private String label;
 
@@ -15,10 +13,6 @@ public class LanguageDto {
 
     public void setLabel(String label) {
         this.label = label;
-    }
-
-    public int getId() {
-        return id;
     }
 
     @Override
@@ -34,7 +28,7 @@ public class LanguageDto {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int)id;
         result = 31 * result + (label != null ? label.hashCode() : 0);
         return result;
     }

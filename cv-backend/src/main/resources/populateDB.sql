@@ -1,9 +1,115 @@
-INSERT INTO users (last_update_date,id, first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES
-  (TIMESTAMP 'yesterday',200000, 'GU', 'Leo', 'test1@test.com','AAA1221','Stagiaire','3','01/01/1994','mastermind actions','0614253647','bcb15f821479b4d5772bd0ca866c00ad5f926e3580720659cc80d39c9d09802a','../../static/users/maxime.png','false');
-INSERT INTO type_missions (id,label) VALUES
-  (1,'Séminaire');
-INSERT INTO clients (id,label, domain, description) VALUES
-  (0,'Henri','CONSEIL','Projet pour Henri comme ilearning et un supermarché virtuel');
+INSERT INTO languages(version, label) VALUES (0,'Français');
+INSERT INTO languages(version, label) VALUES (0,'Anglais');
+INSERT INTO languages(version, label) VALUES (0,'Italien');
+INSERT INTO languages(version, label) VALUES (0,'Espagnol');
+INSERT INTO languages(version, label) VALUES (0,'Allemande');
+INSERT INTO languages(version, label) VALUES (0,'Chinois');
+INSERT INTO languages(version, label) VALUES (0,'Arabe');
+INSERT INTO languages(version, label) VALUES (0,'Russe');
+INSERT INTO languages(version, label) VALUES (0,'Japonais');
+INSERT INTO languages(version, label) VALUES (0,'Finlandais');
+INSERT INTO type_missions VALUES
+  (1, 0, 'Mission'),
+  (2, 0, 'Séminaire');
+INSERT INTO users (version, last_update_date,id, first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES
+  (0, TIMESTAMP 'yesterday', 200000, 'GU', 'Leo', 'test1@test.com','AAA1221','Stagiaire','2','01/01/1994','mastermind actions','0614253647','bcb15f821479b4d5772bd0ca866c00ad5f926e3580720659cc80d39c9d09802a','../../static/users/maxime.png','false');
+INSERT INTO users (version, last_update_date,id, first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES
+  (0, TIMESTAMP 'yesterday', 100000, 'GU', 'Admin', 'test2@test.com','AAA1222','Manager','30','01/01/1960','mastermind actions','0614253647','bcb15f821479b4d5772bd0ca866c00ad5f926e3580720659cc80d39c9d09802a','../../static/users/henri.png','true');
+
+INSERT INTO clients (version, id,label, domain, description) VALUES
+  (0, 1,'Henri','CONSEIL','Projet pour Henri comme ilearning et un supermarché virtuel');
+INSERT INTO clients (version, id,label, domain, description) VALUES
+  (0, 2,'Orange','FINANCE','Interface pour faire des traitements de données , big data');
+INSERT INTO clients (version, id,label, domain, description) VALUES
+  (0, 3,'Orange2','FINANCE','Interface pour faire des traitements de données , big data');
+INSERT INTO clients (version, id,label, domain, description) VALUES
+  (0, 4,'Orange3','FINANCE','Interface pour faire des traitements de données , big data');
+INSERT INTO clients (version, id,label, domain, description) VALUES
+  (0, 5,'fsd','FINANCE','Interface pour faire des traitements de données , big data');
+INSERT INTO clients (version, id,label, domain, description) VALUES
+  (0, 6,'Oragzenge','FINANCE','Interface pour faire des traitements de données , big data');
+INSERT INTO clients (version, id,label, domain, description) VALUES
+  (0, 7,'cw','FINANCE','Interface pour faire des traitements de données , big data');
+INSERT INTO clients (version, id,label, domain, description) VALUES
+  (0, 8,'efdsg','FINANCE','Interface pour faire des traitements de données , big data');
+INSERT INTO clients (version, id,label, domain, description) VALUES
+  (0, 9,'dqa','FINANCE','Interface pour faire des traitements de données , big data');
+
+
+INSERT INTO missions (version, id, title, begin_date, end_date, client_id, description, type_id) VALUES
+  (0, 100,'Viseo Intern','01/01/2016','01/01/2017','1','Développement du démonstrateur DigiMarket','1');
+INSERT INTO missions (version, id, title, begin_date, end_date, client_id, description, type_id) VALUES
+  (0, 200,'DigiMarket','15/06/2017','15/07/2017','1','Implémentation nouvel espace de vente','1');
+INSERT INTO users_missions VALUES (200000,100);
+INSERT INTO users_missions VALUES (200000,200);
+INSERT INTO users_languages (user_id, language_id) VALUES
+  (200000,1);
+INSERT INTO users_languages (user_id, language_id) VALUES
+  (200000,2);
+INSERT INTO users_languages (user_id, language_id) VALUES
+  (200000,3);
+-- INSERT INTO users_languages (user_id, language_id) VALUES
+--   (200000,4);
+-- INSERT INTO users_languages (user_id, language_id) VALUES
+--   (200000,7);
+-- INSERT INTO users_languages (user_id, language_id) VALUES
+--   (200000,6);
+/* temp code before connecting C360 Compétence*/
+INSERT INTO domain(version, label) VALUES (0, 'Outils');
+INSERT INTO domain(version, label) VALUES (0, 'Méthodologie');
+INSERT INTO domain(version, label) VALUES (0, 'Web');
+INSERT INTO domain(version, label) VALUES (0, 'Base de données');
+INSERT INTO domain(version, label) VALUES (0, 'Frameworks');
+INSERT INTO domain(version, label) VALUES (0, 'Other');
+INSERT INTO skills (version, label,domain_id) VALUES
+  (0,'Taiga',1),
+  (0,'Axure',1),
+  (0,'Balsamiq',1),
+  (0,'Jira',1),
+  (0,'Photoshop',1),
+  (0,'React Native',1),
+  (0,'Android',1),
+  (0,'iOS',1),
+  (0,'Cycle en V',2),
+  (0,'Kanban',2),
+  (0,'Lean',2),
+  (0,'Scrum',2),
+  (0,'Lean startup',2),
+  (0,'Less',2),
+  (0,'Rup',2),
+  (0,'Safe',2),
+  (0,'Javascript',3),
+  (0,'Angular',3),
+  (0,'Bootstrap',3),
+  (0,'CSS',3),
+  (0,'HTML',3),
+  (0,'Python',3),
+  (0,'Apache Derby',4),
+  (0,'Microsoft Access',4),
+  (0,'Microsoft SQL Server',4),
+  (0,'MySQL',4),
+  (0,'Oracle Database',4),
+  (0,'PostgreSQL',4),
+  (0,'Bootstrap',5),
+  (0,'Cake PHP',5),
+  (0,'Google Guava',5),
+  (0,'Hibernate',5),
+  (0,'JUnit',5),
+  (0,'JQuery',5),
+  (0,'Node.js',5),
+  (0,'Laravel',5),
+  (0,'Phalcon',6),
+  (0,'PHPUnit',6),
+  (0,'Spring',5),
+  (0,'Symfony',6),
+  (0,'Zend',6);
+
+
+INSERT INTO missions_skills(missions_id, skills_id) VALUES (100, 1);
+INSERT INTO missions_skills(missions_id, skills_id) VALUES (100, 2);
+INSERT INTO missions_skills(missions_id, skills_id) VALUES (100, 3);
+INSERT INTO missions_skills(missions_id, skills_id) VALUES (100, 4);
+INSERT INTO missions_skills(missions_id, skills_id) VALUES (100, 10);
 /*
 INSERT INTO users (first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES
   ('Maxime', 'Zarrin', 'maxime.zarrin@viseo.com','MZA4571','Stagiaire','3','10/06/1994','mastermind actions','0614253647','fd907eb6a93e49bb0ca5aa22f68bb2d66e0218dc','../../static/users/maxime.png','false'),

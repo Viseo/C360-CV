@@ -2,13 +2,12 @@ package com.viseo.c360.cv.models.dto;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by ELE3653 on 07/08/2017.
  */
-public class MissionDto {
-
-    private int id;
+public class MissionDto extends BaseDto{
 
     private String title;
 
@@ -22,15 +21,7 @@ public class MissionDto {
 
     private TypeMissionsDto typeMissions;
 
-    private List<SkillsDto> skills;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    private Set<SkillDto> skills;
 
     public String getTitle() {
         return title;
@@ -80,11 +71,11 @@ public class MissionDto {
         this.typeMissions = typeMissions;
     }
 
-    public List<SkillsDto> getSkills() {
+    public Set<SkillDto> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<SkillsDto> skills) {
+    public void setSkills(Set<SkillDto> skills) {
         this.skills = skills;
     }
 
@@ -108,7 +99,7 @@ public class MissionDto {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = (int)id;
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (beginDate != null ? beginDate.hashCode() : 0);
         result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
