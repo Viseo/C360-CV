@@ -2,7 +2,7 @@
 
   <div>
     <div class="toPDF">
-      <div class="savePDF" @click="updateUserProfileOnly">Sauvegarder</div>
+      <div class="savePDF" @click="updateUserProfileOnly">Sauvegarder Collaborateur</div>
       <div class="downloadPDF" @click="printPDF">Télécharger le PDF</div>
     </div>
   </div>
@@ -26,6 +26,7 @@
         return new Date(parts[0], parts[1] - 1, parts[2]);
       },
       updateUserProfileOnly:function(){
+        var self = this;
         console.log(this.infoUser);
         if(this.infoUser.firstName == "" || this.infoUser.lastName == "" || this.infoUser.birth_date == ''
             ||this.infoUser.position == '' || this.infoUser.experience == '' || !isFinite(this.infoUser.experience)
@@ -47,34 +48,34 @@
                   break;
                 }
               }
-              if(k > this.languages.length){
+              if(k == this.languages.length){
                 //if the newly added language is really a new one, then add it to TOPOST list
-                newLanguages.push(this.infoUser);
+                newLanguages.push(this.infoUser.languages[i]);
                 indexToRemove.push(i);
               }
               else{
                 //if the newly added language already exist, then add the exist one to inforUser
                 //which is ready to update
-                this.infoUser.languages[i] = this.languages[k];
+                this.$store.state.userLogged.languages[i] = this.languages[k];
               }
             }
           }
 
-          for (let number in indexToRemove){
-            this.infoUser.languages.slice(number,1);
+          for (let number=0;number<indexToRemove.length;number++){
+            this.$store.state.userLogged.languages.splice(indexToRemove[number],1);
           }
           if (newLanguages.length >0){
             axios.post(config.server + "/api/languages", newLanguages).then(response =>{
-              for (let item in response.data){
-                this.infoUser.push(item);
+              for (let item of response.data){
+                self.$store.state.userLogged.languages.push(item);
               }
               // now all newly added languages are well registered. we can continue to update our user
               var userTosave = this.infoUser;
               userTosave.birth_date = this.toDate(userTosave.birth_date);
-              axios.post(config.server + '/api/updateOnlyUserProfile', userTosave)
+              axios.put(config.server + '/api/updateOnlyUserProfile', userTosave)
                 .then((response)=>{
                   console.log(response.data);
-                  this.$store.commit("setUserWithoutMission",response.data);
+                  self.$store.commit("setUserWithoutMission",response.data);
                   this.showSuccess();
                 })
                 .catch((error)=> {
@@ -91,7 +92,7 @@
             axios.put(config.server + '/api/updateOnlyUserProfile', userTosave)
               .then((response)=>{
                 console.log(response.data);
-                this.$store.commit("setUserWithoutMission",response.data);
+                self.$store.commit("setUserWithoutMission",response.data);
                 this.showSuccess();
               })
               .catch((error)=> {

@@ -5,9 +5,7 @@ import com.viseo.c360.cv.converters.LanguageEntityToDtoConverter;
 import com.viseo.c360.cv.models.dto.LanguageDto;
 import com.viseo.c360.cv.services.LanguageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.util.ArrayList;
@@ -35,7 +33,7 @@ public class LanguageController {
 
     @CrossOrigin (origins =  "${server.front}")
     @RequestMapping(method = POST)
-    public List<LanguageDto> addLanguage(List<LanguageDto> languages){
+    public List<LanguageDto> addLanguage(@RequestBody List<LanguageDto> languages){
         List<LanguageDto> result = new ArrayList<>();
         for (LanguageDto language:languages) {
             result.add(new LanguageEntityToDtoConverter()
