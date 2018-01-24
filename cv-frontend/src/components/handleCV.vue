@@ -1,27 +1,38 @@
 <template>
   <div>
-    <banner></banner>
+    <banner :page="'Gestion CV'"></banner>
     <div class="mycv">
       <div class="infoUser">
-        <informationForm @infoUser="updateInfoUserPDF" :infoUser="infoUser" :today="today"></informationForm>
-
-        <saving :missions="missions" @getInfoMission="getInfoMission"></saving>
+        <informationForm :infoPerso="infoUser" :languages="languages"></informationForm>
+        <saving :infoUser="infoUser" :languages="languages"></saving>
       </div>
       <div class="mission">
-        <div class="bannerMission">
-          <div style="display: flex; flex-direction: row;"><i class="fa fa-briefcase fa-lg briefcase"></i><p v-show="titleMission" style="margin: 0">Gestion des Missions</p></div>
-          <div style="display: flex; flex-direction: row;margin-right: 10px" @click="showPDF=!showPDF"><div style="display: flex;margin-right: 10px">Afficher aperçu PDF</div><i class="fa fa-binoculars"></i></div>
-        </div>
-        <registermission :currentBlock="currentBlock" :titleMission="titleMission" :beginDate="beginDateMission" :endDate="endDateMission"
-                         :client="client" :description="description" :typeM="type" :today="today" :domain="domain" @updateSector="updateSector" @updateProps="updateProps"></registermission>
 
-        <skills v-bind:currentSkills="skills" :block="currentBlock" v-on:updateSkills="updateSkills"></skills>
-        <listMissions @getInfoMission="getInfoMission" v-bind:missions="missions" :block="currentBlock" v-on:addMission="addMission" v-on:deleteMission="deleteMission"></listMissions>
+        <transition name="fade">
+          <div v-show="showMissionInfo">
+            <div class="bannerMission" style="width:100%">
+              <div style="display: flex; flex-direction: row;width:60%;"><i class="fa fa-briefcase fa-lg briefcase"></i><p style="margin: 0">Gestion des Missions</p></div>
+              <button class="button button-primary button-square" @click="showPDF=!showPDF" style="width:20%">
+                PDF<i class="fa fa-binoculars" style="padding-left: 5px"></i>
+              </button>
+              <button class="button button-action button-square" @click="addMission()"
+                      style="width:20%" v-show="(showSaveButton == 2) || (currentMission.id == '')">
+                Sauvegarder
+                <i class="fa fa-floppy-o" style="padding-left: 5px"></i>
+              </button>
+            </div>
+            <registermission :currentMission="currentMission"></registermission>
+            <skills :currentSkills="currentSkills"></skills>
+          </div>
+        </transition>
+        <listMissions v-on:deleteMission="deleteMission" @showMission="showMission"
+                      @initializeSaveButton="initializeSaveButton"></listMissions>
+
+
       </div>
     </div>
     <div v-show="showPDF" class="grayer" @click="closePDF"></div>
-    <img v-show="showPDF" class="closePDF" src="../../static/icone-supprimer.png" @click="closePDF">
-    <curriPDF :infoPerso="infoUser" :infoMission="missions" v-show="showPDF" id="PDF"></curriPDF>
+    <curriPDF :infoPerso="infoUser" v-show="showPDF" id="PDF"></curriPDF>
   </div>
 </template>
 
@@ -31,68 +42,11 @@
   import banner from "./banner.vue"
   import formulaire from "./cvPage/personnalInformation.vue"
   import registerMission from './cvPage/registerMission.vue'
-  import curriPDF from './cvPage/curriculumPDF.vue'
+  import curriPDF from './PDF/curriculumPDF.vue'
   import { bus } from '../EventBus.js';
   import saveOrDownload from './cvPage/downloadPDF.vue'
   import axios from 'axios'
-
-  bus.$on('changeBlock', function (currentBlock) {
-    for(let mission in missions){
-      if(currentBlock===missions[mission].id){
-        missions[mission].name=document.getElementById('Title Mission').value;
-        missions[mission].client=document.getElementById('Client Form').value;
-        missions[mission].beginDate=document.getElementById('Start Calendar Date').value.split('-').reverse().join('/');
-        if(document.getElementById('Until Now Box').checked){
-          missions[mission].endDate='';
-        }else{
-          missions[mission].endDate=document.getElementById('End Calendar Date').value.split('-').reverse().join('/');
-        }
-        missions[mission].description=document.getElementById('Description').value;
-        for(let radio of document.getElementsByName('typeMission')){
-          if(radio.checked){
-            missions[mission].type=radio.value;
-          }
-        }
-        break;
-      }
-    }
-  });
-
-  let initInfoPerso = {
-    name: 'DARMET',
-    firstName: 'Henri',
-    birth: '19975-02-02',
-    fonction: 'Responsable Practice Web & Java',
-    experience: '30 ans',
-    email: 'henri.darmet@viseo.com',
-    telephone: '0615482659',
-    hobbies: 'Voyages',
-    languages: 'Anglais',
-    picture: '../../static/henri.png',
-    age: '50',
-  };
-
-  axios.get('/getUser', {
-
-    })
-    .then(function (response) {
-      initInfoPerso=response;
-    })
-    .catch(function (error) {
-      console.log("Error loading user \n" + error );
-    });
-
-  var missions = [
-    {id: 0, name : "Orange Business Suite",beginDate:"06/05/2015",endDate:"06/06/2015",client: 'Woodix', domain:'FINANCE', description: 'Multitudine resistente multitudine capesseret est.', type: 'Séminaire',keyword:["Android","HTML5", "CSS","Javascript"]},
-    {id: 1, name : "Viseo Intern",beginDate:"06/05/2016",endDate:"06/06/2016",client: '', domain:'', description: '', type: 'Mission',keyword:["Android","Agile"]},
-    {id: 2, name : "Viseo Technologies",beginDate:"08/08/2016",endDate:"01/02/2017",client: 'Sony', domain:'COMMERCE', description: 'Multitudine resistente multitudine capesseret est.', type: 'Séminaire',keyword:[]},
-    {id: 3, name : "Chez moi",beginDate:"06/05/2017",endDate:"",client: 'Kinder Surprise', domain:'INDUSTRIE', description: '', type: 'Séminaire',keyword:[]},
-    {id: 4, name : "Viseo Technologies",beginDate:"08/08/2016",endDate:"01/02/2017",client: 'Samsung', domain:'TELECOMS', description: '', type: 'Mission',keyword:[]},
-    {id: 5, name : "Chez moi",beginDate:"06/05/2017",endDate:"",client: '',  domain:'',description: 'Multitudine resistente multitudine capesseret est.', type: 'Séminaire',keyword:[]},
-    {id: 6, name : "Viseo Technologies",beginDate:"08/08/2016",endDate:"01/02/2017",client: 'Dell', domain:'DISTRIBUTION', description: 'Multitudine resistente multitudine capesseret est.', type: 'Mission',keyword:[]}
-
-  ];
-
+  import config from '../config/config'
 
   export default {
     components: {
@@ -106,99 +60,158 @@
     },
     data: function () {
         return {
-          titleMission: missions[0].name,
-          beginDateMission: missions[0].beginDate.split('/').reverse().join('-'),
-          endDateMission: missions[0].endDate == ''?'now':missions[0].endDate.split('/').reverse().join('-'),
-          description: missions[0].description,
-          client: missions[0].client,
-          domain: missions[0].domain,
-          type: missions[0].type,
-          currentBlock:missions[0].id,
-          today: '',
           show: false,
-          missions:missions,
-          skills:missions[0].keyword,
           showPDF: false,
-          infoUser: initInfoPerso
+          showMissionInfo:false,
+          domain:"",
+          showSaveButton: 0,
+          languages:[]
         }
     },
-    created: function(){
-      let date = new Date();
-      let thisDay, thisMonth;
-      date.getDate() < 10 ? thisDay = '0' + date.getDate() : thisDay = date.getDate();
-      date.getMonth() + 1 < 10 ? thisMonth = '0' + parseInt(date.getMonth() + 1) : thisMonth = parseInt(date.getMonth() + 1);
-      this.today = date.getFullYear() + '-' + thisMonth + '-' + thisDay;
+    computed:{
+      infoUser:function(){
+        return this.$store.state.userLogged;
+      },
+      currentMission:function(){
+        return this.$store.state.currentMission;
+      },
+      currentSkills:function(){
+        return this.$store.state.currentSkills;
+      }
+    },
+    mounted:function(){
+      axios.get(config.server + "/api/languages").then(response => {
+        response.data = response.data.sort((a,b) => a.label.localeCompare(b.label))
+        this.languages = response.data;
+      }).catch(error => {
+
+      });
+      axios.get(config.server + "/api/missions/getMissionByUser?userId="
+        + this.$store.state.userLogged.id).then(
+        response => {
+          var missions = response.data;
+          for (let i=0;i<missions.length;i++){
+            missions[i].beginDate = this.toDateString(missions[i].beginDate);
+            missions[i].endDate = this.toDateString(missions[i].endDate);
+          }
+          this.$store.state.userLogged.missions = missions;
+          console.log(this.$store.state.userLogged.missions);
+        }
+      ).catch( e => {
+        console.log(e);
+      });
+      axios.get(config.server + "/api/skills").then(
+        response =>{
+          this.$store.state.currentSkills = response.data;
+        }
+      ).catch(e => {
+        console.log(e);
+      });
+      axios.get(config.server + "/api/skillDomains").then(
+        response =>{
+          for (let i=0;i<response.data.length;i++){
+            response.data[i].skills.sort((a,b) => a.label.localeCompare(b.label));
+          }
+          console.log(response.data);
+          this.$store.state.skillDomains = response.data;
+        }
+      ).catch(e => {
+        console.log(e);
+      });
+    },
+    watch:{
+      currentMission: {
+        handler(val){
+          if (this.showSaveButton<2){
+            this.showSaveButton++ ;
+          }
+        },
+        deep: true
+      }
     },
     methods:{
-        updateProps(){
-          this.description = document.getElementById('Description').value;
-          this.titleMission = document.getElementById('Title Mission').value;
-          this.client = document.getElementById('Client Form').value;
-        },
-        getInfoMission(id){
-            let i;
-            for(let mission in missions) {
-              if (missions[mission].id === id){
-                i=mission;
-                break;
-              }
-            }
-            if(missions[i]) {
-              this.currentBlock = missions[i].id;
-              this.titleMission = missions[i].name;
-              this.beginDateMission = missions[i].beginDate.split('/').reverse().join('-');
-              this.skills = missions[i].keyword;
-              if (missions[i].endDate == '') {
-                this.endDateMission = 'now';
-              } else {
-                this.endDateMission = missions[i].endDate.split('/').reverse().join('-');
-              }
-              this.client = missions[i].client;
-              this.domain = missions[i].domain;
-              this.description = missions[i].description;
-              for (let radio of document.getElementsByName('typeMission')) {
-                if (radio.value == missions[i].type) {
-                  radio.checked = true;
-                  this.type = missions[i].type;
-                }
-              }
-            }
-        },
-        addMission() {
-            let newId=missions[missions.length-1].id +1;
-            missions.push({id:newId,name: "", beginDate: "",
-              endDate: "", client: "", description: "",type: 'mission',keyword:[]});
-            this.currentBlock=newId;
-            this.getInfoMission(newId);
-        },
-        deleteMission(){
-            setTimeout(()=>{
-              this.currentBlock=this.missions[0].id;
-              this.getInfoMission(this.missions[0].id);
-            },100);
-        },
-        updateSkills(skillsSelected){
-          for(let mission in this.missions) {
-            if (this.currentBlock === this.missions[mission].id) {
-              this.missions[mission].keyword = skillsSelected;
-            }
+      initializeSaveButton(){
+        this.showSaveButton = 0;
+      },
+      showMission(){
+        if (!this.showMissionInfo){
+          this.showMissionInfo = true;
+        }
+        else{
+          var self = this;
+          this.showMissionInfo = false;
+          setTimeout(function(){ self.showMissionInfo = true; }, 100);
+        }
+      },
+      addMission(){
+        var missionToSave = this.$store.state.currentMission; // avoid date convert pb
+        if(missionToSave.id != ''){
+          console.log('updating the mission...');
+          if(!(missionToSave.title && missionToSave.client.label
+              && missionToSave.beginDate && missionToSave.endDate && missionToSave.typeMissions)){
+            alert("Veuillez compeleter tous les champs obligatoires!");
           }
-        },
-        updateInfoUserPDF: function (infoUser) {
-//            for(let info in infoUser)console.log(infoUser[info],info)
-          this.infoUser=infoUser;
-        },
-        closePDF: function () {
-          this.showPDF=!this.showPDF
-        },
-        updateSector: function (sector) {
-          for(let mission in this.missions) {
-            if (this.currentBlock === this.missions[mission].id) {
-              this.missions[mission].domain = sector;
-              this.domain = sector;
-            }
+          console.log(missionToSave);
+          axios.put(config.server + '/api/missions', missionToSave)
+            .then(response =>{
+              this.$store.state.currentMission.version++;
+              this.showSaveButton = 0;
+              console.log(this.$store.state.currentMission.version);
+            })
+            .catch(e => {
+              console.log(e);
+            })
+        }
+        else{
+          console.log('adding new mission...');
+          if(!(missionToSave.title && missionToSave.client.label
+                && missionToSave.beginDate && missionToSave.endDate && missionToSave.typeMissions)){
+            alert("Veuillez compeleter tous les champs obligatoires!");
+          }
+          else{
+//            missionToSave.beginDate = this.toDateString(missionToSave.beginDate);
+//            missionToSave.endDate = this.toDateString(missionToSave.endDate);
+            console.log(missionToSave);
+            var self = this;
+            axios.post(config.server +  '/api/missions?userId=' + this.$store.state.userLogged.id, missionToSave)
+              .then(response => {
+                let m = response.data;
+                m.beginDate = this.toDateString(m.beginDate);
+                m.endDate = this.toDateString(m.endDate);
+                self.$store.commit("setCurrentMission", m);
+                self.$store.state.userLogged.missions.pop();
+                self.$store.state.userLogged.missions.push(m);
+                self.$store.state.userLogged.version++;
+                this.showSaveButton = 0;
+                console.log(self.$store.state.currentMission);
+                //self.$store.state.userLogged.missions.push(response.data);
+              })
+              .catch(e => {
+                console.log(e);
+              });
           }
         }
+      },
+      deleteMission(){
+          setTimeout(()=>{
+            this.$store.commit('setCurrentMissionBlock', 0);
+            //this.getInfoMission(0);
+          },100);
+      },
+      closePDF: function () {
+        this.showPDF=!this.showPDF
+      },
+      toDateString:function (date){
+        var d = new Date(date),
+          month = '' + (d.getMonth() + 1),
+          day = '' + d.getDate(),
+          year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [year, month, day].join('-');
+      }
     }
   }
 
@@ -210,76 +223,5 @@
     left: 10px;
     padding-right: 20px;
   }
-
-  .mycv{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .bannerMission{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 2em;
-    width: auto;
-    background-color: #D7D7D7;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-  }
-
-  .bannerMission p{
-    position: relative;
-    left: 2.5%
-  }
-
-  .mission{
-    margin-left: 0.5%;
-    width: 82%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    border: 1px solid #D7D7D7;
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-  }
-
-  .infoUser{
-    width: 18%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  #PDF{
-    z-index:10;
-    position: fixed;
-    top: 4%;
-    left: 50%;
-    transform: translate(-50%, -2%);
-    background-color: white;
-    border : 1px solid #D7D7D7;
-    height: 96%;
-  }
-
-  .grayer{
-    z-index: 9;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #A8A8A8;
-    opacity: 0.7;
-  }
-
-
-  .closePDF {
-    z-index:11;
-    position: absolute;
-    left: 1200px;
-    top: 8px;
-    width:35px;
-    height:35px;
-  }
+  *:focus {outline: none;}
 </style>

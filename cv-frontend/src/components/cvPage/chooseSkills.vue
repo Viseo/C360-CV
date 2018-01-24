@@ -2,33 +2,38 @@
   <div>
     <div class="head-component">
       <div class="title-skills">
-        <i class="fa fa-anchor" style="margin-left:1vw;"></i>
-        <span class="title-2" style="font-family: Bradley Hand ITC, cursive; font-weight: bold; margin-left: 1% ">Mots-clés</span>
+        <i class="fa fa-anchor fa-2x"></i>
+        <span class="title-2" style="font-family: Arial, cursive; font-weight: bold; margin-left: 1%; width: 20% ">Mots-clés</span>
       </div>
       <div class="zone-search-skill">
+        <i class="fa fa-search picto-search" v-on:click="searchSkill"></i>
         <input type=text maxlength="25" class="search-skill" placeholder="Recherche" v-model="search"
                v-on:keyup.enter="searchSkill" v-on:keyup.delete="cancelSearch">
-        <div class="result-search" v-bind:style="colorSearch">{{ resultSearch }}</div>
-        <i class="fa fa-search picto-search" v-on:click="searchSkill"></i>
+        <transition name="fade">
+          <div class="result-search" v-bind:style="colorSearch" v-if="resultSearch!='Recherche vide'">
+            {{ resultSearch }}
+          </div>
+        </transition>
+
         <i class="fa fa-times fa-2x picto-cancel" v-on:click="deleteSearch"></i>
       </div>
     </div>
-    <div id="tab-skills" style="width:80vw;height:20vh;overflow-y: scroll;overflow-x: hidden;" class="container-cv">
-      <transition-group name="transition-skills" tag="p">
-        <div v-for="(item,index) in categories" v-bind:key="item">
+    <div id="tab-skills" class="containerCv">
+      <transition-group name="transition-skills">
+        <div v-for="item in categories" v-bind:key="item.id">
           <div v-bind:style="findColor(item)" class="categorie-style" v-on:click="toggleActive(item)">
-            {{ categories[index] }}
+            {{ item.label }}
           </div>
-            <transition name="fade">
-              <div v-if="findActive(item)" class="skill-list" v-bind:style="applyHeight(item)" >
-                <a v-for="(i,num) in findSkills(item)" class="skill-style" v-bind:style="backgroundSelected(i)" v-on:click="select(i)"
-                   v-on:mouseover="changeColorToSelec" v-on:mouseleave="changeColorToUnselec(i,$event)">
-                  <span>{{ i }}</span>
-                  <i v-if="checkSelected(i)" v-bind:class="checked" class="icon-skill"></i>
-                  <i v-else v-bind:class="unchecked" class="icon-skill" style="color:black"></i>
-                </a>
-              </div>
-            </transition>
+          <transition name="fade">
+            <div v-if="findActive(item)" class="skill-list" v-bind:style="applyHeight(item)" >
+              <a v-for="skill in item.skills" class="skill-style" v-bind:style="backgroundSelected(skill)" v-on:click="select(skill)"
+                 v-on:mouseover="changeColorToSelec" v-on:mouseleave="changeColorToUnselec(skill,$event)">
+                <span>{{ skill.label }}</span>
+                <i v-if="checkSelected(skill)" v-bind:class="checked" class="icon-skill"></i>
+                <i v-else v-bind:class="unchecked" class="icon-skill" style="color:black"></i>
+              </a>
+            </div>
+          </transition>
         </div>
       </transition-group>
     </div>
@@ -38,84 +43,75 @@
 <script>
   import { bus } from '../../EventBus.js';
 
-  let skills = [
-    ["Android","Ios","React Native","Xamarin"],
-    ["Axure","Balsamiq","Jira","Taiga","Photoshop"],
-    ["Cycle en V", "Kanban", "Lean", "Lean startup", "Less", "Rup", "Scrum", "Safe"],
-    ["Angular", "Bootstrap", "CSS", "Html", "Java", "Javascript", "Python"],
-    ["Apache Derb", "Microsoft Access", "Microsoft SQL Server", "MySQL", "Oracle Database", "PostgreSQL"],
-    ["Bootstrap", "Cake PHP", "Google Guava", "Hibernate", "JUnit", "JQuery", "Node.js", "Laravel", "Phalcon", "PHPUnit", "Spring", "Symfony", "Zend"]
-  ];
-
-  const categories = [
-    "MOBILE","OUTILS","MÉTHODOLOGIE","WEB","BASE DE DONNEES","FRAMEWORK"
-  ];
-
   const colors = [
     "#00B6E8","#D13040","#7E7995","#FFC15E","#DC7633","#154360"
   ];
 
   export default {
-    props:["currentSkills","block"],
+    props:['currentSkills'],
     data: function () {
       return {
-        skills: skills,
-        defaultSkills :[
-          ["Android","Ios","React Native","Xamarin"],
-          ["Axure","Balsamiq","Jira","Taiga","Photoshop"],
-          ["Cycle en V", "Kanban", "Lean", "Lean startup", "Less", "Rup", "Scrum", "Safe"],
-          ["Angular", "Bootstrap", "CSS", "Html", "Java", "Javascript", "Python"],
-          ["Apache Derb", "Microsoft Access", "Microsoft SQL Server", "MySQL", "Oracle Database", "PostgreSQL"],
-          ["Bootstrap", "Cake PHP", "Google Guava", "Hibernate", "JUnit", "JQuery", "Node.js", "Laravel", "Phalcon", "PHPUnit", "Spring", "Symfony", "Zend"]
-        ],
-        categories : categories,
-        colors : colors,
         checked : "fa fa-check-circle-o fa-2x",
         unchecked: "fa fa-plus-circle fa-2x",
         items : [false, false, false, false,false,false],
-        resultSearch:"Recherche Vide",
+        resultSearch:"Recherche vide",
         colorSearch:"color:white",
-        search:"",
-        idMission:this.block
+        search:""
+      }
+    },
+    computed:{
+      categories:function(){
+        return this.$store.state.skillDomains;
+      },
+      skills:function(){
+        return this.currentSkills;
       }
     },
     methods: {
       findColor(cat){
-        return "background-color:" + colors[categories.indexOf(cat)];
+        return "background-color:" + colors[this.categories.indexOf(cat)%6];
       },
       applyHeight(cat){
-        let space = 11;
-        return "height:" + (Math.ceil(skills[categories.indexOf(cat)].length / 6) * space) + "vh;";
+        return "height:" + cat.skills.length  + "vh;";
       },
       toggleActive(cat){
-        this.items.splice(categories.indexOf(cat), 1, !this.items[categories.indexOf(cat)]);
+        this.items.splice(this.categories.indexOf(cat), 1, !this.items[this.categories.indexOf(cat)]);
       },
       findActive(cat){
-        return this.items[categories.indexOf(cat)];
+        return this.items[this.categories.indexOf(cat)];
       },
       findSkills(cat){
-        return this.skills[categories.indexOf(cat)];
+        return this.skills[this.categories.indexOf(cat)];
       },
       checkSelected(skill){
-        return this.currentSkills.indexOf(skill) != -1;
+          for(let i in this.$store.state.currentMission.skills){
+              if(this.$store.state.currentMission.skills[i].label==skill.label) return i;
+          }
+          return false;
       },
       backgroundSelected(skill){
-        return "background-color:" + (this.currentSkills.indexOf(skill) == -1 ? "white;" : "#50BDAC;") +
-          "color:" + (this.currentSkills.indexOf(skill) == -1 ? "black;" : "white;");
+        return "background-color:" + (!this.checkSelected(skill) ? "white;" : "#50BDAC;") +
+          "color:" + (!this.checkSelected(skill) ? "black;" : "white;");
       },
       select(skill){
-        if (this.currentSkills.indexOf(skill) == -1) this.currentSkills.push(skill);
-        else {
-          this.currentSkills.splice(this.currentSkills.indexOf(skill), 1);
+        var i = this.checkSelected(skill)
+        if (!i){
+          this.$store.state.currentMission.skills.push(skill);
+          console.log("adding skill...");
+          console.log(this.$store.state.currentMission.skills);
         }
-        this.updateSkills();
+        else {
+          this.$store.state.currentMission.skills.splice(i, 1);
+          console.log("removing skill...");
+          console.log(this.$store.state.currentMission.skills);
+        }
       },
       changeColorToSelec(e){
         if (e.target.classList.value.includes("skill-style")) e.target.style.backgroundColor = "#50BDAC";
         else if (e.path[1].classList.value.includes("skill-style")) e.path[1].style.backgroundColor = "#50BDAC";
       },
       changeColorToUnselec(skill, e){
-        if (this.currentSkills.indexOf(skill) == -1) {
+        if (!this.checkSelected(skill)) {
           if (e.target.classList.value.includes("skill-style")) e.target.style.backgroundColor = "white";
           else if (e.path[1].classList.value.includes("skill-style")) e.path[1].style.backgroundColor = "white";
         }
@@ -123,40 +119,34 @@
       searchSkill(){
         if (this.search != "") {
           let done = false;
-          for (let i in categories) {
-            if (categories[i].toLowerCase() == this.search.toLowerCase()) {
-              this.categories = [categories[i]];
+          for (let i in this.categories) {
+            if (this.categories[i].label.toLowerCase() == this.search.toLowerCase()) {
               this.resultSearch = "Recherche réussie";
-              this.colorSearch = "color:green";
+              this.colorSearch = "color:green;font-weight: bold;";
               this.items.splice(i, 1, true);
               done = true;
               break;
             }
           }
-
-          for (let i in this.skills) {
-            for (let j in this.skills[i]){
-              if (this.skills[i][j].toLowerCase() == this.search.toLowerCase()) {
-                this.skills[i] = [this.skills[i][j]];
-                this.categories = [categories[i]];
+          for (let i in this.categories){
+            for (let j in this.categories[i].skills){
+              if(this.categories[i].skills[j].label.toLowerCase() == this.search.toLowerCase()){
                 this.resultSearch = "Recherche réussie";
-                this.colorSearch = "color:green";
+                this.colorSearch = "color:green;font-weight: bold;";
                 this.items.splice(i, 1, true);
+                this.$store.state.currentMission.skills.push(this.categories[i].skills[j]);
+                console.log(this.$store.state.currentMission.skills);
                 done = true;
                 break;
               }
             }
           }
-
           if (!done) {
-            this.categories = [];
             this.resultSearch = "Aucun Résultat";
-            this.colorSearch = "color:red";
+            this.colorSearch = "color:red;font-weight: bold;";
           }
         }
         else {
-          this.categories = categories;
-          this.skills = this.defaultSkills;
           this.resultSearch = "Recherche vide";
           this.colorSearch = "color:white";
           this.items = [false, false, false, false,false,false];
@@ -164,7 +154,6 @@
       },
       deleteSearch(){
         this.search = "";
-        this.categories = categories;
         this.resultSearch = "Recherche vide";
         this.colorSearch = "color:white";
         this.items = [false, false, false, false,false,false];
@@ -172,7 +161,6 @@
       },
       cancelSearch(){
         if (this.search == "") {
-          this.categories = categories;
           this.resultSearch = "Recherche vide";
           this.colorSearch = "color:white";
           this.items = [false, false, false, false,false,false];
@@ -180,16 +168,13 @@
         }
       },
       resetSkills(){
-        this.skills = [];
-        for (let i in this.defaultSkills) {
-          this.skills.push([]);
-          for (let j in this.defaultSkills[i]) {
-            this.skills[i].push(this.defaultSkills[i][j]);
-          }
-        }
-      },
-      updateSkills: function () {
-       this.$emit('updateSkills',this.currentSkills);
+//        this.skills = [];
+//        for (let i in this.defaultSkills) {
+//          this.skills.push([]);
+//          for (let j in this.defaultSkills[i]) {
+//            this.skills[i].push(this.defaultSkills[i][j]);
+//          }
+//        }
       }
     }
   }
@@ -198,13 +183,19 @@
 </script>
 
 <style>
+  .containerCv{
+    width: 100%;
+    height: 10em;
+    overflow-y: scroll;
+  }
+
   .categorie-style{
     display: flex;
-    width: 97%;
+    width: 96.5%;
     height:7vh;
     margin-top: 0.5vh;
     margin-bottom: 0.5vh;
-    margin-left: 1vw;
+    margin-left: 2%;
     margin-right: 1vw;
     position:relative;
     color:white;
@@ -212,10 +203,11 @@
     line-height: 7vh;
     font-family: "Arial", Arial, sans-serif;
     font-size:3vh;
+    cursor: pointer;
   }
 
   .skill-style{
-    width : 11vw;
+    width : auto;
     height : 8vh;
     margin : 0.5vw;
     border:2px solid #50BDAC;
@@ -226,6 +218,8 @@
     line-height:8vh;
     font-family: "Arial", Arial, sans-serif;
     font-size:2vh;
+    cursor: pointer;
+    padding:5px 10px 5px 10px;
   }
 
   .skill-list{
@@ -235,66 +229,71 @@
   .icon-skill{
     position : relative;
     float:right;
-    right:0.4vw;
+    padding-left:5px;
     color:white;
     line-height:8vh;
   }
 
   .title-2{
-    color:dodgerblue;
-    font-size:3.5vh;
+    color:dimgrey;
+    font-size:25px;
   }
 
   .search-skill{
     padding-left:1vw;
     border:none;
     outline: none;
-    width:10vw;
+    width:15em;
     display:inline-block;
   }
 
   .zone-search-skill{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     position:relative;
-    float:right;
-    right:-1px;
+    left:-10%;
+    padding: 0 1%;
     height:5vh;
-    display:inline;
-    width:27vw;
-    border-bottom:none;
-    border-top:1px solid lightgrey;
-    border-left:1px solid lightgrey;
-    border-right:1px solid lightgrey;
+    width:27em;
+    border-radius: 20px;
+    border: 1px solid dodgerblue;
+    background-color: white;
   }
 
   .result-search{
     display:inline-block;
-    margin-top:2vh;
-    padding-left:1vw;
+    width: 9em;
+    padding: 0 2em;
     border-left:1px solid lightgrey;
     color:white;
     font-size:2vh;
   }
 
   .picto-search{
-    margin-left:1vw;
-    float:right;
+    color: dodgerblue;
     line-height:5vh;
-    background-color:#EEE;
     padding-left:1vw;
     padding-right:1vw;
   }
-
   .picto-cancel{
-    float:right;
-    line-height:5vh;
+    cursor: pointer;
   }
 
   .head-component{
-    width:80vw;
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 2%;
+    padding-bottom: 0.2em;
+    border: none;
+    border-bottom: 1px solid dimgrey;
   }
 
   .title-skills{
     display:inline;
+    width: 15em;
   }
 
   .transition-skills-move{
@@ -302,10 +301,10 @@
   }
 
   .fade-enter-active{
-    transition: opacity .5s
+    transition: opacity .5s;
   }
   .fade-enter ,.fade-leave-to{
-    opacity: 0
+    opacity: 0;
   }
 
   .fade-leave-active{

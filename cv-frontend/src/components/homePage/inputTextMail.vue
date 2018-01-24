@@ -3,7 +3,7 @@
     <label v-if="label" :style="styl.styleLabel">{{label}}</label>
     <div :style="styl.divForm">
       <span v-if="fa"><i :class="fa" :style="styl.stylePicto"></i></span>
-      <input :type="type" :id="label+''+form" :placeholder="placeholder" :style="styl.styleForm" v-on:input="checkInput(label)">
+      <input :type="type" :id="label+''+form" :placeholder="placeholder" :style="styl.styleForm" v-on:keyup="checkInput(label)">
       <span v-if="type!='submit'" :id="'message' + label + form" :style="styl.styleMessage"></span>
     </div>
   </div>
