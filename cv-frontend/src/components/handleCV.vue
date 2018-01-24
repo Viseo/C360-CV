@@ -16,7 +16,7 @@
                 PDF<i class="fa fa-binoculars" style="padding-left: 5px"></i>
               </button>
               <button class="button button-action button-square" @click="addMission()"
-                      style="width:20%" v-show="showSaveButton == 2">
+                      style="width:20%" v-show="(showSaveButton == 2) || (currentMission.id == '')">
                 Sauvegarder
                 <i class="fa fa-floppy-o" style="padding-left: 5px"></i>
               </button>
@@ -122,7 +122,6 @@
     watch:{
       currentMission: {
         handler(val){
-          console.log("change!");
           if (this.showSaveButton<2){
             this.showSaveButton++ ;
           }
