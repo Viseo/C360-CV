@@ -13,12 +13,16 @@ CREATE TABLE IF NOT EXISTS USERS(
   id  SERIAL PRIMARY KEY,
   first_name VARCHAR(125),
   last_name VARCHAR(125),
-  mail VARCHAR,
+  mail  VARCHAR(125),
   login VARCHAR(7) NOT NULL,
+  position VARCHAR(125),
+  experience VARCHAR(20),
   birth_date DATE,
   hobbies VARCHAR(50),
   telephone VARCHAR(10),
-  password VARCHAR(20)
+  password VARCHAR(125),
+  picture VARCHAR(125),
+  admin BOOLEAN
 );
 
 CREATE TABLE IF NOT EXISTS LANGUAGES(
@@ -29,6 +33,7 @@ CREATE TABLE IF NOT EXISTS LANGUAGES(
 CREATE TABLE IF NOT EXISTS CLIENTS(
   id SERIAL PRIMARY KEY,
   label VARCHAR(30) NOT NULL,
+  domain VARCHAR(20),
   description VARCHAR(125) NOT NULL
 );
 

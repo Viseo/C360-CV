@@ -1,76 +1,45 @@
 <template>
   <div>
-      <banner></banner>
-      <div style="text-align: center">
-          <div class="zone-search-collab">
-            <input v-model="currentSearch" id="search-collab" list="browsers" v-on:input="searchCollab">
-            <datalist id="browsers">
-              <option v-for="item in defaultCollab" v-bind:value="item.firstName + ' '+item.name" ></option>
-            </datalist>
-            <span class="fa fa-search icon-search" v-on:click="searchCollab"></span>
-            <span class="fa fa-times icon-cancel" v-on:click="cancelSearch"></span>
-          </div>
+    <banner :page="'Administration'"></banner>
+    <div class="containerSearch">
+      <div class="zone-search-collab">
+        <span class="fa fa-search icon-search" v-on:click="searchCollab"></span>
+        <input v-model="currentSearch" id="search-collab" list="browsers" v-on:input="searchCollab" placeholder="Rechercher un collaborateur">
+        <datalist id="browsers">
+          <option v-for="item in defaultCollab" v-bind:value="item.firstName + ' '+item.lastName" ></option>
+        </datalist>
+        <div class="messageErreur"><span id="msgErreur"></span></div>
+        <span class="fa fa-times icon-cancel" v-on:click="cancelSearch"></span>
       </div>
-      <div class="page-content">
-          <filters :colors="colors" :skills="skills" :categories="categories" ></filters>
-          <listCollab :collaborators="collaborators"></listCollab>
-      </div>
-      <span id="msgErreur" style="display: none; color: red;"></span>
     </div>
+    <div class="page-content">
+        <filters class="filterZone" :colors="colors" :skills="skills" :categories="categories" @updateFilters="updateFilters"></filters>
+        <listCollab class="collabZone" :collaborators="collaborators" @showPDF="showPDFUser" @downloadPDF="downloadPDF"></listCollab>
+    </div>
+    <div v-show="showPDF" class="grayer" @click="closePDF"></div>
+    <curriPDF :infoPerso="infoUser" :infoMission="missions" v-show="showPDF" id="PDF"></curriPDF>
+  </div>
 </template>
 
 <script>
   import banner from "./banner.vue"
   import filters from "./adminPageComponents/filters.vue"
   import listCollab from "./adminPageComponents/listCollab.vue"
+  import curriPDF from './PDF/curriculumPDF.vue'
   import axios from 'axios'
-
-  let collab = [
-    {name:"Naulin",firstName:"Thomas",experience:2, poste:"senior",picture:"../../static/ReverseFlash_wallapaper.png",
-      clients:["Orange","Alten"],skills:["Mobile","Web"]},
-    {name:"Tranzer",firstName:"Master",experience:4, poste:"senior",picture:"../../static/ReverseFlash_wallapaper.png",
-      clients:["Viseo","Bouygues"],skills:["Android","Web"]},
-    {name:"Test",firstName:"Test",experience:5, poste:"manager",picture:"../../static/ReverseFlash_wallapaper.png",
-      clients:["Orange","Viseo"],skills:["Mobile","Java"]},
-    {name:"Balboa",firstName:"Rocky",experience:1, poste:"stagiaire",picture:"../../static/ReverseFlash_wallapaper.png",
-      clients:["Renault","Bouygues"],skills:["Java","Javascript"]},
-    {name:"Zarrin",firstName:"Maxime",experience:2, poste:"senior",picture:"../../static/ReverseFlash_wallapaper.png",
-      clients:["Renault","Riot"],skills:["Javascript","JEE"]},
-    {name:"Touati",firstName:"Farah",experience:0, poste:"stagiaire",picture:"../../static/ReverseFlash_wallapaper.png",
-      clients:["Dassault","Renault"],skills:["Perl","Agile"]},
-    {name:"Plouvier",firstName:"Julien",experience:4, poste:"senior",picture:"../../static/ReverseFlash_wallapaper.png",
-      clients:["Renault","NASA"],skills:["Agile","C#"]},
-    {name:"Short",firstName:"Edouard",experience:2, poste:"junior",picture:"../../static/ReverseFlash_wallapaper.png",
-      clients:["Astek","NASA"],skills:["C++","Java"]},
-    {name:"Lerandy",firstName:"Emmanuelle",experience:0, poste:"stagiaire",picture:"../../static/ReverseFlash_wallapaper.png",
-      clients:["Astek","Orange"],skills:["Mobile","Web"]},
-    {name:"Ouamar",firstName:"Lydia",experience:5, poste:"senior",picture:"../../static/ReverseFlash_wallapaper.png",
-      clients:["MarineLand","Bouygues"],skills:["Javascript","Biodiversité Marine"]},
-    {name:"Ehrmann",firstName:"Geoffrey",experience:7, poste:"manager",picture:"../../static/ReverseFlash_wallapaper.png",
-      clients:["Riot","Orthofiga"],skills:["Auto-Destruction","Web"]},
-    {name:"Bouvet",firstName:"Nicolas",experience:4, poste:"senior",picture:"../../static/ReverseFlash_wallapaper.png",
-      clients:["Dassault","Bouygues"],skills:["C++","PHP"]},
-    {name:"Riquier",firstName:"Master",experience:9, poste:"senior",picture:"../../static/ReverseFlash_wallapaper.png",
-      clients:["Orange","ECE"],skills:["VHDL","Et ça ne marche pas"]},
-    {name:"Bouchez",firstName:"David-Olivier",experience:11, poste:"junior",picture:"../../static/ReverseFlash_wallapaper.png",
-      clients:["ECE","Inseec"],skills:["Entreprenariat","Pause"]},
-    {name:"Darmet",firstName:"Henri",experience:12, poste:"junior",picture:"../../static/ReverseFlash_wallapaper.png",
-      clients:["Viseo","SVG"],skills:["Tout"]}
-  ];
+  import config from '../config/config'
 
   const skills = [
     ["Android","Ios","React Native","Xamarin"],
     ["Axure","Balsamiq","Jira","Taiga","Photoshop"],
     ["Cycle en V", "Kanban", "Lean", "Lean startup", "Less", "Rup", "Scrum", "Safe"],
-    ["Angular", "Bootstrap", "CSS", "Html", "Java", "Javascript", "Python"],
+    ["Angular", "Bootstrap", "CSS", "Html", "Java", "Javascript", "Python", "SVG"],
     ["Apache Derb", "Microsoft Access", "Microsoft SQL Server", "MySQL", "Oracle Database", "PostgreSQL"],
-    ["Bootstrap", "Cake PHP", "Google Guava", "Hibernate", "JUnit", "JQuery", "Node.js", "Laravel", "Phalcon", "PHPUnit", "Spring", "Symfony", "Zend"]
+    ["Bootstrap", "Cake PHP", "Google Guava", "Hibernate", "JUnit", "JQuery", "Node.js", "Laravel", "Phalcon", "PHPUnit", "Spring", "Symfony", "Zend","Vue.js"]
   ];
-
   const categories = [
     "MOBILE","OUTILS","MÉTHODOLOGIE","WEB","BASE DE DONNEES","FRAMEWORK"
   ];
-
   const colors = [
     "#00B6E8","#D13040","#7E7995","#FFC15E","#DC7633","#154360"
   ];
@@ -80,35 +49,44 @@
       banner:banner,
       filters:filters,
       listCollab:listCollab,
+      curriPDF:curriPDF,
     },
     data: function () {
       return {
-        collaborators:collab,
+        showPDF:false,
+        collaborators:[],
         currentSearch:"",
-        defaultCollab:collab,
+        defaultCollab:[],
         filterPosition:[],
         filterExperience:[],
         filterClients:"",
         filterSkills:[],
         skills:skills,
         categories: categories,
-        colors: colors
+        colors: colors,
+        infoUser: {},
+        missions: {},
+
+      }
+    },
+    beforeCreate:function(){
+      //if(!this.$session.has("id")) window.location.href = '/';
+      if(localStorage.getItem("token") === null){
+        this.$router.push('/')
       }
     },
     methods:{
       searchCollab(){
         let tab = [];
         let msg = document.getElementById('msgErreur');
-        for(let i of collab){
-            if((i.firstName+" "+i.name).toLowerCase().includes(this.currentSearch.toLowerCase())
-              ||(i.name+" "+i.firstName).toLowerCase().includes(this.currentSearch.toLowerCase())){
-              msg.style.display="none";
-              tab.push(i);
-            }
+        for(let i of this.defaultCollab){
+          if((i.firstName+" "+i.lastName).toLowerCase().includes(this.currentSearch.toLowerCase())
+            ||(i.lastName+" "+i.firstName).toLowerCase().includes(this.currentSearch.toLowerCase())){
+            msg.style.display="none";
+            tab.push(i);
+          }
         }
-
         tab = this.applyFilters(tab);
-
         this.collaborators=tab;
         if(tab.length == 0){
           msg.innerHTML = "Le collaborateur que vous recherchez n'est pas référencé.";
@@ -121,85 +99,149 @@
       },
       applyFilters(tab){
         let tmp = [];
-
         for(let i of tab){
-            let searched = true;
-            //CheckPoste
-            if((this.filterPosition.indexOf(i.poste)==-1)&&(this.filterPosition.length>=1)){
-                searched=false;
+          let searched = true;
+          //CheckExp
+          if(this.filterExperience.length>=1){
+            searched=false;
+            for(let j of this.filterExperience){
+              if(((j.down<=i.experience)&&(j.up>=i.experience))||(j.up==null&&j.down<i.experience)){
+                searched=true;
+              }
             }
+          }
+          //CheckPoste
+          if((this.filterPosition.indexOf(i.position)==-1)&&(this.filterPosition.length>=1)){
+            searched=false;
+          }
+          //CheckClients
+          if(this.filterClients!=""){
+            let test = false;
+            for(let j of i.missions){
+              let client = j.clientId.label;
+              if(client.toUpperCase().trim().includes(this.filterClients.toUpperCase().trim())){
+                test=true;
+              }
+            }
+            if(!test)searched=false;
+          }
+          //CheckSkills
+          if(this.filterSkills.length>=1){
+            let tmpTab=[];
 
-            //CheckExp
-            if(this.filterExperience.length>=1){
-                searched=false;
-                for(let j of this.filterExperience){
-                    if((j.down<=i.experience)&&(j.up>=i.experience)){
-                        searched=true;
-                    }
+            for(let k of i.missions){
+                for(let l of k.skills) {
+                  tmpTab.push(l.label);
                 }
             }
-
-            //CheckClients
-            if((i.clients.indexOf(this.filterClients)==-1)&&this.filterClients!=""){
-                searched=false;
+            for (let j of this.filterSkills) {
+              if (tmpTab.indexOf(j.skill) == -1) {
+                searched = false;
+              }
             }
 
-            //CheckSkills
-            if(this.filterSkills.length>=1){
-                searched=false;
-                for(let j of this.filterSkills){
-                    if(i.skills.indexOf(j)!=-1){
-                        searched=true;
-                    }
-                }
-            }
-
-            if(searched) tmp.push(i);
+          }
+          if(searched) tmp.push(i);
         }
-
         return tmp;
+      },
+      showPDFUser(infoUser){
+        this.infoUser=infoUser;
+        this.showPDF=true;
+      },
+      downloadPDF(infoUser){
+        this.infoUser=infoUser;
+      },
+      closePDF(){
+        this.showPDF=false
+      },
+      updateFilters(pos,exp,cli,ski){
+        this.filterPosition=pos;
+        this.filterSkills=ski;
+        this.filterExperience=exp;
+        this.filterClients=cli;
+        this.searchCollab();
       }
+
+    },
+    created: function () {
+        return axios.get(config.server +  '/api/getUsers')
+          .then(response=>{
+            if(response.data.length>0){
+              this.collaborators = response.data;
+              this.defaultCollab = response.data;
+              for(let collab in this.collaborators){
+                  this.collaborators[collab].languages=this.collaborators[collab].languages.map(
+                    function (elem) {
+                      return elem.label;
+                    }).join(", ");
+              }
+            }else{
+              console.log("failed");
+            }
+          })
+          .catch((error)=>{
+            console.log(error);
+          })
     }
   }
-
 </script>
 
 <style>
 
-  .page-content{
-    display:flex;
+  .containerSearch {
+  display: flex;
+  justify-content: center;
   }
-
   #search-collab{
-    float:left;
     line-height: 2em;
     width:31em;
-    margin-left:0.4em;
     border:none;
     outline:none;
   }
-
   .zone-search-collab{
-    line-height: 2em;
-    width:30em;
-    border:1px solid black;
-    border-radius:0.5em;
-    display: inline-block;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-self: center;
+    width:50em;
+    height: 2.3em;
+    border:1.3px solid dodgerblue;
+    border-radius: 30px;
+    padding: 0 1em;
   }
-
   .icon-search{
-    line-height:2em;
     width:2em;
-    background-color: #D7D7D7;
-    float:right;
-    border-top-right-radius: 0.5em;
-    border-bottom-right-radius: 0.5em;
+    color: dodgerblue;
+  }
+  .messageErreur{
+    display: flex;
+    align-items: center;
+    height: 1.8em;
+    width: 30em;
+    padding-left: 1em;
+    margin-left: 1em;
+    border: none;
+    border-left: 1.5px solid lightgray;
   }
 
-  .icon-cancel{
-    float:right;
-    line-height:2em;
-    margin-right:0.5em;
+  #msgErreur{
+    color: red;
+  }
+
+  .page-content{
+    display: flex; flex-direction: row; justify-content: space-around; width: 100%; margin-top: 1em;
+  }
+
+  .filterZone{
+    display: flex;
+    flex-basis: 23%;
+  }
+
+  .collabZone{
+    display: flex;
+    flex-basis: 73%;
   }
 
 </style>

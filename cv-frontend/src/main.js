@@ -1,39 +1,41 @@
 import Vue from 'vue'
-import handleLogin from "./components/loginPage.vue"
+import Router from 'vue-router'
+import router from './config/router'
+import Vuex from 'vuex'
+import {store} from './store'
+import sha256 from '../node_modules/js-sha256/src/sha256'
 
-const handleCv = resolve => {
-  require.ensure([], () => {
-    resolve(require('./components/handleCV.vue'))
-  })
-};
+// for vue-notification setup
+import VueNotifications from 'vue-notifications'
+import iziToast from 'izitoast'// https://github.com/dolce/iziToast
+import 'izitoast/dist/css/iziToast.min.css'
 
-const handleAdmin = resolve => {
-  require.ensure([], () => {
-    resolve(require('./components/adminPage.vue'))
-  })
-};
+function toast ({title, message, type, timeout, cb}) {
+  if (type === VueNotifications.types.warn) type = 'warning'
+  return iziToast[type]({title, message, timeout})
+}
 
-const NotFound = { template: '<p><strong>Page not found</strong></p>' };
+const options = {
+  success: toast,
+  error: toast,
+  info: toast,
+  warn: toast
+}
 
-const routes = [
-  { path: '/mycv', component: handleCv },
-  { path: '/', component: handleLogin },
-  {path:'/admincv',component : handleAdmin}
-];
+Vue.use(VueNotifications, options)
+
+var jwtDecode = require('jwt-decode');
+
+Vue.use(Router);
+Vue.use(Vuex);
+Vue.prototype.$sha256=sha256;
+
+
+
 
 new Vue({
   el: '#app',
-  data: {
-    currentRoute: window.location.pathname
-  },
-  computed: {
-    ViewComponent () {
-      let comp = null;
-      for(let i of routes){
-        if(i.path==this.currentRoute) comp = i;
-      }
-      return comp?comp.component:NotFound
-    }
-  },
-  render (h) { return h(this.ViewComponent) }
+  router,
+  store,
+  template:'<div><router-view></router-view></div>'
 });

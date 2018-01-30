@@ -1,0 +1,19 @@
+html,body,#app,.display{height: 100%; width: 100%; margin:0; padding:0;}
+
+.fadeMenu-enter-active, .fadeMenu-leave-active {transition: opacity .5s}
+.fadeMenu-enter, .fadeMenu-leave-to {opacity: 0}
+
+.header{display: flex; flex-direction: column; width: 900px;}
+
+.mycv{display: flex; flex-direction: row; justify-content: space-between; width: 100%;
+  .infoUser{display: flex; flex-basis: 24%; flex-direction: column;}
+  .mission{display: flex;flex-basis: 74%; margin-left: 0.5%; flex-direction: column; justify-content: flex-start; margin-right: 0.5%; background-color: #F2F3F4;
+    .bannerMission{display: flex; align-items: center; justify-content: space-between; height: 2.5em; width: auto; background-color: #FF9200; color: white; font-family: Arial, serif;
+      p{ position: relative; left: 2.5%}
+    }
+  }
+}
+
+.test{
+  border: 1px solid blue;
+}

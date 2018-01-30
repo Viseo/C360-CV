@@ -2,27 +2,112 @@
 
   <div>
     <div class="toPDF">
-      <div class="savePDF" @click="saveButton">Sauvegarder</div>
+      <div class="savePDF" @click="updateUserProfileOnly">Sauvegarder Collaborateur</div>
       <div class="downloadPDF" @click="printPDF">Télécharger le PDF</div>
     </div>
-    <span id="toValidate" style="opacity: 0; font-size: 10px; display: none">Veuillez remplir correctement le formulaire</span>
   </div>
 
 </template>
 
 <script>
 
+  import axios from 'axios'
+  import config from '../../config/config'
 
   export default {
+    props:['infoUser','languages'],
+    data:function(){
+      return{
+      }
+    },
     methods:{
-      saveButton: function () {
+      toDate:function(dateStr) {
+        var parts = dateStr.split("-");
+        return new Date(parts[0], parts[1] - 1, parts[2]);
       },
-      getInfoMission: function (id) {
-        this.$emit('getInfoMission',id);
+      updateUserProfileOnly:function(){
+        var self = this;
+        console.log(this.infoUser);
+        if(this.infoUser.firstName == "" || this.infoUser.lastName == "" || this.infoUser.birth_date == ''
+            ||this.infoUser.position == '' || this.infoUser.experience == '' || !isFinite(this.infoUser.experience)
+            || this.infoUser.telephone == ''){
+          this.showWarning();
+        }
+        else{
+          var newLanguages = [];
+          let indexToRemove= []
+          let k=0;
+          for (let i=0;i<this.infoUser.languages.length;i++){
+            if(!this.infoUser.languages[i].hasOwnProperty("id")){
+              //check if there r any newly added languages
+              console.log("detect new language! ");
+              for(k=0;k<this.languages.length;k++){
+                //check if the newly added language is existed in db (toLowerCase)
+                if((this.infoUser.languages[i].label.toLowerCase() === this.languages[k].label.toLowerCase())){
+                  console.log("Not new language!");
+                  break;
+                }
+              }
+              if(k == this.languages.length){
+                //if the newly added language is really a new one, then add it to TOPOST list
+                newLanguages.push(this.infoUser.languages[i]);
+                indexToRemove.push(i);
+              }
+              else{
+                //if the newly added language already exist, then add the exist one to inforUser
+                //which is ready to update
+                this.$store.state.userLogged.languages[i] = this.languages[k];
+              }
+            }
+          }
+
+          for (let number=0;number<indexToRemove.length;number++){
+            this.$store.state.userLogged.languages.splice(indexToRemove[number],1);
+          }
+          if (newLanguages.length >0){
+            axios.post(config.server + "/api/languages", newLanguages).then(response =>{
+              for (let item of response.data){
+                self.$store.state.userLogged.languages.push(item);
+              }
+              // now all newly added languages are well registered. we can continue to update our user
+              var userTosave = this.infoUser;
+              userTosave.birth_date = this.toDate(userTosave.birth_date);
+              axios.put(config.server + '/api/updateOnlyUserProfile', userTosave)
+                .then((response)=>{
+                  console.log(response.data);
+                  self.$store.commit("setUserWithoutMission",response.data);
+                  this.showSuccess();
+                })
+                .catch((error)=> {
+                  this.showError();
+                  console.log("error: " + error);
+                });
+            }).catch(e =>{
+              this.showError();
+              console.log("error: " + e);
+            });
+          }
+          else{
+            var userTosave = this.infoUser;
+            axios.put(config.server + '/api/updateOnlyUserProfile', userTosave)
+              .then((response)=>{
+                console.log(response.data);
+                self.$store.commit("setUserWithoutMission",response.data);
+                this.showSuccess();
+              })
+              .catch((error)=> {
+                this.showError();
+                console.log("error: " + error);
+              });
+          }
+
+        }
+
       },
       printPDF: function () {
           let toShow = false;
-          let messageError = document.getElementById("toValidate");
+          /*
+          Test!!!!!!
           for(let mission of this.missions){
               if((mission.description == "" ||mission.name == "" || mission.beginDate == "" || mission.client == "" || mission.type == "")){
                   toShow = true;
@@ -34,13 +119,11 @@
                   break;
               }
           }
+          */
           if(!toShow){
-              messageError.style.display = "none";
               var printContents = document.getElementById('PDF').innerHTML;
               var originalContents = document.body.innerHTML;
-
               document.body.innerHTML = printContents;
-
               window.print();
               document.body.innerHTML = originalContents;
               location.reload();
@@ -48,7 +131,23 @@
 
       }
     },
-    props:['missions']
+    notifications: {
+      showError: { // You can have any name you want instead of 'showLoginError'
+        title: 'La mise à jour a échoué',
+        message: 'Impossible de mettre à jour l\'utilisateur',
+        type: 'error' // You also can use 'VueNotifications.types.error' instead of 'error'
+      },
+      showWarning: {
+        title: 'Données invalides',
+        message: 'Veuillez compléter toutes les données nécessaire',
+        type: 'warn'
+      },
+      showSuccess: {
+        title: 'Succès',
+        message: 'La mise à jour a été bien enregistrée',
+        type: 'success'
+      }
+    }
   }
 
 </script>
@@ -62,6 +161,7 @@
     margin-right: 2%;
     font-size: 80%;
     padding: 5px;
+    cursor: pointer;
   }
   .downloadPDF{
     width: 50%;
@@ -70,7 +170,7 @@
     border-radius: 8px;
     font-size: 80%;
     padding: 5px;
-
+    cursor: pointer;
   }
   .toPDF{
     display: flex;

@@ -1,27 +1,151 @@
-INSERT INTO users (first_name, last_name, mail, login, birth_date, hobbies, telephone,password) VALUES
-  ('Maxime', 'Zarrin', 'maxime.zarrin@viseo.com','MZA4571','10/06/1994','mastermind actions','0614253647','reverseflash'),
-  ('Thomas','Naulin','thomas.naulin@viseo.com','TNA7852','06/15/1994','Sous-fifre du mastermind','0669584714',''),
-  ('Geoffrey','Ehrmann','geoffrey.ehrmann@viseo.com','GEH1524','10/25/1994','pizzas','0678451223',''),
-  ('Farah','Touati','farah.touati@viseo.com','FTO5968','08/28/1994','lecture','0695157535','');
+INSERT INTO languages(version, label) VALUES (0,'Français');
+INSERT INTO languages(version, label) VALUES (0,'Anglais');
+INSERT INTO languages(version, label) VALUES (0,'Italien');
+INSERT INTO languages(version, label) VALUES (0,'Espagnol');
+INSERT INTO languages(version, label) VALUES (0,'Allemande');
+INSERT INTO languages(version, label) VALUES (0,'Chinois');
+INSERT INTO languages(version, label) VALUES (0,'Arabe');
+INSERT INTO languages(version, label) VALUES (0,'Russe');
+INSERT INTO languages(version, label) VALUES (0,'Japonais');
+INSERT INTO languages(version, label) VALUES (0,'Finlandais');
+INSERT INTO type_missions VALUES
+  (1, 0, 'Mission'),
+  (2, 0, 'Séminaire');
+INSERT INTO users (version, last_update_date,id, first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES
+  (0, TIMESTAMP 'yesterday', 200000, 'GU', 'Leo', 'test1@test.com','AAA1221','Stagiaire','2','01/01/1994','mastermind actions','0614253647','bcb15f821479b4d5772bd0ca866c00ad5f926e3580720659cc80d39c9d09802a','../../static/users/maxime.png','false');
+INSERT INTO users (version, last_update_date,id, first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES
+  (0, TIMESTAMP 'yesterday', 100000, 'GU', 'Admin', 'test2@test.com','AAA1222','Manager','30','01/01/1960','mastermind actions','0614253647','bcb15f821479b4d5772bd0ca866c00ad5f926e3580720659cc80d39c9d09802a','../../static/users/henri.png','true');
+
+INSERT INTO clients (version, id,label, domain, description) VALUES
+  (0, 1,'Henri','CONSEIL','Projet pour Henri comme ilearning et un supermarché virtuel');
+INSERT INTO clients (version, id,label, domain, description) VALUES
+  (0, 2,'Orange','FINANCE','Interface pour faire des traitements de données , big data');
+INSERT INTO clients (version, id,label, domain, description) VALUES
+  (0, 3,'Orange2','FINANCE','Interface pour faire des traitements de données , big data');
+INSERT INTO clients (version, id,label, domain, description) VALUES
+  (0, 4,'Orange3','FINANCE','Interface pour faire des traitements de données , big data');
+INSERT INTO clients (version, id,label, domain, description) VALUES
+  (0, 5,'fsd','FINANCE','Interface pour faire des traitements de données , big data');
+INSERT INTO clients (version, id,label, domain, description) VALUES
+  (0, 6,'Oragzenge','FINANCE','Interface pour faire des traitements de données , big data');
+INSERT INTO clients (version, id,label, domain, description) VALUES
+  (0, 7,'cw','FINANCE','Interface pour faire des traitements de données , big data');
+INSERT INTO clients (version, id,label, domain, description) VALUES
+  (0, 8,'efdsg','FINANCE','Interface pour faire des traitements de données , big data');
+INSERT INTO clients (version, id,label, domain, description) VALUES
+  (0, 9,'dqa','FINANCE','Interface pour faire des traitements de données , big data');
+
+
+INSERT INTO missions (version, id, title, begin_date, end_date, client_id, description, type_id) VALUES
+  (0, 100,'Viseo Intern','01/01/2016','01/01/2017','1','Développement du démonstrateur DigiMarket','1');
+INSERT INTO missions (version, id, title, begin_date, end_date, client_id, description, type_id) VALUES
+  (0, 200,'DigiMarket','15/06/2017','15/07/2017','1','Implémentation nouvel espace de vente','1');
+INSERT INTO users_missions VALUES (200000,100);
+INSERT INTO users_missions VALUES (200000,200);
+INSERT INTO users_languages (user_id, language_id) VALUES
+  (200000,1);
+INSERT INTO users_languages (user_id, language_id) VALUES
+  (200000,2);
+INSERT INTO users_languages (user_id, language_id) VALUES
+  (200000,3);
+-- INSERT INTO users_languages (user_id, language_id) VALUES
+--   (200000,4);
+-- INSERT INTO users_languages (user_id, language_id) VALUES
+--   (200000,7);
+-- INSERT INTO users_languages (user_id, language_id) VALUES
+--   (200000,6);
+/* temp code before connecting C360 Compétence*/
+INSERT INTO domain(version, label) VALUES (0, 'Outils');
+INSERT INTO domain(version, label) VALUES (0, 'Méthodologie');
+INSERT INTO domain(version, label) VALUES (0, 'Web');
+INSERT INTO domain(version, label) VALUES (0, 'Base de données');
+INSERT INTO domain(version, label) VALUES (0, 'Frameworks');
+INSERT INTO domain(version, label) VALUES (0, 'Other');
+INSERT INTO skills (version, label,domain_id) VALUES
+  (0,'Taiga',1),
+  (0,'Axure',1),
+  (0,'Balsamiq',1),
+  (0,'Jira',1),
+  (0,'Photoshop',1),
+  (0,'React Native',1),
+  (0,'Android',1),
+  (0,'iOS',1),
+  (0,'Cycle en V',2),
+  (0,'Kanban',2),
+  (0,'Lean',2),
+  (0,'Scrum',2),
+  (0,'Lean startup',2),
+  (0,'Less',2),
+  (0,'Rup',2),
+  (0,'Safe',2),
+  (0,'Javascript',3),
+  (0,'Angular',3),
+  (0,'Bootstrap',3),
+  (0,'CSS',3),
+  (0,'HTML',3),
+  (0,'Python',3),
+  (0,'Apache Derby',4),
+  (0,'Microsoft Access',4),
+  (0,'Microsoft SQL Server',4),
+  (0,'MySQL',4),
+  (0,'Oracle Database',4),
+  (0,'PostgreSQL',4),
+  (0,'Bootstrap',5),
+  (0,'Cake PHP',5),
+  (0,'Google Guava',5),
+  (0,'Hibernate',5),
+  (0,'JUnit',5),
+  (0,'JQuery',5),
+  (0,'Node.js',5),
+  (0,'Laravel',5),
+  (0,'Phalcon',6),
+  (0,'PHPUnit',6),
+  (0,'Spring',5),
+  (0,'Symfony',6),
+  (0,'Zend',6);
+
+
+INSERT INTO missions_skills(missions_id, skills_id) VALUES (100, 1);
+INSERT INTO missions_skills(missions_id, skills_id) VALUES (100, 2);
+INSERT INTO missions_skills(missions_id, skills_id) VALUES (100, 3);
+INSERT INTO missions_skills(missions_id, skills_id) VALUES (100, 4);
+INSERT INTO missions_skills(missions_id, skills_id) VALUES (100, 10);
+/*
+INSERT INTO users (first_name, last_name, mail, login, position, experience, birth_date, hobbies, telephone,password, picture, admin) VALUES
+  ('Maxime', 'Zarrin', 'maxime.zarrin@viseo.com','MZA4571','Stagiaire','3','10/06/1994','mastermind actions','0614253647','fd907eb6a93e49bb0ca5aa22f68bb2d66e0218dc','../../static/users/maxime.png','false'),
+  ('Thomas','Naulin','thomas.naulin@viseo.com','TNA7852','Sénior','7','06/15/1994','Sous-fifre du mastermind','0669584714','7c4a8d09ca3762af61e59520943dc26494f8941b','../../static/users/thomas.png','true'),
+  ('Geoffrey','Ehrmann','geoffrey.ehrmann@viseo.com','GEH1524','Manager','14','10/25/1994','pizzas','0678451223','9cf95dacd226dcf43da376cdb6cbba7035218921','../../static/users/geoffrey.png','true'),
+  ('Farah','Touati','farah.touati@viseo.com','FTO5968','Junior','0','08/28/1994','lecture','0695157535','7c4a8d09ca3762af61e59520943dc26494f8941b','../../static/users/mocha.svg','false'),
+  ('Admin','Admin','admin.admin@viseo.com','ADM1234','Sénior','20','01/01/1970','développer des applis en dormant','0601010101','dd94709528bb1c83d08f3088d4043f4742891f4f','../../static/users/ReverseFlash_wallapaper.png','true'),
+  ('Emmanuelle','Lerandy','lerandy@viseo.com','ELE3642','Sénior','12','07/16/1994','Aller chez le kiné','0601010101','dd94709528bb1c83d08f3088d4043f4742891f4f','../../static/users/emma.png','true'),
+  ('Lydia','Ouamar','ouamar@viseo.com','LOU0000','Stagiaire','0','01/01/1970','hein','0679218948','02acd07068be87c6ace4ea97079c406d3e8da7fd','../../static/users/mocha.svg','false'),
+  ('Rocky','Balboa','tin.tintintin@tintin.tiiiin','RBA9999','Sénior','45','01/01/1970','coup de latte dans la gueule','0679218948','c4ae472af23bf4650c11980c0691608b9ea3da12','../../static/users/rocky.png','true');
+
 
 INSERT INTO languages (label) VALUES
   ('Anglais'),
   ('Espagnol'),
   ('Allemand'),
   ('Portugais'),
-  ('Japonais');
+  ('Vietnamien'),
+  ('Japonais'),
+  ('Français');
 
 INSERT INTO users_languages (user_id, language_id) VALUES
   ('1','1'),
   ('1','2'),
   ('2','3'),
   ('3','4'),
-  ('4','5');
+  ('4','5'),
+  ('2','6'),
+  ('5','1'),
+  ('5','7'),
+  ('5','4');
 
-INSERT INTO clients (label, description) VALUES
-  ('Henri','Projet pour Henri'),
-  ('Orange','Interface pour data'),
-  ('Société Générale','Gestion pour pré trading');
+INSERT INTO clients (label, domain, description) VALUES
+  ('Henri','CONSEIL','Projet pour Henri comme ilearning et un supermarché virtuel'),
+  ('Orange','FINANCE','Interface pour faire des traitements de données , big data'),
+  ('Société Générale','BANQUE','Gestion de données pour faire du prétrading et regarder les "data scientists" perdre l argent du peuple');
 
 INSERT INTO type_missions (label) VALUES
   ('Mission'),
@@ -31,7 +155,12 @@ INSERT INTO missions (title, begin_date, end_date, client_id, description, type_
   ('Viseo Intern','02/15/2017','07/22/2017','1','Développement du démonstrateur DigiMarket','1'),
   ('Collaborateur 360','06/01/2017','07/20/2017','3','Outils pour que les RH travaillent','2'),
   ('DigiMarket','06/15/2017','07/15/2017','2','Implémentation nouvel espace de vente','1'),
-  ('i-learning','06/04/2017','06/12/2017','3','Jeu pour devenir plus intelligent','1');
+  ('i-learning','06/04/2017','06/12/2017','1','Jeu pour devenir plus intelligent','1'),
+  ('Orange Business','08/15/2016','12/04/2016','1','Génération de la carte bancaire à empreintes digitales ','1'),
+  ('Orange Business Suite','05/01/2017','06/20/2017','3','Gestion application pour clients mécontents','2'),
+  ('Chez Moi','06/22/2017','07/31/2017','2','Développement interface de bord pour voiture autonome','1'),
+  ('Stage de 3ème','02/25/2017','08/25/2017','3','Stage dobservation de la marine au développement informatique','1');
+
 
 INSERT INTO skills (label, domain) VALUES
   ('Taiga','Outils'),
@@ -55,17 +184,51 @@ INSERT INTO skills (label, domain) VALUES
   ('Bootstrap','Web'),
   ('CSS','Web'),
   ('HTML','Web'),
-  ('Python','Web');
+  ('Python','Web'),
+  ('Apache Derby','Base de données'),
+  ('Microsoft Access','Base de données'),
+  ('Microsoft SQL Server','Base de données'),
+  ('MySQL','Base de données'),
+  ('Oracle Database','Base de données'),
+  ('PostgreSQL','Base de données'),
+  ('Bootstrap','Frameworks'),
+  ('Cake PHP','Frameworks'),
+  ('Google Guava','Frameworks'),
+  ('Hibernate','Frameworks'),
+  ('JUnit','Frameworks'),
+  ('JQuery','Frameworks'),
+  ('Node.js','Frameworks'),
+  ('Laravel','Frameworks'),
+  ('Phalcon','Frameworks'),
+  ('PHPUnit','Frameworks'),
+  ('Spring','Frameworks'),
+  ('Symfony','Frameworks'),
+  ('Zend','Frameworks');
 
 INSERT INTO missions_skills (missions_id, skills_id) VALUES
   ('1','4'),
   ('1','3'),
   ('2','2'),
   ('2','1'),
-  ('2','3');
+  ('1','8'),
+  ('2','9'),
+  ('3','22'),
+  ('4','18'),
+  ('5','35'),
+  ('6','40'),
+  ('7','11'),
+  ('8','27'),
+  ('5','31');
 
 INSERT INTO users_missions (user_id, missions_id) VALUES
   (1,2),
-  (1,4),
-  (2,3),
-  (4,1);
+  (2,4),
+  (3,3),
+  (4,1),
+  (5,5),
+  (1,6),
+  (2,7),
+  (3,8),
+  (4,3),
+  (5,6);
+*/

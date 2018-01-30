@@ -4,16 +4,16 @@ var sourcemaps = require('gulp-sourcemaps');
 var autoprefixer = require('gulp-autoprefixer');
 
 gulp.task('css', function () {
-  gulp.src('static/*.scss')
+  gulp.src('static/CSS/*.scss')
     .pipe(sourcemaps.init())
     .pipe(sass())
     .pipe(sourcemaps.write())
     .pipe(autoprefixer())
-    .pipe(gulp.dest('static/'))
+    .pipe(gulp.dest('static/CSS/'))
 });
 
 gulp.task('watch', function () {
-  gulp.watch('static/*.scss', ['css']);
+  gulp.watch('static/CSS/*.scss', ['css']);
 });
 
-gulp.task('default', ['static', 'watch']);
+gulp.task('default', ['static/CSS/', 'watch']);

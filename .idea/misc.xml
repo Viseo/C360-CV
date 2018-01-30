@@ -10,14 +10,14 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/../../../Me/Project/spring-petclinic-angularjs/pom.xml" />
+        <option value="C:/../Me/Project/spring-petclinic-angularjs/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
-        <option value="$PROJECT_DIR$/../../../Me/Project/spring-petclinic-angularjs/pom.xml" />
-        <option value="$PROJECT_DIR$/../../../Me/Project/spring-petclinic-angularjs/spring-petclinic-client/pom.xml" />
-        <option value="$PROJECT_DIR$/../../../Me/Project/spring-petclinic-angularjs/spring-petclinic-server/pom.xml" />
+        <option value="C:/../Me/Project/spring-petclinic-angularjs/pom.xml" />
+        <option value="C:/../Me/Project/spring-petclinic-angularjs/spring-petclinic-client/pom.xml" />
+        <option value="C:/../Me/Project/spring-petclinic-angularjs/spring-petclinic-server/pom.xml" />
         <option value="$PROJECT_DIR$/cv-fronted/pom.xml" />
       </set>
     </option>

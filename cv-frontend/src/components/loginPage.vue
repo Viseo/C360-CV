@@ -1,28 +1,30 @@
 <template>
     <div class="display">
         <banner></banner>
-        <div class="content" v-bind:style="styleContent">
-            <div class="topcontent" v-bind:style="styleTopContent">
-                <div id="Inscription" v-bind:style="styleInscription" v-on:click="inscriptionClick"><p>Inscription</p></div>
-                <div id="Connexion" v-bind:style="styleConnexion" v-on:click="connexionClick"><p>Connexion</p></div>
+      <div><img :style="style.styleImg" src="../../static/png/backgroundLogin.png"></div>
+      <div class="content" :style="styleContent">
+            <div class="topcontent" :style="styleTopContent">
+                <div id="Inscription" :style="styleInscription" @click="inscriptionClick"><p>Inscription</p></div>
+                <div id="Connexion" :style="styleConnexion" @click="connexionClick"><p>Connexion</p></div>
+            </div>
+            <div id="ConnexionContent" :style="styleConnexionContent" v-show="chosenForm==='connexion'">
+              <formhome
+                :listitems="logInForm"
+                :styl="style"
+                @login="login"
+                @check="inputManager">
+              </formhome>
+              <div id="connexion-failed" v-if="connexionFailed">Utilisateur inconnu</div>
             </div>
             <div id="InscriptionContent" v-show="chosenForm==='inscription'">
                 <formhome
-                  v-bind:listitems="signInForm"
-                  v-bind:styl="style"
-                  v-on:login="register"
-                  v-on:check="inputManager">
+                  :listitems="signInForm"
+                  :styl="style"
+                  @login="register"
+                  @check="inputManager">
                 </formhome>
             </div>
-            <div id="ConnexionContent" v-bind:style="styleConnexionContent" v-show="chosenForm==='connexion'">
-                <formhome
-                  v-bind:listitems="logInForm"
-                  v-bind:styl="style"
-                  v-on:login="login"
-                  v-on:check="inputManager">
-                </formhome>
-              <div id="connexion-failed" v-if="connexionFailed">Utilisateur inconnu</div>
-            </div>
+
         </div>
     </div>
 </template>
@@ -31,7 +33,8 @@
   import formHome from './homePage/formHome.vue'
   import banner from "./banner.vue"
   import axios from 'axios'
-
+  import config from '../config/config'
+  var jwtDecode = require('jwt-decode');
 
   export default {
     data:function (){
@@ -45,14 +48,12 @@
           {id: 5, type: 'password', placeholder: '••••••', label: 'Confirmation du mot de passe', fa: 'fa fa-lock', eye: 'fa fa-eye', value: '',name: 'signInForm'},
           {id: 6, type: 'submit', value: 'S\'inscrire'}
         ],
-
         logInForm: [
           {id: 0, type: 'email', placeholder: 'eric.dupont@viseo.com', label: 'Email', fa: 'fa fa-envelope', name: 'logInForm'},
           {id: 1, type: 'password', placeholder: '••••••', label: 'Mot de passe', fa: 'fa fa-lock', eye: 'fa fa-eye', value: '',name: 'logInForm'},
           {id: 2, type: 'checkbox', value: 'keepConnected', checked: 'false', checkMsg: 'Rester connecté', href: '#'},
           {id: 4, type: 'submit', value: 'Se connecter'}
         ],
-
         formChecked:{
           signIn: {
             "login": false,
@@ -68,9 +69,7 @@
           }
         },
         connexionFailed : false,
-
-        chosenForm: 'inscription',
-
+        chosenForm: 'connexion',
         style: {
           styleGlobal: {
             'margin-top': '20px',
@@ -84,6 +83,13 @@
           },
           divForm: {
             position: 'relative',
+          },
+          styleImg: {
+            display: 'flex',
+            width: '100%',
+            height: '100%',
+            position: 'absolute',
+            filter: 'grayscale(100%)',
           },
 
           styleForm: {
@@ -101,15 +107,19 @@
             // padding: '1em 0px 1em 2.3em',
             'font-size': '1.04em',
             'font-weight': 'bold',
-            width: '27em',
+            width: '20em',
             border: '0px solid #ccc',
-            'border-radius': '4px',
-            'background-color' : 'rgb(254,204,19)',
+            'border-radius': '18px',
+            'background-color' : 'rgb(255,146,0)',
             'text-align': 'center',
             color: 'white',
             'margin-bottom': '2em',
             'box-shadow': '0 0.01em 0.02em rgba(0,0,0,.39)',
-            height: '2.5em'
+            height: '2.5em',
+            display: 'block',
+            'margin-right': 'auto',
+            'margin-left': 'auto',
+            cursor: 'pointer'
 
           },
 
@@ -129,7 +139,7 @@
 
           stylePicto: {
             position: 'absolute',
-            'left': '1em',
+            'left': '-1.5em',
             'top': '0px',
             'z-index': '10'
           },
@@ -156,7 +166,10 @@
           'flex-direction': 'column',
           width:'50%',
           'margin-left':'25%',
-          'box-shadow': '0 2px 5px rgba(0,0,0,0.14), 0 2px 5px rgba(0,0,0,0.24)'
+          'margin-top': '4%',
+          'box-shadow': '0 2px 5px rgba(0,0,0,0.14), 0 2px 5px rgba(0,0,0,0.24)',
+          'background-color': 'rgba(230,230,230,0.8)',
+          position: 'relative'
         },
 
         styleTopContent:{
@@ -166,27 +179,41 @@
           'background-color' : 'rgb(255,255,255)',
           'font-family': 'Arial',
           'font-size': '1em',
-        },
-
-        styleInscription:{
-          display: 'flex',
-          flex: '1',
-          'justify-content': 'center',
-          'background-color' : 'rgb(254,204,19)',
-          'color':'rgb(255,255,255)',
+          position: 'relative'
         },
 
         styleConnexion:{
           display: 'flex',
           flex: '1',
           'justify-content': 'center',
-          'background-color' : 'rgb(235,235,235)',
-          'color':'rgb(120,120,120)',
+          'background-color' : 'rgb(255,146,0)',
+          'color':'rgb(255,255,255)',
+          cursor: 'pointer'
+        },
 
+        styleInscription:{
+          display: 'flex',
+          flex: '1',
+          'justify-content': 'center',
+          'background-color' : 'rgb(255,255,255)',
+          'color':'rgb(255,146,0)',
+          cursor: 'pointer'
         },
 
         styleConnexionContent:{
-          display:'none',
+          display:'none'
+        }
+      }
+    },
+    mounted:function(){
+
+
+      if(this.$store.state.userLogged.id != -1){
+        if(this.$store.state.userLogged.isAdmin){
+          this.$router.push('/admincv');
+        }
+        else{
+          this.$router.push('/mycv');
         }
       }
     },
@@ -194,52 +221,37 @@
       inscriptionClick : function(){
         let inscription=document.getElementById("Inscription");
         let connexion=document.getElementById("Connexion");
-
         inscription.style.color='rgb(255,255,255)';
-        inscription.style.backgroundColor='rgb(254,204,19)';
-
-        connexion.style.color='rgb(120,120,120)';
-        connexion.style.backgroundColor='rgb(235,235,235)';
-
+        inscription.style.backgroundColor='rgb(255,146,0)';
+        connexion.style.color='rgb(255,146,0)';
+        connexion.style.backgroundColor='rgb(255,255,255)';
         this.chosenForm==='connexion'?this.chosenForm='inscription':{};
       },
-
       connexionClick : function(){
         let inscription=document.getElementById("Inscription");
         let connexion=document.getElementById("Connexion");
-
-        inscription.style.color='rgb(120,120,120)';
-        inscription.style.backgroundColor='rgb(235,235,235)';
-
+        inscription.style.color='rgb(255,146,0)';
+        inscription.style.backgroundColor='rgb(255,255,255)';
         connexion.style.color='rgb(255,255,255)';
-        connexion.style.backgroundColor='rgb(254,204,19)';
-
+        connexion.style.backgroundColor='rgb(255,146,0)';
         this.chosenForm==='inscription'?this.chosenForm='connexion':{};
       },
-
       inputManager : function(label,form){
         if(label==="Code de login")
         {
           let value = document.getElementById(label+form).value;
           let re = new RegExp("^[A-Z]{3,3}[0-9]{4,4}$");
-//          if(value===''){
-//            this.formChecked.signIn.login=false;
-//            document.getElementById("message"+label+form).innerHTML="";
-//          }
-//          else if(re.test(value)){
             if(re.test(value)){
               this.formChecked.signIn.login=true;
               document.getElementById("message"+label+form).innerHTML="";
             }
-//            else {
-//              this.formChecked.signIn.login=false;
-//              document.getElementById("message"+label+form).innerHTML="Le login doit etre contenu entre 3 et 20 caractères";
-//            }
-//          }
+          if(re.test(value)){
+            this.formChecked.signIn.login=true;
+            document.getElementById("message"+label+form).innerHTML="";
+          }
           else{
             this.formChecked.signIn.login=false;
             document.getElementById("message"+label+form).innerHTML="Veuillez entrer un code de login valide";
-
           }
         }
         else if(label=="Nom")
@@ -263,15 +275,12 @@
           else{
             this.formChecked.signIn.nom=false;
             document.getElementById("message"+label+form).innerHTML="Caractères non autorisés";
-
           }
         }
-
         else if(label==="Prénom")
         {
           let value = document.getElementById(label+form).value;
           let re = new RegExp("^[a-zA-Z'éèÉ. -]*$");
-
           if(value===''){
             this.formChecked.signIn.prenom=false;
             document.getElementById("message"+label+form).innerHTML="";
@@ -289,10 +298,8 @@
           else{
             this.formChecked.signIn.prenom=false;
             document.getElementById("message"+label+form).innerHTML="Caractères non autorisés";
-
           }
         }
-
         else if(label==="Email")
         {
           let value=document.getElementById(label+form).value;
@@ -331,7 +338,6 @@
         else if(label==="Mot de passe")
         {
           let value=document.getElementById(label+form).value;
-
           if(form=="signInForm") {
             let passwordvalue = document.getElementById("Confirmation du mot de passe"+form).value;
             if (value === '') {
@@ -357,7 +363,6 @@
             }
           }
           else{
-
             if (value === '') {
               this.formChecked.logIn.password = false;
               document.getElementById("message" + label+ form).innerHTML = "";
@@ -369,7 +374,6 @@
             else {
               this.formChecked.logIn.password = false;
               document.getElementById("message" + label+ form).innerHTML = "Le mot de passe doit avoir au minimum 6 caractères";
-
             }
           }
         }
@@ -387,37 +391,32 @@
             document.getElementById("message"+label+ form).innerHTML="";
           }
           else{
-
             this.formChecked.signIn.checkpassword=false;
             document.getElementById("message"+label+ form).innerHTML="La confirmation du mot de passe n'est pas valide";
-
           }
         }
       },
       checkSubmitRegister : function(){
-          let a=0;
-          for(let i in this.formChecked.signIn){
-            if(this.formChecked.signIn[i]===false){
-              a++;
-            }
+        let a=0;
+        for(let i in this.formChecked.signIn){
+          if(this.formChecked.signIn[i]===false){
+            a++;
           }
-
-          if(a===0){
-            return true;
-          }
-          else{
-            return false;
-          }
+        }
+        if(a===0){
+          return true;
+        }
+        else{
+          return false;
+        }
       },
       checkSubmitConnexion: function(){
         let a=0;
-
         for(let i in this.formChecked.logIn){
           if(this.formChecked.logIn[i]===false){
             a++;
           }
         }
-
         if(a===0){
           return true;
         }
@@ -432,84 +431,107 @@
         //Need Check
         if(this.checkSubmitConnexion()) {
           let mail = document.getElementById("EmaillogInForm").value;
-          let password = document.getElementById("Mot de passelogInForm").value;
-          let data = {
-            mail: mail,
-            password: password
-          };
+          let password = this.$sha256(document.getElementById("Mot de passelogInForm").value);
+          axios.get(config.server + '/api/login', {
+            params: {
+              mail: mail,
+              password: password
+            }
+          })
+          .then((response) => {
+            if (response.data) {
+              var token = response.data;
+              localStorage.setItem('token', token);
+              axios.get(config.server + "/api/identification?token=" + token).then(response => {
+                if(response.data == ""){
+                  console.log("Token non valide");
+                  localStorage.removeItem("token")
+                  this.$store.commit('resetStore');
+                  this.$router.push('/login');
+                }
+                else{
+                  this.$store.commit('setUser', response.data);
+                  if(this.$store.state.userLogged.admin){
+                    this.$router.push('/admincv');
+                  }
+                  else{
+                    this.$router.push('/mycv');
+                  }
+                }
+              })
+            }
+            else {
+              alert("Login Failed.");
+            }
 
-
-
-//          axios.post('http://cv360-dev.lan:8081/login', data)
-//            .then((response) => {
-//              if (response) {
-//                window.location.href = '/mycv';
-//              }
-//              else {
-//                this.connexionFailed = true;
-//              }
-//            })
-//            .catch((error) => {
-//              console.log(error,data);
-//            });
-
-          let xhr = new XMLHttpRequest();
-          xhr.open('POST', 'http://localhost:8081/login',true);
-          xhr.setRequestHeader("Content-type", "application/json");
-          xhr.send(data);
+          })
+          .catch((error) => {
+            console.log("error" + error);
+            console.log("Token non valide");
+            localStorage.removeItem("token")
+            this.$store.commit('resetStore');
+            this.$router.push('/login');
+          });
         }
         else{
-            alert("Remplir tous les champs");
+          alert("Remplir tous les champs");
         }
-
       },
       register: function(){
         if(this.checkSubmitRegister()){
           let code = document.getElementById("Code de loginsignInForm").value;
           let name = document.getElementById("NomsignInForm").value;
           let firstName = document.getElementById("PrénomsignInForm").value;
-          let password = document.getElementById("EmailsignInForm").value;
-          let mail = document.getElementById("Mot de passesignInForm").value;
-
+          let password = this.$sha256(document.getElementById("Mot de passesignInForm").value);
+          let mail = document.getElementById("EmailsignInForm").value;
           let data = {
-            code:code,
+            login:code,
             lastName:name,
             firstName:firstName,
             password:password,
             mail:mail
           };
 
-          axios.post('/register',data)
+          axios.post(config.server + '/api/register', data)
             .then((response)=>{
-              if(response){
-                console.log("registered");
+              console.log(response);
+              localStorage.setItem('token', response.data);
+              let data = jwtDecode(response.data);
+              this.$store.commit('setToken', response.data);
+              if(data.admin){
+                this.$router.push('/admincv');
               }
-              else{
-                console.log("this person already has an account");
+              else {
+                this.$router.push('/mycv');
               }
             })
             .catch((error)=>{
               console.log(error);
+              if (error.response.data.message.indexOf("email") != -1){
+                alert("EMAIL EXISTE DEJA!");
+              }
+              else if(error.response.data.message.indexOf("login") != -1){
+                alert("LOGIN EXISTE DEJA!");
+              }
             });
         }
         else{
-            alert("Remplir tous les champs correctement");
+          alert("Veuillez remplir tous les champs correctement");
         }
       }
+
     },
     components:{
       banner:banner,
       formhome:formHome
     }
   }
-
 </script>
 
 <style>
   #connexion-failed{
     text-align:center;
     color:rgb(255,10,50);
-     margin-bottom: 1em;
-
+    margin-bottom: 1em;
   }
 </style>

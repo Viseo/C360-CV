@@ -2,19 +2,19 @@
   <transition :name="classes.classFade">
     <div :style="style.styleMenu" :class="classes.classFade" v-show="showMenu" v-on:mouseleave="toggleShowMenu">
       <div :style="style.styleDivImg">
-        <img :style="style.styleImg" src="../../../static/GCV.png">
+        <img :style="style.styleImg" src="../../../static/png/GCV.png">
         <p :style="style.styleText">GCV</p>
       </div>
-      <div :style="style.styleDivImg">
-        <img :style="style.styleImg" src="../../../static/GCon.png">
+      <div :style="style.styleDivImg" @click="gotoCompetence">
+        <img :style="style.styleImg" src="../../../static/png/GCon.png">
         <p :style="style.styleText">GCom</p>
       </div>
-      <div :style="style.styleDivImg">
-        <img :style="style.styleImg" src="../../../static/GForm.png">
+      <div :style="style.styleDivImg" @click="gotoFormation">
+        <img :style="style.styleImg" src="../../../static/png/GForm.png">
         <p :style="style.styleText">GF</p>
       </div>
       <div :style="style.styleDivImg">
-        <img :style="style.styleImg" src="../../../static/GM.png">
+        <img :style="style.styleImg" src="../../../static/png/GM.png">
         <p :style="style.styleText">GM</p>
       </div>
     </div>
@@ -26,10 +26,12 @@
   import inputTextMail from './inputTextMail.vue'
   import inputSubmitButton from './inputSubmitButton.vue'
   import inputCheck from './inputCheck.vue'
+  import config from '../../config/config'
 
   export default {
     data: function() {
       return {
+        token:localStorage.getItem("token"),
         toggledShowMenu: this.showMenu,
         classes: {
           classFade: 'fadeMenu'
@@ -58,14 +60,15 @@
               width: '40px',
               height: '50px',
               'flex-grow': '1',
-              'margin': '8px'
-            },
+              'margin': '8px',
+              cursor: 'pointer'
+
+    },
             styleImg: {
               display: 'flex',
               width: '2em',
               height: '2em',
               'border-radius': '50%',
-              // border: '1px solid black'
             },
             styleText: {
               'font-size': '12px',
@@ -76,6 +79,12 @@
       }
     },
     methods: {
+      gotoFormation(){
+        window.location.replace(config.formationServer + this.token);
+      },
+      gotoCompetence(){
+        window.location.replace(config.competenceServer + this.token);
+      },
       toggleShowMenu: function () {
         this.toggledShowMenu = !this.toggledShowMenu;
         this.$emit('toggledMenu');
